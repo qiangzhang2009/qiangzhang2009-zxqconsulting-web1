@@ -4,16 +4,174 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="上海张小强企业咨询事务所 - 专业出海咨询与落地服务公司。提供国际市场进入策略、AI赋能咨询、中医药出海等全方位解决方案。" />
-    <meta name="keywords" content="企业咨询,出海服务,国际业务,AI咨询,中医药出海,日本市场,欧洲市场,东南亚市场" />
+    <meta name="description" content="上海张小强企业咨询事务所 - 专业出海咨询与落地服务公司。提供国际市场进入策略、AI赋能咨询、中医药出海等全方位解决方案。助力企业征服全球市场。" />
+    <meta name="keywords" content="企业咨询,出海服务,国际业务,AI咨询,中医药出海,日本市场,欧洲市场,东南亚市场,海外公司注册,合规支持,税务筹划" />
     <meta name="author" content="上海张小强企业咨询事务所" />
-    <meta property="og:title" content="上海张小强企业咨询事务所 - 助力企业征服全球市场" />
-    <meta property="og:description" content="从市场进入策略到运营落地，我们提供全方位的出海咨询服务" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:title" content="上海张小强企业咨询事务所 | 助力企业征服全球市场" />
+    <meta property="og:description" content="从市场进入策略到运营落地，我们提供全方位的出海咨询服务。AI赋能，资源驱动，用更短的时间，做更精准的决策。" />
     <meta property="og:type" content="website" />
-    <title>上海张小强企业咨询事务所 | 专业出海咨询服务</title>
+    <meta property="og:url" content="https://zxqconsulting.com" />
+    <meta property="og:image" content="https://zxqconsulting.com/og-image.jpg" />
+    <meta property="og:site_name" content="张小强咨询" />
+    <meta property="og:locale" content="zh_CN" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="上海张小强企业咨询事务所 | 助力企业征服全球市场" />
+    <meta name="twitter:description" content="专业的出海咨询与落地服务公司，提供国际市场进入策略、AI赋能咨询等全方位解决方案。" />
+    <meta name="twitter:image" content="https://zxqconsulting.com/og-image.jpg" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://zxqconsulting.com" />
+    
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+    
+    <title>上海张小强企业咨询事务所 | 专业出海咨询服务 | AI赋能企业全球化</title>
+    
+    <!-- Preload critical fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <style>
+      /* 🎨 Decorative background blobs */
+      .decorative-blob {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.08;
+        pointer-events: none;
+        z-index: -1;
+        animation: blob-float 20s ease-in-out infinite;
+      }
+      
+      .blob-1 {
+        top: -20%;
+        left: -10%;
+        width: 600px;
+        height: 600px;
+        background: var(--primary-500);
+      }
+      
+      .blob-2 {
+        top: 40%;
+        right: -15%;
+        width: 500px;
+        height: 500px;
+        background: var(--accent-500);
+        animation-delay: -5s;
+      }
+      
+      .blob-3 {
+        bottom: -20%;
+        left: 30%;
+        width: 700px;
+        height: 700px;
+        background: var(--primary-700);
+        animation-delay: -10s;
+      }
+      
+      @keyframes blob-float {
+        0%, 100% {
+          transform: translate(0, 0) scale(1);
+        }
+        25% {
+          transform: translate(20px, -30px) scale(1.05);
+        }
+        50% {
+          transform: translate(-10px, 20px) scale(0.95);
+        }
+        75% {
+          transform: translate(30px, 10px) scale(1.02);
+        }
+      }
+      
+      /* 🌟 Page load animation */
+      .page-loader {
+        position: fixed;
+        inset: 0;
+        background: var(--gray-50);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 0.5s ease;
+      }
+      
+      .page-loader.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+      .loader-content {
+        text-align: center;
+      }
+      
+      .loader-logo {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 24px;
+        background: var(--gradient-primary);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: pulse-scale 1.5s ease-in-out infinite;
+      }
+      
+      .loader-text {
+        font-family: 'Noto Serif SC', serif;
+        font-size: 1.25rem;
+        color: var(--gray-600);
+      }
+      
+      @keyframes pulse-scale {
+        0%, 100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 0.8;
+        }
+      }
+    </style>
   </head>
   <body>
+    <!-- Page loader -->
+    <div class="page-loader" id="pageLoader">
+      <div class="loader-content">
+        <div class="loader-logo">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="8" fill="white" fill-opacity="0.2"/>
+            <path d="M12 28V12h6l6 8-6 8h-6z" fill="white"/>
+            <path d="M22 12h6v16h-6V12z" fill="white" fill-opacity="0.7"/>
+          </svg>
+        </div>
+        <div class="loader-text">正在加载...</div>
+      </div>
+    </div>
+    
+    <!-- Decorative background elements -->
+    <div class="decorative-blob blob-1"></div>
+    <div class="decorative-blob blob-2"></div>
+    <div class="decorative-blob blob-3"></div>
+    
     <div id="root"></div>
-    <script type="module" src="src/main.tsx"></script>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <script>
+      // 🎯 Page loader handler
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          document.getElementById('pageLoader').classList.add('hidden');
+        }, 500);
+      });
+    </script>
   </body>
 </html>
