@@ -20,7 +20,7 @@ const Testimonials = () => {
   const testimonials: Testimonial[] = [
     {
       quote:
-        '张小强团队帮助我们成功进入日本市场，他们的本地化专业知识和AI驱动的市场洞察 invaluable。从合规到运营，一站式服务让我们的出海之路顺畅无阻。',
+        '张小强团队帮助我们成功进入日本市场，他们的本地化专业知识和AI驱动的市场洞察弥足珍贵。从合规到运营，一站式服务让我们的出海之路顺畅无阻。',
       author: '王晓明',
       position: '某医疗器械公司CEO',
       avatar: '/avatar1.jpg',
