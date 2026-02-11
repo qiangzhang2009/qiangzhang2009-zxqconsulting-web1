@@ -1,6 +1,9 @@
+import { useTranslation } from 'react-i18next';
 import { Globe, ArrowRight } from 'lucide-react';
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
@@ -10,30 +13,30 @@ const Footer = () => {
 
   const footerLinks = [
     {
-      title: '快速链接',
+      title: t('footer.quickLinks'),
       links: [
-        { name: '首页', href: '#hero' },
-        { name: '关于我们', href: '#about' },
-        { name: '服务', href: '#services' },
-        { name: '市场布局', href: '#markets' },
+        { name: t('nav.home'), href: '#hero' },
+        { name: t('nav.about'), href: '#about' },
+        { name: t('nav.services'), href: '#services' },
+        { name: t('nav.markets'), href: '#markets' },
       ],
     },
     {
-      title: '市场区域',
+      title: t('footer.markets'),
       links: [
-        { name: '日本市场', href: '#markets' },
-        { name: '欧洲市场', href: '#markets' },
-        { name: '东南亚', href: '#markets' },
-        { name: '中东', href: '#markets' },
+        { name: t('markets.japan.title'), href: '#markets' },
+        { name: t('markets.europe.title'), href: '#markets' },
+        { name: t('markets.southeast.title'), href: '#markets' },
+        { name: t('markets.middleEast.title'), href: '#markets' },
       ],
     },
     {
-      title: '专业服务',
+      title: t('footer.services'),
       links: [
-        { name: '中医药出海', href: '#services' },
+        { name: t('services.tabs.strategy'), href: '#services' },
+        { name: t('services.tabs.resources'), href: '#services' },
+        { name: t('services.tabs.support'), href: '#services' },
         { name: 'AI赋能', href: '#services' },
-        { name: '合规服务', href: '#services' },
-        { name: '商务对接', href: '#services' },
       ],
     },
   ];
@@ -44,16 +47,16 @@ const Footer = () => {
       <div className="bg-gradient-to-r from-[#d4a373] to-[#c89f5e] py-16">
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            准备好出海了吗？
+            {t('footer.title')}
           </h2>
           <p className="text-white/90 mb-8 max-w-2xl mx-auto">
-            让我们携手开启您的全球化之旅，用专业和资源助您征服世界市场
+            {t('footer.description')}
           </p>
           <button
             onClick={() => scrollToSection('#contact')}
             className="bg-white text-[#d4a373] px-8 py-4 rounded-lg font-bold inline-flex items-center gap-2 hover:bg-[#f5f0e8] transition-colors group"
           >
-            立即咨询
+            {t('footer.cta')}
             <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
           </button>
         </div>
@@ -70,16 +73,15 @@ const Footer = () => {
                   <Globe className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <div className="font-bold text-lg">上海张小强企业咨询事务所</div>
-                  <div className="text-xs text-white/60">ZXQ Consulting</div>
+                  <div className="font-bold text-lg">{t('brand.fullName')}</div>
+                  <div className="text-xs text-white/60">{t('brand.name')}</div>
                 </div>
               </div>
               <p className="text-white/70 mb-6 leading-relaxed">
-                立足上海，服务全国。我们是一家专业的出海咨询与落地服务公司，
-                致力于为企业提供高效、专业、一站式的国际化解决方案。
+                {t('brand.tagline')}
               </p>
               <div className="text-sm text-white/60">
-                <div>公众号/视频号：张小强出海</div>
+                <div>{t('contact.social')}</div>
               </div>
             </div>
 
@@ -113,10 +115,10 @@ const Footer = () => {
       <div className="border-t border-white/10 py-6">
         <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-white/60 text-sm">
-            © 2024 上海张小强企业咨询事务所. All rights reserved.
+            {t('footer.copyright')}
           </div>
           <div className="text-white/40 text-sm">
-            Your Loyal and Reliable Global Partner
+            {t('brand.tagline')}
           </div>
         </div>
       </div>

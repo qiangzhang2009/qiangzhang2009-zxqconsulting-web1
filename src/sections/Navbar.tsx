@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Menu, X, Globe } from 'lucide-react';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 const Navbar = () => {
+  const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -15,11 +18,11 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: '首页', href: '#hero' },
-    { name: '关于我们', href: '#about' },
-    { name: '服务', href: '#services' },
-    { name: '市场布局', href: '#markets' },
-    { name: '联系我们', href: '#contact' },
+    { name: t('nav.home'), href: '#hero' },
+    { name: t('nav.about'), href: '#about' },
+    { name: t('nav.services'), href: '#services' },
+    { name: t('nav.markets'), href: '#markets' },
+    { name: t('nav.contact'), href: '#contact' },
   ];
 
   const scrollToSection = (href: string) => {
@@ -55,7 +58,7 @@ const Navbar = () => {
             <span className={`font-serif font-bold text-lg transition-colors duration-300 ${
               isScrolled ? 'text-[#3d352e]' : 'text-[#3d352e]'
             }`}>
-              张小强咨询
+              {t('brand.name')}
             </span>
           </a>
 
@@ -80,13 +83,14 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
+          {/* Language Switcher & CTA Button */}
+          <div className="hidden md:flex items-center gap-4">
+            <LanguageSwitcher />
             <button
               onClick={() => scrollToSection('#contact')}
               className="btn-primary text-sm"
             >
-              立即咨询
+              {t('footer.cta')}
             </button>
           </div>
 
@@ -120,12 +124,15 @@ const Navbar = () => {
                   {link.name}
                 </a>
               ))}
-              <button
-                onClick={() => scrollToSection('#contact')}
-                className="btn-primary text-sm mt-2"
-              >
-                立即咨询
-              </button>
+              <div className="flex items-center gap-4 mt-2">
+                <LanguageSwitcher />
+                <button
+                  onClick={() => scrollToSection('#contact')}
+                  className="btn-primary text-sm flex-1"
+                >
+                  {t('footer.cta')}
+                </button>
+              </div>
             </div>
           </div>
         )}

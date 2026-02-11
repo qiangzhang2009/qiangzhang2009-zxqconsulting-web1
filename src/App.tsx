@@ -18,7 +18,7 @@ function App() {
   useEffect(() => {
     // Initialize scroll-triggered animations
     const sections = document.querySelectorAll('.animate-on-scroll');
-    
+
     sections.forEach((section) => {
       gsap.fromTo(
         section,
@@ -43,7 +43,7 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#f5f0e8]">
+    <div className="min-h-screen relative">
       <Navbar />
       <main>
         <Hero />

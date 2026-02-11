@@ -1,0 +1,223 @@
+{
+  "brand": {
+    "name": "ZXQ Consulting",
+    "fullName": "Shanghai Zhang Xiaoqiang Enterprise Consulting Firm",
+    "tagline": "Your Loyal and Reliable Global Partner",
+    "slogan": "AI-Powered · Resource-Driven · Professional Global Expansion"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "services": "Services",
+    "markets": "Global Markets",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Empowering Businesses to Conquer Global Markets",
+    "subtitle": "From market entry strategy to operational implementation, we provide comprehensive overseas consulting services. AI-powered, resource-driven, making faster and more precise decisions for your global expansion.",
+    "cta": "Start Your Global Journey",
+    "learnMore": "Learn More"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "Your Trusted Global Partner",
+    "description": "Shanghai Zhang Xiaoqiang Enterprise Consulting Firm is a professional consulting and implementation service company based in Shanghai, serving clients nationwide. We have deep expertise in overseas expansion services, committed to providing efficient, professional, and one-stop international solutions for enterprises across various industries.",
+    "highlight": "We empower enterprise global expansion with AI technology, accumulating rich resources and practical experience in TCM (Traditional Chinese Medicine) overseas expansion, helping clients quickly seize global business opportunities and achieve brand globalization.",
+    "experience": "10+",
+    "experienceLabel": "Years of Experience",
+    "features": {
+      "ai": "AI Technology Empowering Enterprise Global Expansion",
+      "medicine": "Rich Resources and Practical Experience in TCM Overseas Expansion",
+      "opportunity": "Helping Clients Seize Global Business Opportunities Quickly"
+    },
+    "values": {
+      "professional": {
+        "title": "Professional",
+        "desc": "Certified Team"
+      },
+      "efficient": {
+        "title": "Efficient",
+        "desc": "Implementation Excellence"
+      },
+      "intimate": {
+        "title": "Dedicated",
+        "desc": "Full-Service Support"
+      }
+    }
+  },
+  "services": {
+    "title": "Core Services",
+    "subtitle": "Comprehensive Global Expansion Solutions",
+    "description": "From strategic planning to operational implementation, we provide end-to-end professional services",
+    "tabs": {
+      "strategy": "International Market Entry Strategy",
+      "resources": "Resource Integration & Business Matching",
+      "support": "Ongoing Operations Support"
+    },
+    "strategy": {
+      "title": "International Market Entry Strategy",
+      "description": "Combining AI-driven insights, we provide in-depth market reports for target markets, precisely identifying needs and opportunities. Covering overseas company registration, compliance support, tax planning, and comprehensive services.",
+      "features": {
+        "research": "AI-Driven Market Research and Feasibility Analysis",
+        "compliance": "EU CE Certification, Japan Compliance Support",
+        "tax": "Tax Planning and Legal Structure Design"
+      }
+    },
+    "resources": {
+      "title": "Resource Integration & Business Matching",
+      "description": "Integrating global quality resources, matching enterprises with suitable partners, channels, and customers to accelerate overseas market expansion.",
+      "features": {
+        "partners": "Global Premium Partner Network",
+        "channels": "Overseas Sales Channel Development",
+        "customers": "Precise Customer Matching"
+      }
+    },
+    "support": {
+      "title": "Ongoing Operations Support",
+      "description": "Providing continuous operational support after overseas expansion, ensuring stable development in overseas markets.",
+      "features": {
+        "local": "Localized Operations Team",
+        "marketing": "Overseas Marketing Support",
+        "legal": "Continuous Legal Compliance Follow-up"
+      }
+    }
+  },
+  "whyUs": {
+    "title": "Why Choose Us",
+    "subtitle": "AI-Powered, Resource-Driven",
+    "description": "Making faster and more precise decisions",
+    "features": {
+      "local": {
+        "title": "Regional Expertise",
+        "description": "Resident manager in Osaka, Japan; deep布局 in Europe (Italy), providing localized express services to directly solve the last mile challenge of overseas implementation."
+      },
+      "ai": {
+        "title": "AI Empowerment",
+        "description": "AI agents deeply integrated into the entire global expansion process, revolutionizing market research, compliance assessment, and marketing, enabling faster and more precise decisions."
+      },
+      "expertise": {
+        "title": "Industry Specialization",
+        "description": "Full-process deep services with exclusive support for TCM/Healthcare sectors, leveraging resources from the largest national TCM conference and integrating industry experts and overseas channels."
+      }
+    }
+  },
+  "markets": {
+    "title": "Global Markets",
+    "subtitle": "Global Presence, Local Depth",
+    "description": "Steady progress in mature markets, precise breakthroughs in emerging markets",
+    "japan": {
+      "title": "Japan",
+      "description": "Resident manager in Osaka, deeply familiar with local policies and business culture",
+      "features": {
+        "resident": "Resident Manager in Osaka",
+        "local": "Deep Understanding of Local Policies and Business Culture",
+        "service": "Localized Express Service",
+        "language": "Japanese Business Support"
+      }
+    },
+    "europe": {
+      "title": "Europe (Italy)",
+      "description": "Deep布局 in European markets with Italy as the core hub",
+      "features": {
+        "hub": "Italy Strategic Hub",
+        "network": "European Country Cooperation Network",
+        "local": "Local Team Support",
+        "compliance": "EU Compliance Experts"
+      }
+    },
+    "southeast": {
+      "title": "Southeast Asia",
+      "description": "Emerging market breakthroughs covering major economies",
+      "features": {
+        "market": "Multi-Country Market Coverage",
+        "growth": "High-Growth Opportunities",
+        "local": "Local Partners",
+        "support": "One-Stop Landing Services"
+      }
+    },
+    "middleEast": {
+      "title": "Middle East",
+      "description": "Emerging blue ocean market with high-end cooperation opportunities",
+      "features": {
+        "opportunity": "High-End Market Opportunities",
+        "partners": "Local Business Network",
+        "culture": "Cultural Adaptation Services",
+        "support": "Investment and Landing Support"
+      }
+    }
+  },
+  "stats": {
+    "title": "Our Achievements",
+    "subtitle": "Numbers That Speak Volume",
+    "items": {
+      "companies": "Successful Overseas Expansions",
+      "experience": "Years of Industry Experience",
+      "partners": "Global Partners",
+      "countries": "Countries Covered"
+    }
+  },
+  "testimonials": {
+    "title": "Client Testimonials",
+    "subtitle": "What They Say",
+    "description": "Real feedback from clients, witnessing our ability to help businesses successfully expand globally",
+    "items": {
+      "wang": {
+        "quote": "The Zhang Xiaoqiang team helped us successfully enter the Japanese market. Their localized expertise and AI-driven market insights are invaluable. From compliance to operations, their one-stop service made our overseas journey smooth and seamless.",
+        "name": "Wang Xiaoming",
+        "position": "CEO, Medical Device Company"
+      }
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Start Your Global Journey",
+    "description": "If you are interested in overseas expansion services or want to leverage AI tools to improve efficiency, please contact us immediately!",
+    "address": "Shanghai",
+    "team": {
+      "zhang": {
+        "name": "Zhang Qiang",
+        "region": "China Lead",
+        "phone": "(+86) 137 648 725381",
+        "email": "zxq@zxqconsulting.com"
+      },
+      "li": {
+        "name": "Li Jing",
+        "region": "Japan/Southeast Asia Lead",
+        "phoneCn": "(+86) 138 166 89487",
+        "phoneJp": "(+81) 080 962 86389",
+        "email": "yuqian@zxqconsulting.com"
+      },
+      "liu": {
+        "name": "Liu Xiao",
+        "region": "Australia/Hong Kong Lead",
+        "phoneCn": "(+86) 182 177 94992",
+        "phoneAu": "(+61) 466 981 227",
+        "email": "dianaliu@zxqconsulting.com"
+      }
+    },
+    "social": "WeChat/Video Account: 张小强出海",
+    "form": {
+      "title": "Submit Inquiry",
+      "name": "Name",
+      "namePlaceholder": "Please enter your name",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "phone": "Phone",
+      "phonePlaceholder": "(+86)",
+      "company": "Company Name",
+      "companyPlaceholder": "Please enter your company name",
+      "message": "Inquiry Content",
+      "messagePlaceholder": "Please describe your inquiry needs...",
+      "submit": "Submit Inquiry"
+    }
+  },
+  "footer": {
+    "title": "Ready to Go Global?",
+    "description": "Let us work together to start your globalization journey, helping you conquer world markets with professionalism and resources",
+    "cta": "Contact Now",
+    "quickLinks": "Quick Links",
+    "markets": "Market Regions",
+    "services": "Professional Services",
+    "copyright": "© 2024 Shanghai Zhang Xiaoqiang Enterprise Consulting Firm. All rights reserved."
+  }
+}

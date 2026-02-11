@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Check, Award, TrendingUp, Users } from 'lucide-react';
@@ -6,6 +7,7 @@ import { Check, Award, TrendingUp, Users } from 'lucide-react';
 gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
+  const { t } = useTranslation();
   const sectionRef = useRef<HTMLDivElement>(null);
   const image1Ref = useRef<HTMLDivElement>(null);
   const image2Ref = useRef<HTMLDivElement>(null);
@@ -111,9 +113,9 @@ const About = () => {
   }, []);
 
   const features = [
-    'AI技术赋能企业出海全流程',
-    '中医药出海领域深厚资源与实战经验',
-    '助力客户快速抢占全球商机',
+    t('about.features.ai'),
+    t('about.features.medicine'),
+    t('about.features.opportunity'),
   ];
 
   return (
@@ -156,30 +158,28 @@ const About = () => {
               className="absolute top-[60%] right-[30%] w-28 h-28 bg-gradient-to-br from-[#d4a373] to-[#c89f5e] rounded-full flex flex-col items-center justify-center text-white shadow-xl animate-spin-slow"
               style={{ animationDuration: '20s' }}
             >
-              <span className="text-3xl font-bold">10+</span>
-              <span className="text-xs">年经验</span>
+              <span className="text-3xl font-bold">{t('about.experience')}</span>
+              <span className="text-xs">{t('about.experienceLabel')}</span>
             </div>
           </div>
 
           {/* Content */}
           <div ref={contentRef}>
             <span className="inline-block text-[#d4a373] font-medium mb-4 tracking-wider uppercase text-sm">
-              关于我们
+              {t('about.title')}
             </span>
 
             <h2 className="text-3xl md:text-4xl font-bold text-[#3d352e] mb-6 leading-tight">
-              您值得信赖的
-              <span className="gradient-text">全球合作伙伴</span>
+              {t('about.subtitle')}
+              <span className="gradient-text">Global Partner</span>
             </h2>
 
             <p className="text-[#5c4f3a] mb-6 leading-relaxed">
-              上海张小强企业咨询事务所是一家立足上海、服务全国的出海咨询与落地服务公司。
-              我们深耕出海服务领域多年，致力于为各行业企业提供高效、专业、一站式的国际化解决方案。
+              {t('about.description')}
             </p>
 
             <p className="text-[#5c4f3a] mb-8 leading-relaxed">
-              我们以AI技术赋能企业出海全流程，并在中医药出海领域积累了深厚的资源与实战经验，
-              助力客户快速抢占全球商机，实现品牌全球化发展。
+              {t('about.highlight')}
             </p>
 
             {/* Features */}
@@ -201,18 +201,18 @@ const About = () => {
             <div className="grid grid-cols-3 gap-6">
               <div className="text-center p-4 bg-white rounded-xl shadow-sm">
                 <Award className="w-6 h-6 text-[#d4a373] mx-auto mb-2" />
-                <div className="text-xl font-bold text-[#3d352e]">专业</div>
-                <div className="text-xs text-[#5c4f3a]">认证团队</div>
+                <div className="text-xl font-bold text-[#3d352e]">{t('about.values.professional.title')}</div>
+                <div className="text-xs text-[#5c4f3a]">{t('about.values.professional.desc')}</div>
               </div>
               <div className="text-center p-4 bg-white rounded-xl shadow-sm">
                 <TrendingUp className="w-6 h-6 text-[#d4a373] mx-auto mb-2" />
-                <div className="text-xl font-bold text-[#3d352e]">高效</div>
-                <div className="text-xs text-[#5c4f3a]">落地执行</div>
+                <div className="text-xl font-bold text-[#3d352e]">{t('about.values.efficient.title')}</div>
+                <div className="text-xs text-[#5c4f3a]">{t('about.values.efficient.desc')}</div>
               </div>
               <div className="text-center p-4 bg-white rounded-xl shadow-sm">
                 <Users className="w-6 h-6 text-[#d4a373] mx-auto mb-2" />
-                <div className="text-xl font-bold text-[#3d352e]">贴心</div>
-                <div className="text-xs text-[#5c4f3a]">全程服务</div>
+                <div className="text-xl font-bold text-[#3d352e]">{t('about.values.intimate.title')}</div>
+                <div className="text-xs text-[#5c4f3a]">{t('about.values.intimate.desc')}</div>
               </div>
             </div>
           </div>

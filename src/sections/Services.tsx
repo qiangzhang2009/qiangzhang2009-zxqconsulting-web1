@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { BarChart3, Network, Settings, ChevronRight } from 'lucide-react';
@@ -15,6 +16,7 @@ interface ServiceTab {
 }
 
 const Services = () => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(0);
   const sectionRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
@@ -23,39 +25,36 @@ const Services = () => {
   const services: ServiceTab[] = [
     {
       id: 'market',
-      title: '国际市场进入策略',
-      description:
-        '结合AI数据洞察，提供目标市场深度报告，精准定位需求与机会。涵盖海外公司注册、合规支持、税务筹划等全方位服务。',
+      title: t('services.strategy.title'),
+      description: t('services.strategy.description'),
       features: [
-        'AI驱动的市场调研与可行性分析',
-        '欧盟CE认证、日本合规支持',
-        '税务筹划与法律架构设计',
+        t('services.strategy.features.research'),
+        t('services.strategy.features.compliance'),
+        t('services.strategy.features.tax'),
       ],
       image: '/service-market.jpg',
       icon: <BarChart3 className="w-5 h-5" />,
     },
     {
       id: 'network',
-      title: '资源整合与商务对接',
-      description:
-        '联合目标市场法律、财务、供应链专家，直连欧洲本地合作伙伴、分销商及侨商网络。',
+      title: t('services.resources.title'),
+      description: t('services.resources.description'),
       features: [
-        '专家网络与行业权威资源',
-        '本地合作伙伴与分销商对接',
-        '侨商网络与海外服务机构',
+        t('services.resources.features.partners'),
+        t('services.resources.features.channels'),
+        t('services.resources.features.customers'),
       ],
       image: '/service-network.jpg',
       icon: <Network className="w-5 h-5" />,
     },
     {
       id: 'operation',
-      title: '持续运营支持',
-      description:
-        'AI驱动数字化营销，提供国际化品牌策略，协助招聘培训本地人才，提供跨文化商业培训。',
+      title: t('services.support.title'),
+      description: t('services.support.description'),
       features: [
-        'AI驱动数字化营销推广',
-        '本地化人才招聘与管理',
-        '跨文化商业培训',
+        t('services.support.features.local'),
+        t('services.support.features.marketing'),
+        t('services.support.features.legal'),
       ],
       image: '/service-operation.jpg',
       icon: <Settings className="w-5 h-5" />,
@@ -132,13 +131,13 @@ const Services = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <span className="inline-block text-[#d4a373] font-medium mb-4 tracking-wider uppercase text-sm">
-            核心服务
+            {t('services.title')}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-[#3d352e] mb-4">
-            全方位出海解决方案
+            {t('services.subtitle')}
           </h2>
           <p className="text-[#5c4f3a] max-w-2xl mx-auto">
-            从战略规划到落地执行，我们提供端到端的专业服务
+            {t('services.description')}
           </p>
         </div>
 
@@ -147,20 +146,39 @@ const Services = () => {
           ref={tabsRef}
           className="flex flex-wrap justify-center gap-2 mb-12 relative"
         >
-          {services.map((service, index) => (
-            <button
-              key={service.id}
-              onClick={() => handleTabChange(index)}
-              className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                activeTab === index
-                  ? 'bg-[#d4a373] text-white shadow-lg'
-                  : 'bg-[#f5f0e8] text-[#3d352e] hover:bg-[#e6c9a8]'
-              }`}
-            >
-              {service.icon}
-              {service.title}
-            </button>
-          ))}
+          <button
+            onClick={() => handleTabChange(0)}
+            className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+              activeTab === 0
+                ? 'bg-[#d4a373] text-white shadow-lg'
+                : 'bg-[#f5f0e8] text-[#3d352e] hover:bg-[#e6c9a8]'
+            }`}
+          >
+            <BarChart3 className="w-5 h-5" />
+            {t('services.tabs.strategy')}
+          </button>
+          <button
+            onClick={() => handleTabChange(1)}
+            className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+              activeTab === 1
+                ? 'bg-[#d4a373] text-white shadow-lg'
+                : 'bg-[#f5f0e8] text-[#3d352e] hover:bg-[#e6c9a8]'
+            }`}
+          >
+            <Network className="w-5 h-5" />
+            {t('services.tabs.resources')}
+          </button>
+          <button
+            onClick={() => handleTabChange(2)}
+            className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+              activeTab === 2
+                ? 'bg-[#d4a373] text-white shadow-lg'
+                : 'bg-[#f5f0e8] text-[#3d352e] hover:bg-[#e6c9a8]'
+            }`}
+          >
+            <Settings className="w-5 h-5" />
+            {t('services.tabs.support')}
+          </button>
         </div>
 
         {/* Content */}

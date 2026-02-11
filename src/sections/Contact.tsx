@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Phone, Mail, MapPin, Send, User, Building, MessageSquare } from 'lucide-react';
@@ -7,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 gsap.registerPlugin(ScrollTrigger);
 
 const Contact = () => {
+  const { t } = useTranslation();
   const sectionRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
@@ -21,24 +23,24 @@ const Contact = () => {
 
   const contacts = [
     {
-      name: '张强',
-      role: '中国 负责人',
-      phone: '(+86) 137 648 725381',
-      email: 'zxq@zxqconsulting.com',
+      name: t('contact.team.zhang.name'),
+      role: t('contact.team.zhang.region'),
+      phone: t('contact.team.zhang.phone'),
+      email: t('contact.team.zhang.email'),
     },
     {
-      name: '李静',
-      role: '日本/东南亚 负责人',
-      phone1: '(+86) 138 166 89487',
-      phone2: '(+81) 080 962 86389',
-      email: 'yuqian@zxqconsulting.com',
+      name: t('contact.team.li.name'),
+      role: t('contact.team.li.region'),
+      phone1: t('contact.team.li.phoneCn'),
+      phone2: t('contact.team.li.phoneJp'),
+      email: t('contact.team.li.email'),
     },
     {
-      name: '刘潇',
-      role: '澳洲/中国香港 负责人',
-      phone1: '(+86) 182 177 94992',
-      phone2: '(+61) 466 981 227',
-      email: 'dianaliu@zxqconsulting.com',
+      name: t('contact.team.liu.name'),
+      role: t('contact.team.liu.region'),
+      phone1: t('contact.team.liu.phoneCn'),
+      phone2: t('contact.team.liu.phoneAu'),
+      email: t('contact.team.liu.email'),
     },
   ];
 
@@ -132,13 +134,13 @@ const Contact = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <span className="inline-block text-[#d4a373] font-medium mb-4 tracking-wider uppercase text-sm">
-            联系我们
+            {t('contact.title')}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-[#3d352e] mb-4">
-            开启您的全球之旅
+            {t('contact.subtitle')}
           </h2>
           <p className="text-[#5c4f3a] max-w-2xl mx-auto">
-            如果您对出海服务感兴趣，或想借助AI工具提升效率，请立即联系我们！
+            {t('contact.description')}
           </p>
         </div>
 
@@ -156,8 +158,8 @@ const Contact = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#3d352e]/80 to-transparent" />
               <div className="absolute bottom-6 left-6 right-6 text-white">
-                <h3 className="text-xl font-bold mb-2">上海张小强企业咨询事务所</h3>
-                <p className="text-sm text-white/80">Your Loyal and Reliable Global Partner</p>
+                <h3 className="text-xl font-bold mb-2">{t('brand.fullName')}</h3>
+                <p className="text-sm text-white/80">{t('brand.tagline')}</p>
               </div>
             </div>
 
@@ -221,7 +223,7 @@ const Contact = () => {
             <div className="mt-6 p-5 bg-gradient-to-r from-[#d4a373]/10 to-[#e6c9a8]/10 rounded-xl">
               <div className="flex items-center gap-2 text-[#3d352e]">
                 <MapPin className="w-5 h-5 text-[#d4a373]" />
-                <span className="font-medium">公众号/视频号：张小强出海</span>
+                <span className="font-medium">{t('contact.social')}</span>
               </div>
             </div>
           </div>
@@ -232,13 +234,13 @@ const Contact = () => {
             onSubmit={handleSubmit}
             className="bg-white rounded-2xl p-8 shadow-xl border border-[#e6c9a8]/30"
           >
-            <h3 className="text-xl font-bold text-[#3d352e] mb-6">提交咨询</h3>
+            <h3 className="text-xl font-bold text-[#3d352e] mb-6">{t('contact.form.title')}</h3>
 
             <div className="space-y-5">
               <div className="input-focus">
                 <label className="flex items-center gap-2 text-sm font-medium text-[#3d352e] mb-2">
                   <User className="w-4 h-4 text-[#d4a373]" />
-                  姓名
+                  {t('contact.form.name')}
                 </label>
                 <input
                   type="text"
@@ -247,7 +249,7 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 bg-[#f5f0e8] rounded-lg border-0 focus:ring-2 focus:ring-[#d4a373] transition-all"
-                  placeholder="请输入您的姓名"
+                  placeholder={t('contact.form.namePlaceholder')}
                 />
               </div>
 
@@ -255,7 +257,7 @@ const Contact = () => {
                 <div className="input-focus">
                   <label className="flex items-center gap-2 text-sm font-medium text-[#3d352e] mb-2">
                     <Mail className="w-4 h-4 text-[#d4a373]" />
-                    邮箱
+                    {t('contact.form.email')}
                   </label>
                   <input
                     type="email"
@@ -264,14 +266,14 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 bg-[#f5f0e8] rounded-lg border-0 focus:ring-2 focus:ring-[#d4a373] transition-all"
-                    placeholder="your@email.com"
+                    placeholder={t('contact.form.emailPlaceholder')}
                   />
                 </div>
 
                 <div className="input-focus">
                   <label className="flex items-center gap-2 text-sm font-medium text-[#3d352e] mb-2">
                     <Phone className="w-4 h-4 text-[#d4a373]" />
-                    电话
+                    {t('contact.form.phone')}
                   </label>
                   <input
                     type="tel"
@@ -279,7 +281,7 @@ const Contact = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     className="w-full px-4 py-3 bg-[#f5f0e8] rounded-lg border-0 focus:ring-2 focus:ring-[#d4a373] transition-all"
-                    placeholder="(+86)"
+                    placeholder={t('contact.form.phonePlaceholder')}
                   />
                 </div>
               </div>
@@ -287,7 +289,7 @@ const Contact = () => {
               <div className="input-focus">
                 <label className="flex items-center gap-2 text-sm font-medium text-[#3d352e] mb-2">
                   <Building className="w-4 h-4 text-[#d4a373]" />
-                  公司名称
+                  {t('contact.form.company')}
                 </label>
                 <input
                   type="text"
@@ -295,14 +297,14 @@ const Contact = () => {
                   value={formData.company}
                   onChange={handleChange}
                   className="w-full px-4 py-3 bg-[#f5f0e8] rounded-lg border-0 focus:ring-2 focus:ring-[#d4a373] transition-all"
-                  placeholder="请输入公司名称"
+                  placeholder={t('contact.form.companyPlaceholder')}
                 />
               </div>
 
               <div className="input-focus">
                 <label className="flex items-center gap-2 text-sm font-medium text-[#3d352e] mb-2">
                   <MessageSquare className="w-4 h-4 text-[#d4a373]" />
-                  咨询内容
+                  {t('contact.form.message')}
                 </label>
                 <textarea
                   name="message"
@@ -310,7 +312,7 @@ const Contact = () => {
                   onChange={handleChange}
                   rows={4}
                   className="w-full px-4 py-3 bg-[#f5f0e8] rounded-lg border-0 focus:ring-2 focus:ring-[#d4a373] transition-all resize-none"
-                  placeholder="请描述您的咨询需求..."
+                  placeholder={t('contact.form.messagePlaceholder')}
                 />
               </div>
 
@@ -319,7 +321,7 @@ const Contact = () => {
                 className="w-full btn-primary flex items-center justify-center gap-2 py-4"
               >
                 <Send className="w-4 h-4" />
-                提交咨询
+                {t('contact.form.submit')}
               </button>
             </div>
           </form>

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
@@ -13,16 +14,16 @@ interface Testimonial {
 }
 
 const Testimonials = () => {
+  const { t } = useTranslation();
   const [activeIndex, setActiveIndex] = useState(0);
   const sectionRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const testimonials: Testimonial[] = [
     {
-      quote:
-        '张小强团队帮助我们成功进入日本市场，他们的本地化专业知识和AI驱动的市场洞察弥足珍贵。从合规到运营，一站式服务让我们的出海之路顺畅无阻。',
-      author: '王晓明',
-      position: '某医疗器械公司CEO',
+      quote: t('testimonials.items.wang.quote'),
+      author: t('testimonials.items.wang.name'),
+      position: t('testimonials.items.wang.position'),
       avatar: '/avatar1.jpg',
     },
     {
@@ -73,25 +74,39 @@ const Testimonials = () => {
   return (
     <section
       ref={sectionRef}
-      className="section py-24 bg-[#f5f0e8]"
+      className="section py-24 relative"
+      style={{
+        background: 'linear-gradient(180deg, var(--gray-50) 0%, var(--primary-50) 50%, var(--health-50) 100%)'
+      }}
     >
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="inline-block text-[#d4a373] font-medium mb-4 tracking-wider uppercase text-sm">
-            客户评价
+          <span className="inline-block text-[#d4a05a] font-medium mb-4 tracking-wider uppercase text-sm">
+            {t('testimonials.title')}
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#3d352e] mb-4">
-            听听他们怎么说
+          <h2 className="text-3xl md:text-4xl font-bold text-[#292524] mb-4">
+            {t('testimonials.subtitle')}
           </h2>
+          <p className="text-[#57534e] max-w-2xl mx-auto leading-relaxed">
+            {t('testimonials.description')}
+          </p>
         </div>
 
         {/* Carousel */}
         <div ref={carouselRef} className="max-w-4xl mx-auto">
           <div className="relative">
             {/* Main Card */}
-            <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl">
-              <Quote className="w-12 h-12 text-[#d4a373]/30 mb-6" />
+            <div className="bg-white/90 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+              {/* Decorative gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#fefdfb]/50 via-white/30 to-[#f0f7ff]/50 pointer-events-none"></div>
+
+              {/* Quote icon with gradient */}
+              <div className="relative mb-6">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#d4a05a]/20 to-[#5b6ee8]/20 flex items-center justify-center">
+                  <Quote className="w-8 h-8 text-[#d4a05a]" />
+                </div>
+              </div>
 
               <p className="text-lg md:text-xl text-[#3d352e] leading-relaxed mb-8">
                 "{testimonials[activeIndex].quote}"

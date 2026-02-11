@@ -1,0 +1,223 @@
+{
+  "brand": {
+    "name": "张小强咨询",
+    "fullName": "上海张小强企业咨询事务所",
+    "tagline": "您的忠实可靠的全球合作伙伴",
+    "slogan": "AI赋能 · 资源驱动 · 专业出海"
+  },
+  "nav": {
+    "home": "首页",
+    "about": "关于我们",
+    "services": "服务",
+    "markets": "市场布局",
+    "contact": "联系我们"
+  },
+  "hero": {
+    "title": "助力企业征服全球市场",
+    "subtitle": "从市场进入策略到运营落地，我们提供全方位的出海咨询服务，AI赋能，资源驱动，用更短的时间，做更精准的决策。",
+    "cta": "开启您的全球之旅",
+    "learnMore": "了解更多"
+  },
+  "about": {
+    "title": "关于我们",
+    "subtitle": "您值得信赖的全球合作伙伴",
+    "description": "上海张小强企业咨询事务所是一家立足上海、服务全国的出海咨询与落地服务公司。我们深耕出海服务领域多年，致力于为各行业企业提供高效、专业、一站式的国际化解决方案。",
+    "highlight": "我们以AI技术赋能企业出海全流程，并在中医药出海领域积累了深厚的资源与实战经验，助力客户快速抢占全球商机，实现品牌全球化发展。",
+    "experience": "10+",
+    "experienceLabel": "年经验",
+    "features": {
+      "ai": "AI技术赋能企业出海全流程",
+      "medicine": "中医药出海领域深厚资源与实战经验",
+      "opportunity": "助力客户快速抢占全球商机"
+    },
+    "values": {
+      "professional": {
+        "title": "专业",
+        "desc": "认证团队"
+      },
+      "efficient": {
+        "title": "高效",
+        "desc": "落地执行"
+      },
+      "intimate": {
+        "title": "贴心",
+        "desc": "全程服务"
+      }
+    }
+  },
+  "services": {
+    "title": "核心服务",
+    "subtitle": "全方位出海解决方案",
+    "description": "从战略规划到落地执行，我们提供端到端的专业服务",
+    "tabs": {
+      "strategy": "国际市场进入策略",
+      "resources": "资源整合与商务对接",
+      "support": "持续运营支持"
+    },
+    "strategy": {
+      "title": "国际市场进入策略",
+      "description": "结合AI数据洞察，提供目标市场深度报告，精准定位需求与机会。涵盖海外公司注册、合规支持、税务筹划等全方位服务。",
+      "features": {
+        "research": "AI驱动的市场调研与可行性分析",
+        "compliance": "欧盟CE认证、日本合规支持",
+        "tax": "税务筹划与法律架构设计"
+      }
+    },
+    "resources": {
+      "title": "资源整合与商务对接",
+      "description": "整合全球优质资源，为企业匹配合适的合作伙伴、渠道和客户，加速海外市场拓展。",
+      "features": {
+        "partners": "全球优质合作伙伴网络",
+        "channels": "海外销售渠道搭建",
+        "customers": "精准客户匹配"
+      }
+    },
+    "support": {
+      "title": "持续运营支持",
+      "description": "提供出海后的持续运营支持，确保企业在海外市场稳健发展。",
+      "features": {
+        "local": "本地化运营团队",
+        "marketing": "海外市场营销支持",
+        "legal": "法律合规持续跟进"
+      }
+    }
+  },
+  "whyUs": {
+    "title": "为什么选择我们",
+    "subtitle": "AI赋能，资源驱动",
+    "description": "我们用更短的时间，做更精准的决策",
+    "features": {
+      "local": {
+        "title": "区域深耕",
+        "description": "日本大阪常驻负责人，欧洲（意大利）深度布局，提供本地化直通车服务，直接解决海外落地\"最后一公里\"问题。"
+      },
+      "ai": {
+        "title": "AI赋能",
+        "description": "AI智能体深度融入出海全链路，革新市场调研、合规评估、营销推广等环节，用更短的时间，做更精准的决策。"
+      },
+      "expertise": {
+        "title": "行业专长",
+        "description": "全流程深度服务，中医药/大健康领域专属支撑，依托历届全国规模的中医药大会资源，整合行业专家与海外渠道。"
+      }
+    }
+  },
+  "markets": {
+    "title": "市场布局",
+    "subtitle": "全球布局，本地深耕",
+    "description": "成熟市场稳扎稳打，新兴市场精准突破",
+    "japan": {
+      "title": "日本",
+      "description": "大阪设有常驻负责人，深谙本地政策与商业文化",
+      "features": {
+        "resident": "大阪常驻负责人",
+        "local": "深谙本地政策与商业文化",
+        "service": "提供\"本地化直通车\"服务",
+        "language": "日语商务支持"
+      }
+    },
+    "europe": {
+      "title": "欧洲（意大利）",
+      "description": "深度布局欧洲市场，意大利为核心枢纽",
+      "features": {
+        "hub": "意大利战略枢纽",
+        "network": "欧洲各国合作网络",
+        "local": "本地团队支持",
+        "compliance": "欧盟合规专家"
+      }
+    },
+    "southeast": {
+      "title": "东南亚",
+      "description": "新兴市场突破，覆盖主要经济体",
+      "features": {
+        "market": "多国市场覆盖",
+        "growth": "高速增长机会",
+        "local": "本地合作伙伴",
+        "support": "一站式落地服务"
+      }
+    },
+    "middleEast": {
+      "title": "中东",
+      "description": "新兴蓝海市场，高端合作机会",
+      "features": {
+        "opportunity": "高端市场机遇",
+        "partners": "本地商业网络",
+        "culture": "文化适配服务",
+        "support": "投资落地支持"
+      }
+    }
+  },
+  "stats": {
+    "title": "我们的成就",
+    "subtitle": "数字见证实力",
+    "items": {
+      "companies": "成功出海企业",
+      "experience": "年行业经验",
+      "partners": "全球合作伙伴",
+      "countries": "覆盖国家地区"
+    }
+  },
+  "testimonials": {
+    "title": "客户评价",
+    "subtitle": "听听他们怎么说",
+    "description": "来自客户的真实反馈，见证我们助力企业成功出海的实力",
+    "items": {
+      "wang": {
+        "quote": "张小强团队帮助我们成功进入日本市场，他们的本地化专业知识和AI驱动的市场洞察弥足珍贵。从合规到运营，一站式服务让我们的出海之路顺畅无阻。",
+        "name": "王晓明",
+        "position": "某医疗器械公司CEO"
+      }
+    }
+  },
+  "contact": {
+    "title": "联系我们",
+    "subtitle": "开启您的全球之旅",
+    "description": "如果您对出海服务感兴趣，或想借助AI工具提升效率，请立即联系我们！",
+    "address": "上海",
+    "team": {
+      "zhang": {
+        "name": "张强",
+        "region": "中国 负责人",
+        "phone": "(+86) 137 648 725381",
+        "email": "zxq@zxqconsulting.com"
+      },
+      "li": {
+        "name": "李静",
+        "region": "日本/东南亚 负责人",
+        "phoneCn": "(+86) 138 166 89487",
+        "phoneJp": "(+81) 080 962 86389",
+        "email": "yuqian@zxqconsulting.com"
+      },
+      "liu": {
+        "name": "刘潇",
+        "region": "澳洲/中国香港 负责人",
+        "phoneCn": "(+86) 182 177 94992",
+        "phoneAu": "(+61) 466 981 227",
+        "email": "dianaliu@zxqconsulting.com"
+      }
+    },
+    "social": "公众号/视频号：张小强出海",
+    "form": {
+      "title": "提交咨询",
+      "name": "姓名",
+      "namePlaceholder": "请输入您的姓名",
+      "email": "邮箱",
+      "emailPlaceholder": "your@email.com",
+      "phone": "电话",
+      "phonePlaceholder": "(+86)",
+      "company": "公司名称",
+      "companyPlaceholder": "请输入公司名称",
+      "message": "咨询内容",
+      "messagePlaceholder": "请描述您的咨询需求...",
+      "submit": "提交咨询"
+    }
+  },
+  "footer": {
+    "title": "准备好出海了吗？",
+    "description": "让我们携手开启您的全球化之旅，用专业和资源助您征服世界市场",
+    "cta": "立即咨询",
+    "quickLinks": "快速链接",
+    "markets": "市场区域",
+    "services": "专业服务",
+    "copyright": "© 2024 上海张小强企业咨询事务所. All rights reserved."
+  }
+}

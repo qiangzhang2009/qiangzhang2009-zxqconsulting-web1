@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MapPin, ArrowRight } from 'lucide-react';
@@ -14,6 +15,7 @@ interface Market {
 }
 
 const Markets = () => {
+  const { t } = useTranslation();
   const [activeMarket, setActiveMarket] = useState<string>('japan');
   const sectionRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<HTMLDivElement>(null);
@@ -22,50 +24,50 @@ const Markets = () => {
   const markets: Market[] = [
     {
       id: 'japan',
-      name: '日本',
-      description: '大阪设有常驻负责人，深谙本地政策与商业文化',
+      name: t('markets.japan.title'),
+      description: t('markets.japan.description'),
       position: { x: 78, y: 35 },
       details: [
-        '大阪常驻负责人',
-        '深谙本地政策与商业文化',
-        '提供"本地化直通车"服务',
-        '日语商务支持',
+        t('markets.japan.features.resident'),
+        t('markets.japan.features.local'),
+        t('markets.japan.features.service'),
+        t('markets.japan.features.language'),
       ],
     },
     {
       id: 'europe',
-      name: '欧洲（意大利）',
-      description: '重点布局，深度覆盖，辐射整个欧洲市场',
+      name: t('markets.europe.title'),
+      description: t('markets.europe.description'),
       position: { x: 52, y: 28 },
       details: [
-        '意大利深度布局',
-        '辐射整个欧洲市场',
-        '欧盟合规支持',
-        '本地合作伙伴网络',
+        t('markets.europe.features.hub'),
+        t('markets.europe.features.network'),
+        t('markets.europe.features.local'),
+        t('markets.europe.features.compliance'),
       ],
     },
     {
       id: 'sea',
-      name: '东南亚',
-      description: '新兴市场精准突破，把握增长机遇',
+      name: t('markets.southeast.title'),
+      description: t('markets.southeast.description'),
       position: { x: 72, y: 55 },
       details: [
-        '新兴市场精准突破',
-        '把握增长机遇',
-        '跨境电商支持',
-        '本地化运营',
+        t('markets.southeast.features.market'),
+        t('markets.southeast.features.growth'),
+        t('markets.southeast.features.local'),
+        t('markets.southeast.features.support'),
       ],
     },
     {
       id: 'mena',
-      name: '中东',
-      description: '连接东西方，开拓新兴市场',
+      name: t('markets.middleEast.title'),
+      description: t('markets.middleEast.description'),
       position: { x: 58, y: 40 },
       details: [
-        '连接东西方枢纽',
-        '开拓新兴市场',
-        '清真认证支持',
-        '贸易通道搭建',
+        t('markets.middleEast.features.opportunity'),
+        t('markets.middleEast.features.partners'),
+        t('markets.middleEast.features.culture'),
+        t('markets.middleEast.features.support'),
       ],
     },
   ];
@@ -137,13 +139,13 @@ const Markets = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <span className="inline-block text-[#d4a373] font-medium mb-4 tracking-wider uppercase text-sm">
-            市场布局
+            {t('markets.title')}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-[#3d352e] mb-4">
-            全球布局，本地深耕
+            {t('markets.subtitle')}
           </h2>
           <p className="text-[#5c4f3a] max-w-2xl mx-auto">
-            成熟市场稳扎稳打，新兴市场精准突破
+            {t('markets.description')}
           </p>
         </div>
 
@@ -226,7 +228,7 @@ const Markets = () => {
                     {/* Pulse rings */}
                     <div className="absolute inset-0 rounded-full border-2 border-[#d4a373] animate-ping" style={{ animationDuration: '2s' }} />
                     <div className="absolute inset-0 rounded-full border-2 border-[#d4a373] animate-ping" style={{ animationDuration: '2s', animationDelay: '1s' }} />
-                    
+
                     {/* Dot */}
                     <div
                       className={`w-4 h-4 rounded-full border-2 border-white shadow-lg transition-colors duration-300 ${

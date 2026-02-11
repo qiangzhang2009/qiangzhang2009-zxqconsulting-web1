@@ -1,0 +1,223 @@
+{
+  "brand": {
+    "name": "张小強コンサルタント",
+    "fullName": "上海张小強企業コンサルタント事務所",
+    "tagline": "信頼できるグローバルパートナー",
+    "slogan": "AI駆動 · リソース活用 · 専門海外進出"
+  },
+  "nav": {
+    "home": "ホーム",
+    "about": "私たちについて",
+    "services": "サービス",
+    "markets": "市場展開",
+    "contact": "お問い合わせ"
+  },
+  "hero": {
+    "title": "企業のグローバル市場攻略を支援",
+    "subtitle": "市場参入戦略から運営定着まで、包括的な海外コンサルティングサービスを提供。AI駆動、リソース活用で、より迅速に、より正確な意思決定を実現します。",
+    "cta": "グローバル之旅を開始",
+    "learnMore": "詳細を見る"
+  },
+  "about": {
+    "title": "私たちについて",
+    "subtitle": "信頼できるグローバルパートナー",
+    "description": "上海张小強企業コンサルタント事務所は、上海を拠点に全国のお客様にサービスを提供する海外コンサルティング・落地サポートの専門企業です。長年にわたり海外進出サービスに特化し、各業界の中小・大企業に対して効率的かつ専門的なワンストップ国際ソリューションの提供に努めてまいりました。",
+    "highlight": "AI技術で海外進出全过程をサポートし、中医薬海外進出分野で豊かなリソースと実践経験を蓄積。お客様のグローバルビジネス機会の早期獲得とブランド世界化を実現します。",
+    "experience": "10+",
+    "experienceLabel": "年の経験",
+    "features": {
+      "ai": "AI技術で海外進出全程をサポート",
+      "medicine": "中医薬海外進出の豊かなリソースと実践経験",
+      "opportunity": "グローバルビジネス機会の早期獲得を支援"
+    },
+    "values": {
+      "professional": {
+        "title": "専門性",
+        "desc": "認定チーム"
+      },
+      "efficient": {
+        "title": "効率性",
+        "desc": "落地実行"
+      },
+      "intimate": {
+        "title": "手厚い",
+        "desc": "全程サービス"
+      }
+    }
+  },
+  "services": {
+    "title": "コアサービス",
+    "subtitle": "包括的な海外進出ソリューション",
+    "description": "戦略策定から落地実行まで、エンドツーエンドの専門サービスを提供",
+    "tabs": {
+      "strategy": "国際市場参入戦略",
+      "resources": "リソース統合・ビジネスマッチング",
+      "support": "継続的運営サポート"
+    },
+    "strategy": {
+      "title": "国際市場参入戦略",
+      "description": "AIデータ分析を活用しターゲット市場の深層レポートを提供、需要と機会を正確に特定。海外会社登録、コンプライアンス支援、税務計画など包括的なサービスをカバー。",
+      "features": {
+        "research": "AI駆動市場調査・実現可能性分析",
+        "compliance": "EU CE認証、日本コンプライアンス支援",
+        "tax": "税務計画・法的構造設計"
+      }
+    },
+    "resources": {
+      "title": "リソース統合・ビジネスマッチング",
+      "description": "グローバル高品質リソースを統合し、適切なパートナー、チャネル、顧客を紹介し、海外市場展開を加速。",
+      "features": {
+        "partners": "グローバル優良パートナーネットワーク",
+        "channels": "海外販売チャネル構築",
+        "customers": "正確な顧客マッチング"
+      }
+    },
+    "support": {
+      "title": "継続的運営サポート",
+      "description": "海外進出後の継続的な運営サポートを提供し、海外市場での安定した発展を確保。",
+      "features": {
+        "local": "ローカル運営チーム",
+        "marketing": "海外マーケティング支援",
+        "legal": "法的コンプライアンス継続対応"
+      }
+    }
+  },
+  "whyUs": {
+    "title": "選ばれる理由",
+    "subtitle": "AI駆動、リソース活用",
+    "description": "より迅速に、より正確な意思決定",
+    "features": {
+      "local": {
+        "title": "地域深耕",
+        "description": "日本大阪駐在責任者、ヨーロッパ（イタリア）深度布局で、ローカル化直通サービスを提供し、海外落地「ラストマイル」問題を直接解決。"
+      },
+      "ai": {
+        "title": "AI活用",
+        "description": "AIエージェントが海外進出全过程に深く統合され、市場調査、コンプライアンス評価、マーケティングなどを革新し、より迅速に、より正確な意思決定を実現。"
+      },
+      "expertise": {
+        "title": "業界専門性",
+        "description": "全程深層サービス、中医薬・ヘルスケア分野专属サポート、全国規模中医薬大会リソースを活用し、業界専門家と海外チャネルを統合。"
+      }
+    }
+  },
+  "markets": {
+    "title": "市場展開",
+    "subtitle": "グローバル展開、現地深耕",
+    "description": "成熟市場は着実に、新興市場は正確に攻略",
+    "japan": {
+      "title": "日本",
+      "description": "大阪に駐在責任者を配置し、現地政策とビジネス文化に精通",
+      "features": {
+        "resident": "大阪駐在責任者",
+        "local": "現地政策とビジネス文化に精通",
+        "service": "「ローカル化直通」サービス",
+        "language": "日本語ビジネスサポート"
+      }
+    },
+    "europe": {
+      "title": "ヨーロッパ（イタリア）",
+      "description": "ヨーロッパ市場に深度展開、イタリア为核心ハブ",
+      "features": {
+        "hub": "イタリア戦略ハブ",
+        "network": "ヨーロッパ各国協力ネットワーク",
+        "local": "現地チームサポート",
+        "compliance": "EUコンプライアンス専門家"
+      }
+    },
+    "southeast": {
+      "title": "東南アジア",
+      "description": "新興市場攻略、主要経済圏をカバー",
+      "features": {
+        "market": "多国市場カバー",
+        "growth": "高成長機会",
+        "local": "現地パートナー",
+        "support": "ワンストップ落地サービス"
+      }
+    },
+    "middleEast": {
+      "title": "中東",
+      "description": "新興ブルオーシャン市場、ハイエンド協力機会",
+      "features": {
+        "opportunity": "ハイエンド市場機会",
+        "partners": "現地ビジネスネットワーク",
+        "culture": "文化適応サービス",
+        "support": "投資落地サポート"
+      }
+    }
+  },
+  "stats": {
+    "title": "実績",
+    "subtitle": "数字が語る実力",
+    "items": {
+      "companies": "海外進出成功企業",
+      "experience": "業界経験年数",
+      "partners": "グローバルパートナー",
+      "countries": "カバーする国・地域"
+    }
+  },
+  "testimonials": {
+    "title": "お客様の声",
+    "subtitle": "参加者の声",
+    "description": "実際のお客様からのフィードバック、企業様の海外進出成功を支える私たちの実力を証明",
+    "items": {
+      "wang": {
+        "quote": "张小強チームが日本の市場参入を支援してくれました。彼らのローカライズ専門知識とAI駆動の市場インサイトは非常に貴重でした。コンプライアンスから運営まで、ワンストップサービスにより私たちの海外之路は円滑でした。",
+        "name": "王晓明",
+        "position": "某医療機器会社CEO"
+      }
+    }
+  },
+  "contact": {
+    "title": "お問い合わせ",
+    "subtitle": "グローバル之旅を開始",
+    "description": "海外進出サービスにご関心をお持ちの場合や、AIツールで効率を高めたい場合は、ぜひお問い合わせください！",
+    "address": "上海",
+    "team": {
+      "zhang": {
+        "name": "張強",
+        "region": "中国 責任者",
+        "phone": "(+86) 137 648 725381",
+        "email": "zxq@zxqconsulting.com"
+      },
+      "li": {
+        "name": "李静",
+        "region": "日本/東南アジア 責任者",
+        "phoneCn": "(+86) 138 166 89487",
+        "phoneJp": "(+81) 080 962 86389",
+        "email": "yuqian@zxqconsulting.com"
+      },
+      "liu": {
+        "name": "劉潇",
+        "region": "オーストラリア/香港 責任者",
+        "phoneCn": "(+86) 182 177 94992",
+        "phoneAu": "(+61) 466 981 227",
+        "email": "dianaliu@zxqconsulting.com"
+      }
+    },
+    "social": "公众号/動画号：张小強出海",
+    "form": {
+      "title": "相談を送信",
+      "name": "お名前",
+      "namePlaceholder": "お名前を入力してください",
+      "email": "メールアドレス",
+      "emailPlaceholder": "your@email.com",
+      "phone": "電話番号",
+      "phonePlaceholder": "(+86)",
+      "company": "会社名",
+      "companyPlaceholder": "会社名を入力してください",
+      "message": "相談内容",
+      "messagePlaceholder": "相談内容をご入力ください...",
+      "submit": "相談を送信"
+    }
+  },
+  "footer": {
+    "title": "海外進出すべきですか？",
+    "description": "一緒にグローバル之旅を開始しましょう、専門性とリソースで世界の市場攻略を支援します",
+    "cta": "今すぐ相談",
+    "quickLinks": "クイックリンク",
+    "markets": "市場地域",
+    "services": "専門サービス",
+    "copyright": "© 2024 上海张小強企業コンサルタント事務所. All rights reserved."
+  }
+}
