@@ -510,30 +510,6 @@ h4 { font-size: 1.25rem; }
 .ease-expo { transition-timing-function: var(--ease-out-expo); }
 .ease-smooth { transition-timing-function: var(--ease-smooth); }
 
-/* ==========================================================================
-   🌐 多语言切换器动画
-   ========================================================================== */
-
-/* 下拉菜单淡入上滑动画 */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(-10px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.2s ease-out forwards;
-}
-
-/* 语言切换时的过渡效果 */
-.language-transition {
-  transition: all 0.3s ease-in-out;
-}
 
 /* ==========================================================================
    🌟 装饰背景效果
@@ -1409,27 +1385,3 @@ h4 { font-size: 1.25rem; }
   pointer-events: none;
 }
 
-/* ==========================================================================
-   🌐 多语言切换器动画
-   ========================================================================== */
-
-/* 下拉菜单淡入上滑动画 */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(-10px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.2s ease-out forwards;
-}
-
-/* 语言切换时的过渡效果 */
-.language-transition {
-  transition: all 0.3s ease-in-out;
-}

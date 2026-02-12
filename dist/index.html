@@ -1,13 +1,329 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>上海张小强企业咨询事务所</title>
-    <script type="module" crossorigin src="./assets/index-BDNigAtU.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-CtHqqKgq.css">
+    <meta name="description" content="上海张小强企业咨询事务所 - 专业出海咨询与落地服务公司。提供国际市场进入策略、AI赋能咨询、中医药出海等全方位解决方案。助力企业征服全球市场。" />
+    <meta name="keywords" content="企业咨询,出海服务,国际业务,AI咨询,中医药出海,日本市场,欧洲市场,东南亚市场,海外公司注册,合规支持,税务筹划" />
+    <meta name="author" content="上海张小强企业咨询事务所" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:title" content="上海张小强企业咨询事务所 | 助力企业征服全球市场" />
+    <meta property="og:description" content="从市场进入策略到运营落地，我们提供全方位的出海咨询服务。AI赋能，资源驱动，用更短的时间，做更精准的决策。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://zxqconsulting.com" />
+    <meta property="og:image" content="https://zxqconsulting.com/og-image.jpg" />
+    <meta property="og:site_name" content="张小强咨询" />
+    <meta property="og:locale" content="zh_CN" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="上海张小强企业咨询事务所 | 助力企业征服全球市场" />
+    <meta name="twitter:description" content="专业的出海咨询与落地服务公司，提供国际市场进入策略、AI赋能咨询等全方位解决方案。" />
+    <meta name="twitter:image" content="https://zxqconsulting.com/og-image.jpg" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://zxqconsulting.com" />
+    
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+    
+    <title>上海张小强企业咨询事务所 | 专业出海咨询服务 | AI赋能企业全球化</title>
+    
+    <!-- Preload critical fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <style>
+      /* 🎨 Decorative background blobs - AI & Health Theme */
+      .decorative-blob {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: -1;
+        animation: blob-float 30s ease-in-out infinite;
+      }
+
+      .blob-primary {
+        top: -15%;
+        left: -10%;
+        width: 700px;
+        height: 700px;
+        background: var(--primary-400);
+        mix-blend-mode: screen;
+      }
+
+      .blob-ai {
+        top: 20%;
+        right: -10%;
+        width: 600px;
+        height: 600px;
+        background: var(--ai-400);
+        mix-blend-mode: screen;
+        animation-delay: -10s;
+      }
+
+      .blob-health {
+        bottom: -10%;
+        left: 20%;
+        width: 800px;
+        height: 800px;
+        background: var(--health-400);
+        mix-blend-mode: screen;
+        animation-delay: -20s;
+      }
+
+      @keyframes blob-float {
+        0%, 100% {
+          transform: translate(0, 0) scale(1);
+        }
+        25% {
+          transform: translate(40px, -50px) scale(1.1);
+        }
+        50% {
+          transform: translate(-30px, 40px) scale(0.95);
+        }
+        75% {
+          transform: translate(50px, 20px) scale(1.05);
+        }
+      }
+
+      /* 🌟 Page load animation with gradient */
+      .page-loader {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(135deg, var(--gray-50) 0%, var(--primary-50) 50%, var(--ai-50) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.8s var(--ease-out-expo), visibility 0.8s var(--ease-out-expo);
+      }
+
+      .page-loader.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .loader-content {
+        text-align: center;
+      }
+
+      .loader-logo {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 24px;
+        background: var(--gradient-primary);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: pulse-soft 2s ease-in-out infinite;
+        box-shadow: 0 0 40px rgba(212, 160, 90, 0.3);
+      }
+
+      .loader-text {
+        font-family: 'Noto Serif SC', Georgia, serif;
+        font-size: 1.25rem;
+        color: var(--gray-700);
+        letter-spacing: 0.2em;
+      }
+
+      .loader-progress {
+        width: 200px;
+        height: 3px;
+        background: var(--gray-200);
+        border-radius: 2px;
+        margin-top: 24px;
+        overflow: hidden;
+      }
+
+      .loader-progress-bar {
+        height: 100%;
+        background: var(--gradient-primary);
+        border-radius: 2px;
+        width: 0%;
+        animation: load-progress 2s var(--ease-out-expo) forwards;
+      }
+
+      @keyframes load-progress {
+        to { width: 100%; }
+      }
+
+      @keyframes pulse-soft {
+        0%, 100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.85;
+          transform: scale(1.05);
+        }
+      }
+
+      /* 🎯 Scroll progress indicator */
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary-500), var(--ai-500), var(--health-500));
+        z-index: 9998;
+        transform-origin: 0%;
+        transform: scaleX(0);
+        transition: transform 0.1s linear;
+      }
+
+      /* 🎨 Section transitions */
+      .section-transition {
+        position: relative;
+      }
+
+      .section-transition::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 150px;
+        background: linear-gradient(to bottom, transparent, var(--gray-50));
+        pointer-events: none;
+        z-index: 10;
+      }
+
+      /* 🌟 Focus effects */
+      *:focus-visible {
+        outline: 2px solid var(--primary-400);
+        outline-offset: 2px;
+      }
+
+      /* 🎭 Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--gray-100);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(to bottom, var(--primary-400), var(--primary-600));
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(to bottom, var(--primary-500), var(--primary-700));
+      }
+
+      /* 🏠 Back to top button */
+      .back-to-top {
+        position: fixed;
+        bottom: 40px;
+        right: 40px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--gradient-primary);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 20px rgba(212, 160, 90, 0.4);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px);
+        transition: all 0.4s var(--ease-smooth);
+        z-index: 1000;
+      }
+
+      .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .back-to-top:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 30px rgba(212, 160, 90, 0.5);
+      }
+
+      .back-to-top svg {
+        width: 24px;
+        height: 24px;
+        color: white;
+      }
+    </style>
+    <script type="module" crossorigin src="./assets/index-CUwer_Fs.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BzKOCcNR.css">
   </head>
   <body>
+    <!-- Page loader -->
+    <div class="page-loader" id="pageLoader">
+      <div class="loader-content">
+        <div class="loader-logo">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="8" fill="white" fill-opacity="0.2"/>
+            <path d="M12 28V12h6l6 8-6 8h-6z" fill="white"/>
+            <path d="M22 12h6v16h-6V12z" fill="white" fill-opacity="0.7"/>
+          </svg>
+        </div>
+        <div class="loader-text">正在加载...</div>
+      </div>
+    </div>
+    
+    <!-- Decorative background elements -->
+    <div class="decorative-blob blob-primary"></div>
+    <div class="decorative-blob blob-ai"></div>
+    <div class="decorative-blob blob-health"></div>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    
     <div id="root"></div>
+    
+    <script>
+      // 🎯 Page loader handler
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          document.getElementById('pageLoader').classList.add('hidden');
+        }, 800);
+      });
+
+      // 📜 Scroll progress indicator
+      window.addEventListener('scroll', function() {
+        const scrollProgress = document.getElementById('scrollProgress');
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPercentage = (scrollTop / scrollHeight) * 100;
+        scrollProgress.style.transform = 'scaleX(' + (scrollPercentage / 100) + ')';
+      });
+
+      // 🏠 Back to top button
+      const backToTopBtn = document.createElement('button');
+      backToTopBtn.className = 'back-to-top';
+      backToTopBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+      backToTopBtn.setAttribute('aria-label', '返回顶部');
+      document.body.appendChild(backToTopBtn);
+
+      window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+          backToTopBtn.classList.add('visible');
+        } else {
+          backToTopBtn.classList.remove('visible');
+        }
+      });
+
+      backToTopBtn.addEventListener('click', function() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    </script>
   </body>
 </html>
