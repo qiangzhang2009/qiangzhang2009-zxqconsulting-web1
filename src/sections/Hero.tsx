@@ -6,7 +6,6 @@ import { ArrowRight, Sparkles, Star, Zap } from 'lucide-react';
 const Hero = () => {
   const { t } = useTranslation();
   const heroRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const descRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
