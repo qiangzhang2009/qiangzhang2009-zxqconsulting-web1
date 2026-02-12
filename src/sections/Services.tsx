@@ -125,12 +125,27 @@ const Services = () => {
     <section
       id="services"
       ref={sectionRef}
-      className="section py-24 bg-white"
+      className="section py-24 bg-white relative"
     >
+      {/* Decorative elements */}
+      <div className="absolute top-20 left-10 gold-sparkle hidden lg:block">
+        <span className="text-4xl">✨</span>
+      </div>
+      <div className="absolute bottom-20 right-10 gold-sparkle hidden lg:block" style={{ animationDelay: '1s' }}>
+        <span className="text-4xl">🌟</span>
+      </div>
+
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-12">
-          <span className="inline-block text-[#d4a373] font-medium mb-4 tracking-wider uppercase text-sm">
+          {/* Spring Festival Badge */}
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#C41E3A]/10 to-[#FFD700]/10 border border-[#C41E3A]/20 rounded-full px-6 py-2 mb-4">
+            <span className="text-lg">🐴</span>
+            <span className="text-sm font-medium text-[#C41E3A]">2026 马年特惠服务</span>
+            <span className="text-lg">🧧</span>
+          </div>
+          
+          <span className="inline-block text-[#C41E3A] font-medium mb-4 tracking-wider uppercase text-sm">
             {t('services.title')}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-[#3d352e] mb-4">
@@ -141,7 +156,7 @@ const Services = () => {
           </p>
         </div>
 
-        {/* Tabs */}
+        {/* Tabs - Spring Theme */}
         <div
           ref={tabsRef}
           className="flex flex-wrap justify-center gap-2 mb-12 relative"
@@ -150,8 +165,8 @@ const Services = () => {
             onClick={() => handleTabChange(0)}
             className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300 ${
               activeTab === 0
-                ? 'bg-[#d4a373] text-white shadow-lg'
-                : 'bg-[#f5f0e8] text-[#3d352e] hover:bg-[#e6c9a8]'
+                ? 'bg-gradient-to-r from-[#C41E3A] to-[#DC143C] text-white shadow-lg'
+                : 'bg-[#fef2f2] text-[#C41E3A] hover:bg-[#C41E3A] hover:text-white border border-[#C41E3A]/30'
             }`}
           >
             <BarChart3 className="w-5 h-5" />
@@ -161,8 +176,8 @@ const Services = () => {
             onClick={() => handleTabChange(1)}
             className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300 ${
               activeTab === 1
-                ? 'bg-[#d4a373] text-white shadow-lg'
-                : 'bg-[#f5f0e8] text-[#3d352e] hover:bg-[#e6c9a8]'
+                ? 'bg-gradient-to-r from-[#C41E3A] to-[#DC143C] text-white shadow-lg'
+                : 'bg-[#fef2f2] text-[#C41E3A] hover:bg-[#C41E3A] hover:text-white border border-[#C41E3A]/30'
             }`}
           >
             <Network className="w-5 h-5" />
@@ -172,8 +187,8 @@ const Services = () => {
             onClick={() => handleTabChange(2)}
             className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300 ${
               activeTab === 2
-                ? 'bg-[#d4a373] text-white shadow-lg'
-                : 'bg-[#f5f0e8] text-[#3d352e] hover:bg-[#e6c9a8]'
+                ? 'bg-gradient-to-r from-[#C41E3A] to-[#DC143C] text-white shadow-lg'
+                : 'bg-[#fef2f2] text-[#C41E3A] hover:bg-[#C41E3A] hover:text-white border border-[#C41E3A]/30'
             }`}
           >
             <Settings className="w-5 h-5" />
@@ -181,10 +196,16 @@ const Services = () => {
           </button>
         </div>
 
-        {/* Content */}
+        {/* Content - Spring Card Style */}
         <div ref={contentRef} className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Text Content */}
           <div className={activeTab % 2 === 0 ? 'lg:order-1' : 'lg:order-2'}>
+            {/* Card Badge */}
+            <div className="inline-flex items-center gap-2 bg-[#FFD700]/20 border border-[#FFD700]/40 rounded-full px-4 py-1.5 mb-4">
+              <span className="text-sm">🏆</span>
+              <span className="text-xs font-medium text-[#C41E3A]">专业服务 · 马到成功</span>
+            </div>
+            
             <h3 className="text-2xl md:text-3xl font-bold text-[#3d352e] mb-4">
               {services[activeTab].title}
             </h3>
@@ -196,10 +217,10 @@ const Services = () => {
               {services[activeTab].features.map((feature, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-3 p-4 bg-[#f5f0e8] rounded-xl group hover:bg-[#e6c9a8]/30 transition-colors"
+                  className="flex items-center gap-3 p-4 bg-gradient-to-r from-[#fef2f2] to-[#fff7ed] rounded-xl group hover:from-[#C41E3A]/10 hover:to-[#FFD700]/10 transition-colors border border-[#C41E3A]/10"
                 >
-                  <div className="w-8 h-8 rounded-full bg-[#d4a373] flex items-center justify-center text-white flex-shrink-0">
-                    <ChevronRight className="w-4 h-4" />
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#C41E3A] to-[#FFD700] flex items-center justify-center text-white flex-shrink-0 shadow-md">
+                    <ChevronRight className="w-5 h-5" />
                   </div>
                   <span className="text-[#3d352e] font-medium">{feature}</span>
                 </div>
@@ -213,18 +234,26 @@ const Services = () => {
               activeTab % 2 === 0 ? 'lg:order-2' : 'lg:order-1'
             }`}
           >
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl spring-card">
               <img
                 src={services[activeTab].image}
                 alt={services[activeTab].title}
                 className="w-full h-[400px] object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#C41E3A]/30 via-transparent to-transparent" />
+              
+              {/* Overlay badge */}
+              <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-xl px-4 py-2 shadow-lg">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">🐴</span>
+                  <span className="font-medium text-[#3d352e]">专业出海服务</span>
+                </div>
+              </div>
             </div>
 
             {/* Decorative element */}
-            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-[#d4a373]/10 rounded-full -z-10" />
-            <div className="absolute -top-6 -left-6 w-24 h-24 bg-[#e6c9a8]/30 rounded-full -z-10" />
+            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-[#FFD700]/20 rounded-full -z-10" />
+            <div className="absolute -top-6 -left-6 w-24 h-24 bg-[#C41E3A]/20 rounded-full -z-10" />
           </div>
         </div>
       </div>

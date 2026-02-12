@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Quote, Star } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -76,13 +76,31 @@ const Testimonials = () => {
       ref={sectionRef}
       className="section py-24 relative"
       style={{
-        background: 'linear-gradient(180deg, var(--gray-50) 0%, var(--primary-50) 50%, var(--health-50) 100%)'
+        background: 'linear-gradient(180deg, #fef2f2 0%, #fef3c7 50%, #fff7ed 100%)'
       }}
     >
+      {/* Decorative elements */}
+      <div className="absolute top-20 left-10 gold-sparkle hidden lg:block">
+        <span className="text-4xl">✨</span>
+      </div>
+      <div className="absolute bottom-20 right-10 gold-sparkle hidden lg:block" style={{ animationDelay: '1s' }}>
+        <span className="text-4xl">🌟</span>
+      </div>
+      <div className="absolute top-1/3 right-20 hidden lg:block">
+        <span className="text-6xl animate-float">🧧</span>
+      </div>
+
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="inline-block text-[#d4a05a] font-medium mb-4 tracking-wider uppercase text-sm">
+          {/* Spring Festival Badge */}
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#FFD700]/20 to-[#C41E3A]/10 border border-[#FFD700]/40 rounded-full px-6 py-2 mb-4">
+            <span className="text-lg">🐴</span>
+            <span className="text-sm font-medium text-[#C41E3A]">客户好评如潮</span>
+            <span className="text-lg">⭐</span>
+          </div>
+
+          <span className="inline-block text-[#C41E3A] font-medium mb-4 tracking-wider uppercase text-sm">
             {t('testimonials.title')}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-[#292524] mb-4">
@@ -96,15 +114,15 @@ const Testimonials = () => {
         {/* Carousel */}
         <div ref={carouselRef} className="max-w-4xl mx-auto">
           <div className="relative">
-            {/* Main Card */}
-            <div className="bg-white/90 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+            {/* Main Card - Spring Style */}
+            <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-2xl spring-card relative overflow-hidden">
               {/* Decorative gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#fefdfb]/50 via-white/30 to-[#f0f7ff]/50 pointer-events-none"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-[#fef2f2]/50 via-white/30 to-[#fef3c7]/50 pointer-events-none"></div>
 
               {/* Quote icon with gradient */}
               <div className="relative mb-6">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#d4a05a]/20 to-[#5b6ee8]/20 flex items-center justify-center">
-                  <Quote className="w-8 h-8 text-[#d4a05a]" />
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#C41E3A]/20 to-[#FFD700]/20 flex items-center justify-center">
+                  <Quote className="w-8 h-8 text-[#C41E3A]" />
                 </div>
               </div>
 
@@ -112,19 +130,34 @@ const Testimonials = () => {
                 "{testimonials[activeIndex].quote}"
               </p>
 
+              {/* Rating */}
+              <div className="flex items-center gap-1 mb-6">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <Star key={i} className="w-5 h-5 text-[#FFD700] fill-current" />
+                ))}
+              </div>
+
               <div className="flex items-center gap-4">
                 <img
                   src={testimonials[activeIndex].avatar}
                   alt={testimonials[activeIndex].author}
-                  className="w-14 h-14 rounded-full object-cover border-2 border-[#d4a373]"
+                  className="w-14 h-14 rounded-full object-cover border-2 border-[#FFD700]"
                 />
                 <div>
-                  <div className="font-bold text-[#3d352e]">
+                  <div className="font-bold text-[#3d352e] flex items-center gap-2">
                     {testimonials[activeIndex].author}
+                    <span className="text-[#FFD700]">🐴</span>
                   </div>
                   <div className="text-sm text-[#5c4f3a]">
                     {testimonials[activeIndex].position}
                   </div>
+                </div>
+              </div>
+
+              {/* Horse badge */}
+              <div className="absolute top-6 right-6">
+                <div className="bg-gradient-to-br from-[#FFD700]/20 to-[#C41E3A]/10 rounded-full p-3">
+                  <span className="text-2xl">🏆</span>
                 </div>
               </div>
             </div>
@@ -133,7 +166,7 @@ const Testimonials = () => {
             <div className="flex items-center justify-center gap-4 mt-8">
               <button
                 onClick={prevSlide}
-                className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-[#3d352e] hover:bg-[#d4a373] hover:text-white transition-all duration-300"
+                className="w-12 h-12 rounded-full bg-gradient-to-br from-[#C41E3A] to-[#DC143C] shadow-lg flex items-center justify-center text-white hover:shadow-xl transition-all duration-300 hover:scale-110"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
@@ -146,8 +179,8 @@ const Testimonials = () => {
                     onClick={() => setActiveIndex(index)}
                     className={`w-3 h-3 rounded-full transition-all duration-300 ${
                       activeIndex === index
-                        ? 'bg-[#d4a373] w-8'
-                        : 'bg-[#d4a373]/30 hover:bg-[#d4a373]/50'
+                        ? 'bg-gradient-to-r from-[#C41E3A] to-[#FFD700] w-10'
+                        : 'bg-[#C41E3A]/30 hover:bg-[#C41E3A]/50'
                     }`}
                   />
                 ))}
@@ -155,7 +188,7 @@ const Testimonials = () => {
 
               <button
                 onClick={nextSlide}
-                className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-[#3d352e] hover:bg-[#d4a373] hover:text-white transition-all duration-300"
+                className="w-12 h-12 rounded-full bg-gradient-to-br from-[#C41E3A] to-[#DC143C] shadow-lg flex items-center justify-center text-white hover:shadow-xl transition-all duration-300 hover:scale-110"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>

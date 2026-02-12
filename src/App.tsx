@@ -11,6 +11,7 @@ import Stats from './sections/Stats';
 import Testimonials from './sections/Testimonials';
 import Contact from './sections/Contact';
 import Footer from './sections/Footer';
+import { SpringDecorations } from './components/SpringDecorations';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -44,6 +45,9 @@ function App() {
 
   return (
     <div className="min-h-screen relative">
+      {/* Spring Festival Decorations - 马年春节装饰 */}
+      <SpringDecorations />
+      
       <Navbar />
       <main>
         <Hero />

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Menu, X, Globe } from 'lucide-react';
+import { Menu, X, Globe, Star } from 'lucide-react';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 
 const Navbar = () => {
@@ -43,23 +43,35 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between">
-          {/* Logo */}
+          {/* Logo with Horse Year Badge */}
           <a
             href="#hero"
             onClick={(e) => {
               e.preventDefault();
               scrollToSection('#hero');
             }}
-            className="flex items-center gap-2 group"
+            className="flex items-center gap-3 group"
           >
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#d4a373] to-[#c89f5e] flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-              <Globe className="w-5 h-5 text-white" />
+            <div className="relative">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#C41E3A] to-[#FFD700] flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-lg">
+                <Globe className="w-6 h-6 text-white" />
+              </div>
+              {/* Small horse badge */}
+              <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5 shadow-sm">
+                <span className="text-sm">🐴</span>
+              </div>
             </div>
-            <span className={`font-serif font-bold text-lg transition-colors duration-300 ${
-              isScrolled ? 'text-[#3d352e]' : 'text-[#3d352e]'
-            }`}>
-              {t('brand.name')}
-            </span>
+            <div>
+              <span className={`font-serif font-bold text-lg transition-colors duration-300 ${
+                isScrolled ? 'text-[#3d352e]' : 'text-[#3d352e]'
+              }`}>
+                {t('brand.name')}
+              </span>
+              <div className="text-xs text-[#C41E3A] font-medium flex items-center gap-1">
+                <Star className="w-3 h-3 fill-current text-[#FFD700]" />
+                2026 马年
+              </div>
+            </div>
           </a>
 
           {/* Desktop Navigation */}
@@ -72,10 +84,10 @@ const Navbar = () => {
                   e.preventDefault();
                   scrollToSection(link.href);
                 }}
-                className={`link-underline text-sm font-medium transition-colors duration-300 ${
+                className={`text-sm font-medium transition-colors duration-300 hover:text-[#C41E3A] ${
                   isScrolled
-                    ? 'text-[#3d352e] hover:text-[#d4a373]'
-                    : 'text-[#3d352e] hover:text-[#d4a373]'
+                    ? 'text-[#3d352e]'
+                    : 'text-[#3d352e]'
                 }`}
               >
                 {link.name}
@@ -83,14 +95,14 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Language Switcher & CTA Button */}
+          {/* Language Switcher & CTA Button with Spring Theme */}
           <div className="hidden md:flex items-center gap-4">
             <LanguageSwitcher />
             <button
               onClick={() => scrollToSection('#contact')}
-              className="btn-primary text-sm"
+              className="btn-spring text-sm"
             >
-              {t('footer.cta')}
+              🧧 {t('footer.cta')}
             </button>
           </div>
 
@@ -119,7 +131,7 @@ const Navbar = () => {
                     e.preventDefault();
                     scrollToSection(link.href);
                   }}
-                  className="text-[#3d352e] hover:text-[#d4a373] font-medium transition-colors"
+                  className="text-[#3d352e] hover:text-[#C41E3A] font-medium transition-colors"
                 >
                   {link.name}
                 </a>
@@ -128,9 +140,9 @@ const Navbar = () => {
                 <LanguageSwitcher />
                 <button
                   onClick={() => scrollToSection('#contact')}
-                  className="btn-primary text-sm flex-1"
+                  className="btn-spring text-sm flex-1"
                 >
-                  {t('footer.cta')}
+                  🧧 {t('footer.cta')}
                 </button>
               </div>
             </div>
