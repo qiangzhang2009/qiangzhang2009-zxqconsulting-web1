@@ -1,0 +1,130 @@
+{
+  "brand": {
+    "name": "ZXQ Consulting",
+    "fullName": "Firma Perundingan Perusahaan Shanghai",
+    "tagline": "Rakan Sejati Global Anda",
+    "slogan": "Didokong AI · Berasaskan Sumber · Pengembangan Global Profesional"
+  },
+  "nav": {
+    "home": "Laman Utama",
+    "about": "Tentang Kami",
+    "services": "Perkhidmatan",
+    "markets": "Pasaran Global",
+    "contact": "Hubungi Kami"
+  },
+  "hero": {
+    "title": "Mempower Perniagaan untuk Menakluki Pasaran Global",
+    "subtitle": "Dari strategi masuk pasaran hingga pelaksanaan operasi, kami menyediakan perkhidmatan perundingan antarabangsa yang komprehensif. Didokong AI, berasaskan sumber, keputusan yang lebih cepat dan tepat untuk pengembangan global anda.",
+    "cta": "Mulakan Perjalanan Global Anda",
+    "learnMore": "Ketahui Lebih Lanjut"
+  },
+  "about": {
+    "title": "Tentang Kami",
+    "subtitle": "Rakan Sejati Global Anda",
+    "description": "Firma Perundingan Perusahaan Shanghai adalah syarikat perkhidmatan perundingan dan pelaksanaan profesional berpusat di Shanghai, melayani pelanggan di seluruh negara. Kami mempunyai kepakaran mendalam dalam perkhidmatan pengembangan luar negara, komited untuk menyediakan penyelesaian antarabangsa yang cekap, profesional dan menyeluruh untuk perniagaan pelbagai industri.",
+    "highlight": "Kami mempower pengembangan global perniagaan dengan teknologi AI, mengakumulasi sumber yang kaya dan pengalaman praktikal dalam pengembangan luar negara TCM (Perubatan Tradisional Cina), membantu pelanggan dengan cepat memanfaatkan peluang perniagaan global dan mencapai globalisasi jenama.",
+    "experience": "10+",
+    "experienceLabel": "Tahun Pengalaman",
+    "features": {
+      "ai": "Teknologi AI Mempower Pengembangan Global Perniagaan",
+      "medicine": "Sumber Kaya dan Pengalaman Praktikal dalam Pengembangan TCM",
+      "opportunity": "Membantu Pelanggan Memanfaatkan Peluang Global"
+    },
+    "values": {
+      "professional": { "title": "Profesional", "desc": "Pasukan Bertauliah" },
+      "efficient": { "title": "Cekap", "desc": "Keunggulan Pelaksanaan" },
+      "intimate": { "title": "Berdedikasi", "desc": "Sokongan Lengkap" }
+    }
+  },
+  "services": {
+    "title": "Perkhidmatan Utama",
+    "subtitle": "Penyelesaian Pengembangan Global Komprehensif",
+    "description": "Dari perancangan strategik hingga pelaksanaan operasi, kami menyediakan perkhidmatan profesional hujung ke hujung",
+    "tabs": {
+      "strategy": "Strategi Masuk Pasaran Antarabangsa",
+      "resources": "Integrasi Sumber & Padanan Perniagaan",
+      "support": "Sokongan Operasi Berterusan"
+    },
+    "strategy": {
+      "title": "Strategi Masuk Pasaran Antarabangsa",
+      "description": "Menggabungkan pandangan didokong AI, kami menyediakan laporan pasaran mendalam untuk pasaran sasaran.",
+      "features": {
+        "research": "Kajian Pasaran Didokong AI",
+        "compliance": "Sijil CE EU, Sokongan Pematuhan Jepun",
+        "tax": "Perancangan Cukai & Reka Bentuk Struktur Undang-Undang"
+      }
+    },
+    "resources": {
+      "title": "Integrasi Sumber & Padanan Perniagaan",
+      "description": "Mengintegrasikan sumber global yang berkualiti, memadankan perniagaan dengan rakan kongsi, saluran dan pelanggan yang sesuai.",
+      "features": {
+        "partners": "Rangkaian Rakan Kongsi Premium Global",
+        "channels": "Pengembangan Saluran Jualan Luar Negara",
+        "customers": "Padanan Pelanggan yang Tepat"
+      }
+    },
+    "support": {
+      "title": "Sokongan Operasi Berterusan",
+      "description": "Menyediakan sokongan operasi berterusan selepas pengembangan luar negara.",
+      "features": {
+        "local": "Pasukan Operasi Terlocalisasi",
+        "marketing": "Sokongan Pemasaran Luar Negara",
+        "legal": "Susulan Pematuhan Undang-Undang Berterusan"
+      }
+    }
+  },
+  "whyUs": {
+    "title": "Mengapa Memilih Kami",
+    "subtitle": "Didokong AI · Berasaskan Sumber",
+    "description": "Keputusan yang lebih cepat dan lebih tepat",
+    "features": {
+      "local": { "title": "Kepakaran Regional", "description": "Pengurus residen di Osaka, Jepun dan Itali." },
+      "ai": { "title": "Pempoweredan AI", "description": "Agen AI yang terintegrasi dalam seluruh proses pengembangan global." },
+      "expertise": { "title": "Pengkhususan Industri", "description": "Servis mendalam全过程 untuk sektor TCM/Kesihatan." }
+    }
+  },
+  "markets": {
+    "title": "Pasaran Global",
+    "subtitle": "Kehadiran Global, Kedalaman Tempatan",
+    "description": "Kemajuan konsisten dalam pasaran matang, penembusan tepat dalam pasaran muncul",
+    "japan": { "title": "Jepun", "description": "Pengurus residen di Osaka.", "features": { "resident": "Pengurus Residen di Osaka", "local": "Polisi tempatan dan budaya", "service": "Servis Ekspress Terlocalisasi", "language": "Sokongan Perniagaan Jepun" } },
+    "europe": { "title": "Eropah (Itali)", "description": "Itali sebagai hab strategik.", "features": { "hub": "Hab Itali", "network": "Rangkaian Eropah", "local": "Pasukan Tempatan", "compliance": "Ahli Pematuhan EU" } },
+    "southeast": { "title": "Asia Tenggara", "description": "Pasaran muncul pertumbuhan tinggi.", "features": { "market": "Liputan Multi-Negara", "growth": "Pertumbuhan Tinggi", "local": "Rakan Kongsi Tempatan", "support": "Servis Lengkap" } },
+    "middleEast": { "title": "Timur Tengah", "description": "Laut biru muncul.", "features": { "opportunity": "Peluang Aras Tinggi", "partners": "Rangkaian Tempatan", "culture": "Servis Adaptasi Budaya", "support": "Sokongan Pelaburan" } }
+  },
+  "stats": {
+    "title": "Pencapaian Kami",
+    "subtitle": "Angka yang Berbicara",
+    "items": { "companies": "Pengembangan Luar Negara Berjaya", "experience": "Tahun Pengalaman", "partners": "Rakan Kongsi Global", "countries": "Negara Diliputi" }
+  },
+  "testimonials": {
+    "title": "Testimoni Pelanggan",
+    "subtitle": "Apa yang Mereka Katakan",
+    "description": "Maklum balas nyata dari pelanggan",
+    "items": {
+      "wang": { "quote": "Pasukan membantu kami berjaya memasuki pasaran Jepun.", "name": "Wang Xiaoming", "position": "CEO, Syarikat Alatan Perubatan" }
+    }
+  },
+  "contact": {
+    "title": "Hubungi Kami",
+    "subtitle": "Mulakan Perjalanan Global Anda",
+    "description": "Jika anda berminat dengan perkhidmatan pengembangan luar negara, hubungi kami sekarang!",
+    "address": "Shanghai",
+    "team": {
+      "zhang": { "name": "Zhang Qiang", "region": "Pengerusi China", "phone": "(+86) 137 648 725381", "email": "zxq@zxqconsulting.com" },
+      "li": { "name": "Li Jing", "region": "Pengerusi Jepun/ASEAN", "phoneCn": "(+86) 138 166 89487", "phoneJp": "(+81) 080 962 86389", "email": "yuqian@zxqconsulting.com" },
+      "liu": { "name": "Liu Xiao", "region": "Pengerusi Australia/HK", "phoneCn": "(+86) 182 177 94992", "phoneAu": "(+61) 466 981 227", "email": "dianaliu@zxqconsulting.com" }
+    },
+    "social": "WeChat: 张小强出海",
+    "form": { "title": "Hantar Pertanyaan", "name": "Nama", "namePlaceholder": "Masukkan nama anda", "email": "Emel", "emailPlaceholder": "anda@emel.com", "phone": "Telefon", "phonePlaceholder": "(+86)", "company": "Syarikat", "companyPlaceholder": "Nama syarikat", "message": "Kandungan", "messagePlaceholder": "Terangkan keperluan anda...", "submit": "Hantar" }
+  },
+  "footer": {
+    "title": "Sedia untuk Mengglobal?",
+    "description": "Mari bekerja sama untuk memulakan perjalanan globalisasi anda",
+    "cta": "Hubungi Sekarang",
+    "quickLinks": "Pautan Pantas",
+    "markets": "Wilayah",
+    "services": "Perkhidmatan",
+    "copyright": "© 2024 Firma Perundingan Perusahaan Shanghai."
+  }
+}

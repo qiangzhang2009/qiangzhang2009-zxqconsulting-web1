@@ -1,0 +1,130 @@
+{
+  "brand": {
+    "name": "ZXQ Consulting",
+    "fullName": "Công Ty Tư Vấn Doanh Nghiệp Thượng Hải",
+    "tagline": "Đối Tác Toàn Cầu Trung Thành và Đáng Tin Cậy",
+    "slogan": "Dựa Trên AI · Dựa Trên Nguồn Lực · Mở Rộng Toàn Cầu Chuyên Nghiệp"
+  },
+  "nav": {
+    "home": "Trang Chủ",
+    "about": "Về Chúng Tôi",
+    "services": "Dịch Vụ",
+    "markets": "Thị Trường Toàn Cầu",
+    "contact": "Liên Hệ"
+  },
+  "hero": {
+    "title": "Trao Quyền Cho Doanh Nghiệp Chinh Phục Thị Trường Toàn Cầu",
+    "subtitle": "Từ chiến lược thâm nhập thị trường đến triển khai vận hành, chúng tôi cung cấp dịch vụ tư vấn quốc tế toàn diện. Dựa trên AI, dựa trên nguồn lực, quyết định nhanh hơn và chính xác hơn cho sự mở rộng toàn cầu của bạn.",
+    "cta": "Bắt Đầu Hành Trình Toàn Cầu Của Bạn",
+    "learnMore": "Tìm Hiểu Thêm"
+  },
+  "about": {
+    "title": "Về Chúng Tôi",
+    "subtitle": "Đối Tác Toàn Cầu Đáng Tin Cậy Của Bạn",
+    "description": "Công Ty Tư Vấn Doanh Nghiệp Thượng Hải là công ty dịch vụ tư vấn và triển khai chuyên nghiệp có trụ sở tại Thượng Hải, phục vụ khách hàng trên toàn quốc. Chúng tôi có chuyên môn sâu về dịch vụ mở rộng ra nước ngoài, cam kết cung cấp giải pháp quốc tế hiệu quả, chuyên nghiệp và toàn diện cho các doanh nghiệp trong nhiều ngành công nghiệp khác nhau.",
+    "highlight": "Chúng tôi trao quyền cho doanh nghiệp mở rộng toàn cầu bằng công nghệ AI, tích lũy nguồn lực phong phú và kinh nghiệm thực tế trong việc mở rộng TCM (Y Học Cổ Truyền Trung Quốc) ra nước ngoài, giúp khách hàng nhanh chóng nắm bắt cơ hội kinh doanh toàn cầu và đạt được toàn cầu hóa thương hiệu.",
+    "experience": "10+",
+    "experienceLabel": "Năm Kinh Nghiệm",
+    "features": {
+      "ai": "Công Nghệ AI Trao Quyền Mở Rộng Toàn Cầu Doanh Nghiệp",
+      "medicine": "Nguồn Lực Phong Phú và Kinh Nghiệm Thực Tế trong Mở Rộng TCM",
+      "opportunity": "Giúp Khách Hàng Nắm Bắt Cơ Hội Toàn Cầu"
+    },
+    "values": {
+      "professional": { "title": "Chuyên Nghiệp", "desc": "Đội Ngũ Được Chứng Nhận" },
+      "efficient": { "title": "Hiệu Quả", "desc": "Xuất Sắc Trong Triển Khai" },
+      "intimate": { "title": "Tận Tâm", "desc": "Hỗ Trợ Toàn Diện" }
+    }
+  },
+  "services": {
+    "title": "Dịch Vụ Cốt Lõi",
+    "subtitle": "Giải Pháp Mở Rộng Toàn Cầu Toàn Diện",
+    "description": "Từ lập kế hoạch chiến lược đến triển khai vận hành, chúng tôi cung cấp dịch vụ chuyên nghiệp từ đầu đến cuối",
+    "tabs": {
+      "strategy": "Chiến Lược Thâm Nhập Thị Trường Quốc Tế",
+      "resources": "Tích Hợp Nguồn Lực & Kết Nối Kinh Doanh",
+      "support": "Hỗ Trợ Vận Hành Liên Tục"
+    },
+    "strategy": {
+      "title": "Chiến Lược Thâm Nhập Thị Trường Quốc Tế",
+      "description": "Kết hợp những hiểu biết dựa trên AI, chúng tôi cung cấp báo cáo thị trường chuyên sâu cho các thị trường mục tiêu.",
+      "features": {
+        "research": "Nghiên Cứu Thị Trường Dựa Trên AI",
+        "compliance": "Chứng Nhận CE EU, Hỗ Trợ Tuân Thủ Nhật Bản",
+        "tax": "Lập Kế Hoạch Thuế & Thiết Kế Cấu Trúc Pháp Lý"
+      }
+    },
+    "resources": {
+      "title": "Tích Hợp Nguồn Lực & Kết Nối Kinh Doanh",
+      "description": "Tích hợp nguồn lực chất lượng toàn cầu, kết nối doanh nghiệp với đối tác, kênh và khách hàng phù hợp.",
+      "features": {
+        "partners": "Mạng Lưới Đối Tác Cao Cấp Toàn Cầu",
+        "channels": "Phát Triển Kênh Bán Hàng Nước Ngoài",
+        "customers": "Kết Nối Khách Hàng Chính Xác"
+      }
+    },
+    "support": {
+      "title": "Hỗ Trợ Vận Hành Liên Tục",
+      "description": "Cung cấp hỗ trợ vận hành liên tục sau khi mở rộng ra nước ngoài.",
+      "features": {
+        "local": "Đội Ngũ Vận Hành Địa Phương Hóa",
+        "marketing": "Hỗ Trợ Marketing Nước Ngoài",
+        "legal": "Theo Dõi Tuân Thủ Pháp Luật Liên Tục"
+      }
+    }
+  },
+  "whyUs": {
+    "title": "Tại Sao Chọn Chúng Tôi",
+    "subtitle": "Dựa Trên AI · Dựa Trên Nguồn Lực",
+    "description": "Quyết định nhanh hơn và chính xác hơn",
+    "features": {
+      "local": { "title": "Chuyên Môn Vùng", "description": "Quản lý thường trú tại Osaka, Nhật Bản và Italy." },
+      "ai": { "title": "Trao Quyền AI", "description": "Đại lý AI được tích hợp sâu vào toàn bộ quá trình mở rộng toàn cầu." },
+      "expertise": { "title": "Chuyên Môn Ngành", "description": "Dịch vụ chuyên sâu全过程 cho lĩnh vực TCM/Sức khỏe." }
+    }
+  },
+  "markets": {
+    "title": "Thị Trường Toàn Cầu",
+    "subtitle": "Hiện Diện Toàn Cầu, Chiều Sâu Địa Phương",
+    "description": "Tiến bộ ổn định tại các thị trường trưởng thành, đột phá chính xác tại các thị trường mới nổi",
+    "japan": { "title": "Nhật Bản", "description": "Quản lý thường trú tại Osaka.", "features": { "resident": "Quản Lý Thường Trú Tại Osaka", "local": "Chính sách và văn hóa địa phương", "service": "Dịch Vụ Express Địa Phương Hóa", "language": "Hỗ Trợ Kinh Doanh Tiếng Nhật" } },
+    "europe": { "title": "Châu Âu (Italy)", "description": "Italy như trung tâm chiến lược.", "features": { "hub": "Trung Tâm Italy", "network": "Mạng Lưới Châu Âu", "local": "Đội Ngũ Địa Phương", "compliance": "Chuyên Gia Tuân Thủ EU" } },
+    "southeast": { "title": "Đông Nam Á", "description": "Thị trường mới nổi tăng trưởng cao.", "features": { "market": "Bao Phủ Đa Quốc Gia", "growth": "Tăng Trưởng Cao", "local": "Đối Tác Địa Phương", "support": "Dịch Vụ Trọn Gói" } },
+    "middleEast": { "title": "Trung Đông", "description": "Đại dương xanh đang nổi lên.", "features": { "opportunity": "Cơ Hội Cao Cấp", "partners": "Mạng Lưới Địa Phương", "culture": "Dịch Vụ Thích Nghi Văn Hóa", "support": "Hỗ Trợ Đầu Tư" } }
+  },
+  "stats": {
+    "title": "Thành Tựu Của Chúng Tôi",
+    "subtitle": "Con Số Nói Lên Tất Cả",
+    "items": { "companies": "Mở Rộng Nước Ngoài Thành Công", "experience": "Năm Kinh Nghiệm", "partners": "Đối Tác Toàn Cầu", "countries": "Quốc Gia Được Bao Phủ" }
+  },
+  "testimonials": {
+    "title": "Lời Chứng Thực Khách Hàng",
+    "subtitle": "Họ Nói Gì",
+    "description": "Phản hồi thực tế từ khách hàng",
+    "items": {
+      "wang": { "quote": "Đội ngũ đã giúp chúng tôi thành công thâm nhập thị trường Nhật Bản.", "name": "Wang Xiaoming", "position": "CEO, Công Ty Thiết Bị Y Tế" }
+    }
+  },
+  "contact": {
+    "title": "Liên Hệ Chúng Tôi",
+    "subtitle": "Bắt Đầu Hành Trình Toàn Cầu Của Bạn",
+    "description": "Nếu bạn quan tâm đến dịch vụ mở rộng ra nước ngoài, hãy liên hệ với chúng tôi ngay!",
+    "address": "Thượng Hải",
+    "team": {
+      "zhang": { "name": "Zhang Qiang", "region": "Trưởng Nhóm Trung Quốc", "phone": "(+86) 137 648 725381", "email": "zxq@zxqconsulting.com" },
+      "li": { "name": "Li Jing", "region": "Trưởng Nhóm Nhật Bản/ASEAN", "phoneCn": "(+86) 138 166 89487", "phoneJp": "(+81) 080 962 86389", "email": "yuqian@zxqconsulting.com" },
+      "liu": { "name": "Liu Xiao", "region": "Trưởng Nhóm Úc/HK", "phoneCn": "(+86) 182 177 94992", "phoneAu": "(+61) 466 981 227", "email": "dianaliu@zxqconsulting.com" }
+    },
+    "social": "WeChat: 张小强出海",
+    "form": { "title": "Gửi Thắc Mắc", "name": "Tên", "namePlaceholder": "Vui lòng nhập tên của bạn", "email": "Email", "emailPlaceholder": "ban@email.com", "phone": "Điện Thoại", "phonePlaceholder": "(+86)", "company": "Công Ty", "companyPlaceholder": "Tên công ty", "message": "Nội Dung", "messagePlaceholder": "Mô tả nhu cầu của bạn...", "submit": "Gửi" }
+  },
+  "footer": {
+    "title": "Sẵn Sàng Để Toàn Cầu Hóa?",
+    "description": "Hãy cùng nhau bắt đầu hành trình toàn cầu hóa của bạn",
+    "cta": "Liên Hệ Ngay",
+    "quickLinks": "Liên Kết Nhanh",
+    "markets": "Vùng",
+    "services": "Dịch Vụ",
+    "copyright": "© 2024 Công Ty Tư Vấn Doanh Nghiệp Thượng Hải."
+  }
+}

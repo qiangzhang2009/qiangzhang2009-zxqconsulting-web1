@@ -1,0 +1,130 @@
+{
+  "brand": {
+    "name": "ZXQ Consulting",
+    "fullName": "Unternehmensberatung Shanghai",
+    "tagline": "Ihr Loyaler und Zuverlässiger Globaler Partner",
+    "slogan": "KI-gestützt · Ressourcenbasiert · Professionelle globale Expansion"
+  },
+  "nav": {
+    "home": "Startseite",
+    "about": "Über Uns",
+    "services": "Dienstleistungen",
+    "markets": "Globale Märkte",
+    "contact": "Kontakt"
+  },
+  "hero": {
+    "title": "Unternehmen helfen, globale Märkte zu erobern",
+    "subtitle": "Von der Markteintrittsstrategie bis zur operativen Umsetzung bieten wir umfassende internationale Beratungsdienstleistungen. KI-gestützt, ressourcenbasiert, schnellere und präzisere Entscheidungen für Ihre globale Expansion.",
+    "cta": "Beginnen Sie Ihre globale Reise",
+    "learnMore": "Mehr erfahren"
+  },
+  "about": {
+    "title": "Über Uns",
+    "subtitle": "Ihr vertrauenswürdiger globaler Partner",
+    "description": "Unternehmensberatung Shanghai ist ein professionelles Beratungs- und Implementierungsunternehmen mit Sitz in Shanghai, das Kunden im ganzen Land bedient. Wir verfügen über umfassende Expertise im Bereich internationale Expansion und sind bestrebt, effiziente, professionelle und ganzheitliche internationale Lösungen für Unternehmen verschiedener Branchen bereitzustellen.",
+    "highlight": "Wir ermöglichen die globale Expansion von Unternehmen durch KI-Technologie, sammeln reiche Ressourcen und praktische Erfahrung in der TCM-Auslands expansion (Traditionelle Chinesische Medizin) und helfen Kunden, globale Geschäftsmöglichkeiten schnell zu nutzen und die Globalisierung der Marke zu erreichen.",
+    "experience": "10+",
+    "experienceLabel": "Jahre Erfahrung",
+    "features": {
+      "ai": "KI-Technologie für globale Unternehmensexpansion",
+      "medicine": "Reiche Ressourcen und praktische Erfahrung in TCM-Expansion",
+      "opportunity": "Kunden helfen, globale Chancen zu nutzen"
+    },
+    "values": {
+      "professional": { "title": "Professionell", "desc": "Zertifiziertes Team" },
+      "efficient": { "title": "Effizient", "desc": "Implementierungsexzellenz" },
+      "intimate": { "title": "Engagiert", "desc": "Vollständige Unterstützung" }
+    }
+  },
+  "services": {
+    "title": "Kerndienstleistungen",
+    "subtitle": "Umfassende Lösungen für globale Expansion",
+    "description": "Von der strategischen Planung bis zur operativen Umsetzung bieten wir professionelle End-to-End-Dienstleistungen",
+    "tabs": {
+      "strategy": "Strategie für den Markteintritt",
+      "resources": "Ressourcenintegration & Geschäftsanpassung",
+      "support": "Laufende Betriebsunterstützung"
+    },
+    "strategy": {
+      "title": "Strategie für den Markteintritt",
+      "description": "Durch die Kombination von KI-gestützten Erkenntnissen erstellen wir tiefgehende Marktberichte für Zielmärkte.",
+      "features": {
+        "research": "KI-gestützte Marktforschung",
+        "compliance": "EU-CE-Zertifizierung, Japan-Compliance-Unterstützung",
+        "tax": "Steuerplanung und Rechtsstrukturdesign"
+      }
+    },
+    "resources": {
+      "title": "Ressourcenintegration & Geschäftsanpassung",
+      "description": "Durch die Integration globaler Qualitätsressourcen, passen wir Unternehmen mit geeigneten Partnern, Kanälen und Kunden an.",
+      "features": {
+        "partners": "Globales Premium-Partnernetzwerk",
+        "channels": "Entwicklung von Auslandsvertriebskanälen",
+        "customers": "Präzise Kundenanpassung"
+      }
+    },
+    "support": {
+      "title": "Laufende Betriebsunterstützung",
+      "description": "Bereitstellung kontinuierlicher Betriebsunterstützung nach der Auslandsexpansion.",
+      "features": {
+        "local": "Lokalisiertes Operationsteam",
+        "marketing": "Unterstützung für Auslandsmarketing",
+        "legal": "Fortlaufende Rechtskonformitätsverfolgung"
+      }
+    }
+  },
+  "whyUs": {
+    "title": "Warum Uns Wählen",
+    "subtitle": "KI-gestützt · Ressourcenbasiert",
+    "description": "Schnellere und präzisere Entscheidungen",
+    "features": {
+      "local": { "title": "Regionale Expertise", "description": "Resident Manager in Osaka, Japan und Italien." },
+      "ai": { "title": "KI-Befähigung", "description": "KI-Agenten tief in den gesamten globalen Expansionsprozess integriert." },
+      "expertise": { "title": "Fachspezialisierung", "description": "Tiefe Dienstleistungen全过程 für TCM/Gesundheitssektoren." }
+    }
+  },
+  "markets": {
+    "title": "Globale Märkte",
+    "subtitle": "Globale Präsenz, lokale Tiefe",
+    "description": "Konstanter Fortschritt in reifen Märkten, präzise Durchbrüche in Schwellenländern",
+    "japan": { "title": "Japan", "description": "Resident Manager in Osaka.", "features": { "resident": "Resident Manager in Osaka", "local": "Lokale Politik und Kultur", "service": "Lokalisierter Express-Service", "language": "Japanische Geschäftsunterstützung" } },
+    "europe": { "title": "Europa (Italien)", "description": "Italien als strategischer Hub.", "features": { "hub": "Italien-Hub", "network": "Europäisches Netzwerk", "local": "Lokales Team", "compliance": "EU-Compliance-Experten" } },
+    "southeast": { "title": "Südostasien", "description": "Schwellenmärkte mit hohem Wachstum.", "features": { "market": "Mehr Länder Abdeckung", "growth": "Hohes Wachstum", "local": "Lokale Partner", "support": "Komplett-Service" } },
+    "middleEast": { "title": "Naher Osten", "description": "Aufstrebender blauer Ozean.", "features": { "opportunity": "High-End-Möglichkeiten", "partners": "Lokales Netzwerk", "culture": "Kulturelle Anpassungsdienste", "support": "Investitionsunterstützung" } }
+  },
+  "stats": {
+    "title": "Unsere Erfolge",
+    "subtitle": "Zahlen, die für sich sprechen",
+    "items": { "companies": "Erfolgreiche Auslandsexpansionen", "experience": "Jahre Erfahrung", "partners": "Globale Partner", "countries": "Abgedeckte Länder" }
+  },
+  "testimonials": {
+    "title": "Kundenstimmen",
+    "subtitle": "Was Sie Sagen",
+    "description": "Echtes Feedback von Kunden",
+    "items": {
+      "wang": { "quote": "Das Team hat uns geholfen, erfolgreich in den japanischen Markt einzutreten.", "name": "Wang Xiaoming", "position": "CEO, Medizingeräteunternehmen" }
+    }
+  },
+  "contact": {
+    "title": "Kontaktieren Sie Uns",
+    "subtitle": "Beginnen Sie Ihre globale Reise",
+    "description": "Wenn Sie an Auslandsexpansionsdienstleistungen interessiert sind, kontaktieren Sie uns jetzt!",
+    "address": "Shanghai",
+    "team": {
+      "zhang": { "name": "Zhang Qiang", "region": "China-Leiter", "phone": "(+86) 137 648 725381", "email": "zxq@zxqconsulting.com" },
+      "li": { "name": "Li Jing", "region": "Japan/ASEAN-Leiter", "phoneCn": "(+86) 138 166 89487", "phoneJp": "(+81) 080 962 86389", "email": "yuqian@zxqconsulting.com" },
+      "liu": { "name": "Liu Xiao", "region": "Australien/HK-Leiter", "phoneCn": "(+86) 182 177 94992", "phoneAu": "(+61) 466 981 227", "email": "dianaliu@zxqconsulting.com" }
+    },
+    "social": "WeChat: 张小强出海",
+    "form": { "title": "Anfrage Senden", "name": "Name", "namePlaceholder": "Bitte geben Sie Ihren Namen ein", "email": "E-Mail", "emailPlaceholder": "ihre@email.com", "phone": "Telefon", "phonePlaceholder": "(+86)", "company": "Firma", "companyPlaceholder": "Firmenname", "message": "Inhalt", "messagePlaceholder": "Beschreiben Sie Ihre Anforderungen...", "submit": "Senden" }
+  },
+  "footer": {
+    "title": "Bereit für Globalisierung?",
+    "description": "Lassen Sie uns zusammenarbeiten, um Ihre Globalisierungsreise zu beginnen",
+    "cta": "Jetzt Kontaktieren",
+    "quickLinks": "Schnelllinks",
+    "markets": "Regionen",
+    "services": "Dienstleistungen",
+    "copyright": "© 2024 Unternehmensberatung Shanghai."
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "brand": {
+    "name": "ZXQ Consulting",
+    "fullName": "Escritório de Consultoria Empresarial de Xangai",
+    "tagline": "Seu Parceiro Global Leal e Confiável",
+    "slogan": "Impulsionado por IA · Baseado em Recursos · Expansão Global Profissional"
+  },
+  "nav": {
+    "home": "Início",
+    "about": "Sobre Nós",
+    "services": "Serviços",
+    "markets": "Mercados Globais",
+    "contact": "Contato"
+  },
+  "hero": {
+    "title": "Capacitando Empresas para Conquistar Mercados Globais",
+    "subtitle": "Da estratégia de entrada no mercado à implementação operacional, fornecemos serviços de consultoria internacional abrangentes. Impulsionado por IA, baseado em recursos, decisões mais rápidas e precisas para sua expansão global.",
+    "cta": "Comece Sua Jornada Global",
+    "learnMore": "Saiba Mais"
+  },
+  "about": {
+    "title": "Sobre Nós",
+    "subtitle": "Seu Parceiro Global de Confiança",
+    "description": "Escritório de Consultoria Empresarial de Xangai é uma empresa profissional de consultoria e serviços de implementação sediada em Xangai, atendendo clientes em todo o país. Temos profunda expertise em serviços de expansão internacional, comprometidos em fornecer soluções internacionais eficientes, profissionais e completas para empresas de diversas indústrias.",
+    "highlight": "Capacitamos a expansão global de empresas com tecnologia de IA, acumulando recursos ricos e experiência prática na expansão overseas de MTC (Medicina Tradicional Chinesa), ajudando clientes a aproveitar rapidamente oportunidades comerciais globais e alcançar a globalização da marca.",
+    "experience": "10+",
+    "experienceLabel": "Anos de Experiência",
+    "features": {
+      "ai": "Tecnologia IA Capacitando a Expansão Global de Empresas",
+      "medicine": "Recursos Ricos e Experiência Prática na Expansão MTC",
+      "opportunity": "Ajudando Clientes a Aproveitar Oportunidades Globais"
+    },
+    "values": {
+      "professional": { "title": "Profissional", "desc": "Equipe Certificada" },
+      "efficient": { "title": "Eficiente", "desc": "Excelência na Implementação" },
+      "intimate": { "title": "Dedicação", "desc": "Suporte Completo" }
+    }
+  },
+  "services": {
+    "title": "Serviços Principais",
+    "subtitle": "Soluções Completas de Expansão Global",
+    "description": "Do planejamento estratégico à implementação operacional, fornecemos serviços profissionais de ponta a ponta",
+    "tabs": {
+      "strategy": "Estratégia de Entrada em Mercados Internacionais",
+      "resources": "Integração de Recursos e Correspondência Comercial",
+      "support": "Suporte Operacional Contínuo"
+    },
+    "strategy": {
+      "title": "Estratégia de Entrada em Mercados Internacionais",
+      "description": "Combinando insights impulsionados por IA, fornecemos relatórios de mercado aprofundados para mercados-alvo.",
+      "features": {
+        "research": "Pesquisa de Mercado Impulsionada por IA",
+        "compliance": "Certificação CE UE, Suporte de Conformidade Japão",
+        "tax": "Planejamento Tributário e Estrutura Legal"
+      }
+    },
+    "resources": {
+      "title": "Integração de Recursos e Correspondência Comercial",
+      "description": "Integrando recursos globais de qualidade, correspondendo empresas com parceiros, canais e clientes adequados.",
+      "features": {
+        "partners": "Rede de Parceiros Premium Global",
+        "channels": "Desenvolvimento de Canais de Venda Internacional",
+        "customers": "Correspondência Precisa de Clientes"
+      }
+    },
+    "support": {
+      "title": "Suporte Operacional Contínuo",
+      "description": "Fornecendo suporte operacional contínuo após a expansão internacional.",
+      "features": {
+        "local": "Equipe Operacional Localizada",
+        "marketing": "Suporte de Marketing Internacional",
+        "legal": "Acompanhamento de Conformidade Legal"
+      }
+    }
+  },
+  "whyUs": {
+    "title": "Por Que Nos Escolher",
+    "subtitle": "Impulsionado por IA · Baseado em Recursos",
+    "description": "Decisões mais rápidas e mais precisas",
+    "features": {
+      "local": { "title": "Expertise Regional", "description": "Gerente residente em Osaka, Japão e Itália." },
+      "ai": { "title": "Capacitação IA", "description": "Agentes de IA profundamente integrados em todo o processo de expansão global." },
+      "expertise": { "title": "Especialização Industrial", "description": "Serviços profundos全过程 para setores de MTC/Saúde." }
+    }
+  },
+  "markets": {
+    "title": "Mercados Globais",
+    "subtitle": "Presença Global, Profundidade Local",
+    "description": "Progresso constante em mercados maduros, avanços precisos em mercados emergentes",
+    "japan": { "title": "Japão", "description": "Gerente residente em Osaka.", "features": { "resident": "Gerente Residente em Osaka", "local": "Políticas locais e cultura", "service": "Serviço Expresso Localizado", "language": "Suporte em Japonês" } },
+    "europe": { "title": "Europa (Itália)", "description": "Itália como hub estratégico.", "features": { "hub": "Hub da Itália", "network": "Rede Europeia", "local": "Equipe Local", "compliance": "Especialistas em Conformidade UE" } },
+    "southeast": { "title": "Sudeste Asiático", "description": "Mercados emergentes de alto crescimento.", "features": { "market": "Cobertura Multi-País", "growth": "Alto Crescimento", "local": "Parceiros Locais", "support": "Serviços Completos" } },
+    "middleEast": { "title": "Oriente Médio", "description": "Oceano azul emergente.", "features": { "opportunity": "Oportunidades de Alto Nível", "partners": "Rede Local", "culture": "Serviços de Adaptação Cultural", "support": "Suporte de Investimento" } }
+  },
+  "stats": {
+    "title": "Nossas Conquistas",
+    "subtitle": "Números Que Falam por Si",
+    "items": { "companies": "Expansões Internacionais Bem-Sucedidas", "experience": "Anos de Experiência", "partners": "Parceiros Globais", "countries": "Países Cobertos" }
+  },
+  "testimonials": {
+    "title": "Depoimentos de Clientes",
+    "subtitle": "O Que Eles Dizem",
+    "description": "Feedback real de clientes",
+    "items": {
+      "wang": { "quote": "A equipe nos ajudou a entrar com sucesso no mercado japonês.", "name": "Wang Xiaoming", "position": "CEO, Empresa de Dispositivos Médicos" }
+    }
+  },
+  "contact": {
+    "title": "Contate-Nos",
+    "subtitle": "Comece Sua Jornada Global",
+    "description": "Se você está interessado em serviços de expansão internacional, contate-nos agora!",
+    "address": "Xangai",
+    "team": {
+      "zhang": { "name": "Zhang Qiang", "region": "Líder da China", "phone": "(+86) 137 648 725381", "email": "zxq@zxqconsulting.com" },
+      "li": { "name": "Li Jing", "region": "Líder do Japão/ASEAN", "phoneCn": "(+86) 138 166 89487", "phoneJp": "(+81) 080 962 86389", "email": "yuqian@zxqconsulting.com" },
+      "liu": { "name": "Liu Xiao", "region": "Líder da Austrália/HK", "phoneCn": "(+86) 182 177 94992", "phoneAu": "(+61) 466 981 227", "email": "dianaliu@zxqconsulting.com" }
+    },
+    "social": "WeChat: 张小强出海",
+    "form": { "title": "Enviar Consulta", "name": "Nome", "namePlaceholder": "Digite seu nome", "email": "E-mail", "emailPlaceholder": "seu@email.com", "phone": "Telefone", "phonePlaceholder": "(+86)", "company": "Empresa", "companyPlaceholder": "Nome da empresa", "message": "Conteúdo", "messagePlaceholder": "Descreva suas necessidades...", "submit": "Enviar" }
+  },
+  "footer": {
+    "title": "Pronto para Globalizar?",
+    "description": "Vamos trabalhar juntos para começar sua jornada de globalização",
+    "cta": "Contate Agora",
+    "quickLinks": "Links Rápidos",
+    "markets": "Regiões",
+    "services": "Serviços",
+    "copyright": "© 2024 Escritório de Consultoria Empresarial de Xangai."
+  }
+}

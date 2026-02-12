@@ -1,0 +1,130 @@
+{
+  "brand": {
+    "name": "ZXQ Consulting",
+    "fullName": "Kantor Konsultasi Perusahaan Shanghai",
+    "tagline": "Mitra Global Anda yang Setia dan Terpercaya",
+    "slogan": "Didukung AI · Berbasis Sumber Daya · Ekspansi Global Profesional"
+  },
+  "nav": {
+    "home": "Beranda",
+    "about": "Tentang Kami",
+    "services": "Layanan",
+    "markets": "Pasar Global",
+    "contact": "Hubungi Kami"
+  },
+  "hero": {
+    "title": "Memberdayakan Bisnis untuk Menaklukkan Pasar Global",
+    "subtitle": "Dari strategi masuk pasar hingga implementasi operasional, kami menyediakan layanan konsultasi internasional yang komprehensif. Didukung AI, berbasis sumber daya, keputusan yang lebih cepat dan tepat untuk ekspansi global Anda.",
+    "cta": "Mulai Perjalanan Global Anda",
+    "learnMore": "Pelajari Lebih Lanjut"
+  },
+  "about": {
+    "title": "Tentang Kami",
+    "subtitle": "Mitra Global Terpercaya Anda",
+    "description": "Kantor Konsultasi Perusahaan Shanghai adalah perusahaan jasa konsultasi dan implementasi profesional berbasis di Shanghai, melayani klien di seluruh negeri. Kami memiliki keahlian mendalam dalam layanan ekspansi luar negeri, berkomitmen untuk menyediakan solusi internasional yang efisien, profesional, dan menyeluruh bagi perusahaan di berbagai industri.",
+    "highlight": "Kami memberdayakan ekspansi global perusahaan dengan teknologi AI, mengakumulasi sumber daya yang kaya dan pengalaman praktis dalam ekspansi TCM (Obat Tradisional Tiongkok) ke luar negeri, membantu klien dengan cepat memanfaatkan peluang bisnis global dan mencapai globalisasi merek.",
+    "experience": "10+",
+    "experienceLabel": "Tahun Pengalaman",
+    "features": {
+      "ai": "Teknologi AI Memberdayakan Ekspansi Global Perusahaan",
+      "medicine": "Sumber Daya Kaya dan Pengalaman Praktis dalam Ekspansi TCM",
+      "opportunity": "Membantu Klien Memanfaatkan Peluang Global dengan Cepat"
+    },
+    "values": {
+      "professional": { "title": "Profesional", "desc": "Tim Bersertifikat" },
+      "efficient": { "title": "Efisien", "desc": "Keunggulan Implementasi" },
+      "intimate": { "title": "Berdedikasi", "desc": "Dukungan Lengkap" }
+    }
+  },
+  "services": {
+    "title": "Layanan Utama",
+    "subtitle": "Solusi Ekspansi Global Komprehensif",
+    "description": "Dari perencanaan strategis hingga implementasi operasional, kami menyediakan layanan profesional end-to-end",
+    "tabs": {
+      "strategy": "Strategi Masuk Pasar Internasional",
+      "resources": "Integrasi Sumber Daya & Pencocokan Bisnis",
+      "support": "Dukungan Operasional Berkelanjutan"
+    },
+    "strategy": {
+      "title": "Strategi Masuk Pasar Internasional",
+      "description": "Menggabungkan wawasan berbasis AI, kami menyediakan laporan pasar mendalam untuk pasar target.",
+      "features": {
+        "research": "Penelitian Pasar Berbasis AI",
+        "compliance": "Sertifikasi CE UE, Dukungan Kepatuhan Jepang",
+        "tax": "Perencanaan Pajak & Desain Struktur Hukum"
+      }
+    },
+    "resources": {
+      "title": "Integrasi Sumber Daya & Pencocokan Bisnis",
+      "description": "Mengintegrasikan sumber daya global berkualitas, mencocokkan perusahaan dengan mitra, saluran, dan pelanggan yang tepat.",
+      "features": {
+        "partners": "Jaringan Mitra Premium Global",
+        "channels": "Pengembangan Saluran Penjualan Luar Negeri",
+        "customers": "Pencocokan Pelanggan yang Tepat"
+      }
+    },
+    "support": {
+      "title": "Dukungan Operasional Berkelanjutan",
+      "description": "Menyediakan dukungan operasional berkelanjutan setelah ekspansi luar negeri.",
+      "features": {
+        "local": "Tim Operasional Terlokalisasi",
+        "marketing": "Dukungan Pemasaran Luar Negeri",
+        "legal": "Tindak Lanjut Kepatuhan Hukum Berkelanjutan"
+      }
+    }
+  },
+  "whyUs": {
+    "title": "Mengapa Memilih Kami",
+    "subtitle": "Didukung AI · Berbasis Sumber Daya",
+    "description": "Keputusan yang lebih cepat dan lebih tepat",
+    "features": {
+      "local": { "title": "Keahlian Regional", "description": "Manajer residen di Osaka, Jepang dan Italia." },
+      "ai": { "title": "Pemberdayaan AI", "description": "Agen AI yang terintegrasi dalam seluruh proses ekspansi global." },
+      "expertise": { "title": "Spesialisasi Industri", "description": "Layanan mendalam全过程 untuk sektor TCM/Kesehatan." }
+    }
+  },
+  "markets": {
+    "title": "Pasar Global",
+    "subtitle": "Kehadiran Global, Kedalaman Lokal",
+    "description": "Kemajuan konsisten di pasar matang, terobosan tepat di pasar berkembang",
+    "japan": { "title": "Jepang", "description": "Manajer residen di Osaka.", "features": { "resident": "Manajer Residen di Osaka", "local": "Kebijakan lokal dan budaya", "service": "Layanan Ekspres Terlokalisasi", "language": "Dukungan Bisnis Jepang" } },
+    "europe": { "title": "Eropa (Italia)", "description": "Italia sebagai pusat strategis.", "features": { "hub": "Hub Italia", "network": "Jaringan Eropa", "local": "Tim Lokal", "compliance": "Ahli Kepatuhan UE" } },
+    "southeast": { "title": "Asia Tenggara", "description": "Pasar berkembang dengan pertumbuhan tinggi.", "features": { "market": "Cakupan Multi-Negara", "growth": "Pertumbuhan Tinggi", "local": "Mitra Lokal", "support": "Layanan Lengkap" } },
+    "middleEast": { "title": "Timur Tengah", "description": "Laut biru yang berkembang.", "features": { "opportunity": "Peluang Tingkat Tinggi", "partners": "Jaringan Lokal", "culture": "Layanan Adaptasi Budaya", "support": "Dukungan Investasi" } }
+  },
+  "stats": {
+    "title": "Pencapaian Kami",
+    "subtitle": "Angka yang Berbicara",
+    "items": { "companies": "Ekspansi Luar Negeri yang Berhasil", "experience": "Tahun Pengalaman", "partners": "Mitra Global", "countries": "Negara yang Dicakup" }
+  },
+  "testimonials": {
+    "title": "Testimoni Klien",
+    "subtitle": "Apa yang Mereka Katakan",
+    "description": "Umpan balik nyata dari klien",
+    "items": {
+      "wang": { "quote": "Tim membantu kami berhasil memasuki pasar Jepang.", "name": "Wang Xiaoming", "position": "CEO, Perusahaan Alat Kesehatan" }
+    }
+  },
+  "contact": {
+    "title": "Hubungi Kami",
+    "subtitle": "Mulai Perjalanan Global Anda",
+    "description": "Jika Anda tertarik dengan layanan ekspansi luar negeri, hubungi kami sekarang!",
+    "address": "Shanghai",
+    "team": {
+      "zhang": { "name": "Zhang Qiang", "region": "Pimpinan Tiongkok", "phone": "(+86) 137 648 725381", "email": "zxq@zxqconsulting.com" },
+      "li": { "name": "Li Jing", "region": "Pimpinan Jepang/ASEAN", "phoneCn": "(+86) 138 166 89487", "phoneJp": "(+81) 080 962 86389", "email": "yuqian@zxqconsulting.com" },
+      "liu": { "name": "Liu Xiao", "region": "Pimpinan Australia/HK", "phoneCn": "(+86) 182 177 94992", "phoneAu": "(+61) 466 981 227", "email": "dianaliu@zxqconsulting.com" }
+    },
+    "social": "WeChat: 张小强出海",
+    "form": { "title": "Kirim Pertanyaan", "name": "Nama", "namePlaceholder": "Masukkan nama Anda", "email": "Email", "emailPlaceholder": "anda@email.com", "phone": "Telepon", "phonePlaceholder": "(+86)", "company": "Perusahaan", "companyPlaceholder": "Nama perusahaan", "message": "Konten", "messagePlaceholder": "Jelaskan kebutuhan Anda...", "submit": "Kirim" }
+  },
+  "footer": {
+    "title": "Siap untuk Mengglobal?",
+    "description": "Mari bekerja sama untuk memulai perjalanan globalisasi Anda",
+    "cta": "Hubungi Sekarang",
+    "quickLinks": "Tautan Cepat",
+    "markets": "Wilayah",
+    "services": "Layanan",
+    "copyright": "© 2024 Kantor Konsultasi Perusahaan Shanghai."
+  }
+}

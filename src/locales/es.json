@@ -1,0 +1,130 @@
+{
+  "brand": {
+    "name": "ZXQ Consulting",
+    "fullName": "Shanghai Zhang Xiaoqiang Enterprise Consulting Firm",
+    "tagline": "Su Socio Leal y Fiable Global",
+    "slogan": "Impulsado por IA · Impulsado por Recursos · Expansión Global Profesional"
+  },
+  "nav": {
+    "home": "Inicio",
+    "about": "Sobre Nosotros",
+    "services": "Servicios",
+    "markets": "Mercados Globales",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "title": "Empoderando a las Empresas para Conquistar los Mercados Globales",
+    "subtitle": "Desde la estrategia de entrada al mercado hasta la implementación operativa, proporcionamos servicios integrales de consultoría internacional. Impulsado por IA, impulsado por recursos, decisiones más rápidas y precisas para su expansión global.",
+    "cta": "Comienza tu Viaje Global",
+    "learnMore": "Saber Más"
+  },
+  "about": {
+    "title": "Sobre Nosotros",
+    "subtitle": "Su Socio Global de Confianza",
+    "description": "Shanghai Zhang Xiaoqiang Enterprise Consulting Firm es una empresa profesional de consultoría e implementación de servicios con sede en Shanghai, atendiendo clientes en todo el país. Tenemos una profunda experiencia en servicios de expansión al extranjero, comprometidos a proporcionar soluciones internacionales eficientes, profesionales e integrales para empresas de diversas industrias.",
+    "highlight": "Empoderamos la expansión global empresarial con tecnología de IA, acumulando recursos ricos y experiencia práctica en la expansión overseas de TCM (Medicina Tradicional China), ayudando a los clientes a capturar rápidamente oportunidades comerciales globales y lograr la globalización de la marca.",
+    "experience": "10+",
+    "experienceLabel": "Años de Experiencia",
+    "features": {
+      "ai": "Tecnología de IA Empoderando la Expansión Global Empresarial",
+      "medicine": "Recursos Ricos y Experiencia Práctica en Expansión Overseas de TCM",
+      "opportunity": "Ayudando a los Clientes a Capturar Oportunidades Comerciales Globales Rápidamente"
+    },
+    "values": {
+      "professional": { "title": "Profesional", "desc": "Equipo Certificado" },
+      "efficient": { "title": "Eficiente", "desc": "Excelencia en Implementación" },
+      "intimate": { "title": "Dedicado", "desc": "Soporte Integral" }
+    }
+  },
+  "services": {
+    "title": "Servicios Principales",
+    "subtitle": "Soluciones Integrales de Expansión Global",
+    "description": "Desde la planificación estratégica hasta la implementación operativa, proporcionamos servicios profesionales de extremo a extremo",
+    "tabs": {
+      "strategy": "Estrategia de Entrada al Mercado Internacional",
+      "resources": "Integración de Recursos y Emparejamiento Comercial",
+      "support": "Soporte Operativo Continuo"
+    },
+    "strategy": {
+      "title": "Estrategia de Entrada al Mercado Internacional",
+      "description": "Combinando conocimientos impulsados por IA, proporcionamos informes de mercado en profundidad para mercados objetivo.",
+      "features": {
+        "research": "Investigación de Mercado Impulsada por IA",
+        "compliance": "Certificación CE de la UE, Soporte de Cumplimiento de Japón",
+        "tax": "Planificación Fiscal y Diseño de Estructura Legal"
+      }
+    },
+    "resources": {
+      "title": "Integración de Recursos y Emparejamiento Comercial",
+      "description": "Integrando recursos globales de calidad, emparejando empresas con socios, canales y clientes adecuados.",
+      "features": {
+        "partners": "Red de Socios Premium Global",
+        "channels": "Desarrollo de Canales de Venta Overseas",
+        "customers": "Emparejamiento Preciso de Clientes"
+      }
+    },
+    "support": {
+      "title": "Soporte Operativo Continuo",
+      "description": "Proporcionando soporte operativo continuo después de la expansión overseas.",
+      "features": {
+        "local": "Equipo de Operaciones Localizado",
+        "marketing": "Soporte de Marketing Overseas",
+        "legal": "Seguimiento Continuo de Cumplimiento Legal"
+      }
+    }
+  },
+  "whyUs": {
+    "title": "Por Qué Elegirnos",
+    "subtitle": "Impulsado por IA · Impulsado por Recursos",
+    "description": "Decisiones más rápidas y precisas",
+    "features": {
+      "local": { "title": "Experiencia Regional", "description": "Gerente residente en Osaka, Japón e Italia." },
+      "ai": { "title": "Empoderamiento de IA", "description": "Agentes de IA profundamente integrados en todo el proceso de expansión global." },
+      "expertise": { "title": "Especialización Industrial", "description": "Servicios profundos de proceso completo para sectores de TCM/Salud." }
+    }
+  },
+  "markets": {
+    "title": "Mercados Globales",
+    "subtitle": "Presencia Global, Profundidad Local",
+    "description": "Progreso constante en mercados maduros, avances precisos en mercados emergentes",
+    "japan": { "title": "Japón", "description": "Gerente residente en Osaka.", "features": { "resident": "Gerente Residente en Osaka", "local": "Políticas locales y cultura", "service": "Servicio Express Localizado", "language": "Soporte en Japonés" } },
+    "europe": { "title": "Europa (Italia)", "description": "Italia como centro estratégico.", "features": { "hub": "Centro de Italia", "network": "Red europea", "local": "Equipo local", "compliance": "Expertos UE" } },
+    "southeast": { "title": "Sudeste Asiático", "description": "Mercados emergentes de alto crecimiento.", "features": { "market": "Multi-países", "growth": "Alto crecimiento", "local": "Socios locales", "support": "Servicios integrales" } },
+    "middleEast": { "title": "Medio Oriente", "description": "Océano azul emergente.", "features": { "opportunity": "Alta gama", "partners": "Red local", "culture": "Adaptación cultural", "support": "Inversión" } }
+  },
+  "stats": {
+    "title": "Nuestros Logros",
+    "subtitle": "Resultados que Hablan",
+    "items": { "companies": "Expansiones Exitosas", "experience": "Años de Experiencia", "partners": "Socios Globales", "countries": "Países Cubiertos" }
+  },
+  "testimonials": {
+    "title": "Testimonios de Clientes",
+    "subtitle": "Lo Que Dicen",
+    "description": "Comentarios reales de clientes",
+    "items": {
+      "wang": { "quote": "El equipo nos ayudó a entrar exitosamente en el mercado japonés.", "name": "Wang Xiaoming", "position": "CEO, Empresa de Dispositivos Médicos" }
+    }
+  },
+  "contact": {
+    "title": "Contáctenos",
+    "subtitle": "Comienza tu Viaje Global",
+    "description": "Si está interesado en servicios de expansión overseas, ¡contáctenos!",
+    "address": "Shanghai",
+    "team": {
+      "zhang": { "name": "Zhang Qiang", "region": "Líder de China", "phone": "(+86) 137 648 725381", "email": "zxq@zxqconsulting.com" },
+      "li": { "name": "Li Jing", "region": "Líder de Japón/SEA", "phoneCn": "(+86) 138 166 89487", "phoneJp": "(+81) 080 962 86389", "email": "yuqian@zxqconsulting.com" },
+      "liu": { "name": "Liu Xiao", "region": "Líder de Australia/HK", "phoneCn": "(+86) 182 177 94992", "phoneAu": "(+61) 466 981 227", "email": "dianaliu@zxqconsulting.com" }
+    },
+    "social": "WeChat: 张小强出海",
+    "form": { "title": "Enviar Consulta", "name": "Nombre", "namePlaceholder": "Ingrese su nombre", "email": "Email", "emailPlaceholder": "su@email.com", "phone": "Teléfono", "phonePlaceholder": "(+86)", "company": "Empresa", "companyPlaceholder": "Nombre de empresa", "message": "Consulta", "messagePlaceholder": "Describa sus necesidades...", "submit": "Enviar" }
+  },
+  "footer": {
+    "title": "¿Listo para Globalizarse?",
+    "description": "Comencemos juntos su viaje de globalización",
+    "cta": "Contactar Ahora",
+    "quickLinks": "Enlaces Rápidos",
+    "markets": "Regiones",
+    "services": "Servicios",
+    "copyright": "© 2024 Shanghai Zhang Xiaoqiang Enterprise Consulting Firm."
+  }
+}
