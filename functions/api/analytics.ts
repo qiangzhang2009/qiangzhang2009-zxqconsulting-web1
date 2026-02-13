@@ -39,16 +39,13 @@ export async function onRequestGet(context) {
     const since = new Date(Date.now() - 364 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
     const until = new Date().toISOString().split('T')[0];
 
-    // 查询1: 获取总体统计数据
+    // 查询1: 获取总体统计数据 - 不使用 date 过滤，用 dateRange
     const totalQuery = {
       query: `
-        query GetZoneAnalytics($zoneId: string!, $since: DateTime!, $until: DateTime!) {
+        query GetZoneAnalytics($zoneId: string!) {
           viewer {
             zones(filter: { zoneTag: $zoneId }) {
-              httpRequests1dGroups(limit: 364, orderBy: [date_ASC], filter: {
-                date_geq: $since,
-                date_leq: $until
-              }) {
+              httpRequests1dGroups(limit: 364) {
                 sum {
                   pageViews
                   requests
@@ -62,22 +59,17 @@ export async function onRequestGet(context) {
         }
       `,
       variables: {
-        zoneId: env.CF_ZONE_ID,
-        since,
-        until
+        zoneId: env.CF_ZONE_ID
       }
     };
 
     // 查询2: 获取按国家的请求数据
     const countryQuery = {
       query: `
-        query GetCountryAnalytics($zoneId: string!, $since: DateTime!, $until: DateTime!) {
+        query GetCountryAnalytics($zoneId: string!) {
           viewer {
             zones(filter: { zoneTag: $zoneId }) {
-              httpRequestsByCountryGroups(limit: 20, orderBy: [requests_DESC], filter: {
-                date_geq: $since,
-                date_leq: $until
-              }) {
+              httpRequestsByCountryGroups(limit: 20, orderBy: [requests_DESC]) {
                 country: clientCountryName
                 requests
                 pageViews
@@ -87,9 +79,7 @@ export async function onRequestGet(context) {
         }
       `,
       variables: {
-        zoneId: env.CF_ZONE_ID,
-        since,
-        until
+        zoneId: env.CF_ZONE_ID
       }
     };
 
@@ -147,14 +137,13 @@ export async function onRequestGet(context) {
       totalUniques += day?.uniq?.uniques || 0;
     });
 
-    // 解析国家数据 (使用 requests 作为近似访客数)
+    // 解析国家数据 (使用 pageViews 作为访客指标)
     const zoneCountryData = countryData.data?.viewer?.zones?.[0];
     const countryGroups = zoneCountryData?.httpRequestsByCountryGroups || [];
     
     const countryArray = countryGroups
       .map((c: { country: string; requests: number; pageViews: number }) => ({
         country: c.country,
-        // 使用 pageViews 作为更准确的访客指标
         visitors: c.pageViews || c.requests,
         percentage: totalPageViews > 0 ? Math.round((c.pageViews / totalPageViews) * 100 * 10) / 10 : 0
       }))
