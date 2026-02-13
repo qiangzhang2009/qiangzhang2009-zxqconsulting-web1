@@ -35,11 +35,64 @@ export async function onRequestGet(context) {
   }
 
   try {
-    // 查询1: 获取总体统计数据
-    const totalQuery = `query { viewer { zones(filter: { zoneTag: "${env.CF_ZONE_ID}" }) { httpRequests1dGroups(limit: 364) { sum { pageViews requests } uniq { uniques } } } } }`;
+    // 计算时间范围
+    const since = new Date(Date.now() - 364 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    const until = new Date().toISOString().split('T')[0];
+
+    // 查询1: 获取总体统计数据 - 使用正确的变量格式
+    const totalQuery = {
+      query: `
+        query GetZoneAnalytics($zoneTag: string!, $since: string!, $until: string!) {
+          viewer {
+            zones(filter: { zoneTag: $zoneTag }) {
+              httpRequests1dGroups(
+                filter: { date_geq: $since, date_leq: $until }
+                limit: 364
+              ) {
+                sum {
+                  pageViews
+                  requests
+                }
+                uniq {
+                  uniques
+                }
+              }
+            }
+          }
+        }
+      `,
+      variables: {
+        zoneTag: env.CF_ZONE_ID,
+        since: since,
+        until: until
+      }
+    };
 
     // 查询2: 获取按国家的请求数据
-    const countryQuery = `query { viewer { zones(filter: { zoneTag: "${env.CF_ZONE_ID}" }) { httpRequestsByCountryGroups(limit: 20, orderBy: [requests_DESC]) { country: clientCountryName requests pageViews } } } }`;
+    const countryQuery = {
+      query: `
+        query GetCountryAnalytics($zoneTag: string!, $since: string!, $until: string!) {
+          viewer {
+            zones(filter: { zoneTag: $zoneTag }) {
+              httpRequestsByCountryGroups(
+                filter: { date_geq: $since, date_leq: $until }
+                limit: 20
+                orderBy: [requests_DESC]
+              ) {
+                country: clientCountryName
+                requests
+                pageViews
+              }
+            }
+          }
+        }
+      `,
+      variables: {
+        zoneTag: env.CF_ZONE_ID,
+        since: since,
+        until: until
+      }
+    };
 
     // 并行执行两个查询
     const [totalResponse, countryResponse] = await Promise.all([
@@ -49,7 +102,7 @@ export async function onRequestGet(context) {
           'Authorization': `Bearer ${env.CF_API_TOKEN}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ query: totalQuery })
+        body: JSON.stringify(totalQuery)
       }),
       fetch('https://api.cloudflare.com/client/v4/graphql', {
         method: 'POST',
@@ -57,7 +110,7 @@ export async function onRequestGet(context) {
           'Authorization': `Bearer ${env.CF_API_TOKEN}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ query: countryQuery })
+        body: JSON.stringify(countryQuery)
       })
     ]);
 
