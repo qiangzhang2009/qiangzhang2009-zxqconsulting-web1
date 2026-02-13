@@ -1,18 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Menu, X, Globe, Star, Languages } from 'lucide-react';
-
-const languages = [
-  { code: 'en', name: 'English', flag: '🇺🇸' },
-  { code: 'zh', name: '中文', flag: '🇨🇳' },
-  { code: 'es', name: 'Español', flag: '🇪🇸' },
-  { code: 'ja', name: '日本語', flag: '🇯🇵' },
-  { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
-  { code: 'fr', name: 'Français', flag: '🇫🇷' },
-];
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 const Navbar = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -40,13 +32,6 @@ const Navbar = () => {
     }
     setIsMobileMenuOpen(false);
   };
-
-  const handleLanguageChange = (langCode: string) => {
-    i18n.changeLanguage(langCode);
-    setIsMobileMenuOpen(false);
-  };
-
-  const currentLang = languages.find(lang => lang.code === i18n.language) || languages[0];
 
   return (
     <nav
@@ -111,33 +96,9 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Desktop Language & CTA */}
+          {/* Desktop Language Switcher & CTA Button */}
           <div className="hidden md:flex items-center gap-4">
-            {/* Simple Language Selector */}
-            <div className="relative group">
-              <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-primary-50 transition-colors">
-                <span className="text-lg">{currentLang.flag}</span>
-                <span className="text-sm font-medium text-gray-700">{currentLang.name}</span>
-                <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {/* Dropdown */}
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                {languages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => handleLanguageChange(lang.code)}
-                    className={`w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-primary-50 transition-colors ${
-                      i18n.language === lang.code ? 'text-[#C41E3A] font-medium' : 'text-gray-700'
-                    }`}
-                  >
-                    <span className="text-lg">{lang.flag}</span>
-                    <span className="text-sm">{lang.name}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+            <LanguageSwitcher />
             <button
               onClick={() => scrollToSection('#contact')}
               className="btn-spring text-sm"
@@ -177,30 +138,16 @@ const Navbar = () => {
                 </a>
               ))}
               
-              {/* Mobile Language Section - Grid Style */}
+              {/* Mobile Language Section - 使用完整的 LanguageSwitcher */}
               <div className="mt-4 pt-4 border-t border-gray-100">
                 <div className="flex items-center gap-2 px-2 mb-3">
                   <Languages className="w-5 h-5 text-[#C41E3A]" />
                   <span className="font-semibold text-[#3d352e]">选择语言</span>
-                  <span className="text-sm text-gray-500">({currentLang.flag} {currentLang.name})</span>
                 </div>
                 
-                {/* Language Grid */}
-                <div className="grid grid-cols-3 gap-2 px-2">
-                  {languages.map((lang) => (
-                    <button
-                      key={lang.code}
-                      onClick={() => handleLanguageChange(lang.code)}
-                      className={`flex flex-col items-center justify-center gap-1 py-3 px-2 rounded-lg border-2 transition-all ${
-                        i18n.language === lang.code
-                          ? 'border-[#C41E3A] bg-red-50 text-[#C41E3A]'
-                          : 'border-gray-200 hover:border-[#C41E3A] text-gray-700'
-                      }`}
-                    >
-                      <span className="text-xl">{lang.flag}</span>
-                      <span className="text-xs font-medium">{lang.name}</span>
-                    </button>
-                  ))}
+                {/* 使用完整的语言选择器 */}
+                <div className="px-2">
+                  <LanguageSwitcher />
                 </div>
               </div>
               

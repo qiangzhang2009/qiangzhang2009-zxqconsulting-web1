@@ -7,7 +7,6 @@ import About from './sections/About';
 import Services from './sections/Services';
 import WhyUs from './sections/WhyUs';
 import Markets from './sections/Markets';
-import Stats from './sections/Stats';
 import StatsEnhanced from './sections/StatsEnhanced';
 import Testimonials from './sections/Testimonials';
 import Contact from './sections/Contact';
