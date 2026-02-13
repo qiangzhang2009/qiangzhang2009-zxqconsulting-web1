@@ -30,13 +30,12 @@ export async function onRequestGet(context) {
       ]
     }), {
       status: 200,
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' }
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'nocache' }
     });
   }
 
   try {
-    // 使用 Cloudflare GraphQL API
-    // 查询过去 30 天的数据
+    // 使用 Cloudflare GraphQL API - 获取国家维度的数据
     const graphqlQuery = {
       query: `
         query GetZoneAnalytics($zoneId: string!, $since: DateTime!, $until: DateTime!) {
@@ -51,13 +50,14 @@ export async function onRequestGet(context) {
                   requests
                 }
                 uniq {
-                  uniqueVisitors
+                  uniques
                 }
                 dimensions {
                   date
                 }
               }
-              httpRequests1hGroups(limit: 720, orderBy: [datetime_ASC], filter: {
+              # 按国家分组的小时数据
+              httpRequests1hGroups(limit: 1000, orderBy: [datetime_ASC], filter: {
                 datetime_geq: $since,
                 datetime_leq: $until
               }) {
@@ -66,7 +66,7 @@ export async function onRequestGet(context) {
                   requests
                 }
                 uniq {
-                  uniqueVisitors
+                  uniques
                 }
                 dimensions {
                   datetime
@@ -111,15 +111,15 @@ export async function onRequestGet(context) {
       throw new Error('No data returned from GraphQL API');
     }
 
-    // 解析日请求数据
+    // 解析日请求数据 - 获取总访问量
     const dailyGroups = zoneData.httpRequests1dGroups || [];
     let totalPageViews = 0;
-    let totalUniqueVisitors = 0;
+    let totalUniques = 0;
     let totalRequests = 0;
 
     dailyGroups.forEach(group => {
       totalPageViews += group.sum?.pageViews || 0;
-      totalUniqueVisitors += group.uniq?.uniqueVisitors || 0;
+      totalUniques += group.uniq?.uniques || 0;
       totalRequests += group.sum?.requests || 0;
     });
 
@@ -133,14 +133,15 @@ export async function onRequestGet(context) {
         countryMap[country] = { pageViews: 0, uniqueVisitors: 0 };
       }
       countryMap[country].pageViews += group.sum?.pageViews || 0;
-      countryMap[country].uniqueVisitors += group.uniq?.uniqueVisitors || 0;
+      countryMap[country].uniqueVisitors += group.uniq?.uniques || 0;
     });
 
     // 转换为数组并排序
     const countryArray = Object.entries(countryMap)
       .map(([country, stats]) => ({
         country,
-        ...stats
+        pageViews: stats.pageViews,
+        uniqueVisitors: stats.uniqueVisitors
       }))
       .sort((a, b) => b.pageViews - a.pageViews)
       .slice(0, 10);
@@ -150,7 +151,7 @@ export async function onRequestGet(context) {
       isRealData: true,
       totals: {
         pageViews: totalPageViews,
-        uniqueVisitors: totalUniqueVisitors,
+        uniqueVisitors: totalUniques,
         requests: totalRequests
       },
       countryMap: countryArray
