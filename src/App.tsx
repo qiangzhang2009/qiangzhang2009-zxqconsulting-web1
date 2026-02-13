@@ -12,6 +12,8 @@ import Testimonials from './sections/Testimonials';
 import Contact from './sections/Contact';
 import Footer from './sections/Footer';
 import FloatingContact from './components/FloatingContact';
+import VisitorStats from './components/VisitorStats';
+import BlogSection from './components/BlogSection';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -56,7 +58,9 @@ function App() {
         <WhyUs />
         <Markets />
         <StatsEnhanced />
+        <VisitorStats />
         <Testimonials />
+        <BlogSection />
         <Contact />
       </main>
       <Footer />

@@ -164,7 +164,24 @@
       "experience": "Years of Industry Experience",
       "partners": "Global Partners",
       "countries": "Countries Covered"
-    }
+    },
+    "globalReach": "Global Reach",
+    "visitorTitle": "Global Visitor Statistics",
+    "visitorDesc": "Businesses worldwide trust our overseas consulting services",
+    "totalVisitors": "Total Visitors",
+    "countries": "Countries",
+    "onlineNow": "Online Now",
+    "countryDist": "Country/Region Distribution",
+    "popularPages": "Popular Pages",
+    "lastUpdate": "Last Updated"
+  },
+  "blog": {
+    "title": "Overseas Strategy",
+    "subtitle": "Expert insights and practical guides to help businesses expand globally",
+    "dailyUpdate": "Daily Updates",
+    "readMore": "Read More",
+    "viewMore": "View More Articles",
+    "autoUpdate": "Content auto-updates daily"
   },
   "testimonials": {
     "title": "Client Testimonials",

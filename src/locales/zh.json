@@ -164,7 +164,24 @@
       "experience": "年行业经验",
       "partners": "全球合作伙伴",
       "countries": "覆盖国家地区"
-    }
+    },
+    "globalReach": "全球覆盖",
+    "visitorTitle": "全球访客统计数据",
+    "visitorDesc": "来自全球各地的企业选择我们的出海服务",
+    "totalVisitors": "累计访问",
+    "countries": "覆盖国家",
+    "onlineNow": "在线访客",
+    "countryDist": "国家/地区分布",
+    "popularPages": "热门页面",
+    "lastUpdate": "最后更新"
+  },
+  "blog": {
+    "title": "出海攻略",
+    "subtitle": "专业出海资讯与实战攻略，助力企业顺利开拓全球市场",
+    "dailyUpdate": "每日更新",
+    "readMore": "阅读全文",
+    "viewMore": "查看更多文章",
+    "autoUpdate": "内容每日自动更新"
   },
   "testimonials": {
     "title": "客户评价",
