@@ -8,10 +8,12 @@ import Services from './sections/Services';
 import WhyUs from './sections/WhyUs';
 import Markets from './sections/Markets';
 import Stats from './sections/Stats';
+import StatsEnhanced from './sections/StatsEnhanced';
 import Testimonials from './sections/Testimonials';
 import Contact from './sections/Contact';
 import Footer from './sections/Footer';
 import { SpringDecorations } from './components/SpringDecorations';
+import FloatingContact from './components/FloatingContact';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -55,11 +57,14 @@ function App() {
         <Services />
         <WhyUs />
         <Markets />
-        <Stats />
+        <StatsEnhanced />
         <Testimonials />
         <Contact />
       </main>
       <Footer />
+      
+      {/* Floating Contact Button - 浮动联系按钮 */}
+      <FloatingContact />
     </div>
   );
 }
