@@ -1,21 +1,20 @@
 /**
  * Cloudflare Analytics API 端点
- * 获取真实的网站访问统计
+ * 使用 GraphQL API 获取真实的网站访问统计
  */
 
 export async function onRequestGet(context) {
   const { env } = context;
   
-  // 调试：记录收到的环境变量
+  // 调试信息
   const debugInfo = {
     hasToken: !!env.CF_API_TOKEN,
     hasZoneId: !!env.CF_ZONE_ID,
     zoneIdValue: env.CF_ZONE_ID ? env.CF_ZONE_ID.substring(0, 8) + '...' : 'not set'
   };
 
-  // 如果没有配置 API Token，返回模拟数据（用于演示）
+  // 如果没有配置 API Token，返回模拟数据
   if (!env.CF_API_TOKEN || !env.CF_ZONE_ID) {
-    // 返回模拟数据以便演示
     return new Response(JSON.stringify({
       ...debugInfo,
       isMockData: true,
@@ -36,17 +35,63 @@ export async function onRequestGet(context) {
   }
 
   try {
-    // 使用 Cloudflare Analytics REST API (更简单的方式)
-    // 获取 30 天数据
-    const response = await fetch(
-      `https://api.cloudflare.com/client/v4/zones/${env.CF_ZONE_ID}/analytics/dashboard?since=-30d&until=now&metrics=pageViews,uniqueVisitors,requests&dimensions=country`,
-      {
-        headers: {
-          'Authorization': `Bearer ${env.CF_API_TOKEN}`,
-          'Content-Type': 'application/json'
+    // 使用 Cloudflare GraphQL API
+    // 查询过去 30 天的数据
+    const graphqlQuery = {
+      query: `
+        query GetZoneAnalytics($zoneId: string!, $since: DateTime!, $until: DateTime!) {
+          viewer {
+            zones(filter: { zoneTag: $zoneId }) {
+              httpRequests1dGroups(limit: 30, orderBy: [date_ASC], filter: {
+                date_geq: $since,
+                date_leq: $until
+              }) {
+                sum {
+                  pageViews
+                  requests
+                }
+                uniq {
+                  uniqueVisitors
+                }
+                dimensions {
+                  date
+                }
+              }
+              httpRequests1hGroups(limit: 720, orderBy: [datetime_ASC], filter: {
+                datetime_geq: $since,
+                datetime_leq: $until
+              }) {
+                sum {
+                  pageViews
+                  requests
+                }
+                uniq {
+                  uniqueVisitors
+                }
+                dimensions {
+                  datetime
+                  country
+                }
+              }
+            }
+          }
         }
+      `,
+      variables: {
+        zoneId: env.CF_ZONE_ID,
+        since: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        until: new Date().toISOString().split('T')[0]
       }
-    );
+    };
+
+    const response = await fetch('https://api.cloudflare.com/client/v4/graphql', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${env.CF_API_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(graphqlQuery)
+    });
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -55,30 +100,60 @@ export async function onRequestGet(context) {
 
     const data = await response.json();
     
-    // 检查 API 响应
-    if (!data.success) {
-      throw new Error(`API error: ${JSON.stringify(data.errors)}`);
+    // 检查 GraphQL 响应
+    if (data.errors) {
+      throw new Error(`GraphQL error: ${JSON.stringify(data.errors)}`);
     }
 
-    const result = data.result;
-    const totals = result.totals || {};
-    const topCountries = result.topCountries || { countries: [] };
+    const zoneData = data.data?.viewer?.zones?.[0];
     
-    // 转换国家数据
-    const countryMap = (topCountries.countries || []).slice(0, 10).map(c => ({
-      country: c.country,
-      pageViews: c.pageViews || 0,
-      uniqueVisitors: c.uniques || 0
-    }));
+    if (!zoneData) {
+      throw new Error('No data returned from GraphQL API');
+    }
+
+    // 解析日请求数据
+    const dailyGroups = zoneData.httpRequests1dGroups || [];
+    let totalPageViews = 0;
+    let totalUniqueVisitors = 0;
+    let totalRequests = 0;
+
+    dailyGroups.forEach(group => {
+      totalPageViews += group.sum?.pageViews || 0;
+      totalUniqueVisitors += group.uniq?.uniqueVisitors || 0;
+      totalRequests += group.sum?.requests || 0;
+    });
+
+    // 解析小时请求数据获取国家分布
+    const hourlyGroups = zoneData.httpRequests1hGroups || [];
+    const countryMap: Record<string, { pageViews: number; uniqueVisitors: number }> = {};
+
+    hourlyGroups.forEach(group => {
+      const country = group.dimensions?.country || 'Unknown';
+      if (!countryMap[country]) {
+        countryMap[country] = { pageViews: 0, uniqueVisitors: 0 };
+      }
+      countryMap[country].pageViews += group.sum?.pageViews || 0;
+      countryMap[country].uniqueVisitors += group.uniq?.uniqueVisitors || 0;
+    });
+
+    // 转换为数组并排序
+    const countryArray = Object.entries(countryMap)
+      .map(([country, stats]) => ({
+        country,
+        ...stats
+      }))
+      .sort((a, b) => b.pageViews - a.pageViews)
+      .slice(0, 10);
 
     const finalResult = {
       ...debugInfo,
+      isRealData: true,
       totals: {
-        pageViews: totals.pageViews || 0,
-        uniqueVisitors: totals.uniques || 0,
-        requests: totals.requests || 0
+        pageViews: totalPageViews,
+        uniqueVisitors: totalUniqueVisitors,
+        requests: totalRequests
       },
-      countryMap: countryMap
+      countryMap: countryArray
     };
 
     return new Response(JSON.stringify(finalResult), {
@@ -86,11 +161,10 @@ export async function onRequestGet(context) {
     });
 
   } catch (error) {
-    // 返回详细错误信息以便调试
+    console.error('Analytics API error:', error);
     return new Response(JSON.stringify({
       ...debugInfo,
       error: error.message,
-      stack: error.stack,
       message: "Failed to fetch Cloudflare Analytics. Check API token permissions.",
       totals: { pageViews: 0, uniqueVisitors: 0, requests: 0 },
       countryMap: []
