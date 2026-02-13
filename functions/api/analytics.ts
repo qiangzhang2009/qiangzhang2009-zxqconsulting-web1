@@ -35,53 +35,11 @@ export async function onRequestGet(context) {
   }
 
   try {
-    // 计算时间范围 (不超过 364 天)
-    const since = new Date(Date.now() - 364 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-    const until = new Date().toISOString().split('T')[0];
+    // 查询1: 获取总体统计数据 - 简化版
+    const totalQuery = `query { viewer { zones(filter: { zoneTag: "${env.CF_ZONE_ID}" }) { httpRequests1dGroups(limit: 364) { sum { pageViews requests } uniq { uniques } } } } }`;
 
-    // 查询1: 获取总体统计数据 - 不使用 date 过滤，用 dateRange
-    const totalQuery = {
-      query: `
-        query GetZoneAnalytics($zoneId: string!) {
-          viewer {
-            zones(filter: { zoneTag: $zoneId }) {
-              httpRequests1dGroups(limit: 364) {
-                sum {
-                  pageViews
-                  requests
-                }
-                uniq {
-                  uniques
-                }
-              }
-            }
-          }
-        }
-      `,
-      variables: {
-        zoneId: env.CF_ZONE_ID
-      }
-    };
-
-    // 查询2: 获取按国家的请求数据
-    const countryQuery = {
-      query: `
-        query GetCountryAnalytics($zoneId: string!) {
-          viewer {
-            zones(filter: { zoneTag: $zoneId }) {
-              httpRequestsByCountryGroups(limit: 20, orderBy: [requests_DESC]) {
-                country: clientCountryName
-                requests
-                pageViews
-              }
-            }
-          }
-        }
-      `,
-      variables: {
-        zoneId: env.CF_ZONE_ID
-      }
-    };
+    // 查询2: 获取按国家的请求数据 - 简化版
+    const countryQuery = `query { viewer { zones(filter: { zoneTag: "${env.CF_ZONE_ID}" }) { httpRequestsByCountryGroups(limit: 20, orderBy: [requests_DESC]) { country: clientCountryName requests pageViews } } } }`;
 
     // 并行执行两个查询
     const [totalResponse, countryResponse] = await Promise.all([
@@ -91,7 +49,7 @@ export async function onRequestGet(context) {
           'Authorization': `Bearer ${env.CF_API_TOKEN}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(totalQuery)
+        body: JSON.stringify({ query: totalQuery })
       }),
       fetch('https://api.cloudflare.com/client/v4/graphql', {
         method: 'POST',
@@ -99,7 +57,7 @@ export async function onRequestGet(context) {
           'Authorization': `Bearer ${env.CF_API_TOKEN}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(countryQuery)
+        body: JSON.stringify({ query: countryQuery })
       })
     ]);
 
