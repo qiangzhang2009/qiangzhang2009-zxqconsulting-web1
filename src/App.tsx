@@ -13,7 +13,8 @@ import Contact from './sections/Contact';
 import Footer from './sections/Footer';
 import FloatingContact from './components/FloatingContact';
 import VisitorStats from './components/VisitorStats';
-import BlogSection from './components/BlogSection';
+// TODO: 出海攻略版块暂时隐藏，如有需要可以重新启用
+// import BlogSection from './components/BlogSection';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -60,7 +61,7 @@ function App() {
         <StatsEnhanced />
         <VisitorStats />
         <Testimonials />
-        <BlogSection />
+        {/* <BlogSection /> */}
         <Contact />
       </main>
       <Footer />

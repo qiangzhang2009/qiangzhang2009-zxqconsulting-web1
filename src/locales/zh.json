@@ -191,7 +191,9 @@
     "viewMore": "查看更多文章",
     "autoUpdate": "内容每日自动更新",
     "close": "关闭",
-    "tags": "标签"
+    "tags": "标签",
+    "loading": "加载中...",
+    "noArticles": "暂无文章"
   },
   "testimonials": {
     "title": "客户评价",

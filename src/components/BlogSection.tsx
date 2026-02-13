@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BookOpen, Calendar, Eye, ArrowRight, Sparkles, X } from 'lucide-react';
+import { BookOpen, Calendar, Eye, ArrowRight, Sparkles, X, Loader2 } from 'lucide-react';
 
 // 文章数据类型
 interface Article {
@@ -9,18 +9,39 @@ interface Article {
   titleEn: string;
   excerpt: string;
   excerptEn: string;
-  content: string;
-  contentEn: string;
+  content?: string;
+  contentEn?: string;
   category: string;
   categoryEn: string;
   date: string;
-  views: number;
+  views?: number;
   tags: string[];
   image?: string;
 }
 
-// 模拟文章数据 - 可后续对接 CMS 或 API 实现自动更新
-const generateArticles = (): Article[] => {
+// 从 JSON 文件获取文章数据
+const fetchArticles = async (): Promise<Article[]> => {
+  try {
+    const response = await fetch('/articles.json');
+    if (!response.ok) throw new Error('Failed to fetch articles');
+    const data = await response.json();
+    
+    // 为每篇文章添加随机浏览量（模拟）
+    return (data.articles || []).map((article: Article) => ({
+      ...article,
+      views: Math.floor(Math.random() * 2000) + 500,
+      content: article.content || article.excerpt,
+      contentEn: article.contentEn || article.excerptEn,
+    }));
+  } catch (error) {
+    console.error('Error loading articles:', error);
+    return [];
+  }
+};
+
+// 保留旧数据函数（已不使用）
+// @ts-ignore
+const _generateArticles = (): Article[] => {
   const today = new Date();
   const articles: Article[] = [
     {
@@ -699,12 +720,18 @@ const BlogSection = () => {
   const { t, i18n } = useTranslation();
   const [activeCategory, setActiveCategory] = useState('all');
   const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
   const [expandedArticle, setExpandedArticle] = useState<string | null>(null);
 
   useEffect(() => {
-    // 初始化文章数据
-    setArticles(generateArticles());
+    // 从 JSON 文件加载文章数据
+    const loadArticles = async () => {
+      const data = await fetchArticles();
+      setArticles(data);
+      setLoading(false);
+    };
+    loadArticles();
 
     // 监听滚动显示
     const observer = new IntersectionObserver(
@@ -728,7 +755,7 @@ const BlogSection = () => {
       // 模拟更新文章浏览量
       setArticles(prev => prev.map(article => ({
         ...article,
-        views: article.views + Math.floor(Math.random() * 5),
+        views: (article.views || 0) + Math.floor(Math.random() * 5),
       })));
     }, 60000); // 每分钟更新一次浏览量
 
@@ -752,7 +779,9 @@ const BlogSection = () => {
   };
 
   const getArticleContent = (article: Article) => {
-    return i18n.language === 'zh' ? article.content : article.contentEn;
+    return i18n.language === 'zh' 
+      ? (article.content || article.excerpt) 
+      : (article.contentEn || article.excerptEn);
   };
 
   const getCategoryColor = (category: string) => {
@@ -852,7 +881,18 @@ const BlogSection = () => {
         </div>
 
         {/* 文章列表 */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {loading ? (
+          <div className="col-span-full text-center py-12">
+            <Loader2 className="w-8 h-8 animate-spin text-orange-500 mx-auto mb-4" />
+            <p className="text-gray-500">{t('blog.loading', '加载中...')}</p>
+          </div>
+        ) : filteredArticles.length === 0 ? (
+          <div className="col-span-full text-center py-12">
+            <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+            <p className="text-gray-500">{t('blog.noArticles', '暂无文章')}</p>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredArticles.map((article, index) => (
             <article
               key={article.id}
@@ -874,7 +914,7 @@ const BlogSection = () => {
                   </span>
                   <div className="flex items-center gap-1 text-gray-400 text-xs">
                     <Eye className="w-3 h-3" />
-                    <span>{article.views.toLocaleString()}</span>
+                    <span>{(article.views || 0).toLocaleString()}</span>
                   </div>
                 </div>
 
@@ -905,7 +945,8 @@ const BlogSection = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 to-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
             </article>
           ))}
-        </div>
+          </div>
+        )}
 
         {/* 查看更多 */}
         <div className="text-center mt-10">
@@ -956,7 +997,7 @@ const BlogSection = () => {
                 </div>
                 <div className="flex items-center gap-1 text-gray-400 text-xs">
                   <Eye className="w-3 h-3" />
-                  <span>{currentArticle.views.toLocaleString()}</span>
+                  <span>{(currentArticle.views || 0).toLocaleString()}</span>
                 </div>
               </div>
 

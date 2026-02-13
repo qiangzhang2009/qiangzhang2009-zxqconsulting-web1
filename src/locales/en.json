@@ -191,7 +191,9 @@
     "viewMore": "View More Articles",
     "autoUpdate": "Content auto-updates daily",
     "close": "Close",
-    "tags": "Tags"
+    "tags": "Tags",
+    "loading": "Loading...",
+    "noArticles": "No articles available"
   },
   "testimonials": {
     "title": "Client Testimonials",
