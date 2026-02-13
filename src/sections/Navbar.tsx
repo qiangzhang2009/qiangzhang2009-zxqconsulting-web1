@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import i18n from '../i18n';
 import { Menu, X, Globe, Star, Languages } from 'lucide-react';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 
@@ -143,16 +144,48 @@ const Navbar = () => {
                 </a>
               ))}
               
-              {/* Mobile Language Section - 使用完整的 LanguageSwitcher */}
+              {/* Mobile Language Section - Direct grid display */}
               <div className="mt-4 pt-4 border-t border-gray-100">
                 <div className="flex items-center gap-2 px-2 mb-3">
                   <Languages className="w-5 h-5 text-[#C41E3A]" />
-                  <span className="font-semibold text-[#3d352e]">选择语言</span>
+                  <span className="font-semibold text-[#3d352e]">选择语言 / Select Language</span>
                 </div>
                 
-                {/* 使用完整的语言选择器 */}
-                <div className="px-2">
-                  <LanguageSwitcher />
+                {/* 直接显示所有语言 - 3列网格 */}
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    { code: 'en', name: 'English', flag: '🇺🇸' },
+                    { code: 'zh', name: '中文', flag: '🇨🇳' },
+                    { code: 'es', name: 'Español', flag: '🇪🇸' },
+                    { code: 'ja', name: '日本語', flag: '🇯🇵' },
+                    { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+                    { code: 'fr', name: 'Français', flag: '🇫🇷' },
+                    { code: 'pt', name: 'Português', flag: '🇧🇷' },
+                    { code: 'ar', name: 'العربية', flag: '🇸🇦' },
+                    { code: 'ru', name: 'Русский', flag: '🇷🇺' },
+                    { code: 'ko', name: '한국어', flag: '🇰🇷' },
+                    { code: 'id', name: 'Bahasa', flag: '🇮🇩' },
+                    { code: 'it', name: 'Italiano', flag: '🇮🇹' },
+                    { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' },
+                    { code: 'ms', name: 'Bahasa', flag: '🇲🇾' },
+                    { code: 'lo', name: 'Lao', flag: '🇱🇦' },
+                  ].map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        i18n.changeLanguage(lang.code);
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className={`flex flex-col items-center justify-center p-2 rounded-lg text-xs font-medium transition-colors duration-150 ${
+                        i18n.language === lang.code 
+                          ? 'bg-red-50 text-[#C41E3A] border border-[#C41E3A]' 
+                          : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                      }`}
+                    >
+                      <span className="text-xl">{lang.flag}</span>
+                      <span className="mt-1">{lang.name}</span>
+                    </button>
+                  ))}
                 </div>
               </div>
               
