@@ -1,3 +1,39 @@
 name = "qiangzhang2009-zxqconsulting-web1"
 compatibility_date = "2025-01-01"
 pages_build_output_dir = "./dist"
+
+# Cloudflare 优化配置
+
+# 性能优化 - 开启 Brotli 压缩
+# 详情请在 Cloudflare Dashboard > 网站 > 性能 > 优化 中设置
+
+# 安全设置
+# 详情请在 Cloudflare Dashboard > 网站 > 安全 > 设置 中配置
+
+# 页面规则 - 免费版可用
+# 建议在 Cloudflare Dashboard > 网站 > 页面规则 中添加：
+# 
+# 规则 1: *zxqconsulting.com/*
+#   - Auto Minify: JavaScript, CSS, HTML
+#   - Brotli: On
+#   - Rocket Loader: On (注意：可能导致某些 JS 问题，测试后再开启)
+#   - Mirage: On (移动端图片优化)
+#   - Early Hints: On
+# 
+# 规则 2: *zxqconsulting.com/*.css
+#   - Cache Level: Cache Everything
+#   - Edge Cache TTL: 1 month
+# 
+# 规则 3: *zxqconsulting.com/*.js
+#   - Cache Level: Cache Everything  
+#   - Edge Cache TTL: 1 month
+# 
+# 规则 4: *zxqconsulting.com/*.jpg, *zxqconsulting.com/*.png, *zxqconsulting.com/*.svg
+#   - Cache Level: Cache Everything
+#   - Origin Cache Control: On
+#   - Edge Cache TTL: 1 month
+
+# Speed 应用 (可选 - 免费版)
+# 在 Cloudflare Dashboard > Speed > Speed 应用 中可以开启：
+# - Auto-Refresh: 定期检查资源更新
+# - Early Hints: 预加载关键资源

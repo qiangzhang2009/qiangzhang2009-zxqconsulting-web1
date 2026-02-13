@@ -17,11 +17,24 @@ interface FloatingElement {
 
 export const SpringDecorations = () => {
   const [elements, setElements] = useState<FloatingElement[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // 检测是否为移动设备
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     // 生成飘落元素
     const newElements: FloatingElement[] = [];
-    const count = 25;
+    // 移动端减少元素数量
+    const count = isMobile ? 8 : 25;
 
     for (let i = 0; i < count; i++) {
       const types: FloatingElement['type'][] = ['snowflake', 'blessing', 'flower', 'gold'];
@@ -47,19 +60,19 @@ export const SpringDecorations = () => {
         id: i,
         symbol,
         left: Math.random() * 100,
-        animationDuration: 10 + Math.random() * 15,
+        animationDuration: isMobile ? 8 + Math.random() * 10 : 10 + Math.random() * 15,
         animationDelay: Math.random() * 10,
-        fontSize: 16 + Math.random() * 20,
+        fontSize: isMobile ? 12 + Math.random() * 14 : 16 + Math.random() * 20,
         type,
       });
     }
 
     setElements(newElements);
-  }, []);
+  }, [isMobile]);
 
   return (
     <div className="pointer-events-none fixed inset-0 overflow-hidden z-[9990]">
-      {/* 飘落元素 */}
+      {/* 飘落元素 - 移动端减少不透明度，避免遮挡 */}
       {elements.map((el) => (
         <div
           key={el.id}
@@ -71,48 +84,48 @@ export const SpringDecorations = () => {
             fontSize: `${el.fontSize}px`,
             animationDuration: `${el.animationDuration}s`,
             animationDelay: `${el.animationDelay}s`,
-            opacity: el.type === 'blessing' ? 0.9 : 0.7,
+            opacity: isMobile ? Math.min(0.5, el.type === 'blessing' ? 0.6 : 0.5) : (el.type === 'blessing' ? 0.9 : 0.7),
           }}
         >
           {el.symbol}
         </div>
       ))}
 
-      {/* 左侧装饰 - 奔腾的骏马 */}
-      <div className="fixed left-4 top-1/4 lantern">
-        <span className="text-6xl filter drop-shadow-lg">🐴</span>
+      {/* 左侧装饰 - 奔腾的骏马 - 移动端隐藏或缩小 */}
+      <div className={`fixed left-4 top-1/4 lantern ${isMobile ? 'hidden sm:block' : ''}`}>
+        <span className={`${isMobile ? 'text-4xl' : 'text-6xl'} filter drop-shadow-lg`}>🐴</span>
       </div>
 
-      {/* 右侧装饰 - 灯笼 */}
-      <div className="fixed right-4 top-1/3 lantern" style={{ animationDelay: '1s' }}>
-        <span className="text-5xl filter drop-shadow-lg">🏮</span>
+      {/* 右侧装饰 - 灯笼 - 移动端调整位置 */}
+      <div className={`fixed right-4 top-1/3 lantern ${isMobile ? 'hidden sm:block' : ''}`} style={{ animationDelay: '1s' }}>
+        <span className={`${isMobile ? 'text-3xl' : 'text-5xl'} filter drop-shadow-lg`}>🏮</span>
       </div>
 
-      {/* 右上角装饰 - 马蹄铁 */}
+      {/* 右上角装饰 - 马蹄铁 - 移动端缩小 */}
       <div className="fixed right-8 top-20 gold-sparkle">
-        <span className="text-5xl">🧧</span>
+        <span className={`${isMobile ? 'text-3xl' : 'text-5xl'}`}>🧧</span>
       </div>
 
-      {/* 左上角装饰 - 星星 */}
-      <div className="fixed left-20 top-24 gold-sparkle" style={{ animationDelay: '0.5s' }}>
-        <span className="text-4xl">🌟</span>
+      {/* 左上角装饰 - 星星 - 移动端缩小并调整位置 */}
+      <div className="fixed left-4 top-20 gold-sparkle sm:left-20 sm:top-24" style={{ animationDelay: '0.5s' }}>
+        <span className={`${isMobile ? 'text-2xl' : 'text-4xl'}`}>🌟</span>
       </div>
 
-      {/* 福字装饰 */}
-      <div className="fixed right-16 bottom-1/4 fortune-text">
-        <span className="text-5xl text-[#C41E3A]">福</span>
+      {/* 福字装饰 - 移动端调整位置 */}
+      <div className="fixed right-4 bottom-1/4 fortune-text sm:right-16">
+        <span className={`${isMobile ? 'text-3xl' : 'text-5xl'} text-[#C41E3A]`}>福</span>
       </div>
 
-      {/* 底部装饰 - 鞭炮 */}
-      <div className="fixed left-8 bottom-32 lantern" style={{ animationDelay: '2s' }}>
+      {/* 底部装饰 - 鞭炮 - 移动端隐藏 */}
+      <div className="fixed left-8 bottom-32 lantern sm:block hidden" style={{ animationDelay: '2s' }}>
         <span className="text-5xl">🎊</span>
       </div>
 
-      {/* 更多飘落效果 - 仅在视口内显示 */}
-      <div className="fixed top-0 left-1/4 gold-sparkle" style={{ animationDelay: '3s' }}>
+      {/* 更多飘落效果 - 仅在桌面显示 */}
+      <div className="fixed top-0 left-1/4 gold-sparkle sm:block hidden" style={{ animationDelay: '3s' }}>
         <span className="text-3xl">✨</span>
       </div>
-      <div className="fixed top-0 right-1/3 gold-sparkle" style={{ animationDelay: '4s' }}>
+      <div className="fixed top-0 right-1/3 gold-sparkle sm:block hidden" style={{ animationDelay: '4s' }}>
         <span className="text-3xl">⭐</span>
       </div>
     </div>

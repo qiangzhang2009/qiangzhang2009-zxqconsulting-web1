@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Menu, X, Globe, Star } from 'lucide-react';
+import { Menu, X, Globe, Star, Languages } from 'lucide-react';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 
 const Navbar = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -33,6 +33,16 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   };
 
+  // 获取当前语言显示
+  const currentLang = {
+    en: '🇺🇸 English',
+    zh: '🇨🇳 中文',
+    es: '🇪🇸 Español',
+    ja: '🇯🇵 日本語',
+    de: '🇩🇪 Deutsch',
+    fr: '🇫🇷 Français',
+  }[i18n.language] || '🌐 Language';
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
@@ -41,7 +51,7 @@ const Navbar = () => {
           : 'bg-transparent py-5'
       }`}
     >
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between">
           {/* Logo with Horse Year Badge */}
           <a
@@ -50,32 +60,33 @@ const Navbar = () => {
               e.preventDefault();
               scrollToSection('#hero');
             }}
-            className="flex items-center gap-3 group"
+            className="flex items-center gap-2 sm:gap-3 group"
           >
             <div className="relative">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#C41E3A] to-[#FFD700] flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-lg">
-                <Globe className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-[#C41E3A] to-[#FFD700] flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-lg">
+                <Globe className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
               {/* Small horse badge */}
               <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5 shadow-sm">
-                <span className="text-sm">🐴</span>
+                <span className="text-xs sm:text-sm">🐴</span>
               </div>
             </div>
             <div>
-              <span className={`font-serif font-bold text-lg transition-colors duration-300 ${
+              <span className={`font-serif font-bold text-base sm:text-lg transition-colors duration-300 ${
                 isScrolled ? 'text-[#3d352e]' : 'text-[#3d352e]'
               }`}>
                 {t('brand.name')}
               </span>
               <div className="text-xs text-[#C41E3A] font-medium flex items-center gap-1">
-                <Star className="w-3 h-3 fill-current text-[#FFD700]" />
-                2026 马年
+                <Star className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-current text-[#FFD700]" />
+                <span className="hidden xs:inline">2026 马年</span>
+                <span className="xs:hidden">马年</span>
               </div>
             </div>
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-6 lg:gap-8">
             {navLinks.map((link) => (
               <a
                 key={link.name}
@@ -122,7 +133,7 @@ const Navbar = () => {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-gray-200/50 pt-4">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
@@ -131,20 +142,30 @@ const Navbar = () => {
                     e.preventDefault();
                     scrollToSection(link.href);
                   }}
-                  className="text-[#3d352e] hover:text-[#C41E3A] font-medium transition-colors"
+                  className="text-[#3d352e] hover:text-[#C41E3A] font-medium transition-colors py-2"
                 >
                   {link.name}
                 </a>
               ))}
-              <div className="flex items-center gap-4 mt-2">
-                <LanguageSwitcher />
-                <button
-                  onClick={() => scrollToSection('#contact')}
-                  className="btn-spring text-sm flex-1"
-                >
-                  🧧 {t('footer.cta')}
-                </button>
+              
+              {/* Mobile Language Switcher - 更明显的入口 */}
+              <div className="mt-2 pt-3 border-t border-gray-100">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-[#3d352e]">
+                    <Languages className="w-5 h-5" />
+                    <span className="font-medium">🌐 {currentLang}</span>
+                  </div>
+                  <LanguageSwitcher />
+                </div>
               </div>
+              
+              {/* Mobile CTA Button */}
+              <button
+                onClick={() => scrollToSection('#contact')}
+                className="btn-spring text-sm mt-2 w-full justify-center"
+              >
+                🧧 {t('footer.cta')}
+              </button>
             </div>
           </div>
         )}
