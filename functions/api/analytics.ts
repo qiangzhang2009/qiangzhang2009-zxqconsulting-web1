@@ -35,11 +35,11 @@ export async function onRequestGet(context) {
   }
 
   try {
-    // 查询1: 获取总体统计数据 - 简化版
-    const totalQuery = `query { viewer { zones(filter: { zoneTag: "${env.CF_ZONE_ID}" }) { httpRequests1dGroups(limit: 364) { sum { pageViews requests } uniq { uniques } } } } }`;
+    // 查询1: 获取总体统计数据 - 完全移除 filter
+    const totalQuery = `query { viewer { zones(zoneTag: "${env.CF_ZONE_ID}") { httpRequests1dGroups(limit: 364) { sum { pageViews requests } uniq { uniques } } } } }`;
 
-    // 查询2: 获取按国家的请求数据 - 简化版
-    const countryQuery = `query { viewer { zones(filter: { zoneTag: "${env.CF_ZONE_ID}" }) { httpRequestsByCountryGroups(limit: 20, orderBy: [requests_DESC]) { country: clientCountryName requests pageViews } } } }`;
+    // 查询2: 获取按国家的请求数据
+    const countryQuery = `query { viewer { zones(zoneTag: "${env.CF_ZONE_ID}") { httpRequestsByCountryGroups(limit: 20, orderBy: [requests_DESC]) { country: clientCountryName requests pageViews } } } }`;
 
     // 并行执行两个查询
     const [totalResponse, countryResponse] = await Promise.all([
