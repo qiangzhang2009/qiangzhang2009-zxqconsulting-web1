@@ -39,7 +39,7 @@ export async function onRequestGet(context) {
     const since = new Date(Date.now() - 364 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
     const until = new Date().toISOString().split('T')[0];
 
-    // 查询: 获取总体统计数据和国家分布 - 使用 httpRequests1dGroups 的 countryMap
+    // 查询: 获取总体统计数据和国家分布 - countryMap 在 sum 里面
     const query = {
       query: `
         query GetZoneAnalytics($zoneTag: string!, $since: string!, $until: string!) {
@@ -52,14 +52,13 @@ export async function onRequestGet(context) {
                 sum {
                   pageViews
                   requests
+                  countryMap {
+                    clientCountryName
+                    requests
+                  }
                 }
                 uniq {
                   uniques
-                }
-                countryMap {
-                  clientCountryName
-                  requests
-                  pageViews
                 }
               }
             }
@@ -99,21 +98,20 @@ export async function onRequestGet(context) {
     let totalPageViews = 0;
     let totalUniques = 0;
     let totalRequests = 0;
-    const countryMapData: Record<string, { requests: number; pageViews: number }> = {};
+    const countryMapData: Record<string, { requests: number }> = {};
     
     dailyGroups.forEach((day: any) => {
       totalPageViews += day?.sum?.pageViews || 0;
       totalRequests += day?.sum?.requests || 0;
       totalUniques += day?.uniq?.uniques || 0;
       
-      // 聚合国家数据
-      const countryMap = day?.countryMap || [];
-      countryMap.forEach((c: { clientCountryName: string; requests: number; pageViews: number }) => {
+      // 聚合国家数据 - countryMap 在 sum 里面
+      const countryMap = day?.sum?.countryMap || [];
+      countryMap.forEach((c: { clientCountryName: string; requests: number }) => {
         if (!countryMapData[c.clientCountryName]) {
-          countryMapData[c.clientCountryName] = { requests: 0, pageViews: 0 };
+          countryMapData[c.clientCountryName] = { requests: 0 };
         }
         countryMapData[c.clientCountryName].requests += c.requests || 0;
-        countryMapData[c.clientCountryName].pageViews += c.pageViews || 0;
       });
     });
 
@@ -121,8 +119,8 @@ export async function onRequestGet(context) {
     const countryArray = Object.entries(countryMapData)
       .map(([country, values]) => ({
         country,
-        visitors: values.pageViews || values.requests,
-        percentage: totalPageViews > 0 ? Math.round((values.pageViews / totalPageViews) * 100 * 10) / 10 : 0
+        visitors: values.requests,
+        percentage: totalRequests > 0 ? Math.round((values.requests / totalRequests) * 100 * 10) / 10 : 0
       }))
       .filter((c) => c.visitors > 0)
       .sort((a, b) => b.visitors - a.visitors)
