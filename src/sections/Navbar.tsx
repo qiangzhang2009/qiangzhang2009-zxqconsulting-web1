@@ -75,8 +75,14 @@ const Navbar = () => {
             </div>
           </a>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - Language Switcher + Nav Links */}
           <div className="hidden md:flex items-center gap-6 lg:gap-8">
+            {/* Language Switcher - First Position */}
+            <div className="relative">
+              <LanguageSwitcher />
+            </div>
+            
+            {/* Nav Links */}
             {navLinks.map((link) => (
               <a
                 key={link.name}
@@ -96,9 +102,8 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Desktop Language Switcher & CTA Button */}
+          {/* Desktop CTA Button (Right) */}
           <div className="hidden md:flex items-center gap-4">
-            <LanguageSwitcher />
             <button
               onClick={() => scrollToSection('#contact')}
               className="btn-spring text-sm"
