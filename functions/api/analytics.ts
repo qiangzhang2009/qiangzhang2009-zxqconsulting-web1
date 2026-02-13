@@ -50,7 +50,8 @@ export async function onRequestGet(context) {
                   requests
                   countryMap {
                     requests
-                    pageViews
+                    bytes
+                    threats
                     clientCountryName
                   }
                 }
@@ -106,31 +107,31 @@ export async function onRequestGet(context) {
     let totalRequests = 0;
     
     // 汇总国家数据
-    const countryMap: Record<string, { pageViews: number; uniqueVisitors: number }> = {};
+    const countryMap: Record<string, { requests: number; bytes: number }> = {};
 
     dailyGroups.forEach(group => {
       totalPageViews += group.sum?.pageViews || 0;
       totalUniques += group.uniq?.uniques || 0;
       totalRequests += group.sum?.requests || 0;
       
-      // 解析 countryMap
+      // 解析 countryMap (注意：只有 requests, bytes, threats, clientCountryName)
       const countryList = group.sum?.countryMap || [];
-      countryList.forEach((c: { clientCountryName: string; pageViews: number; requests: number }) => {
+      countryList.forEach((c: { clientCountryName: string; requests: number; bytes: number }) => {
         const country = c.clientCountryName || 'Unknown';
         if (!countryMap[country]) {
-          countryMap[country] = { pageViews: 0, uniqueVisitors: 0 };
+          countryMap[country] = { requests: 0, bytes: 0 };
         }
-        countryMap[country].pageViews += c.pageViews || 0;
-        // countryMap 只有 requests，没有 uniqueVisitors
+        countryMap[country].requests += c.requests || 0;
+        countryMap[country].bytes += c.bytes || 0;
       });
     });
 
-    // 转换为数组并排序
+    // 转换为数组并排序 (使用 requests 作为排序依据)
     const countryArray = Object.entries(countryMap)
       .map(([country, stats]) => ({
         country,
-        pageViews: stats.pageViews,
-        uniqueVisitors: stats.pageViews // 用 pageViews 作为估算
+        pageViews: stats.requests, // 使用 requests 作为 pageViews 近似值
+        uniqueVisitors: Math.round(stats.requests * 0.6) // 估算 uniqueVisitors
       }))
       .sort((a, b) => b.pageViews - a.pageViews)
       .slice(0, 10);
