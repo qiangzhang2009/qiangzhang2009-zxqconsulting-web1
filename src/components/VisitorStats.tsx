@@ -44,19 +44,32 @@ const fetchCloudflareStats = async (): Promise<{
         FR: { name: '法国', nameEn: 'France', flag: '🇫🇷' },
         IN: { name: '印度', nameEn: 'India', flag: '🇮🇳' },
         KR: { name: '韩国', nameEn: 'South Korea', flag: '🇰🇷' },
+        TW: { name: '台湾', nameEn: 'Taiwan', flag: '🇹🇼' },
+        CH: { name: '瑞士', nameEn: 'Switzerland', flag: '🇨🇭' },
+        SG: { name: '新加坡', nameEn: 'Singapore', flag: '🇸🇬' },
+        BE: { name: '比利时', nameEn: 'Belgium', flag: '🇧🇪' },
+        NL: { name: '荷兰', nameEn: 'Netherlands', flag: '🇳🇱' },
+        PL: { name: '波兰', nameEn: 'Poland', flag: '🇵🇱' },
       };
       
+      // 计算总访问量
+      const totalCountryVisitors = data.countryMap?.reduce((sum: number, c: any) => sum + (c.visitors || c.pageViews || c.uniqueVisitors || 0), 0) || 0;
+      
       const topCountries = (data.countryMap || [])
-        .sort((a: any, b: any) => b.pageViews - a.pageViews)
+        .sort((a: any, b: any) => (b.visitors || b.pageViews || b.uniqueVisitors || 0) - (a.visitors || a.pageViews || a.uniqueVisitors || 0))
         .slice(0, 8)
-        .map((c: any) => ({
-          code: c.country,
-          name: countryNames[c.country]?.name || c.country,
-          nameEn: countryNames[c.country]?.nameEn || c.country,
-          flag: countryNames[c.country]?.flag || '🌍',
-          percentage: pageViews > 0 ? Math.round((c.pageViews / pageViews) * 100) : 0,
-          visitors: c.uniqueVisitors,
-        }));
+        .map((c: any) => {
+          const visitors = c.visitors || c.pageViews || c.uniqueVisitors || 0;
+          const percentage = totalCountryVisitors > 0 ? Math.round((visitors / totalCountryVisitors) * 100) : 0;
+          return {
+            code: c.country,
+            name: countryNames[c.country]?.name || c.country,
+            nameEn: countryNames[c.country]?.nameEn || c.country,
+            flag: countryNames[c.country]?.flag || '🌍',
+            percentage,
+            visitors,
+          };
+        });
       
       return {
         totalVisitors,
