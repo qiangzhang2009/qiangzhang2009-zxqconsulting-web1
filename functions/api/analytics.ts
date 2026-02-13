@@ -35,14 +35,12 @@ export async function onRequestGet(context) {
   }
 
   try {
-    // 使用 httpRequestsAdaptiveGroups 来获取国家数据
-    // 这是更灵活的 API，可以按多个维度分组
+    // 使用 httpRequests1dGroups 获取日数据
     const graphqlQuery = {
       query: `
         query GetZoneAnalytics($zoneId: string!, $since: DateTime!, $until: DateTime!) {
           viewer {
             zones(filter: { zoneTag: $zoneId }) {
-              # 日请求汇总
               httpRequests1dGroups(limit: 30, orderBy: [date_ASC], filter: {
                 date_geq: $since,
                 date_leq: $until
@@ -50,28 +48,17 @@ export async function onRequestGet(context) {
                 sum {
                   pageViews
                   requests
+                  countryMap {
+                    requests
+                    pageViews
+                    clientCountryName
+                  }
                 }
                 uniq {
                   uniques
                 }
                 dimensions {
                   date
-                }
-              }
-              # 按国家分组的请求数据
-              httpRequestsAdaptiveGroups(limit: 20, filter: {
-                date_geq: $since,
-                date_leq: $until
-              }) {
-                sum {
-                  pageViews
-                  requests
-                }
-                uniq {
-                  uniques
-                }
-                dimensions {
-                  country
                 }
               }
             }
@@ -112,29 +99,30 @@ export async function onRequestGet(context) {
       throw new Error('No data returned from GraphQL API');
     }
 
-    // 解析日请求数据 - 获取总访问量
+    // 解析日请求数据 - 获取总访问量和国家分布
     const dailyGroups = zoneData.httpRequests1dGroups || [];
     let totalPageViews = 0;
     let totalUniques = 0;
     let totalRequests = 0;
+    
+    // 汇总国家数据
+    const countryMap: Record<string, { pageViews: number; uniqueVisitors: number }> = {};
 
     dailyGroups.forEach(group => {
       totalPageViews += group.sum?.pageViews || 0;
       totalUniques += group.uniq?.uniques || 0;
       totalRequests += group.sum?.requests || 0;
-    });
-
-    // 解析国家数据
-    const countryGroups = zoneData.httpRequestsAdaptiveGroups || [];
-    const countryMap: Record<string, { pageViews: number; uniqueVisitors: number }> = {};
-
-    countryGroups.forEach(group => {
-      const country = group.dimensions?.country || 'Unknown';
-      if (!countryMap[country]) {
-        countryMap[country] = { pageViews: 0, uniqueVisitors: 0 };
-      }
-      countryMap[country].pageViews += group.sum?.pageViews || 0;
-      countryMap[country].uniqueVisitors += group.uniq?.uniques || 0;
+      
+      // 解析 countryMap
+      const countryList = group.sum?.countryMap || [];
+      countryList.forEach((c: { clientCountryName: string; pageViews: number; requests: number }) => {
+        const country = c.clientCountryName || 'Unknown';
+        if (!countryMap[country]) {
+          countryMap[country] = { pageViews: 0, uniqueVisitors: 0 };
+        }
+        countryMap[country].pageViews += c.pageViews || 0;
+        // countryMap 只有 requests，没有 uniqueVisitors
+      });
     });
 
     // 转换为数组并排序
@@ -142,7 +130,7 @@ export async function onRequestGet(context) {
       .map(([country, stats]) => ({
         country,
         pageViews: stats.pageViews,
-        uniqueVisitors: stats.uniqueVisitors
+        uniqueVisitors: stats.pageViews // 用 pageViews 作为估算
       }))
       .sort((a, b) => b.pageViews - a.pageViews)
       .slice(0, 10);
