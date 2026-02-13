@@ -41,7 +41,7 @@ export async function onRequestGet(context) {
         query GetZoneAnalytics($zoneId: string!, $since: DateTime!, $until: DateTime!) {
           viewer {
             zones(filter: { zoneTag: $zoneId }) {
-              httpRequests1dGroups(limit: 365, orderBy: [date_ASC], filter: {
+              httpRequests1dGroups(limit: 364, orderBy: [date_ASC], filter: {
                 date_geq: $since,
                 date_leq: $until
               }) {
@@ -68,8 +68,8 @@ export async function onRequestGet(context) {
       `,
       variables: {
         zoneId: env.CF_ZONE_ID,
-        // 获取过去一年的所有数据
-        since: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        // Cloudflare API 限制：时间范围不能超过 31539600 秒（约 364 天）
+        since: new Date(Date.now() - 364 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
         until: new Date().toISOString().split('T')[0]
       }
     };
