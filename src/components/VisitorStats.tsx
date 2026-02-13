@@ -175,12 +175,12 @@ const VisitorStats = () => {
             </h2>
             <div className="mt-8 p-8 bg-white/5 rounded-2xl border border-white/10 max-w-md mx-auto">
               <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
-              <p className="text-slate-300 mb-2">加载失败</p>
+              <p className="text-slate-300 mb-2">{t('stats.loadFailed', 'Load Failed')}</p>
               <p className="text-slate-500 text-sm font-mono bg-slate-800 p-2 rounded">
                 {error}
               </p>
               <p className="text-slate-500 text-sm mt-2">
-                请打开浏览器控制台 (F12) 查看详细日志
+                {t('stats.checkConsole', 'Please check browser console (F12) for details')}
               </p>
             </div>
           </div>
@@ -324,7 +324,7 @@ const VisitorStats = () => {
         <div className="text-center mt-8 text-slate-500 text-sm">
           <span className="inline-flex items-center gap-1">
             <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-            {t('stats.dataRealTime', '数据来自 Cloudflare Analytics · 实时更新')}: {new Date().toLocaleString('zh-CN')}
+            {t('stats.dataRealTime', 'Data from Cloudflare Analytics · Real-time')}: {new Date().toLocaleString(i18n.language === 'zh' ? 'zh-CN' : 'en-US')}
           </span>
         </div>
       </div>

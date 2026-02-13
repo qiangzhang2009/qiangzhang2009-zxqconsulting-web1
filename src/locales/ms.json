@@ -80,7 +80,7 @@
     "features": {
       "local": { "title": "Kepakaran Regional", "description": "Pengurus residen di Osaka, Jepun dan Itali." },
       "ai": { "title": "Pempoweredan AI", "description": "Agen AI yang terintegrasi dalam seluruh proses pengembangan global." },
-      "expertise": { "title": "Pengkhususan Industri", "description": "Servis mendalam全过程 untuk sektor TCM/Kesihatan." }
+      "expertise": { "title": "Pengkhususan Industri", "description": "Servis lengkap untuk sektor TCM/Kesihatan." }
     }
   },
   "markets": {
@@ -116,7 +116,7 @@
       "li": { "name": "Li Jing", "region": "Pengerusi Jepun/ASEAN", "phoneCn": "(+86) 138 166 89487", "phoneJp": "(+81) 080 962 86389", "email": "yuqian@zxqconsulting.com" },
       "liu": { "name": "Liu Xiao", "region": "Pengerusi Australia/HK", "phoneCn": "(+86) 182 177 94992", "phoneAu": "(+61) 466 981 227", "email": "dianaliu@zxqconsulting.com" }
     },
-    "social": "WeChat: 张小强出海",
+    "social": "WeChat/Video: Zhang Xiaoqiang Global",
     "form": { "title": "Hantar Pertanyaan", "name": "Nama", "namePlaceholder": "Masukkan nama anda", "email": "Emel", "emailPlaceholder": "anda@emel.com", "phone": "Telefon", "phonePlaceholder": "(+86)", "company": "Syarikat", "companyPlaceholder": "Nama syarikat", "message": "Kandungan", "messagePlaceholder": "Terangkan keperluan anda...", "submit": "Hantar" }
   },
   "footer": {

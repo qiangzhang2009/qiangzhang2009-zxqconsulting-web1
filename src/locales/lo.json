@@ -80,7 +80,7 @@
     "features": {
       "local": { "title": "ความเชี่ยวชาญระดับภูมิภาค", "description": "ผู้จัดการประจำในโอซาก้า ญี่ปุ่น และอิตาลี" },
       "ai": { "title": "พลัง AI", "description": "ตัวแทน AI ที่ผสานรวมอย่างลึกซึ้งในกระบวนการขยายตัวสู่ระดับโลกทั้งหมด" },
-      "expertise": { "title": "ความเชี่ยวชาญเฉพาะทาง", "description": "บริการเชิงลึกแบบ全过程 สำหรับภาค TCM/สุขภาพ" }
+      "expertise": { "title": "ความเชี่ยวชาญเฉพาะทาง", "description": "บริการครบวงจรสำหรับภาค TCM/สุขภาพ" }
     }
   },
   "markets": {
@@ -116,7 +116,7 @@
       "li": { "name": "Li Jing", "region": "หัวหน้าญี่ปุ่น/อาเซียน", "phoneCn": "(+86) 138 166 89487", "phoneJp": "(+81) 080 962 86389", "email": "yuqian@zxqconsulting.com" },
       "liu": { "name": "Liu Xiao", "region": "หัวหน้าออสเตรเลีย/HK", "phoneCn": "(+86) 182 177 94992", "phoneAu": "(+61) 466 981 227", "email": "dianaliu@zxqconsulting.com" }
     },
-    "social": "WeChat: 张小强出海",
+    "social": "WeChat/Video: Zhang Xiaoqiang Global",
     "form": { "title": "ส่งคำถาม", "name": "ชื่อ", "namePlaceholder": "กรุณากรอกชื่อของคุณ", "email": "อีเมล", "emailPlaceholder": "คุณ@อีเมล.com", "phone": "โทรศัพท์", "phonePlaceholder": "(+86)", "company": "บริษัท", "companyPlaceholder": "ชื่อบริษัท", "message": "เนื้อหา", "messagePlaceholder": "อธิบายความต้องการของคุณ...", "submit": "ส่ง" }
   },
   "footer": {

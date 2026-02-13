@@ -100,7 +100,7 @@
   },
   "testimonials": {
     "title": "고객 평가",
-    "subtitle": "他们在说什么",
+    "subtitle": "그들이 무엇을 말하는지",
     "description": "고객의 실제 피드백",
     "items": {
       "wang": { "quote": "팀이 일본 시장 진출에 성공하도록 도와주었습니다.", "name": "Wang Xiaoming", "position": "CEO, 의료기기 회사" }
@@ -116,7 +116,7 @@
       "li": { "name": "Li Jing", "region": "일본/아세안 총괄", "phoneCn": "(+86) 138 166 89487", "phoneJp": "(+81) 080 962 86389", "email": "yuqian@zxqconsulting.com" },
       "liu": { "name": "Liu Xiao", "region": "호주/홍콩 총괄", "phoneCn": "(+86) 182 177 94992", "phoneAu": "(+61) 466 981 227", "email": "dianaliu@zxqconsulting.com" }
     },
-    "social": "위챗: 张小强出海",
+    "social": "WeChat/Video: Zhang Xiaoqiang Global",
     "form": { "title": "문의 보내기", "name": "이름", "namePlaceholder": "이름을 입력하세요", "email": "이메일", "emailPlaceholder": "your@email.com", "phone": "전화", "phonePlaceholder": "(+86)", "company": "회사명", "companyPlaceholder": "회사명을 입력하세요", "message": "문의 내용", "messagePlaceholder": "문의 내용을 설명하세요...", "submit": "보내기" }
   },
   "footer": {

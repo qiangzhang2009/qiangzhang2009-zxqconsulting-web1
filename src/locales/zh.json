@@ -181,7 +181,9 @@
     "noDataDesc": "请在 Cloudflare Dashboard 中配置 Analytics，或等待数据收集",
     "viewAnalytics": "查看 Cloudflare 分析",
     "dataSource": "数据来源：Cloudflare Analytics",
-    "dataRealTime": "数据来自 Cloudflare Analytics · 实时更新"
+    "dataRealTime": "数据来自 Cloudflare Analytics · 实时更新",
+    "loadFailed": "加载失败",
+    "checkConsole": "请打开浏览器控制台 (F12) 查看详细日志"
   },
   "blog": {
     "title": "出海攻略",

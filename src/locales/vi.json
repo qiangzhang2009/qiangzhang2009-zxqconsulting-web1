@@ -80,7 +80,7 @@
     "features": {
       "local": { "title": "Chuyên Môn Vùng", "description": "Quản lý thường trú tại Osaka, Nhật Bản và Italy." },
       "ai": { "title": "Trao Quyền AI", "description": "Đại lý AI được tích hợp sâu vào toàn bộ quá trình mở rộng toàn cầu." },
-      "expertise": { "title": "Chuyên Môn Ngành", "description": "Dịch vụ chuyên sâu全过程 cho lĩnh vực TCM/Sức khỏe." }
+      "expertise": { "title": "Chuyên Môn Ngành", "description": "Dịch vụ toàn diện cho lĩnh vực TCM/Sức khỏe." }
     }
   },
   "markets": {
@@ -116,7 +116,7 @@
       "li": { "name": "Li Jing", "region": "Trưởng Nhóm Nhật Bản/ASEAN", "phoneCn": "(+86) 138 166 89487", "phoneJp": "(+81) 080 962 86389", "email": "yuqian@zxqconsulting.com" },
       "liu": { "name": "Liu Xiao", "region": "Trưởng Nhóm Úc/HK", "phoneCn": "(+86) 182 177 94992", "phoneAu": "(+61) 466 981 227", "email": "dianaliu@zxqconsulting.com" }
     },
-    "social": "WeChat: 张小强出海",
+    "social": "WeChat/Video: Zhang Xiaoqiang Global",
     "form": { "title": "Gửi Thắc Mắc", "name": "Tên", "namePlaceholder": "Vui lòng nhập tên của bạn", "email": "Email", "emailPlaceholder": "ban@email.com", "phone": "Điện Thoại", "phonePlaceholder": "(+86)", "company": "Công Ty", "companyPlaceholder": "Tên công ty", "message": "Nội Dung", "messagePlaceholder": "Mô tả nhu cầu của bạn...", "submit": "Gửi" }
   },
   "footer": {

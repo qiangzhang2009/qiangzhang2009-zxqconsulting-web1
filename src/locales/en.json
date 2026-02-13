@@ -89,7 +89,7 @@
     "features": {
       "local": {
         "title": "Regional Expertise",
-        "description": "Resident manager in Osaka, Japan; deep布局 in Europe (Italy), providing localized express services to directly solve the last mile challenge of overseas implementation."
+        "description": "Resident manager in Osaka, Japan; deep expertise in Europe (Italy), providing localized express services to directly solve the last mile challenge of overseas implementation."
       },
       "ai": {
         "title": "AI Empowerment",
@@ -117,7 +117,7 @@
     },
     "europe": {
       "title": "Europe (Italy)",
-      "description": "Deep布局 in European markets with Italy as the core hub",
+      "description": "Deep expertise in European markets with Italy as the core hub",
       "features": {
         "hub": "Italy Strategic Hub",
         "network": "European Country Cooperation Network",
@@ -181,7 +181,9 @@
     "noDataDesc": "Please configure Analytics in Cloudflare Dashboard, or wait for data collection",
     "viewAnalytics": "View Cloudflare Analytics",
     "dataSource": "Data Source: Cloudflare Analytics",
-    "dataRealTime": "Data from Cloudflare Analytics · Real-time"
+    "dataRealTime": "Data from Cloudflare Analytics · Real-time",
+    "loadFailed": "Load Failed",
+    "checkConsole": "Please check browser console (F12) for details"
   },
   "blog": {
     "title": "Overseas Strategy",
@@ -234,7 +236,7 @@
         "email": "dianaliu@zxqconsulting.com"
       }
     },
-    "social": "WeChat/Video Account: 张小强出海",
+    "social": "WeChat/Video Account: Zhang Xiaoqiang Global",
     "form": {
       "title": "Submit Inquiry",
       "name": "Name",

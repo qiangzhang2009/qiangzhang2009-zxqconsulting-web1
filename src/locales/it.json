@@ -80,7 +80,7 @@
     "features": {
       "local": { "title": "Expertise Regionale", "description": "Manager residente a Osaka, Giappone e Italia." },
       "ai": { "title": "Empowerment IA", "description": "Agenti IA profondamente integrati in tutto il processo di espansione globale." },
-      "expertise": { "title": "Specializzazione Settoriale", "description": "Servizi profondi全过程 per i settori MTC/Salute." }
+      "expertise": { "title": "Specializzazione Settoriale", "description": "Servizi completi per i settori MTC/Salute." }
     }
   },
   "markets": {
@@ -116,7 +116,7 @@
       "li": { "name": "Li Jing", "region": "Responsabile Giappone/ASEAN", "phoneCn": "(+86) 138 166 89487", "phoneJp": "(+81) 080 962 86389", "email": "yuqian@zxqconsulting.com" },
       "liu": { "name": "Liu Xiao", "region": "Responsabile Australia/HK", "phoneCn": "(+86) 182 177 94992", "phoneAu": "(+61) 466 981 227", "email": "dianaliu@zxqconsulting.com" }
     },
-    "social": "WeChat: 张小强出海",
+    "social": "WeChat/Video: Zhang Xiaoqiang Global",
     "form": { "title": "Invia Richiesta", "name": "Nome", "namePlaceholder": "Inserisci il tuo nome", "email": "Email", "emailPlaceholder": "tua@email.com", "phone": "Telefono", "phonePlaceholder": "(+86)", "company": "Azienda", "companyPlaceholder": "Nome dell'azienda", "message": "Contenuto", "messagePlaceholder": "Descrivi le tue esigenze...", "submit": "Invia" }
   },
   "footer": {

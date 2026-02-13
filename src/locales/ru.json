@@ -80,7 +80,7 @@
     "features": {
       "local": { "title": "Региональная экспертиза", "description": "Менеджер-резидент в Осаке, Япония и Италия." },
       "ai": { "title": "ИИ-потенциал", "description": "ИИ-агенты глубоко интегрированы во весь процесс глобальной экспансии." },
-      "expertise": { "title": "Отраслевая специализация", "description": "Глубокие услуги全过程 для секторов ТКМ/Здравоохранения." }
+      "expertise": { "title": "Отраслевая специализация", "description": "Полный спектр услуг для секторов ТКМ/Здравоохранения." }
     }
   },
   "markets": {
@@ -116,7 +116,7 @@
       "li": { "name": "Li Jing", "region": "Руководитель по Японии/АСЕАН", "phoneCn": "(+86) 138 166 89487", "phoneJp": "(+81) 080 962 86389", "email": "yuqian@zxqconsulting.com" },
       "liu": { "name": "Liu Xiao", "region": "Руководитель по Австралии/ГК", "phoneCn": "(+86) 182 177 94992", "phoneAu": "(+61) 466 981 227", "email": "dianaliu@zxqconsulting.com" }
     },
-    "social": "WeChat: 张小强出海",
+    "social": "WeChat/Video: Zhang Xiaoqiang Global",
     "form": { "title": "Отправить запрос", "name": "Имя", "namePlaceholder": "Введите ваше имя", "email": "Email", "emailPlaceholder": "ваш@email.com", "phone": "Телефон", "phonePlaceholder": "(+86)", "company": "Компания", "companyPlaceholder": "Название компании", "message": "Содержание", "messagePlaceholder": "Опишите ваши потребности...", "submit": "Отправить" }
   },
   "footer": {

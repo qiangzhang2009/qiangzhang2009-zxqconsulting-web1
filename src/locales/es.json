@@ -116,7 +116,7 @@
       "li": { "name": "Li Jing", "region": "Líder de Japón/SEA", "phoneCn": "(+86) 138 166 89487", "phoneJp": "(+81) 080 962 86389", "email": "yuqian@zxqconsulting.com" },
       "liu": { "name": "Liu Xiao", "region": "Líder de Australia/HK", "phoneCn": "(+86) 182 177 94992", "phoneAu": "(+61) 466 981 227", "email": "dianaliu@zxqconsulting.com" }
     },
-    "social": "WeChat: 张小强出海",
+    "social": "WeChat/Video: Zhang Xiaoqiang Global",
     "form": { "title": "Enviar Consulta", "name": "Nombre", "namePlaceholder": "Ingrese su nombre", "email": "Email", "emailPlaceholder": "su@email.com", "phone": "Teléfono", "phonePlaceholder": "(+86)", "company": "Empresa", "companyPlaceholder": "Nombre de empresa", "message": "Consulta", "messagePlaceholder": "Describa sus necesidades...", "submit": "Enviar" }
   },
   "footer": {
