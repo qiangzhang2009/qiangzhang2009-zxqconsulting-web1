@@ -1,7 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Menu, X, Globe, Star, Languages } from 'lucide-react';
-import LanguageSwitcher from '../components/LanguageSwitcher';
+
+const languages = [
+  { code: 'en', name: 'English', flag: '🇺🇸' },
+  { code: 'zh', name: '中文', flag: '🇨🇳' },
+  { code: 'es', name: 'Español', flag: '🇪🇸' },
+  { code: 'ja', name: '日本語', flag: '🇯🇵' },
+  { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+  { code: 'fr', name: 'Français', flag: '🇫🇷' },
+];
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
@@ -33,15 +41,12 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   };
 
-  // 获取当前语言显示
-  const currentLang = {
-    en: '🇺🇸 English',
-    zh: '🇨🇳 中文',
-    es: '🇪🇸 Español',
-    ja: '🇯🇵 日本語',
-    de: '🇩🇪 Deutsch',
-    fr: '🇫🇷 Français',
-  }[i18n.language] || '🌐 Language';
+  const handleLanguageChange = (langCode: string) => {
+    i18n.changeLanguage(langCode);
+    setIsMobileMenuOpen(false);
+  };
+
+  const currentLang = languages.find(lang => lang.code === i18n.language) || languages[0];
 
   return (
     <nav
@@ -106,9 +111,33 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Language Switcher & CTA Button with Spring Theme */}
+          {/* Desktop Language & CTA */}
           <div className="hidden md:flex items-center gap-4">
-            <LanguageSwitcher />
+            {/* Simple Language Selector */}
+            <div className="relative group">
+              <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-primary-50 transition-colors">
+                <span className="text-lg">{currentLang.flag}</span>
+                <span className="text-sm font-medium text-gray-700">{currentLang.name}</span>
+                <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {/* Dropdown */}
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => handleLanguageChange(lang.code)}
+                    className={`w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-primary-50 transition-colors ${
+                      i18n.language === lang.code ? 'text-[#C41E3A] font-medium' : 'text-gray-700'
+                    }`}
+                  >
+                    <span className="text-lg">{lang.flag}</span>
+                    <span className="text-sm">{lang.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
             <button
               onClick={() => scrollToSection('#contact')}
               className="btn-spring text-sm"
@@ -133,7 +162,7 @@ const Navbar = () => {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-gray-200/50 pt-4">
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
@@ -142,27 +171,43 @@ const Navbar = () => {
                     e.preventDefault();
                     scrollToSection(link.href);
                   }}
-                  className="text-[#3d352e] hover:text-[#C41E3A] font-medium transition-colors py-2"
+                  className="text-[#3d352e] hover:text-[#C41E3A] font-medium transition-colors py-3 px-2 rounded-lg hover:bg-gray-50"
                 >
                   {link.name}
                 </a>
               ))}
               
-              {/* Mobile Language Switcher - 更明显的入口 */}
-              <div className="mt-2 pt-3 border-t border-gray-100">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-[#3d352e]">
-                    <Languages className="w-5 h-5" />
-                    <span className="font-medium">🌐 {currentLang}</span>
-                  </div>
-                  <LanguageSwitcher />
+              {/* Mobile Language Section - Grid Style */}
+              <div className="mt-4 pt-4 border-t border-gray-100">
+                <div className="flex items-center gap-2 px-2 mb-3">
+                  <Languages className="w-5 h-5 text-[#C41E3A]" />
+                  <span className="font-semibold text-[#3d352e]">选择语言</span>
+                  <span className="text-sm text-gray-500">({currentLang.flag} {currentLang.name})</span>
+                </div>
+                
+                {/* Language Grid */}
+                <div className="grid grid-cols-3 gap-2 px-2">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => handleLanguageChange(lang.code)}
+                      className={`flex flex-col items-center justify-center gap-1 py-3 px-2 rounded-lg border-2 transition-all ${
+                        i18n.language === lang.code
+                          ? 'border-[#C41E3A] bg-red-50 text-[#C41E3A]'
+                          : 'border-gray-200 hover:border-[#C41E3A] text-gray-700'
+                      }`}
+                    >
+                      <span className="text-xl">{lang.flag}</span>
+                      <span className="text-xs font-medium">{lang.name}</span>
+                    </button>
+                  ))}
                 </div>
               </div>
               
               {/* Mobile CTA Button */}
               <button
                 onClick={() => scrollToSection('#contact')}
-                className="btn-spring text-sm mt-2 w-full justify-center"
+                className="btn-spring text-sm mt-4 w-full justify-center py-3"
               >
                 🧧 {t('footer.cta')}
               </button>
