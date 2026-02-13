@@ -90,6 +90,7 @@
     "japan": { "title": "일본", "description": "오사카에 상주 매니저.", "features": { "resident": "오사카 상주 매니저", "local": "현지 정책 및 문화", "service": "현지 특화 익스프레스 서비스", "language": "일본어 비즈니스 지원" } },
     "europe": { "title": "유럽 (이탈리아)", "description": "이탈리아를 전략적 허브로.", "features": { "hub": "이탈리아 허브", "network": "유럽 네트워크", "local": "현지 팀", "compliance": "EU 규정 준수 전문가" } },
     "southeast": { "title": "동남아시아", "description": "고성장 신흥 시장.", "features": { "market": "다국가 적용", "growth": "높은 성장", "local": "현지 파트너", "support": "원스톱 서비스" } },
+    "australia": { "title": "호주", "description": "시드니에 상주 매니저.", "features": { "resident": "시드니 상주 매니저", "local": "현지 정책", "service": "로컬 익스프레스 서비스", "language": "영어 지원" } },
     "middleEast": { "title": "중동", "description": "부상하는 블루오션.", "features": { "opportunity": "고급 시장 기회", "partners": "현지 네트워크", "culture": "문화 적응 서비스", "support": "투자 지원" } }
   },
   "stats": {

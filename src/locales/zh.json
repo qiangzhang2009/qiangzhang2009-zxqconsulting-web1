@@ -135,6 +135,16 @@
         "support": "一站式落地服务"
       }
     },
+    "australia": {
+      "title": "澳洲",
+      "description": "悉尼设有常驻负责人，深谙本地政策与商业文化",
+      "features": {
+        "resident": "悉尼常驻负责人",
+        "local": "深谙本地政策与商业文化",
+        "service": "提供\"本地化直通车\"服务",
+        "language": "英语商务支持"
+      }
+    },
     "middleEast": {
       "title": "中东",
       "description": "新兴蓝海市场，高端合作机会",

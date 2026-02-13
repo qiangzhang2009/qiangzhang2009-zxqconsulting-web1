@@ -90,6 +90,7 @@
     "japan": { "title": "Nhật Bản", "description": "Quản lý thường trú tại Osaka.", "features": { "resident": "Quản Lý Thường Trú Tại Osaka", "local": "Chính sách và văn hóa địa phương", "service": "Dịch Vụ Express Địa Phương Hóa", "language": "Hỗ Trợ Kinh Doanh Tiếng Nhật" } },
     "europe": { "title": "Châu Âu (Italy)", "description": "Italy như trung tâm chiến lược.", "features": { "hub": "Trung Tâm Italy", "network": "Mạng Lưới Châu Âu", "local": "Đội Ngũ Địa Phương", "compliance": "Chuyên Gia Tuân Thủ EU" } },
     "southeast": { "title": "Đông Nam Á", "description": "Thị trường mới nổi tăng trưởng cao.", "features": { "market": "Bao Phủ Đa Quốc Gia", "growth": "Tăng Trưởng Cao", "local": "Đối Tác Địa Phương", "support": "Dịch Vụ Trọn Gói" } },
+    "australia": { "title": "Australia", "description": "Quản lý thường trú tại Sydney.", "features": { "resident": "Quản Lý Thường Trú Tại Sydney", "local": "Chính Sách Địa Phương", "service": "Dịch Vụ Nhanh Địa Phương", "language": "Hỗ Trợ Tiếng Anh" } },
     "middleEast": { "title": "Trung Đông", "description": "Đại dương xanh đang nổi lên.", "features": { "opportunity": "Cơ Hội Cao Cấp", "partners": "Mạng Lưới Địa Phương", "culture": "Dịch Vụ Thích Nghi Văn Hóa", "support": "Hỗ Trợ Đầu Tư" } }
   },
   "stats": {

@@ -90,6 +90,7 @@
     "japan": { "title": "Giappone", "description": "Manager residente a Osaka.", "features": { "resident": "Manager Residente a Osaka", "local": "Politiche locali e cultura", "service": "Servizio Express Localizzato", "language": "Supporto in Giapponese" } },
     "europe": { "title": "Europa (Italia)", "description": "L'Italia come hub strategico.", "features": { "hub": "Hub Italia", "network": "Rete europea", "local": "Team locale", "compliance": "Esperti Conformità UE" } },
     "southeast": { "title": "Sud-Est Asiatico", "description": "Mercati emergenti ad alta crescita.", "features": { "market": "Copertura multi-paese", "growth": "Alta crescita", "local": "Partner locali", "support": "Servizi completi" } },
+    "australia": { "title": "Australia", "description": "Manager residente a Sydney.", "features": { "resident": "Manager Residente a Sydney", "local": "Politiche locali", "service": "Servizio Express Locale", "language": "Supporto Inglese" } },
     "middleEast": { "title": "Medio Oriente", "description": "Oceano blu emergente.", "features": { "opportunity": "Opportunità di alto livello", "partners": "Rete locale", "culture": "Servizi adattamento culturale", "support": "Supporto investimento" } }
   },
   "stats": {

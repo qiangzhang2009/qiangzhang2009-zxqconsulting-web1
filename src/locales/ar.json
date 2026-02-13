@@ -90,6 +90,7 @@
     "japan": { "title": "اليابان", "description": "مدير مقيم في أوساكا.", "features": { "resident": "مدير مقيم في أوساكا", "local": "السياسات المحلية والثقافة", "service": "خدمة快递 محلية", "language": "دعم باللغة اليابانية" } },
     "europe": { "title": "أوروبا (إيطاليا)", "description": "إيطاليا كمركز استراتيجي.", "features": { "hub": "مركز إيطاليا", "network": "الشبكة الأوروبية", "local": "فريق محلي", "compliance": "خبراء الامتثال الأوروبي" } },
     "southeast": { "title": "جنوب شرق آسيا", "description": "أسواق ناشئة عالية النمو.", "features": { "market": "تغطية متعددة الدول", "growth": "نمو مرتفع", "local": "شركاء محليين", "support": "خدمات شاملة" } },
+    "australia": { "title": "أستراليا", "description": "مدير مقيم في سيدني.", "features": { "resident": "مدير مقيم في سيدني", "local": "سياسات محلية", "service": "خدمة محلية سريعة", "language": "دعم اللغة الإنجليزية" } },
     "middleEast": { "title": "الشرق الأوسط", "description": "محيط أزرق ناشئ.", "features": { "opportunity": "فرص عالية المستوى", "partners": "شبكة محلية", "culture": "خدمات التكيف الثقافي", "support": "دعم الاستثمار" } }
   },
   "stats": {

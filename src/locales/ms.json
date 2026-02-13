@@ -90,6 +90,7 @@
     "japan": { "title": "Jepun", "description": "Pengurus residen di Osaka.", "features": { "resident": "Pengurus Residen di Osaka", "local": "Polisi tempatan dan budaya", "service": "Servis Ekspress Terlocalisasi", "language": "Sokongan Perniagaan Jepun" } },
     "europe": { "title": "Eropah (Itali)", "description": "Itali sebagai hab strategik.", "features": { "hub": "Hab Itali", "network": "Rangkaian Eropah", "local": "Pasukan Tempatan", "compliance": "Ahli Pematuhan EU" } },
     "southeast": { "title": "Asia Tenggara", "description": "Pasaran muncul pertumbuhan tinggi.", "features": { "market": "Liputan Multi-Negara", "growth": "Pertumbuhan Tinggi", "local": "Rakan Kongsi Tempatan", "support": "Servis Lengkap" } },
+    "australia": { "title": "Australia", "description": "Pengurus pemastautin di Sydney.", "features": { "resident": "Pengurus Pemastautin di Sydney", "local": "Dasar Tempatan", "service": "Servis Ekspres Tempatan", "language": "Sokongan Bahasa Inggeris" } },
     "middleEast": { "title": "Timur Tengah", "description": "Laut biru muncul.", "features": { "opportunity": "Peluang Aras Tinggi", "partners": "Rangkaian Tempatan", "culture": "Servis Adaptasi Budaya", "support": "Sokongan Pelaburan" } }
   },
   "stats": {

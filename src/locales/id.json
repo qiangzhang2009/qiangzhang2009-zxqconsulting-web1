@@ -90,6 +90,7 @@
     "japan": { "title": "Jepang", "description": "Manajer residen di Osaka.", "features": { "resident": "Manajer Residen di Osaka", "local": "Kebijakan lokal dan budaya", "service": "Layanan Ekspres Terlokalisasi", "language": "Dukungan Bisnis Jepang" } },
     "europe": { "title": "Eropa (Italia)", "description": "Italia sebagai pusat strategis.", "features": { "hub": "Hub Italia", "network": "Jaringan Eropa", "local": "Tim Lokal", "compliance": "Ahli Kepatuhan UE" } },
     "southeast": { "title": "Asia Tenggara", "description": "Pasar berkembang dengan pertumbuhan tinggi.", "features": { "market": "Cakupan Multi-Negara", "growth": "Pertumbuhan Tinggi", "local": "Mitra Lokal", "support": "Layanan Lengkap" } },
+    "australia": { "title": "Australia", "description": "Manajer tinggal di Sydney.", "features": { "resident": "Manajer Tinggal di Sydney", "local": "Kebijakan Lokal", "service": "Layanan Ekspres Lokal", "language": "Dukungan Bahasa Inggris" } },
     "middleEast": { "title": "Timur Tengah", "description": "Laut biru yang berkembang.", "features": { "opportunity": "Peluang Tingkat Tinggi", "partners": "Jaringan Lokal", "culture": "Layanan Adaptasi Budaya", "support": "Dukungan Investasi" } }
   },
   "stats": {

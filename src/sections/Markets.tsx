@@ -59,6 +59,18 @@ const Markets = () => {
       ],
     },
     {
+      id: 'australia',
+      name: t('markets.australia.title'),
+      description: t('markets.australia.description'),
+      position: { x: 85, y: 58 },
+      details: [
+        t('markets.australia.features.resident'),
+        t('markets.australia.features.local'),
+        t('markets.australia.features.service'),
+        t('markets.australia.features.language'),
+      ],
+    },
+    {
       id: 'mena',
       name: t('markets.middleEast.title'),
       description: t('markets.middleEast.description'),
@@ -207,6 +219,16 @@ const Markets = () => {
                   y1="40"
                   x2="72"
                   y2="55"
+                  stroke="#d4a373"
+                  strokeWidth="0.3"
+                  strokeDasharray="2,2"
+                  opacity="0.5"
+                />
+                <line
+                  x1="72"
+                  y1="55"
+                  x2="85"
+                  y2="58"
                   stroke="#d4a373"
                   strokeWidth="0.3"
                   strokeDasharray="2,2"

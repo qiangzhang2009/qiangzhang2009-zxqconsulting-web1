@@ -135,6 +135,16 @@
         "support": "One-Stop Landing Services"
       }
     },
+    "australia": {
+      "title": "Australia",
+      "description": "Resident manager in Sydney, deeply familiar with local policies and business culture",
+      "features": {
+        "resident": "Resident Manager in Sydney",
+        "local": "Deep Understanding of Local Policies and Business Culture",
+        "service": "Localized Express Service",
+        "language": "English Business Support"
+      }
+    },
     "middleEast": {
       "title": "Middle East",
       "description": "Emerging blue ocean market with high-end cooperation opportunities",

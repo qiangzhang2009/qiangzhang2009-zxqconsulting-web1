@@ -90,6 +90,7 @@
     "japan": { "title": "Japan", "description": "Resident Manager in Osaka.", "features": { "resident": "Resident Manager in Osaka", "local": "Lokale Politik und Kultur", "service": "Lokalisierter Express-Service", "language": "Japanische Geschäftsunterstützung" } },
     "europe": { "title": "Europa (Italien)", "description": "Italien als strategischer Hub.", "features": { "hub": "Italien-Hub", "network": "Europäisches Netzwerk", "local": "Lokales Team", "compliance": "EU-Compliance-Experten" } },
     "southeast": { "title": "Südostasien", "description": "Schwellenmärkte mit hohem Wachstum.", "features": { "market": "Mehr Länder Abdeckung", "growth": "Hohes Wachstum", "local": "Lokale Partner", "support": "Komplett-Service" } },
+    "australia": { "title": "Australien", "description": "Ständiger Manager in Sydney.", "features": { "resident": "Ständiger Manager in Sydney", "local": "Lokale Richtlinien", "service": "Express-Service", "language": "Englische Unterstützung" } },
     "middleEast": { "title": "Naher Osten", "description": "Aufstrebender blauer Ozean.", "features": { "opportunity": "High-End-Möglichkeiten", "partners": "Lokales Netzwerk", "culture": "Kulturelle Anpassungsdienste", "support": "Investitionsunterstützung" } }
   },
   "stats": {

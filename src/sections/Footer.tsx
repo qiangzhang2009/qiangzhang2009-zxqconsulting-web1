@@ -27,6 +27,7 @@ const Footer = () => {
         { name: t('markets.japan.title'), href: '#markets' },
         { name: t('markets.europe.title'), href: '#markets' },
         { name: t('markets.southeast.title'), href: '#markets' },
+        { name: t('markets.australia.title'), href: '#markets' },
         { name: t('markets.middleEast.title'), href: '#markets' },
       ],
     },

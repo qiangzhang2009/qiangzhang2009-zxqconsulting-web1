@@ -135,6 +135,16 @@
         "support": "ワンストップ落地サービス"
       }
     },
+    "australia": {
+      "title": "オーストラリア",
+      "description": "シドニーに駐在責任者を配置し、現地政策とビジネス文化に精通",
+      "features": {
+        "resident": "シドニー駐在責任者",
+        "local": "現地政策とビジネス文化に精通",
+        "service": "「ローカル化直通」サービス",
+        "language": "英語ビジネスサポート"
+      }
+    },
     "middleEast": {
       "title": "中東",
       "description": "新興ブルオーシャン市場、ハイエンド協力機会",
