@@ -169,11 +169,19 @@
     "visitorTitle": "全球访客统计数据",
     "visitorDesc": "来自全球各地的企业选择我们的出海服务",
     "totalVisitors": "累计访问",
+    "uniqueVisitors": "独立访客",
+    "pageViews": "页面浏览",
     "countries": "覆盖国家",
     "onlineNow": "在线访客",
     "countryDist": "国家/地区分布",
     "popularPages": "热门页面",
-    "lastUpdate": "最后更新"
+    "lastUpdate": "最后更新",
+    "loading": "加载中...",
+    "noData": "暂无统计数据",
+    "noDataDesc": "请在 Cloudflare Dashboard 中配置 Analytics，或等待数据收集",
+    "viewAnalytics": "查看 Cloudflare 分析",
+    "dataSource": "数据来源：Cloudflare Analytics",
+    "dataRealTime": "数据来自 Cloudflare Analytics · 实时更新"
   },
   "blog": {
     "title": "出海攻略",
@@ -181,7 +189,9 @@
     "dailyUpdate": "每日更新",
     "readMore": "阅读全文",
     "viewMore": "查看更多文章",
-    "autoUpdate": "内容每日自动更新"
+    "autoUpdate": "内容每日自动更新",
+    "close": "关闭",
+    "tags": "标签"
   },
   "testimonials": {
     "title": "客户评价",

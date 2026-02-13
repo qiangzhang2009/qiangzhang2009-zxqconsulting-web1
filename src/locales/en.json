@@ -169,11 +169,19 @@
     "visitorTitle": "Global Visitor Statistics",
     "visitorDesc": "Businesses worldwide trust our overseas consulting services",
     "totalVisitors": "Total Visitors",
+    "uniqueVisitors": "Unique Visitors",
+    "pageViews": "Page Views",
     "countries": "Countries",
     "onlineNow": "Online Now",
     "countryDist": "Country/Region Distribution",
     "popularPages": "Popular Pages",
-    "lastUpdate": "Last Updated"
+    "lastUpdate": "Last Updated",
+    "loading": "Loading...",
+    "noData": "No Statistics Available",
+    "noDataDesc": "Please configure Analytics in Cloudflare Dashboard, or wait for data collection",
+    "viewAnalytics": "View Cloudflare Analytics",
+    "dataSource": "Data Source: Cloudflare Analytics",
+    "dataRealTime": "Data from Cloudflare Analytics · Real-time"
   },
   "blog": {
     "title": "Overseas Strategy",
@@ -181,7 +189,9 @@
     "dailyUpdate": "Daily Updates",
     "readMore": "Read More",
     "viewMore": "View More Articles",
-    "autoUpdate": "Content auto-updates daily"
+    "autoUpdate": "Content auto-updates daily",
+    "close": "Close",
+    "tags": "Tags"
   },
   "testimonials": {
     "title": "Client Testimonials",
