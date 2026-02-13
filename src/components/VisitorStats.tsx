@@ -103,37 +103,40 @@ const VisitorStats = () => {
     popularPages: Array<{ name: string; views: number }>;
   } | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isVisible, setIsVisible] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    const element = document.getElementById('visitor-stats');
-    if (element) observer.observe(element);
-
-    return () => observer.disconnect();
-  }, []);
-
-  // 获取真实数据
+  // 获取真实数据 - 页面加载时立即获取
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      const stats = await fetchCloudflareStats();
-      setData(stats);
-      setLoading(false);
+      setError(null);
+      console.log('[VisitorStats] 开始获取数据...');
+      
+      try {
+        const response = await fetch('/api/analytics');
+        console.log('[VisitorStats] API 响应状态:', response.status);
+        
+        if (!response.ok) {
+          throw new Error(`API Error: ${response.status}`);
+        }
+        
+        const apiData = await response.json();
+        console.log('[VisitorStats] 原始数据:', apiData);
+        
+        const stats = await fetchCloudflareStats();
+        console.log('[VisitorStats] 转换后数据:', stats);
+        
+        setData(stats);
+      } catch (err) {
+        console.error('[VisitorStats] 获取数据失败:', err);
+        setError(err instanceof Error ? err.message : 'Unknown error');
+      } finally {
+        setLoading(false);
+      }
     };
     
-    if (isVisible) {
-      loadData();
-    }
-  }, [isVisible]);
+    loadData();
+  }, []);
 
   const getCountryName = (item: { name: string; nameEn: string }) => {
     return i18n.language === 'zh' ? item.name : item.nameEn;
@@ -147,6 +150,35 @@ const VisitorStats = () => {
           <div className="text-center">
             <Loader2 className="w-8 h-8 animate-spin text-cyan-400 mx-auto mb-4" />
             <p className="text-slate-400">{t('stats.loading', '加载中...')}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // 错误状态 - 显示错误信息以便调试
+  if (error) {
+    return (
+      <section id="visitor-stats" className="py-16 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <div className="container mx-auto px-6">
+          <div className="text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-4">
+              <Globe className="w-5 h-5 text-cyan-400" />
+              <span className="text-cyan-400 text-sm font-medium">{t('stats.globalReach', '全球覆盖')}</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              {t('stats.visitorTitle', '全球访客统计数据')}
+            </h2>
+            <div className="mt-8 p-8 bg-white/5 rounded-2xl border border-white/10 max-w-md mx-auto">
+              <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+              <p className="text-slate-300 mb-2">加载失败</p>
+              <p className="text-slate-500 text-sm font-mono bg-slate-800 p-2 rounded">
+                {error}
+              </p>
+              <p className="text-slate-500 text-sm mt-2">
+                请打开浏览器控制台 (F12) 查看详细日志
+              </p>
+            </div>
           </div>
         </div>
       </section>
