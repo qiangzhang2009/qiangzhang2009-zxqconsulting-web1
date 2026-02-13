@@ -1,6 +1,6 @@
 /**
  * Cloudflare Analytics API 端点
- * 使用 REST API 获取真实的网站访问统计
+ * 使用 GraphQL API 获取真实的网站访问统计
  */
 
 export async function onRequestGet(context) {
@@ -35,56 +35,139 @@ export async function onRequestGet(context) {
   }
 
   try {
-    // 使用 Cloudflare Analytics REST API
-    // 获取过去364天的数据
-    const since = Math.floor((Date.now() - 364 * 24 * 60 * 60 * 1000) / 1000);
-    const until = Math.floor(Date.now() / 1000);
-    
-    const response = await fetch(
-      `https://api.cloudflare.com/client/v4/zones/${env.CF_ZONE_ID}/analytics/dashboard?since=${since}&until=${until}&metrics=pageViews,uniqueVisitors,requests&dimensions=country`,
-      {
+    // 计算时间范围 (不超过 364 天)
+    const since = new Date(Date.now() - 364 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    const until = new Date().toISOString().split('T')[0];
+
+    // 查询1: 获取总体统计数据
+    const totalQuery = {
+      query: `
+        query GetZoneAnalytics($zoneId: string!, $since: DateTime!, $until: DateTime!) {
+          viewer {
+            zones(filter: { zoneTag: $zoneId }) {
+              httpRequests1dGroups(limit: 364, orderBy: [date_ASC], filter: {
+                date_geq: $since,
+                date_leq: $until
+              }) {
+                sum {
+                  pageViews
+                  requests
+                }
+                uniq {
+                  uniques
+                }
+              }
+            }
+          }
+        }
+      `,
+      variables: {
+        zoneId: env.CF_ZONE_ID,
+        since,
+        until
+      }
+    };
+
+    // 查询2: 获取按国家的请求数据
+    const countryQuery = {
+      query: `
+        query GetCountryAnalytics($zoneId: string!, $since: DateTime!, $until: DateTime!) {
+          viewer {
+            zones(filter: { zoneTag: $zoneId }) {
+              httpRequestsByCountryGroups(limit: 20, orderBy: [requests_DESC], filter: {
+                date_geq: $since,
+                date_leq: $until
+              }) {
+                country: clientCountryName
+                requests
+                pageViews
+              }
+            }
+          }
+        }
+      `,
+      variables: {
+        zoneId: env.CF_ZONE_ID,
+        since,
+        until
+      }
+    };
+
+    // 并行执行两个查询
+    const [totalResponse, countryResponse] = await Promise.all([
+      fetch('https://api.cloudflare.com/client/v4/graphql', {
+        method: 'POST',
         headers: {
           'Authorization': `Bearer ${env.CF_API_TOKEN}`,
           'Content-Type': 'application/json'
-        }
-      }
-    );
+        },
+        body: JSON.stringify(totalQuery)
+      }),
+      fetch('https://api.cloudflare.com/client/v4/graphql', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${env.CF_API_TOKEN}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(countryQuery)
+      })
+    ]);
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`API error ${response.status}: ${errorText}`);
+    // 检查总体数据响应
+    if (!totalResponse.ok) {
+      const errorText = await totalResponse.text();
+      throw new Error(`Total API error ${totalResponse.status}: ${errorText}`);
+    }
+    const totalData = await totalResponse.json();
+    if (totalData.errors) {
+      throw new Error(`GraphQL total error: ${JSON.stringify(totalData.errors)}`);
     }
 
-    const data = await response.json();
-    
-    // 检查 API 响应
-    if (!data.success) {
-      throw new Error(`API error: ${JSON.stringify(data.errors)}`);
+    // 检查国家数据响应
+    if (!countryResponse.ok) {
+      const errorText = await countryResponse.text();
+      throw new Error(`Country API error ${countryResponse.status}: ${errorText}`);
+    }
+    const countryData = await countryResponse.json();
+    if (countryData.errors) {
+      throw new Error(`GraphQL country error: ${JSON.stringify(countryData.errors)}`);
     }
 
-    const result = data.result;
-    const totals = result.totals || {};
-    const topCountries = result.topCountries || { countries: [] };
+    // 解析总体数据
+    const zoneTotalData = totalData.data?.viewer?.zones?.[0];
+    const dailyGroups = zoneTotalData?.httpRequests1dGroups || [];
     
-    // 转换国家数据
-    const totalVisitors = totals.uniqueVisitors || 0;
-    const countryArray = (topCountries.countries || [])
-      .slice(0, 15)
-      .map(c => ({
+    let totalPageViews = 0;
+    let totalUniques = 0;
+    let totalRequests = 0;
+    
+    dailyGroups.forEach((day: any) => {
+      totalPageViews += day?.sum?.pageViews || 0;
+      totalRequests += day?.sum?.requests || 0;
+      totalUniques += day?.uniq?.uniques || 0;
+    });
+
+    // 解析国家数据 (使用 requests 作为近似访客数)
+    const zoneCountryData = countryData.data?.viewer?.zones?.[0];
+    const countryGroups = zoneCountryData?.httpRequestsByCountryGroups || [];
+    
+    const countryArray = countryGroups
+      .map((c: { country: string; requests: number; pageViews: number }) => ({
         country: c.country,
-        visitors: c.uniques || 0,
-        percentage: totalVisitors > 0 ? Math.round((c.uniques / totalVisitors) * 100 * 10) / 10 : 0
+        // 使用 pageViews 作为更准确的访客指标
+        visitors: c.pageViews || c.requests,
+        percentage: totalPageViews > 0 ? Math.round((c.pageViews / totalPageViews) * 100 * 10) / 10 : 0
       }))
-      .filter(c => c.visitors > 0)
-      .sort((a, b) => b.visitors - a.visitors);
+      .filter((c: { visitors: number }) => c.visitors > 0)
+      .slice(0, 15);
 
     const finalResult = {
       ...debugInfo,
       isRealData: true,
       totals: {
-        pageViews: totals.pageViews || 0,
-        uniqueVisitors: totals.uniqueVisitors || 0,
-        requests: totals.requests || 0
+        pageViews: totalPageViews,
+        uniqueVisitors: totalUniques,
+        requests: totalRequests
       },
       countryMap: countryArray
     };
