@@ -21,12 +21,12 @@ export async function onRequestGet(context) {
       message: "Using mock data. Configure CF_API_TOKEN and CF_ZONE_ID in Cloudflare Pages for real data.",
       totals: { pageViews: 12847, uniqueVisitors: 4823, requests: 35621 },
       countryMap: [
-        { country: "CN", pageViews: 5234, uniqueVisitors: 2102 },
-        { country: "US", pageViews: 2847, uniqueVisitors: 923 },
-        { country: "AU", pageViews: 1523, uniqueVisitors: 487 },
-        { country: "JP", pageViews: 982, uniqueVisitors: 324 },
-        { country: "GB", pageViews: 756, uniqueVisitors: 289 },
-        { country: "DE", pageViews: 505, uniqueVisitors: 198 }
+        { country: "CN", visitors: 2102, percentage: 43.6 },
+        { country: "US", visitors: 923, percentage: 19.1 },
+        { country: "AU", visitors: 487, percentage: 10.1 },
+        { country: "JP", visitors: 324, percentage: 6.7 },
+        { country: "GB", visitors: 289, percentage: 6.0 },
+        { country: "DE", visitors: 198, percentage: 4.1 }
       ]
     }), {
       status: 200,
@@ -100,40 +100,34 @@ export async function onRequestGet(context) {
       throw new Error('No data returned from GraphQL API');
     }
 
-    // 解析日请求数据 - 获取总访问量和国家分布
+    // 解析日请求数据
     const dailyGroups = zoneData.httpRequests1dGroups || [];
-    let totalPageViews = 0;
-    let totalUniques = 0;
-    let totalRequests = 0;
     
-    // 汇总国家数据
-    const countryMap: Record<string, { requests: number; bytes: number }> = {};
-
-    dailyGroups.forEach(group => {
-      totalPageViews += group.sum?.pageViews || 0;
-      totalUniques += group.uniq?.uniques || 0;
-      totalRequests += group.sum?.requests || 0;
-      
-      // 解析 countryMap (注意：只有 requests, bytes, threats, clientCountryName)
-      const countryList = group.sum?.countryMap || [];
-      countryList.forEach((c: { clientCountryName: string; requests: number; bytes: number }) => {
+    // 计算总数据 (取最后一天或汇总)
+    const lastDay = dailyGroups[dailyGroups.length - 1];
+    const totalPageViews = lastDay?.sum?.pageViews || 0;
+    const totalUniques = lastDay?.uniq?.uniques || 0;
+    const totalRequests = lastDay?.sum?.requests || 0;
+    
+    // 汇总国家数据 - 只计算最后一天的国家分布
+    const countryMap: Record<string, { requests: number }> = {};
+    
+    if (lastDay?.sum?.countryMap) {
+      const countryList = lastDay.sum.countryMap;
+      countryList.forEach((c: { clientCountryName: string; requests: number }) => {
         const country = c.clientCountryName || 'Unknown';
-        if (!countryMap[country]) {
-          countryMap[country] = { requests: 0, bytes: 0 };
-        }
-        countryMap[country].requests += c.requests || 0;
-        countryMap[country].bytes += c.bytes || 0;
+        countryMap[country] = { requests: c.requests || 0 };
       });
-    });
+    }
 
-    // 转换为数组并排序 (使用 requests 作为排序依据)
+    // 转换为数组并排序
     const countryArray = Object.entries(countryMap)
       .map(([country, stats]) => ({
         country,
-        pageViews: stats.requests, // 使用 requests 作为 pageViews 近似值
-        uniqueVisitors: Math.round(stats.requests * 0.6) // 估算 uniqueVisitors
+        visitors: stats.requests,
+        percentage: totalRequests > 0 ? Math.round((stats.requests / totalRequests) * 100 * 10) / 10 : 0
       }))
-      .sort((a, b) => b.pageViews - a.pageViews)
+      .sort((a, b) => b.visitors - a.visitors)
       .slice(0, 10);
 
     const finalResult = {
