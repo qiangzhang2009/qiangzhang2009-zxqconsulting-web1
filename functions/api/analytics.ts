@@ -35,12 +35,14 @@ export async function onRequestGet(context) {
   }
 
   try {
-    // 先获取总访问量（日数据）
-    const dailyQuery = {
+    // 使用 httpRequestsAdaptiveGroups 来获取国家数据
+    // 这是更灵活的 API，可以按多个维度分组
+    const graphqlQuery = {
       query: `
-        query GetDailyAnalytics($zoneId: string!, $since: DateTime!, $until: DateTime!) {
+        query GetZoneAnalytics($zoneId: string!, $since: DateTime!, $until: DateTime!) {
           viewer {
             zones(filter: { zoneTag: $zoneId }) {
+              # 日请求汇总
               httpRequests1dGroups(limit: 30, orderBy: [date_ASC], filter: {
                 date_geq: $since,
                 date_leq: $until
@@ -56,26 +58,10 @@ export async function onRequestGet(context) {
                   date
                 }
               }
-            }
-          }
-        }
-      `,
-      variables: {
-        zoneId: env.CF_ZONE_ID,
-        since: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-        until: new Date().toISOString().split('T')[0]
-      }
-    };
-
-    // 获取国家分布（小时数据）
-    const countryQuery = {
-      query: `
-        query GetCountryAnalytics($zoneId: string!, $since: DateTime!, $until: DateTime!) {
-          viewer {
-            zones(filter: { zoneTag: $zoneId }) {
-              httpRequests1hGroups(limit: 1000, filter: {
-                datetime_geq: $since,
-                datetime_leq: $until
+              # 按国家分组的请求数据
+              httpRequestsAdaptiveGroups(limit: 20, filter: {
+                date_geq: $since,
+                date_leq: $until
               }) {
                 sum {
                   pageViews
@@ -94,53 +80,40 @@ export async function onRequestGet(context) {
       `,
       variables: {
         zoneId: env.CF_ZONE_ID,
-        since: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
-        until: new Date().toISOString()
+        since: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        until: new Date().toISOString().split('T')[0]
       }
     };
 
-    // 发送两个请求
-    const [dailyResponse, countryResponse] = await Promise.all([
-      fetch('https://api.cloudflare.com/client/v4/graphql', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${env.CF_API_TOKEN}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dailyQuery)
-      }),
-      fetch('https://api.cloudflare.com/client/v4/graphql', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${env.CF_API_TOKEN}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(countryQuery)
-      })
-    ]);
+    const response = await fetch('https://api.cloudflare.com/client/v4/graphql', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${env.CF_API_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(graphqlQuery)
+    });
 
-    if (!dailyResponse.ok || !countryResponse.ok) {
-      throw new Error(`API error: ${dailyResponse.status} or ${countryResponse.status}`);
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`API error ${response.status}: ${errorText}`);
     }
 
-    const dailyData = await dailyResponse.json();
-    const countryData = await countryResponse.json();
+    const data = await response.json();
     
     // 检查 GraphQL 响应
-    if (dailyData.errors || countryData.errors) {
-      const errors = dailyData.errors || countryData.errors;
-      throw new Error(`GraphQL error: ${JSON.stringify(errors)}`);
+    if (data.errors) {
+      throw new Error(`GraphQL error: ${JSON.stringify(data.errors)}`);
     }
 
-    const dailyZone = dailyData.data?.viewer?.zones?.[0];
-    const countryZone = countryData.data?.viewer?.zones?.[0];
+    const zoneData = data.data?.viewer?.zones?.[0];
     
-    if (!dailyZone) {
-      throw new Error('No daily data returned from GraphQL API');
+    if (!zoneData) {
+      throw new Error('No data returned from GraphQL API');
     }
 
     // 解析日请求数据 - 获取总访问量
-    const dailyGroups = dailyZone.httpRequests1dGroups || [];
+    const dailyGroups = zoneData.httpRequests1dGroups || [];
     let totalPageViews = 0;
     let totalUniques = 0;
     let totalRequests = 0;
@@ -152,10 +125,10 @@ export async function onRequestGet(context) {
     });
 
     // 解析国家数据
-    const hourlyGroups = countryZone?.httpRequests1hGroups || [];
+    const countryGroups = zoneData.httpRequestsAdaptiveGroups || [];
     const countryMap: Record<string, { pageViews: number; uniqueVisitors: number }> = {};
 
-    hourlyGroups.forEach(group => {
+    countryGroups.forEach(group => {
       const country = group.dimensions?.country || 'Unknown';
       if (!countryMap[country]) {
         countryMap[country] = { pageViews: 0, uniqueVisitors: 0 };
