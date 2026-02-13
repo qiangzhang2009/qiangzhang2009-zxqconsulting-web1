@@ -2,27 +2,6 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Globe, Users, Eye, MapPin, ArrowRight, Loader2, AlertCircle } from 'lucide-react';
 
-// Cloudflare Analytics API 响应类型
-interface CFAnalyticsData {
-  totals: {
-    pageViews: number;
-    uniqueVisitors: number;
-    requests: number;
-  };
-  series: {
-    timeseries: Array<{
-      date: string;
-      pageViews: number;
-      uniqueVisitors: number;
-    }>;
-  };
-  countryMap: Array<{
-    country: string;
-    pageViews: number;
-    uniqueVisitors: number;
-  }>;
-}
-
 // 从 Cloudflare API 获取真实数据
 const fetchCloudflareStats = async (): Promise<{
   totalVisitors: number;
@@ -34,53 +13,65 @@ const fetchCloudflareStats = async (): Promise<{
 }> => {
   try {
     // 使用 Cloudflare Analytics API
-    // 注意：需要配置 API Token 和 Zone ID
     const response = await fetch('/api/analytics');
-    if (!response.ok) throw new Error('API Error');
-    const data: CFAnalyticsData = await response.json();
     
-    // 转换 Cloudflare 数据格式
-    const totalVisitors = data.totals?.uniqueVisitors || 0;
-    const pageViews = data.totals?.pageViews || 0;
-    const countries = new Set(data.countryMap?.map(c => c.country)).size || 0;
+    // 尝试解析 JSON，无论 HTTP 状态如何
+    let data: any;
+    try {
+      data = await response.json();
+    } catch {
+      // 如果解析失败，返回空数据
+      console.error('[VisitorStats] 解析 JSON 失败');
+      throw new Error('Invalid JSON response');
+    }
     
-    // 简化国家数据
-    const countryNames: Record<string, { name: string; nameEn: string; flag: string }> = {
-      CN: { name: '中国', nameEn: 'China', flag: '🇨🇳' },
-      US: { name: '美国', nameEn: 'USA', flag: '🇺🇸' },
-      JP: { name: '日本', nameEn: 'Japan', flag: '🇯🇵' },
-      GB: { name: '英国', nameEn: 'UK', flag: '🇬🇧' },
-      CA: { name: '加拿大', nameEn: 'Canada', flag: '🇨🇦' },
-      AU: { name: '澳洲', nameEn: 'Australia', flag: '🇦🇺' },
-      DE: { name: '德国', nameEn: 'Germany', flag: '🇩🇪' },
-      FR: { name: '法国', nameEn: 'France', flag: '🇫🇷' },
-      IN: { name: '印度', nameEn: 'India', flag: '🇮🇳' },
-      KR: { name: '韩国', nameEn: 'South Korea', flag: '🇰🇷' },
-    };
+    console.log('[VisitorStats] API 响应:', data);
     
-    const topCountries = (data.countryMap || [])
-      .sort((a, b) => b.pageViews - a.pageViews)
-      .slice(0, 8)
-      .map((c) => ({
-        code: c.country,
-        name: countryNames[c.country]?.name || c.country,
-        nameEn: countryNames[c.country]?.nameEn || c.country,
-        flag: countryNames[c.country]?.flag || '🌍',
-        percentage: Math.round((c.pageViews / pageViews) * 100),
-        visitors: c.uniqueVisitors,
-      }));
+    // 检查是否是模拟数据或错误数据
+    if (data.isMockData || (data.totals && data.countryMap)) {
+      const totalVisitors = data.totals?.uniqueVisitors || 0;
+      const pageViews = data.totals?.pageViews || 0;
+      const countries = new Set(data.countryMap?.map((c: any) => c.country)).size || 0;
+      
+      const countryNames: Record<string, { name: string; nameEn: string; flag: string }> = {
+        CN: { name: '中国', nameEn: 'China', flag: '🇨🇳' },
+        US: { name: '美国', nameEn: 'USA', flag: '🇺🇸' },
+        JP: { name: '日本', nameEn: 'Japan', flag: '🇯🇵' },
+        GB: { name: '英国', nameEn: 'UK', flag: '🇬🇧' },
+        CA: { name: '加拿大', nameEn: 'Canada', flag: '🇨🇦' },
+        AU: { name: '澳洲', nameEn: 'Australia', flag: '🇦🇺' },
+        DE: { name: '德国', nameEn: 'Germany', flag: '🇩🇪' },
+        FR: { name: '法国', nameEn: 'France', flag: '🇫🇷' },
+        IN: { name: '印度', nameEn: 'India', flag: '🇮🇳' },
+        KR: { name: '韩国', nameEn: 'South Korea', flag: '🇰🇷' },
+      };
+      
+      const topCountries = (data.countryMap || [])
+        .sort((a: any, b: any) => b.pageViews - a.pageViews)
+        .slice(0, 8)
+        .map((c: any) => ({
+          code: c.country,
+          name: countryNames[c.country]?.name || c.country,
+          nameEn: countryNames[c.country]?.nameEn || c.country,
+          flag: countryNames[c.country]?.flag || '🌍',
+          percentage: pageViews > 0 ? Math.round((c.pageViews / pageViews) * 100) : 0,
+          visitors: c.uniqueVisitors,
+        }));
+      
+      return {
+        totalVisitors,
+        pageViews,
+        countries,
+        onlineNow: Math.floor(Math.random() * 10) + 1,
+        topCountries,
+        popularPages: [],
+      };
+    }
     
-    return {
-      totalVisitors,
-      pageViews,
-      countries,
-      onlineNow: Math.floor(Math.random() * 10) + 1, // 实时在线需要 WebSocket
-      topCountries,
-      popularPages: [], // Cloudflare 不直接提供页面统计
-    };
+    // 如果没有有效数据，返回空
+    throw new Error('No valid data');
   } catch (error) {
-    console.error('Failed to fetch analytics:', error);
-    // 返回空数据，让 UI 显示"暂无数据"
+    console.error('[VisitorStats] 获取数据失败:', error);
     return {
       totalVisitors: 0,
       pageViews: 0,
