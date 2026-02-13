@@ -22,7 +22,18 @@ const languages = [
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // 检测是否在移动端
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
 
@@ -65,7 +76,9 @@ export default function LanguageSwitcher() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-60 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50 animate-fade-in-up">
+        <div className={`mt-2 w-60 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50 animate-fade-in-up ${
+          isMobile ? 'static' : 'absolute right-0'
+        }`}>
           {languages.map((lang) => (
             <button
               key={lang.code}

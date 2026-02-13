@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Globe, Star } from 'lucide-react';
+import { Menu, X, Globe, Star, Languages } from 'lucide-react';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 
 const Navbar = () => {
   const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,6 +30,7 @@ const Navbar = () => {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -67,13 +69,14 @@ const Navbar = () => {
               </span>
               <div className="text-xs text-[#C41E3A] font-medium flex items-center gap-1">
                 <Star className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-current text-[#FFD700]" />
-                <span>2026 马年</span>
+                <span className="hidden xs:inline">2026 马年</span>
+                <span className="xs:hidden">马年</span>
               </div>
             </div>
           </a>
 
-          {/* Navigation - Language Switcher + Nav Links */}
-          <div className="flex items-center gap-4 lg:gap-6">
+          {/* Desktop Navigation - Language Switcher + Nav Links */}
+          <div className="hidden md:flex items-center gap-6 lg:gap-8">
             {/* Language Switcher - First Position */}
             <div className="relative">
               <LanguageSwitcher />
@@ -100,7 +103,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop CTA Button (Right) */}
-          <div className="flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-4">
             <button
               onClick={() => scrollToSection('#contact')}
               className="btn-spring text-sm"
@@ -108,7 +111,61 @@ const Navbar = () => {
               🧧 {t('footer.cta')}
             </button>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden p-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? (
+              <X className="w-6 h-6 text-[#3d352e]" />
+            ) : (
+              <Menu className="w-6 h-6 text-[#3d352e]" />
+            )}
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden mt-4 pb-4 border-t border-gray-200/50 pt-4">
+            <div className="flex flex-col gap-2">
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection(link.href);
+                  }}
+                  className="text-[#3d352e] hover:text-[#C41E3A] font-medium transition-colors py-3 px-2 rounded-lg hover:bg-gray-50"
+                >
+                  {link.name}
+                </a>
+              ))}
+              
+              {/* Mobile Language Section - 使用完整的 LanguageSwitcher */}
+              <div className="mt-4 pt-4 border-t border-gray-100">
+                <div className="flex items-center gap-2 px-2 mb-3">
+                  <Languages className="w-5 h-5 text-[#C41E3A]" />
+                  <span className="font-semibold text-[#3d352e]">选择语言</span>
+                </div>
+                
+                {/* 使用完整的语言选择器 */}
+                <div className="px-2">
+                  <LanguageSwitcher />
+                </div>
+              </div>
+              
+              {/* Mobile CTA Button */}
+              <button
+                onClick={() => scrollToSection('#contact')}
+                className="btn-spring text-sm mt-4 w-full justify-center py-3"
+              >
+                🧧 {t('footer.cta')}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );
