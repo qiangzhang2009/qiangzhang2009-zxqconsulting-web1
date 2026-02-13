@@ -109,36 +109,35 @@ export async function onRequestGet(context) {
     let totalUniques = 0;
     let totalRequests = 0;
     
-    // 汇总国家数据 - 汇总所有天的国家分布
-    const countryMap: Record<string, { requests: number; pageViews: number }> = {};
+    // 汇总国家数据 - 使用 pageViews（页面浏览量）而不是 requests（请求数）
+    const countryMap: Record<string, { requests: number; pageViews: number; uniques: number }> = {};
     
     dailyGroups.forEach((day: any) => {
       totalPageViews += day?.sum?.pageViews || 0;
       totalRequests += day?.sum?.requests || 0;
+      // 累加每天的独立访客数（注意：这不是完美的累计方式，但更接近真实）
+      totalUniques += day?.uniq?.uniques || 0;
       
       if (day?.sum?.countryMap) {
         const countryList = day.sum.countryMap;
-        countryList.forEach((c: { clientCountryName: string; requests: number; pageViews?: number }) => {
+        countryList.forEach((c: { clientCountryName: string; requests: number; pageViews?: number; uniques?: number }) => {
           const country = c.clientCountryName || 'Unknown';
           if (!countryMap[country]) {
-            countryMap[country] = { requests: 0, pageViews: 0 };
+            countryMap[country] = { requests: 0, pageViews: 0, uniques: 0 };
           }
           countryMap[country].requests += c.requests || 0;
           countryMap[country].pageViews += c.pageViews || 0;
+          countryMap[country].uniques += c.uniques || 0;
         });
       }
     });
-    
-    // 取最后一天的独立访客数（因为每天的uniques是独立计算的）
-    const lastDay = dailyGroups[dailyGroups.length - 1];
-    totalUniques = lastDay?.uniq?.uniques || 0;
 
-    // 转换为数组并排序
+    // 转换为数组并排序 - 使用 uniques（独立访客数）
     const countryArray = Object.entries(countryMap)
       .map(([country, stats]) => ({
         country,
-        visitors: stats.requests,
-        percentage: totalRequests > 0 ? Math.round((stats.requests / totalRequests) * 100 * 10) / 10 : 0
+        visitors: stats.uniques || stats.pageViews, // 优先使用独立访客数，如果没有则使用页面浏览量
+        percentage: totalPageViews > 0 ? Math.round((stats.pageViews / totalPageViews) * 100 * 10) / 10 : 0
       }))
       .sort((a, b) => b.visitors - a.visitors)
       .slice(0, 15);
