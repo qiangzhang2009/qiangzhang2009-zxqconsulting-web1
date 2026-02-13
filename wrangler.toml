@@ -2,13 +2,6 @@ name = "qiangzhang2009-zxqconsulting-web1"
 compatibility_date = "2025-01-01"
 pages_build_output_dir = "./dist"
 
-# Cloudflare Pages Functions 配置
-# 确保 /api/* 路由由 Functions 处理
-[[pages]]
-routes = [
-  { pattern = "/api/*", zone = "zxqconsulting.com" }
-]
-
 # Cloudflare 优化配置
 
 # 性能优化 - 开启 Brotli 压缩
