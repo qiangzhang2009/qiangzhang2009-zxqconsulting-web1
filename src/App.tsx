@@ -46,8 +46,8 @@ function App() {
 
   return (
     <div className="min-h-screen relative">
-      {/* Spring Festival Decorations - 马年春节装饰 */}
-      <SpringDecorations />
+      {/* 春节装饰已暂停 */}
+      {/* <SpringDecorations /> */}
       
       <Navbar />
       <main>
