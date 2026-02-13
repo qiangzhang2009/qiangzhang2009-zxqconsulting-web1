@@ -11,7 +11,6 @@ import StatsEnhanced from './sections/StatsEnhanced';
 import Testimonials from './sections/Testimonials';
 import Contact from './sections/Contact';
 import Footer from './sections/Footer';
-import { SpringDecorations } from './components/SpringDecorations';
 import FloatingContact from './components/FloatingContact';
 
 gsap.registerPlugin(ScrollTrigger);
