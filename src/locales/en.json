@@ -159,6 +159,19 @@
   "stats": {
     "title": "Our Achievements",
     "subtitle": "Numbers That Speak Volume",
+    "years": "Years Experience",
+    "clients": "Clients Served",
+    "countries": "Countries Covered",
+    "success": "Success Rate",
+    "team": "Expert Team",
+    "awards": "Awards",
+    "special2026": "2026 Year of the Horse Special",
+    "badges": {
+      "response": "24h Response",
+      "consultant": "1-on-1 Expert Consultant",
+      "cases": "Rich Success Cases",
+      "support": "Worry-Free After-Sales"
+    },
     "items": {
       "companies": "Successful Overseas Expansions",
       "experience": "Years of Industry Experience",

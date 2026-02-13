@@ -96,6 +96,19 @@
   "stats": {
     "title": "Nossas Conquistas",
     "subtitle": "Números Que Falam por Si",
+    "years": "Anos de Experiência",
+    "clients": "Clientes",
+    "countries": "Países Cobertos",
+    "success": "Taxa de Sucesso",
+    "team": "Equipe de Especialistas",
+    "awards": "Prémios",
+    "special2026": "Especial 2026 Ano do Cavalo",
+    "badges": {
+      "response": "Resposta 24h",
+      "consultant": "Especialista 1-a-1",
+      "cases": "Casos de Sucesso",
+      "support": "Suporte Pós-Venda"
+    },
     "items": { "companies": "Expansões Internacionais Bem-Sucedidas", "experience": "Anos de Experiência", "partners": "Parceiros Globais", "countries": "Países Cobertos" }
   },
   "testimonials": {

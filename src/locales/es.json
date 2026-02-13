@@ -96,6 +96,19 @@
   "stats": {
     "title": "Nuestros Logros",
     "subtitle": "Resultados que Hablan",
+    "years": "Años de Experiencia",
+    "clients": "Clientes",
+    "countries": "Países Cubiertos",
+    "success": "Tasa de Éxito",
+    "team": "Equipo de Expertos",
+    "awards": "Premios",
+    "special2026": "Especial 2026 Año del Caballo",
+    "badges": {
+      "response": "Respuesta 24h",
+      "consultant": "Experto 1-a-1",
+      "cases": "Casos Exitosos",
+      "support": "Posventa Sin Worry"
+    },
     "items": { "companies": "Expansiones Exitosas", "experience": "Años de Experiencia", "partners": "Socios Globales", "countries": "Países Cubiertos" }
   },
   "testimonials": {

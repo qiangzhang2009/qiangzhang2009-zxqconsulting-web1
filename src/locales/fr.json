@@ -96,6 +96,19 @@
   "stats": {
     "title": "Nos Réalisations",
     "subtitle": "Chiffres Qui Parlent d'Eux-Mêmes",
+    "years": "Années d'Expérience",
+    "clients": "Clients",
+    "countries": "Pays Couverts",
+    "success": "Taux de Réussite",
+    "team": "Équipe d'Experts",
+    "awards": "Récompenses",
+    "special2026": "Spécial 2026 Année du Cheval",
+    "badges": {
+      "response": "Réponse 24h",
+      "consultant": "Conseiller Expert 1 sur 1",
+      "cases": "Cas Réussis Abondants",
+      "support": "Service Après-Vente Sans Souci"
+    },
     "items": { "companies": "Expansions Overseas Réussies", "experience": "Années d'Expérience", "partners": "Partenaires Mondiaux", "countries": "Pays Couverts" }
   },
   "testimonials": {

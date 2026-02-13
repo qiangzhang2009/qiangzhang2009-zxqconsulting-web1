@@ -20,42 +20,42 @@ const StatsSection = () => {
       id: 'years',
       icon: <Building2 className="w-6 h-6" />,
       value: '10+',
-      label: t('stats.years', '年行业经验'),
+      label: t('stats.years'),
       color: 'from-red-500 to-pink-500',
     },
     {
       id: 'clients',
       icon: <Users className="w-6 h-6" />,
       value: '500+',
-      label: t('stats.clients', '服务客户'),
+      label: t('stats.clients'),
       color: 'from-yellow-500 to-orange-500',
     },
     {
       id: 'countries',
       icon: <Globe className="w-6 h-6" />,
       value: '20+',
-      label: t('stats.countries', '覆盖国家'),
+      label: t('stats.countries'),
       color: 'from-green-500 to-emerald-500',
     },
     {
       id: 'success',
       icon: <TrendingUp className="w-6 h-6" />,
       value: '98%',
-      label: t('stats.success', '成功率'),
+      label: t('stats.success'),
       color: 'from-blue-500 to-cyan-500',
     },
     {
       id: 'team',
       icon: <Star className="w-6 h-6" />,
       value: '50+',
-      label: t('stats.team', '专家团队'),
+      label: t('stats.team'),
       color: 'from-purple-500 to-violet-500',
     },
     {
       id: 'awards',
       icon: <Award className="w-6 h-6" />,
       value: '15+',
-      label: t('stats.awards', '荣誉奖项'),
+      label: t('stats.awards'),
       color: 'from-amber-500 to-yellow-500',
     },
   ];
@@ -104,15 +104,15 @@ const StatsSection = () => {
         <div className="text-center mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2 bg-red-50 text-[#C41E3A] px-4 py-2 rounded-full text-sm font-medium mb-4">
             <Star className="w-4 h-4" />
-            <span>2026 马年特惠</span>
+            <span>{t('stats.special2026')}</span>
           </div>
           
           <h2 className="text-3xl sm:text-4xl font-serif font-bold text-[#3d352e] mb-4">
-            {t('stats.title', '选择我们的理由')}
+            {t('stats.title')}
           </h2>
           
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            {t('stats.subtitle', '深耕企业出海领域多年，以专业服务和成功案例赢得客户信赖')}
+            {t('stats.subtitle')}
           </p>
         </div>
 
@@ -148,10 +148,10 @@ const StatsSection = () => {
         {/* Trust Badges */}
         <div className="mt-12 flex flex-wrap justify-center gap-4 sm:gap-6">
           {[
-            '24小时响应',
-            '专业顾问一对一',
-            '成功案例丰富',
-            '售后无忧服务',
+            t('stats.badges.response'),
+            t('stats.badges.consultant'),
+            t('stats.badges.cases'),
+            t('stats.badges.support'),
           ].map((badge, index) => (
             <div
               key={index}

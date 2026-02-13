@@ -96,6 +96,19 @@
   "stats": {
     "title": "Pencapaian Kami",
     "subtitle": "Angka yang Berbicara",
+    "years": "Tahun Pengalaman",
+    "clients": "Klien",
+    "countries": "Negara Diliputi",
+    "success": "Kadar Kejayaan",
+    "team": "Pasukan Pakar",
+    "awards": "Anugerah",
+    "special2026": "Khas 2026 Tahun Kuda",
+    "badges": {
+      "response": "Respons 24jam",
+      "consultant": "Pakar 1-on-1",
+      "cases": "Kes Berjaya",
+      "support": " Sokongan Selepas Jual"
+    },
     "items": { "companies": "Pengembangan Luar Negara Berjaya", "experience": "Tahun Pengalaman", "partners": "Rakan Kongsi Global", "countries": "Negara Diliputi" }
   },
   "testimonials": {

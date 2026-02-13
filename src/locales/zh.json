@@ -159,6 +159,19 @@
   "stats": {
     "title": "我们的成就",
     "subtitle": "数字见证实力",
+    "years": "年行业经验",
+    "clients": "服务客户",
+    "countries": "覆盖国家",
+    "success": "成功率",
+    "team": "专家团队",
+    "awards": "荣誉奖项",
+    "special2026": "2026 马年特惠",
+    "badges": {
+      "response": "24小时响应",
+      "consultant": "专业顾问一对一",
+      "cases": "成功案例丰富",
+      "support": "售后无忧服务"
+    },
     "items": {
       "companies": "成功出海企业",
       "experience": "年行业经验",

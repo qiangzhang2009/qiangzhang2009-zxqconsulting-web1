@@ -159,6 +159,19 @@
   "stats": {
     "title": "実績",
     "subtitle": "数字が語る実力",
+    "years": "年経験",
+    "clients": "クライアント",
+    "countries": "対応国",
+    "success": "成功率",
+    "team": "専門家チーム",
+    "awards": "受賞",
+    "special2026": "2026 ウマ年 특별",
+    "badges": {
+      "response": "24時間対応",
+      "consultant": "専門家による1対1",
+      "cases": "豊富な成功事例",
+      "support": "充実のアフターサービス"
+    },
     "items": {
       "companies": "海外進出成功企業",
       "experience": "業界経験年数",

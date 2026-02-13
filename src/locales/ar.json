@@ -96,6 +96,19 @@
   "stats": {
     "title": "إنجازاتنا",
     "subtitle": "أرقام تتحدث عن نفسها",
+    "years": "سنوات الخبرة",
+    "clients": "العملاء",
+    "countries": "دول مغطاة",
+    "success": "معدل النجاح",
+    "team": "فريق الخبراء",
+    "awards": "الجوائز",
+    "special2026": "خاص 2026 سنة الحصان",
+    "badges": {
+      "response": "استجابة 24 ساعة",
+      "consultant": "مستشار خبير 1-1",
+      "cases": "حالات ناجحة",
+      "support": "دعم ما بعد البيع"
+    },
     "items": { "companies": "توسعات خارجية ناجحة", "experience": "سنوات الخبرة", "partners": "شركاء عالميين", "countries": "دول مغطاة" }
   },
   "testimonials": {

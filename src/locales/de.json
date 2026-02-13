@@ -96,6 +96,19 @@
   "stats": {
     "title": "Unsere Erfolge",
     "subtitle": "Zahlen, die für sich sprechen",
+    "years": "Jahre Erfahrung",
+    "clients": "Kunden",
+    "countries": "Länder",
+    "success": "Erfolgsrate",
+    "team": "Expertenteam",
+    "awards": "Auszeichnungen",
+    "special2026": "2026 Jahr des Pferdes Spezial",
+    "badges": {
+      "response": "24h Antwort",
+      "consultant": "1-zu-1 Expertenberater",
+      "cases": "Viele Erfolgsfälle",
+      "support": "Sorgenfreier Service"
+    },
     "items": { "companies": "Erfolgreiche Auslandsexpansionen", "experience": "Jahre Erfahrung", "partners": "Globale Partner", "countries": "Abgedeckte Länder" }
   },
   "testimonials": {

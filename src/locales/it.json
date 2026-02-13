@@ -96,6 +96,19 @@
   "stats": {
     "title": "I Nostri Risultati",
     "subtitle": "Numeri che Parlano da Soli",
+    "years": "Anni di Esperienza",
+    "clients": "Clienti",
+    "countries": "Paesi Coperti",
+    "success": "Tasso di Successo",
+    "team": "Team di Esperti",
+    "awards": "Premi",
+    "special2026": "Speciale 2026 Anno del Cavallo",
+    "badges": {
+      "response": "Risposta 24h",
+      "consultant": "Esperto 1-su-1",
+      "cases": "Casi di Successo",
+      "support": "Assistenza Post-Vendita"
+    },
     "items": { "companies": "Espansioni Overseas Riuscite", "experience": "Anni di Esperienza", "partners": "Partner Globali", "countries": "Paesi Coperti" }
   },
   "testimonials": {

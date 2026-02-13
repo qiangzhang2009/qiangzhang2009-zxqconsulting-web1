@@ -96,6 +96,19 @@
   "stats": {
     "title": "Pencapaian Kami",
     "subtitle": "Angka yang Berbicara",
+    "years": "Tahun Pengalaman",
+    "clients": "Klien",
+    "countries": "Negara yang Dicakup",
+    "success": "Tingkat Keberhasilan",
+    "team": "Tim Ahli",
+    "awards": "Penghargaan",
+    "special2026": "Spesial 2026 Tahun Kuda",
+    "badges": {
+      "response": "Respons 24 jam",
+      "consultant": "Ahli 1-on-1",
+      "cases": "Kasus Berhasil",
+      "support": "Dukungan Purna Jual"
+    },
     "items": { "companies": "Ekspansi Luar Negeri yang Berhasil", "experience": "Tahun Pengalaman", "partners": "Mitra Global", "countries": "Negara yang Dicakup" }
   },
   "testimonials": {

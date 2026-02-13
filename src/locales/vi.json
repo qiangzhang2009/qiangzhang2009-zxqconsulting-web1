@@ -96,6 +96,19 @@
   "stats": {
     "title": "Thành Tựu Của Chúng Tôi",
     "subtitle": "Con Số Nói Lên Tất Cả",
+    "years": "Năm Kinh Nghiệm",
+    "clients": "Khách Hàng",
+    "countries": "Quốc Gia Được Bao Phủ",
+    "success": "Tỷ Lệ Thành Công",
+    "team": "Đội Ngũ Chuyên Gia",
+    "awards": "Giải Thưởng",
+    "special2026": "Đặc Biệt 2026 Năm Ngựa",
+    "badges": {
+      "response": "Phản hồi 24h",
+      "consultant": "Chuyên gia 1-1",
+      "cases": "Trường hợp thành công",
+      "support": "Hỗ trợ sau bán"
+    },
     "items": { "companies": "Mở Rộng Nước Ngoài Thành Công", "experience": "Năm Kinh Nghiệm", "partners": "Đối Tác Toàn Cầu", "countries": "Quốc Gia Được Bao Phủ" }
   },
   "testimonials": {
