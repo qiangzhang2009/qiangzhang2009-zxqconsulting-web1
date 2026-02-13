@@ -13,16 +13,24 @@ export async function onRequestGet(context) {
     zoneIdValue: env.CF_ZONE_ID ? env.CF_ZONE_ID.substring(0, 8) + '...' : 'not set'
   };
 
-  // 如果没有配置 API Token，返回提示信息
+  // 如果没有配置 API Token，返回模拟数据（用于演示）
   if (!env.CF_API_TOKEN || !env.CF_ZONE_ID) {
+    // 返回模拟数据以便演示
     return new Response(JSON.stringify({
       ...debugInfo,
-      error: "Missing credentials",
-      message: "Please configure CF_API_TOKEN and CF_ZONE_ID in Cloudflare Pages settings",
-      totals: { pageViews: 0, uniqueVisitors: 0, requests: 0 },
-      countryMap: []
+      isMockData: true,
+      message: "Using mock data. Configure CF_API_TOKEN and CF_ZONE_ID in Cloudflare Pages for real data.",
+      totals: { pageViews: 12847, uniqueVisitors: 4823, requests: 35621 },
+      countryMap: [
+        { country: "CN", pageViews: 5234, uniqueVisitors: 2102 },
+        { country: "US", pageViews: 2847, uniqueVisitors: 923 },
+        { country: "AU", pageViews: 1523, uniqueVisitors: 487 },
+        { country: "JP", pageViews: 982, uniqueVisitors: 324 },
+        { country: "GB", pageViews: 756, uniqueVisitors: 289 },
+        { country: "DE", pageViews: 505, uniqueVisitors: 198 }
+      ]
     }), {
-      status: 401,
+      status: 200,
       headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' }
     });
   }
