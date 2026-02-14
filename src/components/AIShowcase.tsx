@@ -236,7 +236,6 @@ const Counter = ({ value, suffix = '' }: { value: number; suffix?: string }) => 
 const AIShowcase = () => {
   const { t, i18n } = useTranslation();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
   const [lastUpdate, setLastUpdate] = useState('');
 
   // 生成当日数据
@@ -258,11 +257,7 @@ const AIShowcase = () => {
   // 自动轮播AI动态
   useEffect(() => {
     const interval = setInterval(() => {
-      setIsAnimating(true);
-      setTimeout(() => {
-        setActiveIndex((prev) => (prev + 1) % aiDynamics.length);
-        setIsAnimating(false);
-      }, 300);
+      setActiveIndex((prev) => (prev + 1) % aiDynamics.length);
     }, 4000);
     
     return () => clearInterval(interval);
@@ -418,11 +413,7 @@ const AIShowcase = () => {
                 <button
                   key={index}
                   onClick={() => {
-                    setIsAnimating(true);
-                    setTimeout(() => {
-                      setActiveIndex(index);
-                      setIsAnimating(false);
-                    }, 300);
+                    setActiveIndex(index);
                   }}
                   className={`w-2 h-2 rounded-full transition-all ${
                     index === activeIndex ? 'w-6 bg-cyan-400' : 'bg-slate-600 hover:bg-slate-500'
