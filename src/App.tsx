@@ -13,6 +13,7 @@ import Contact from './sections/Contact';
 import Footer from './sections/Footer';
 import FloatingContact from './components/FloatingContact';
 import VisitorStats from './components/VisitorStats';
+import AIShowcase from './components/AIShowcase';
 // TODO: 出海攻略版块暂时隐藏，如有需要可以重新启用
 // import BlogSection from './components/BlogSection';
 
@@ -60,6 +61,7 @@ function App() {
         <Markets />
         <StatsEnhanced />
         <VisitorStats />
+        <AIShowcase />
         <Testimonials />
         {/* <BlogSection /> */}
         <Contact />

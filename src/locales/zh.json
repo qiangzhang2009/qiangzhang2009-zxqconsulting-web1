@@ -273,5 +273,27 @@
     "markets": "市场区域",
     "services": "专业服务",
     "copyright": "© 2024 上海张小强企业咨询事务所. All rights reserved."
+  },
+  "ai": {
+    "showcase": {
+      "title": "AI 驱动 · 洞察全球市场",
+      "subtitle": "海外市场洞察",
+      "description": "基于多维度数据分析，为企业提供精准的海外市场洞察和决策支持",
+      "heatLevel": "市场热度",
+      "realtimeDynamics": "市场实时动态",
+      "autoUpdate": "每日更新",
+      "aiStats": "数据能力",
+      "dataSources": "数据源",
+      "dataSourcesDesc": "全球数据源",
+      "updateFreq": "更新频率",
+      "updateFreqDesc": "实时更新",
+      "analysis": "分析维度",
+      "analysisDesc": "多维分析",
+      "accuracy": "预测准确率",
+      "accuracyDesc": "AI模型预测",
+      "learnMore": "更多海外市场信息请联系我们",
+      "dataNote": "数据每日更新，仅供参考",
+      "lastUpdate": "最后更新"
+    }
   }
 }

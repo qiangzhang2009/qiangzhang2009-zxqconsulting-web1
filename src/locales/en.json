@@ -273,5 +273,27 @@
     "markets": "Market Regions",
     "services": "Professional Services",
     "copyright": "© 2024 Shanghai Zhang Xiaoqiang Enterprise Consulting Firm. All rights reserved."
+  },
+  "ai": {
+    "showcase": {
+      "title": "AI-Powered · Global Market Insights",
+      "subtitle": "Overseas Market Insights",
+      "description": "Based on multi-dimensional data analysis, providing precise overseas market insights and decision support for enterprises",
+      "heatLevel": "Market Heat",
+      "realtimeDynamics": "Real-time Market Dynamics",
+      "autoUpdate": "Daily Update",
+      "aiStats": "Data Capabilities",
+      "dataSources": "Data Sources",
+      "dataSourcesDesc": "Global Data Sources",
+      "updateFreq": "Update Frequency",
+      "updateFreqDesc": "Real-time Update",
+      "analysis": "Analysis Dimensions",
+      "analysisDesc": "Multi-dimensional Analysis",
+      "accuracy": "Prediction Accuracy",
+      "accuracyDesc": "AI Model Prediction",
+      "learnMore": "Contact Us for More Market Information",
+      "dataNote": "Data updated daily, for reference only",
+      "lastUpdate": "Last Update"
+    }
   }
 }
