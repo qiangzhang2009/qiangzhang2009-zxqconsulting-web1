@@ -31,67 +31,144 @@
       "opportunity": "Aiutare i Clienti a Cogliere le Opportunità Globali"
     },
     "values": {
-      "professional": { "title": "Professionale", "desc": "Team Certificato" },
-      "efficient": { "title": "Efficiente", "desc": "Eccellenza nell'Implementazione" },
-      "intimate": { "title": "Dedicato", "desc": "Supporto Completo" }
+      "professional": {
+        "title": "Professionale",
+        "desc": "Team Certificato"
+      },
+      "efficient": {
+        "title": "Efficiente",
+        "desc": "Eccellenza nell'Implementazione"
+      },
+      "intimate": {
+        "title": "Dedicato",
+        "desc": "Supporto Completo"
+      }
     }
   },
   "services": {
-    "title": "Servizi Principali",
-    "subtitle": "Soluzioni Complete per l'Espansione Globale",
-    "description": "Dalla pianificazione strategica all'implementazione operativa, forniamo servizi professionali end-to-end",
+    "title": "Servizi principali",
+    "subtitle": "Soluzioni globali complete di medicina erboristica e tradizionale cinese",
+    "description": "Dall'esportazione dei prodotti alla promozione culturale, forniamo servizi professionali end-to-end",
+    "policyBadge": "Salute a base di erbe·Piattaforma globale",
     "tabs": {
-      "strategy": "Strategia di Ingresso nei Mercati Internazionali",
-      "resources": "Integrazione Risorse e Matching Commerciale",
-      "support": "Supporto Operativo Continuo"
+      "bencao": "Esportazione di prodotti erboristici",
+      "education": "Educazione alla Medicina Tradizionale Cinese",
+      "culture": "Promozione della cultura della medicina tradizionale cinese",
+      "consulting": "Consultazione all'estero"
     },
-    "strategy": {
-      "title": "Strategia di Ingresso nei Mercati Internazionali",
-      "description": "Combinando informazioni basate sull'IA, forniamo rapporti di mercato approfonditi per i mercati target.",
+    "bencao": {
+      "title": "Esportazione di prodotti erboristici",
+      "description": "Con il supporto delle politiche nazionali, aiutiamo le aziende di prodotti erboristici a completare l'accesso ai mercati esteri, la costruzione di canali e la globalizzazione del marchio.",
       "features": {
-        "research": "Ricerca di Mercato Guidata dall'IA",
-        "compliance": "Certificazione CE UE, Supporto Conformità Giappone",
-        "tax": "Pianificazione Fiscale e Progettazione Struttura Legale"
+        "product": "Registrazione all'estero di prodotti erboristici",
+        "compliance": "Conformità e certificazione delle esportazioni",
+        "channel": "Espansione dei canali di vendita all'estero"
       }
     },
-    "resources": {
-      "title": "Integrazione Risorse e Matching Commerciale",
-      "description": "Integrando risorse globali di qualità, abbinando imprese a partner, canali e clienti appropriati.",
+    "education": {
+      "title": "Educazione alla Medicina Tradizionale Cinese",
+      "description": "Fornire servizi professionali di formazione e certificazione della MTC alle persone straniere e promuovere lo sviluppo di talenti internazionali della MTC.",
       "features": {
-        "partners": "Rete di Partner Premium Globale",
-        "channels": "Sviluppo Canali di Vendita Overseas",
-        "customers": "Matching Preciso dei Clienti"
+        "training": "Formazione per operatori di medicina tradizionale cinese all'estero",
+        "certification": "Certificazione Internazionale di Medicina Tradizionale Cinese",
+        "exchange": "Scambi accademici di medicina cinese tra Cina e paesi esteri"
       }
     },
-    "support": {
-      "title": "Supporto Operativo Continuo",
-      "description": "Fornendo supporto operativo continuo dopo l'espansione overseas.",
+    "culture": {
+      "title": "Promozione della cultura della medicina tradizionale cinese",
+      "description": "Attraverso la comunicazione multimediale multicanale e la pianificazione di eventi, mostreremo al mondo il fascino unico della cultura della medicina tradizionale cinese.",
       "features": {
-        "local": "Team Operativo Localizzato",
-        "marketing": "Supporto Marketing Overseas",
-        "legal": "Follow-up Continuo sulla Conformità Legale"
+        "media": "Media d'oltremare della cultura della medicina tradizionale cinese",
+        "events": "Scambio culturale internazionale della medicina tradizionale cinese",
+        "brand": "Costruzione del marchio culturale della medicina tradizionale cinese"
       }
-    }
+    },
+    "consulting": {
+      "title": "Consulenza sui mercati esteri",
+      "description": "Fornire strategie professionali di ingresso nei mercati esteri, leggi, regolamenti e supporto operativo per aiutare le aziende ad espandere i mercati globali.",
+      "features": {
+        "strategy": "Strategia di ingresso nei mercati esteri",
+        "legal": "Consulenza legale e di compliance",
+        "operation": "Supporto operativo continuo"
+      }
+    },
+    "serviceBadge": "Servizi professionali · Affidabile",
+    "learnMore": "saperne di più",
+    "bencaoHealth": "Salute alle erbe · Piattaforma globale"
   },
   "whyUs": {
     "title": "Perché Scegliere Noi",
     "subtitle": "Propulsato dall'IA · Basato sulle Risorse",
     "description": "Decisioni più rapide e più precise",
     "features": {
-      "local": { "title": "Expertise Regionale", "description": "Manager residente a Osaka, Giappone e Italia." },
-      "ai": { "title": "Empowerment IA", "description": "Agenti IA profondamente integrati in tutto il processo di espansione globale." },
-      "expertise": { "title": "Specializzazione Settoriale", "description": "Servizi completi per i settori MTC/Salute." }
+      "local": {
+        "title": "Expertise Regionale",
+        "description": "Manager residente a Osaka, Giappone e Italia."
+      },
+      "ai": {
+        "title": "Empowerment IA",
+        "description": "Agenti IA profondamente integrati in tutto il processo di espansione globale."
+      },
+      "expertise": {
+        "title": "Specializzazione Settoriale",
+        "description": "Servizi completi per i settori MTC/Salute."
+      }
     }
   },
   "markets": {
     "title": "Mercati Globali",
     "subtitle": "Presenza Globale, Profondità Locale",
     "description": "Progresso costante nei mercati maturi, sfondamenti precisi nei mercati emergenti",
-    "japan": { "title": "Giappone", "description": "Manager residente a Osaka.", "features": { "resident": "Manager Residente a Osaka", "local": "Politiche locali e cultura", "service": "Servizio Express Localizzato", "language": "Supporto in Giapponese" } },
-    "europe": { "title": "Europa (Italia)", "description": "L'Italia come hub strategico.", "features": { "hub": "Hub Italia", "network": "Rete europea", "local": "Team locale", "compliance": "Esperti Conformità UE" } },
-    "southeast": { "title": "Sud-Est Asiatico", "description": "Mercati emergenti ad alta crescita.", "features": { "market": "Copertura multi-paese", "growth": "Alta crescita", "local": "Partner locali", "support": "Servizi completi" } },
-    "australia": { "title": "Australia", "description": "Manager residente a Sydney.", "features": { "resident": "Manager Residente a Sydney", "local": "Politiche locali", "service": "Servizio Express Locale", "language": "Supporto Inglese" } },
-    "middleEast": { "title": "Medio Oriente", "description": "Oceano blu emergente.", "features": { "opportunity": "Opportunità di alto livello", "partners": "Rete locale", "culture": "Servizi adattamento culturale", "support": "Supporto investimento" } }
+    "japan": {
+      "title": "Giappone",
+      "description": "Manager residente a Osaka.",
+      "features": {
+        "resident": "Manager Residente a Osaka",
+        "local": "Politiche locali e cultura",
+        "service": "Servizio Express Localizzato",
+        "language": "Supporto in Giapponese"
+      }
+    },
+    "europe": {
+      "title": "Europa (Italia)",
+      "description": "L'Italia come hub strategico.",
+      "features": {
+        "hub": "Hub Italia",
+        "network": "Rete europea",
+        "local": "Team locale",
+        "compliance": "Esperti Conformità UE"
+      }
+    },
+    "southeast": {
+      "title": "Sud-Est Asiatico",
+      "description": "Mercati emergenti ad alta crescita.",
+      "features": {
+        "market": "Copertura multi-paese",
+        "growth": "Alta crescita",
+        "local": "Partner locali",
+        "support": "Servizi completi"
+      }
+    },
+    "australia": {
+      "title": "Australia",
+      "description": "Manager residente a Sydney.",
+      "features": {
+        "resident": "Manager Residente a Sydney",
+        "local": "Politiche locali",
+        "service": "Servizio Express Locale",
+        "language": "Supporto Inglese"
+      }
+    },
+    "middleEast": {
+      "title": "Medio Oriente",
+      "description": "Oceano blu emergente.",
+      "features": {
+        "opportunity": "Opportunità di alto livello",
+        "partners": "Rete locale",
+        "culture": "Servizi adattamento culturale",
+        "support": "Supporto investimento"
+      }
+    }
   },
   "stats": {
     "title": "I Nostri Risultati",
@@ -109,14 +186,23 @@
       "cases": "Casi di Successo",
       "support": "Assistenza Post-Vendita"
     },
-    "items": { "companies": "Espansioni Overseas Riuscite", "experience": "Anni di Esperienza", "partners": "Partner Globali", "countries": "Paesi Coperti" }
+    "items": {
+      "companies": "Espansioni Overseas Riuscite",
+      "experience": "Anni di Esperienza",
+      "partners": "Partner Globali",
+      "countries": "Paesi Coperti"
+    }
   },
   "testimonials": {
     "title": "Testimonian",
     "subtitleze dei Clienti": "Cosa Dicono",
     "description": "Feedback reali dai clienti",
     "items": {
-      "wang": { "quote": "Il team ci ha aiutati a entrare con successo nel mercato giapponese.", "name": "Wang Xiaoming", "position": "CEO, Azienda Dispositivi Medici" }
+      "wang": {
+        "quote": "Il team ci ha aiutati a entrare con successo nel mercato giapponese.",
+        "name": "Wang Xiaoming",
+        "position": "CEO, Azienda Dispositivi Medici"
+      }
     }
   },
   "contact": {
@@ -125,12 +211,42 @@
     "description": "Se sei interessato ai servizi di espansione overseas, contattaci!",
     "address": "Shanghai",
     "team": {
-      "zhang": { "name": "Zhang Qiang", "region": "Responsabile Cina", "phone": "(+86) 137 648 725381", "email": "zxq@zxqconsulting.com" },
-      "li": { "name": "Li Jing", "region": "Responsabile Giappone/ASEAN", "phoneCn": "(+86) 138 166 89487", "phoneJp": "(+81) 080 962 86389", "email": "yuqian@zxqconsulting.com" },
-      "liu": { "name": "Liu Xiao", "region": "Responsabile Australia/HK", "phoneCn": "(+86) 182 177 94992", "phoneAu": "(+61) 466 981 227", "email": "dianaliu@zxqconsulting.com" }
+      "zhang": {
+        "name": "Zhang Qiang",
+        "region": "Responsabile Cina",
+        "phone": "(+86) 137 648 725381",
+        "email": "zxq@zxqconsulting.com"
+      },
+      "li": {
+        "name": "Li Jing",
+        "region": "Responsabile Giappone/ASEAN",
+        "phoneCn": "(+86) 138 166 89487",
+        "phoneJp": "(+81) 080 962 86389",
+        "email": "yuqian@zxqconsulting.com"
+      },
+      "liu": {
+        "name": "Liu Xiao",
+        "region": "Responsabile Australia/HK",
+        "phoneCn": "(+86) 182 177 94992",
+        "phoneAu": "(+61) 466 981 227",
+        "email": "dianaliu@zxqconsulting.com"
+      }
     },
     "social": "WeChat/Video: Zhang Xiaoqiang Global",
-    "form": { "title": "Invia Richiesta", "name": "Nome", "namePlaceholder": "Inserisci il tuo nome", "email": "Email", "emailPlaceholder": "tua@email.com", "phone": "Telefono", "phonePlaceholder": "(+86)", "company": "Azienda", "companyPlaceholder": "Nome dell'azienda", "message": "Contenuto", "messagePlaceholder": "Descrivi le tue esigenze...", "submit": "Invia" }
+    "form": {
+      "title": "Invia Richiesta",
+      "name": "Nome",
+      "namePlaceholder": "Inserisci il tuo nome",
+      "email": "Email",
+      "emailPlaceholder": "tua@email.com",
+      "phone": "Telefono",
+      "phonePlaceholder": "(+86)",
+      "company": "Azienda",
+      "companyPlaceholder": "Nome dell'azienda",
+      "message": "Contenuto",
+      "messagePlaceholder": "Descrivi le tue esigenze...",
+      "submit": "Invia"
+    }
   },
   "footer": {
     "title": "Pronto a Globalizzarti?",

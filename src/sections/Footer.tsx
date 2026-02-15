@@ -34,45 +34,45 @@ const Footer = () => {
     {
       title: t('footer.services'),
       links: [
-        { name: t('services.tabs.strategy'), href: '#services' },
-        { name: t('services.tabs.resources'), href: '#services' },
-        { name: t('services.tabs.support'), href: '#services' },
-        { name: 'AI赋能', href: '#services' },
+        { name: t('services.tabs.bencao'), href: '#services' },
+        { name: t('services.tabs.education'), href: '#services' },
+        { name: t('services.tabs.culture'), href: '#services' },
+        { name: t('services.tabs.consulting'), href: '#services' },
       ],
     },
   ];
 
   return (
     <footer className="bg-[#3d352e] text-white">
-      {/* Spring Festival CTA Banner - 马年春节特别版 */}
-      <div className="bg-gradient-to-r from-[#C41E3A] via-[#DC143C] to-[#FFD700] py-16 relative overflow-hidden">
+      {/* CTA Banner - 本草出海特别版 */}
+      <div className="bg-gradient-to-r from-emerald-600 via-teal-500 to-teal-400 py-16 relative overflow-hidden">
         {/* Decorative elements */}
-        <div className="absolute top-4 left-10 text-4xl animate-float">🐴</div>
-        <div className="absolute top-4 right-10 text-4xl animate-float" style={{ animationDelay: '1s' }}>🏮</div>
+        <div className="absolute top-4 left-10 text-4xl animate-float">🌿</div>
+        <div className="absolute top-4 right-10 text-4xl animate-float" style={{ animationDelay: '1s' }}>🏥</div>
         <div className="absolute bottom-4 left-1/4 text-3xl gold-sparkle">✨</div>
         <div className="absolute bottom-4 right-1/4 text-3xl gold-sparkle" style={{ animationDelay: '0.5s' }}>🌟</div>
         
         <div className="container mx-auto px-6 text-center relative z-10">
-          {/* Horse Year Badge */}
+          {/* Bencao Badge */}
           <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 mb-6">
-            <Star className="w-5 h-5 text-[#FFD700] fill-current" />
-            <span className="text-white font-medium">🐴 2026 马年春节 🐴</span>
-            <Star className="w-5 h-5 text-[#FFD700] fill-current" />
+            <Star className="w-5 h-5 text-teal-200 fill-current" />
+            <span className="text-white font-medium">🌿 {t('footer.banner.badge')} 🌿</span>
+            <Star className="w-5 h-5 text-teal-200 fill-current" />
           </div>
           
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
-            🧧 马年大吉 · 马到成功 🧧
+            🌍 {t('footer.banner.title')} 🌍
           </h2>
           <p className="text-white/95 mb-8 max-w-2xl mx-auto text-lg leading-relaxed">
-            感谢您一直以来的信任与支持！在新的一年里，祝您龙马精神、奔腾万里、万事如意！
+            {t('footer.banner.description')}
             <br />
-            <span className="font-semibold text-[#FFD700]">2026，与您一起再创辉煌！</span>
+            <span className="font-semibold text-teal-200">{t('footer.banner.tagline')}</span>
           </p>
           <button
             onClick={() => scrollToSection('#contact')}
-            className="bg-white text-[#C41E3A] px-10 py-4 rounded-full font-bold inline-flex items-center gap-2 hover:bg-[#FFF8DC] transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
+            className="bg-white text-emerald-600 px-10 py-4 rounded-full font-bold inline-flex items-center gap-2 hover:bg-teal-50 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
           >
-            🧧 立即咨询，开启全球之旅
+            🌿 {t('footer.banner.button')}
             <ArrowRight className="w-5 h-5" />
           </button>
         </div>
@@ -85,7 +85,7 @@ const Footer = () => {
             {/* Brand */}
             <div className="md:col-span-2">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#C41E3A] to-[#FFD700] flex items-center justify-center shadow-lg">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg">
                   <Globe className="w-7 h-7 text-white" />
                 </div>
                 <div>
@@ -97,9 +97,9 @@ const Footer = () => {
                 {t('brand.tagline')}
               </p>
               <div className="flex items-center gap-2 text-sm text-white/60">
-                <span className="text-[#FFD700]">🐴</span>
-                <span>2026 马年春节特惠进行中</span>
-                <span className="text-[#FFD700]">✨</span>
+                <span className="text-emerald-400">🐴</span>
+                <span>{t('footer.promo.spring')}</span>
+                <span className="text-emerald-400">✨</span>
               </div>
             </div>
 
@@ -145,9 +145,9 @@ const Footer = () => {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 text-white/40 text-sm">
               <span>🐴</span>
-              <span>龙马精神</span>
+              <span>{t('footer.promo.spirit')}</span>
               <span>·</span>
-              <span>奔腾万里</span>
+              <span>{t('footer.promo.stride')}</span>
             </div>
           </div>
           <div className="text-white/40 text-sm flex items-center gap-2">

@@ -31,67 +31,144 @@
       "opportunity": "Membantu Klien Memanfaatkan Peluang Global dengan Cepat"
     },
     "values": {
-      "professional": { "title": "Profesional", "desc": "Tim Bersertifikat" },
-      "efficient": { "title": "Efisien", "desc": "Keunggulan Implementasi" },
-      "intimate": { "title": "Berdedikasi", "desc": "Dukungan Lengkap" }
+      "professional": {
+        "title": "Profesional",
+        "desc": "Tim Bersertifikat"
+      },
+      "efficient": {
+        "title": "Efisien",
+        "desc": "Keunggulan Implementasi"
+      },
+      "intimate": {
+        "title": "Berdedikasi",
+        "desc": "Dukungan Lengkap"
+      }
     }
   },
   "services": {
-    "title": "Layanan Utama",
-    "subtitle": "Solusi Ekspansi Global Komprehensif",
-    "description": "Dari perencanaan strategis hingga implementasi operasional, kami menyediakan layanan profesional end-to-end",
+    "title": "Layanan inti",
+    "subtitle": "Solusi Global Pengobatan Herbal dan Tradisional Cina yang Komprehensif",
+    "description": "Dari ekspor produk hingga promosi budaya, kami menyediakan layanan profesional menyeluruh",
+    "policyBadge": "Kesehatan Herbal·Platform Global",
     "tabs": {
-      "strategy": "Strategi Masuk Pasar Internasional",
-      "resources": "Integrasi Sumber Daya & Pencocokan Bisnis",
-      "support": "Dukungan Operasional Berkelanjutan"
+      "bencao": "Ekspor produk jamu",
+      "education": "Pendidikan Pengobatan Tradisional Tiongkok",
+      "culture": "Promosi budaya pengobatan tradisional Tiongkok",
+      "consulting": "Konsultasi luar negeri"
     },
-    "strategy": {
-      "title": "Strategi Masuk Pasar Internasional",
-      "description": "Menggabungkan wawasan berbasis AI, kami menyediakan laporan pasar mendalam untuk pasar target.",
+    "bencao": {
+      "title": "Ekspor produk jamu",
+      "description": "Dengan dukungan kebijakan nasional, kami membantu perusahaan produk herbal menyelesaikan akses pasar luar negeri, pembangunan saluran, dan globalisasi merek.",
       "features": {
-        "research": "Penelitian Pasar Berbasis AI",
-        "compliance": "Sertifikasi CE UE, Dukungan Kepatuhan Jepang",
-        "tax": "Perencanaan Pajak & Desain Struktur Hukum"
+        "product": "Registrasi produk herbal di luar negeri",
+        "compliance": "Kepatuhan dan Sertifikasi Ekspor",
+        "channel": "Perluasan saluran penjualan di luar negeri"
       }
     },
-    "resources": {
-      "title": "Integrasi Sumber Daya & Pencocokan Bisnis",
-      "description": "Mengintegrasikan sumber daya global berkualitas, mencocokkan perusahaan dengan mitra, saluran, dan pelanggan yang tepat.",
+    "education": {
+      "title": "Pendidikan Pengobatan Tradisional Tiongkok",
+      "description": "Memberikan pendidikan TCM dan layanan sertifikasi profesional kepada orang-orang di luar negeri dan mempromosikan pengembangan bakat TCM internasional.",
       "features": {
-        "partners": "Jaringan Mitra Premium Global",
-        "channels": "Pengembangan Saluran Penjualan Luar Negeri",
-        "customers": "Pencocokan Pelanggan yang Tepat"
+        "training": "Pelatihan Praktisi Pengobatan Tradisional Tiongkok di Luar Negeri",
+        "certification": "Sertifikasi Pengobatan Tradisional Cina Internasional",
+        "exchange": "Pertukaran akademis pengobatan Tiongkok antara Tiongkok dan negara asing"
       }
     },
-    "support": {
-      "title": "Dukungan Operasional Berkelanjutan",
-      "description": "Menyediakan dukungan operasional berkelanjutan setelah ekspansi luar negeri.",
+    "culture": {
+      "title": "Promosi budaya pengobatan tradisional Tiongkok",
+      "description": "Melalui komunikasi media multi-saluran dan perencanaan acara, kami akan menunjukkan pesona unik budaya pengobatan tradisional Tiongkok kepada dunia.",
       "features": {
-        "local": "Tim Operasional Terlokalisasi",
-        "marketing": "Dukungan Pemasaran Luar Negeri",
-        "legal": "Tindak Lanjut Kepatuhan Hukum Berkelanjutan"
+        "media": "Media Luar Negeri Budaya Pengobatan Tradisional Tiongkok",
+        "events": "Pertukaran budaya internasional pengobatan tradisional Tiongkok",
+        "brand": "Pembangunan Merek Budaya Pengobatan Tradisional Tiongkok"
       }
-    }
+    },
+    "consulting": {
+      "title": "Konsultasi pasar luar negeri",
+      "description": "Memberikan strategi masuk pasar luar negeri yang profesional, undang-undang dan peraturan serta dukungan operasional untuk membantu perusahaan memperluas pasar global.",
+      "features": {
+        "strategy": "Strategi masuk pasar luar negeri",
+        "legal": "Konsultasi Hukum dan Kepatuhan",
+        "operation": "Dukungan operasional yang berkelanjutan"
+      }
+    },
+    "serviceBadge": "Pelayanan profesional · Dapat dipercaya",
+    "learnMore": "pelajari lebih lanjut",
+    "bencaoHealth": "Kesehatan Herbal · Platform Global"
   },
   "whyUs": {
     "title": "Mengapa Memilih Kami",
     "subtitle": "Didukung AI · Berbasis Sumber Daya",
     "description": "Keputusan yang lebih cepat dan lebih tepat",
     "features": {
-      "local": { "title": "Keahlian Regional", "description": "Manajer residen di Osaka, Jepang dan Italia." },
-      "ai": { "title": "Pemberdayaan AI", "description": "Agen AI yang terintegrasi dalam seluruh proses ekspansi global." },
-      "expertise": { "title": "Spesialisasi Industri", "description": "Layanan lengkap untuk sektor TCM/Kesehatan." }
+      "local": {
+        "title": "Keahlian Regional",
+        "description": "Manajer residen di Osaka, Jepang dan Italia."
+      },
+      "ai": {
+        "title": "Pemberdayaan AI",
+        "description": "Agen AI yang terintegrasi dalam seluruh proses ekspansi global."
+      },
+      "expertise": {
+        "title": "Spesialisasi Industri",
+        "description": "Layanan lengkap untuk sektor TCM/Kesehatan."
+      }
     }
   },
   "markets": {
     "title": "Pasar Global",
     "subtitle": "Kehadiran Global, Kedalaman Lokal",
     "description": "Kemajuan konsisten di pasar matang, terobosan tepat di pasar berkembang",
-    "japan": { "title": "Jepang", "description": "Manajer residen di Osaka.", "features": { "resident": "Manajer Residen di Osaka", "local": "Kebijakan lokal dan budaya", "service": "Layanan Ekspres Terlokalisasi", "language": "Dukungan Bisnis Jepang" } },
-    "europe": { "title": "Eropa (Italia)", "description": "Italia sebagai pusat strategis.", "features": { "hub": "Hub Italia", "network": "Jaringan Eropa", "local": "Tim Lokal", "compliance": "Ahli Kepatuhan UE" } },
-    "southeast": { "title": "Asia Tenggara", "description": "Pasar berkembang dengan pertumbuhan tinggi.", "features": { "market": "Cakupan Multi-Negara", "growth": "Pertumbuhan Tinggi", "local": "Mitra Lokal", "support": "Layanan Lengkap" } },
-    "australia": { "title": "Australia", "description": "Manajer tinggal di Sydney.", "features": { "resident": "Manajer Tinggal di Sydney", "local": "Kebijakan Lokal", "service": "Layanan Ekspres Lokal", "language": "Dukungan Bahasa Inggris" } },
-    "middleEast": { "title": "Timur Tengah", "description": "Laut biru yang berkembang.", "features": { "opportunity": "Peluang Tingkat Tinggi", "partners": "Jaringan Lokal", "culture": "Layanan Adaptasi Budaya", "support": "Dukungan Investasi" } }
+    "japan": {
+      "title": "Jepang",
+      "description": "Manajer residen di Osaka.",
+      "features": {
+        "resident": "Manajer Residen di Osaka",
+        "local": "Kebijakan lokal dan budaya",
+        "service": "Layanan Ekspres Terlokalisasi",
+        "language": "Dukungan Bisnis Jepang"
+      }
+    },
+    "europe": {
+      "title": "Eropa (Italia)",
+      "description": "Italia sebagai pusat strategis.",
+      "features": {
+        "hub": "Hub Italia",
+        "network": "Jaringan Eropa",
+        "local": "Tim Lokal",
+        "compliance": "Ahli Kepatuhan UE"
+      }
+    },
+    "southeast": {
+      "title": "Asia Tenggara",
+      "description": "Pasar berkembang dengan pertumbuhan tinggi.",
+      "features": {
+        "market": "Cakupan Multi-Negara",
+        "growth": "Pertumbuhan Tinggi",
+        "local": "Mitra Lokal",
+        "support": "Layanan Lengkap"
+      }
+    },
+    "australia": {
+      "title": "Australia",
+      "description": "Manajer tinggal di Sydney.",
+      "features": {
+        "resident": "Manajer Tinggal di Sydney",
+        "local": "Kebijakan Lokal",
+        "service": "Layanan Ekspres Lokal",
+        "language": "Dukungan Bahasa Inggris"
+      }
+    },
+    "middleEast": {
+      "title": "Timur Tengah",
+      "description": "Laut biru yang berkembang.",
+      "features": {
+        "opportunity": "Peluang Tingkat Tinggi",
+        "partners": "Jaringan Lokal",
+        "culture": "Layanan Adaptasi Budaya",
+        "support": "Dukungan Investasi"
+      }
+    }
   },
   "stats": {
     "title": "Pencapaian Kami",
@@ -109,14 +186,23 @@
       "cases": "Kasus Berhasil",
       "support": "Dukungan Purna Jual"
     },
-    "items": { "companies": "Ekspansi Luar Negeri yang Berhasil", "experience": "Tahun Pengalaman", "partners": "Mitra Global", "countries": "Negara yang Dicakup" }
+    "items": {
+      "companies": "Ekspansi Luar Negeri yang Berhasil",
+      "experience": "Tahun Pengalaman",
+      "partners": "Mitra Global",
+      "countries": "Negara yang Dicakup"
+    }
   },
   "testimonials": {
     "title": "Testimoni Klien",
     "subtitle": "Apa yang Mereka Katakan",
     "description": "Umpan balik nyata dari klien",
     "items": {
-      "wang": { "quote": "Tim membantu kami berhasil memasuki pasar Jepang.", "name": "Wang Xiaoming", "position": "CEO, Perusahaan Alat Kesehatan" }
+      "wang": {
+        "quote": "Tim membantu kami berhasil memasuki pasar Jepang.",
+        "name": "Wang Xiaoming",
+        "position": "CEO, Perusahaan Alat Kesehatan"
+      }
     }
   },
   "contact": {
@@ -125,12 +211,42 @@
     "description": "Jika Anda tertarik dengan layanan ekspansi luar negeri, hubungi kami sekarang!",
     "address": "Shanghai",
     "team": {
-      "zhang": { "name": "Zhang Qiang", "region": "Pimpinan Tiongkok", "phone": "(+86) 137 648 725381", "email": "zxq@zxqconsulting.com" },
-      "li": { "name": "Li Jing", "region": "Pimpinan Jepang/ASEAN", "phoneCn": "(+86) 138 166 89487", "phoneJp": "(+81) 080 962 86389", "email": "yuqian@zxqconsulting.com" },
-      "liu": { "name": "Liu Xiao", "region": "Pimpinan Australia/HK", "phoneCn": "(+86) 182 177 94992", "phoneAu": "(+61) 466 981 227", "email": "dianaliu@zxqconsulting.com" }
+      "zhang": {
+        "name": "Zhang Qiang",
+        "region": "Pimpinan Tiongkok",
+        "phone": "(+86) 137 648 725381",
+        "email": "zxq@zxqconsulting.com"
+      },
+      "li": {
+        "name": "Li Jing",
+        "region": "Pimpinan Jepang/ASEAN",
+        "phoneCn": "(+86) 138 166 89487",
+        "phoneJp": "(+81) 080 962 86389",
+        "email": "yuqian@zxqconsulting.com"
+      },
+      "liu": {
+        "name": "Liu Xiao",
+        "region": "Pimpinan Australia/HK",
+        "phoneCn": "(+86) 182 177 94992",
+        "phoneAu": "(+61) 466 981 227",
+        "email": "dianaliu@zxqconsulting.com"
+      }
     },
     "social": "WeChat/Video: Zhang Xiaoqiang Global",
-    "form": { "title": "Kirim Pertanyaan", "name": "Nama", "namePlaceholder": "Masukkan nama Anda", "email": "Email", "emailPlaceholder": "anda@email.com", "phone": "Telepon", "phonePlaceholder": "(+86)", "company": "Perusahaan", "companyPlaceholder": "Nama perusahaan", "message": "Konten", "messagePlaceholder": "Jelaskan kebutuhan Anda...", "submit": "Kirim" }
+    "form": {
+      "title": "Kirim Pertanyaan",
+      "name": "Nama",
+      "namePlaceholder": "Masukkan nama Anda",
+      "email": "Email",
+      "emailPlaceholder": "anda@email.com",
+      "phone": "Telepon",
+      "phonePlaceholder": "(+86)",
+      "company": "Perusahaan",
+      "companyPlaceholder": "Nama perusahaan",
+      "message": "Konten",
+      "messagePlaceholder": "Jelaskan kebutuhan Anda...",
+      "submit": "Kirim"
+    }
   },
   "footer": {
     "title": "Siap untuk Mengglobal?",

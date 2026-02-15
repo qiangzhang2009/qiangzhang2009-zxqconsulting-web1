@@ -114,7 +114,7 @@ const Contact = () => {
       setFormData({ name: '', email: '', phone: '', company: '', message: '' });
     } catch (error) {
       console.error('提交失败:', error);
-      alert('提交失败，请稍后重试或直接发送邮件至 customer@zxqconsulting.com');
+      alert(t('contact.form.error'));
     }
   };
 
@@ -133,10 +133,10 @@ const Contact = () => {
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="inline-block text-[#d4a373] font-medium mb-4 tracking-wider uppercase text-sm">
+          <span className="inline-block text-[#10b981] font-medium mb-4 tracking-wider uppercase text-sm">
             {t('contact.title')}
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#3d352e] mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#064e3b] mb-4">
             {t('contact.subtitle')}
           </h2>
           <p className="text-[#5c4f3a] max-w-2xl mx-auto">
@@ -156,7 +156,7 @@ const Contact = () => {
                 alt="Contact"
                 className="w-full h-[300px] object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#3d352e]/80 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#064e3b]/80 to-transparent" />
               <div className="absolute bottom-6 left-6 right-6 text-white">
                 <h3 className="text-xl font-bold mb-2">{t('brand.fullName')}</h3>
                 <p className="text-sm text-white/80">{t('brand.tagline')}</p>
@@ -168,20 +168,20 @@ const Contact = () => {
               {contacts.map((contact, index) => (
                 <div
                   key={index}
-                  className="bg-[#f5f0e8] rounded-xl p-5 hover:bg-[#e6c9a8]/30 transition-colors"
+                  className="bg-[#ecfdf5] rounded-xl p-5 hover:bg-[#6ee7b7]/30 transition-colors"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-[#d4a373] flex items-center justify-center text-white flex-shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-[#10b981] flex items-center justify-center text-white flex-shrink-0">
                       <User className="w-5 h-5" />
                     </div>
                     <div>
-                      <div className="font-bold text-[#3d352e]">{contact.name}</div>
+                      <div className="font-bold text-[#064e3b]">{contact.name}</div>
                       <div className="text-sm text-[#5c4f3a] mb-2">{contact.role}</div>
                       <div className="flex flex-col gap-1 text-sm">
                         {contact.phone && (
                           <a
                             href={`tel:${contact.phone}`}
-                            className="flex items-center gap-2 text-[#3d352e] hover:text-[#d4a373] transition-colors"
+                            className="flex items-center gap-2 text-[#064e3b] hover:text-[#10b981] transition-colors"
                           >
                             <Phone className="w-4 h-4" />
                             {contact.phone}
@@ -190,7 +190,7 @@ const Contact = () => {
                         {contact.phone1 && (
                           <a
                             href={`tel:${contact.phone1}`}
-                            className="flex items-center gap-2 text-[#3d352e] hover:text-[#d4a373] transition-colors"
+                            className="flex items-center gap-2 text-[#064e3b] hover:text-[#10b981] transition-colors"
                           >
                             <Phone className="w-4 h-4" />
                             {contact.phone1}
@@ -199,7 +199,7 @@ const Contact = () => {
                         {contact.phone2 && (
                           <a
                             href={`tel:${contact.phone2}`}
-                            className="flex items-center gap-2 text-[#3d352e] hover:text-[#d4a373] transition-colors"
+                            className="flex items-center gap-2 text-[#064e3b] hover:text-[#10b981] transition-colors"
                           >
                             <Phone className="w-4 h-4" />
                             {contact.phone2}
@@ -207,7 +207,7 @@ const Contact = () => {
                         )}
                         <a
                           href={`mailto:${contact.email}`}
-                          className="flex items-center gap-2 text-[#3d352e] hover:text-[#d4a373] transition-colors"
+                          className="flex items-center gap-2 text-[#064e3b] hover:text-[#10b981] transition-colors"
                         >
                           <Mail className="w-4 h-4" />
                           {contact.email}
@@ -220,9 +220,9 @@ const Contact = () => {
             </div>
 
             {/* Social */}
-            <div className="mt-6 p-5 bg-gradient-to-r from-[#d4a373]/10 to-[#e6c9a8]/10 rounded-xl">
-              <div className="flex items-center gap-2 text-[#3d352e]">
-                <MapPin className="w-5 h-5 text-[#d4a373]" />
+            <div className="mt-6 p-5 bg-gradient-to-r from-[#10b981]/10 to-[#6ee7b7]/10 rounded-xl">
+              <div className="flex items-center gap-2 text-[#064e3b]">
+                <MapPin className="w-5 h-5 text-[#10b981]" />
                 <span className="font-medium">{t('contact.social')}</span>
               </div>
             </div>
@@ -232,14 +232,14 @@ const Contact = () => {
           <form
             ref={formRef}
             onSubmit={handleSubmit}
-            className="bg-white rounded-2xl p-8 shadow-xl border border-[#e6c9a8]/30"
+            className="bg-white rounded-2xl p-8 shadow-xl border border-[#6ee7b7]/30"
           >
-            <h3 className="text-xl font-bold text-[#3d352e] mb-6">{t('contact.form.title')}</h3>
+            <h3 className="text-xl font-bold text-[#064e3b] mb-6">{t('contact.form.title')}</h3>
 
             <div className="space-y-5">
               <div className="input-focus">
-                <label className="flex items-center gap-2 text-sm font-medium text-[#3d352e] mb-2">
-                  <User className="w-4 h-4 text-[#d4a373]" />
+                <label className="flex items-center gap-2 text-sm font-medium text-[#064e3b] mb-2">
+                  <User className="w-4 h-4 text-[#10b981]" />
                   {t('contact.form.name')}
                 </label>
                 <input
@@ -248,15 +248,15 @@ const Contact = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-[#f5f0e8] rounded-lg border-0 focus:ring-2 focus:ring-[#d4a373] transition-all"
+                  className="w-full px-4 py-3 bg-[#ecfdf5] rounded-lg border-0 focus:ring-2 focus:ring-[#10b981] transition-all"
                   placeholder={t('contact.form.namePlaceholder')}
                 />
               </div>
 
               <div className="grid md:grid-cols-2 gap-5">
                 <div className="input-focus">
-                  <label className="flex items-center gap-2 text-sm font-medium text-[#3d352e] mb-2">
-                    <Mail className="w-4 h-4 text-[#d4a373]" />
+                  <label className="flex items-center gap-2 text-sm font-medium text-[#064e3b] mb-2">
+                    <Mail className="w-4 h-4 text-[#10b981]" />
                     {t('contact.form.email')}
                   </label>
                   <input
@@ -265,14 +265,14 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-[#f5f0e8] rounded-lg border-0 focus:ring-2 focus:ring-[#d4a373] transition-all"
+                    className="w-full px-4 py-3 bg-[#ecfdf5] rounded-lg border-0 focus:ring-2 focus:ring-[#10b981] transition-all"
                     placeholder={t('contact.form.emailPlaceholder')}
                   />
                 </div>
 
                 <div className="input-focus">
-                  <label className="flex items-center gap-2 text-sm font-medium text-[#3d352e] mb-2">
-                    <Phone className="w-4 h-4 text-[#d4a373]" />
+                  <label className="flex items-center gap-2 text-sm font-medium text-[#064e3b] mb-2">
+                    <Phone className="w-4 h-4 text-[#10b981]" />
                     {t('contact.form.phone')}
                   </label>
                   <input
@@ -280,15 +280,15 @@ const Contact = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-[#f5f0e8] rounded-lg border-0 focus:ring-2 focus:ring-[#d4a373] transition-all"
+                    className="w-full px-4 py-3 bg-[#ecfdf5] rounded-lg border-0 focus:ring-2 focus:ring-[#10b981] transition-all"
                     placeholder={t('contact.form.phonePlaceholder')}
                   />
                 </div>
               </div>
 
               <div className="input-focus">
-                <label className="flex items-center gap-2 text-sm font-medium text-[#3d352e] mb-2">
-                  <Building className="w-4 h-4 text-[#d4a373]" />
+                <label className="flex items-center gap-2 text-sm font-medium text-[#064e3b] mb-2">
+                  <Building className="w-4 h-4 text-[#10b981]" />
                   {t('contact.form.company')}
                 </label>
                 <input
@@ -296,14 +296,14 @@ const Contact = () => {
                   name="company"
                   value={formData.company}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-[#f5f0e8] rounded-lg border-0 focus:ring-2 focus:ring-[#d4a373] transition-all"
+                  className="w-full px-4 py-3 bg-[#ecfdf5] rounded-lg border-0 focus:ring-2 focus:ring-[#10b981] transition-all"
                   placeholder={t('contact.form.companyPlaceholder')}
                 />
               </div>
 
               <div className="input-focus">
-                <label className="flex items-center gap-2 text-sm font-medium text-[#3d352e] mb-2">
-                  <MessageSquare className="w-4 h-4 text-[#d4a373]" />
+                <label className="flex items-center gap-2 text-sm font-medium text-[#064e3b] mb-2">
+                  <MessageSquare className="w-4 h-4 text-[#10b981]" />
                   {t('contact.form.message')}
                 </label>
                 <textarea
@@ -311,7 +311,7 @@ const Contact = () => {
                   value={formData.message}
                   onChange={handleChange}
                   rows={4}
-                  className="w-full px-4 py-3 bg-[#f5f0e8] rounded-lg border-0 focus:ring-2 focus:ring-[#d4a373] transition-all resize-none"
+                  className="w-full px-4 py-3 bg-[#ecfdf5] rounded-lg border-0 focus:ring-2 focus:ring-[#10b981] transition-all resize-none"
                   placeholder={t('contact.form.messagePlaceholder')}
                 />
               </div>
@@ -332,9 +332,9 @@ const Contact = () => {
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-center text-[#3d352e]">提交成功</DialogTitle>
+            <DialogTitle className="text-center text-[#064e3b]">{t('contact.form.success')}</DialogTitle>
             <DialogDescription className="text-center text-[#5c4f3a]">
-              感谢您的咨询！我们的专业顾问将在24小时内与您联系。
+              {t('contact.form.successMessage')}
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-center mt-4">
@@ -342,7 +342,7 @@ const Contact = () => {
               onClick={() => setShowDialog(false)}
               className="btn-primary"
             >
-              知道了
+              {t('contact.form.gotIt')}
             </button>
           </div>
         </DialogContent>

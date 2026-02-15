@@ -54,24 +54,23 @@ const Navbar = () => {
             className="flex items-center gap-2 sm:gap-3 group"
           >
             <div className="relative">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-[#C41E3A] to-[#FFD700] flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-lg">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-emerald-600 to-teal-400 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-lg">
                 <Globe className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
-              {/* Small horse badge */}
+              {/* Small plant badge */}
               <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5 shadow-sm">
-                <span className="text-xs sm:text-sm">🐴</span>
+                <span className="text-xs sm:text-sm">🌿</span>
               </div>
             </div>
             <div>
               <span className={`font-serif font-bold text-base sm:text-lg transition-colors duration-300 ${
-                isScrolled ? 'text-[#3d352e]' : 'text-[#3d352e]'
+                isScrolled ? 'text-emerald-800' : 'text-emerald-800'
               }`}>
                 {t('brand.name')}
               </span>
-              <div className="text-xs text-[#C41E3A] font-medium flex items-center gap-1">
-                <Star className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-current text-[#FFD700]" />
-                <span className="hidden xs:inline">2026 马年</span>
-                <span className="xs:hidden">马年</span>
+              <div className="text-xs text-emerald-600 font-medium flex items-center gap-1">
+                <Star className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-current text-teal-400" />
+                <span>{t('brand.tagline')}</span>
               </div>
             </div>
           </a>
@@ -92,7 +91,7 @@ const Navbar = () => {
                   e.preventDefault();
                   scrollToSection(link.href);
                 }}
-                className={`text-sm font-medium transition-colors duration-300 hover:text-[#C41E3A] ${
+                className={`text-sm font-medium transition-colors duration-300 hover:text-emerald-600 ${
                   isScrolled
                     ? 'text-[#3d352e]'
                     : 'text-[#3d352e]'
@@ -138,7 +137,7 @@ const Navbar = () => {
                     e.preventDefault();
                     scrollToSection(link.href);
                   }}
-                  className="text-[#3d352e] hover:text-[#C41E3A] font-medium transition-colors py-3 px-2 rounded-lg hover:bg-gray-50"
+                  className="text-emerald-800 hover:text-emerald-600 font-medium transition-colors py-3 px-2 rounded-lg hover:bg-gray-50"
                 >
                   {link.name}
                 </a>
@@ -147,8 +146,8 @@ const Navbar = () => {
               {/* Mobile Language Section - Direct grid display */}
               <div className="mt-4 pt-4 border-t border-gray-100">
                 <div className="flex items-center gap-2 px-2 mb-3">
-                  <Languages className="w-5 h-5 text-[#C41E3A]" />
-                  <span className="font-semibold text-[#3d352e]">选择语言 / Select Language</span>
+                  <Languages className="w-5 h-5 text-emerald-600" />
+                  <span className="font-semibold text-[#3d352e]">{t('brand.selectLanguage')}</span>
                 </div>
                 
                 {/* 直接显示所有语言 - 3列网格 */}
@@ -178,7 +177,7 @@ const Navbar = () => {
                       }}
                       className={`flex flex-col items-center justify-center p-2 rounded-lg text-xs font-medium transition-colors duration-150 ${
                         i18n.language === lang.code 
-                          ? 'bg-red-50 text-[#C41E3A] border border-[#C41E3A]' 
+                          ? 'bg-emerald-50 text-emerald-600 border border-emerald-600' 
                           : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
                       }`}
                     >

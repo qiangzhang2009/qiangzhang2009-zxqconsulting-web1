@@ -46,7 +46,7 @@ const FloatingContact = () => {
       label: '在线留言',
       value: '联系我们',
       action: 'scroll',
-      color: 'bg-[#C41E3A] hover:bg-[#A01830]',
+      color: 'bg-emerald-600 hover:bg-emerald-700',
     },
   ];
 
@@ -81,7 +81,7 @@ const FloatingContact = () => {
           }`}
         >
           {/* 头部 */}
-          <div className="bg-gradient-to-r from-[#C41E3A] to-[#DC143C] px-4 py-3">
+          <div className="bg-gradient-to-r from-emerald-600 to-teal-500 px-4 py-3">
             <div className="flex items-center justify-between">
               <span className="text-white font-semibold">联系我们</span>
               <button
@@ -134,7 +134,7 @@ const FloatingContact = () => {
         {/* 主按钮 */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="group relative w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-[#C41E3A] to-[#FFD700] rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-transform duration-300"
+          className="group relative w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-emerald-600 to-teal-400 rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-transform duration-300"
           aria-label="联系我们"
         >
           {/* 消息提示 */}

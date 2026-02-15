@@ -12,6 +12,7 @@ import {
   PieChart,
   LineChart
 } from 'lucide-react';
+import GlobalMarketVisualizer from './GlobalMarketVisualizer';
 
 // AI市场数据接口
 interface MarketData {
@@ -318,6 +319,11 @@ const AIShowcase = () => {
           </p>
         </div>
 
+        {/* 全球市场动态可视化大屏 */}
+        <div className="mb-8">
+          <GlobalMarketVisualizer />
+        </div>
+
         {/* 市场热度卡片 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
           {marketData.map((market, index) => (
@@ -484,8 +490,16 @@ const AIShowcase = () => {
               </div>
             </div>
 
-            <button className="w-full mt-4 flex items-center justify-center gap-2 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-medium hover:from-cyan-600 hover:to-blue-600 transition-all">
-              <span>{t('ai.showcase.learnMore', '更多海外市场信息请联系我们')}</span>
+            <button 
+              onClick={() => {
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="w-full mt-4 flex items-center justify-center gap-2 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-medium hover:from-cyan-600 hover:to-blue-600 transition-all"
+            >
+              <span>{t('ai.showcase.learnMore', '了解更多')}</span>
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>

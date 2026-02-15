@@ -31,67 +31,144 @@
       "opportunity": "고객이 글로벌 기회를 빠르게 포착하도록 지원"
     },
     "values": {
-      "professional": { "title": "전문적", "desc": "공인된 팀" },
-      "efficient": { "title": "효율적", "desc": "구현 우수성" },
-      "intimate": { "title": "헌신적", "desc": "전면 지원" }
+      "professional": {
+        "title": "전문적",
+        "desc": "공인된 팀"
+      },
+      "efficient": {
+        "title": "효율적",
+        "desc": "구현 우수성"
+      },
+      "intimate": {
+        "title": "헌신적",
+        "desc": "전면 지원"
+      }
     }
   },
   "services": {
     "title": "핵심 서비스",
-    "subtitle": "포괄적인 글로벌 확장 솔루션",
-    "description": "전략적 계획부터 운영 구현까지 엔드투엔드 전문 서비스 제공",
+    "subtitle": "종합적인 약초 및 전통 한의학 글로벌 솔루션",
+    "description": "상품수출부터 문화홍보까지 End-to-End 전문서비스를 제공합니다.",
+    "policyBadge": "허브헬스·글로벌 플랫폼",
     "tabs": {
-      "strategy": "국제 시장 진입 전략",
-      "resources": "자원 통합 및 비즈니스 매칭",
-      "support": "지속적인 운영 지원"
+      "bencao": "한방제품 수출",
+      "education": "한의학 교육",
+      "culture": "한의학 문화 홍보",
+      "consulting": "해외상담"
     },
-    "strategy": {
-      "title": "국제 시장 진입 전략",
-      "description": "AI 기반 인사이트를 결합하여 대상 시장에 대한 심층 시장 보고서 제공.",
+    "bencao": {
+      "title": "한방제품 수출",
+      "description": "국가 정책의 지원을 받아 한방제품 기업의 해외 시장 진출, 채널 구축, 브랜드 글로벌화를 완성하도록 돕습니다.",
       "features": {
-        "research": "AI 기반 시장 조사",
-        "compliance": "EU CE 인증, 일본 규정 준수 지원",
-        "tax": "세금 계획 및 법적 구조 설계"
+        "product": "한방제품 해외등록",
+        "compliance": "수출 규정 준수 및 인증",
+        "channel": "해외 판매채널 확대"
       }
     },
-    "resources": {
-      "title": "자원 통합 및 비즈니스 매칭",
-      "description": "글로벌 품질 자원을 통합하여 기업을 적절한 파트너, 채널 및 고객과 매칭.",
+    "education": {
+      "title": "한의학 교육",
+      "description": "해외 사람들에게 전문적인 TCM 교육 및 인증 서비스를 제공하고 국제 TCM 인재 개발을 촉진합니다.",
       "features": {
-        "partners": "글로벌 프리미엄 파트너 네트워크",
-        "channels": "해외 판매 채널 개발",
-        "customers": "정확한 고객 매칭"
+        "training": "해외 한의사 양성",
+        "certification": "국제중의학 자격증",
+        "exchange": "중국과 외국의 한의학 학술교류"
       }
     },
-    "support": {
-      "title": "지속적인 운영 지원",
-      "description": "해외 확장 후 지속적인 운영 지원 제공.",
+    "culture": {
+      "title": "한의학 문화 홍보",
+      "description": "다채널 미디어 커뮤니케이션과 이벤트 기획을 통해 한의학 문화의 독특한 매력을 세계에 선보이겠습니다.",
       "features": {
-        "local": " 현지화된 운영 팀",
-        "marketing": "해외 마케팅 지원",
-        "legal": "지속적인 법적 규정 준수 추적"
+        "media": "한의학 문화 해외 미디어",
+        "events": "한의학의 국제문화교류",
+        "brand": "한의학 문화 브랜드 구축"
       }
-    }
+    },
+    "consulting": {
+      "title": "해외시장 컨설팅",
+      "description": "기업의 글로벌 시장 진출을 돕기 위해 전문적인 해외시장 진출 전략, 법규, 운영 지원을 제공합니다.",
+      "features": {
+        "strategy": "해외시장 진출 전략",
+        "legal": "법률 및 규정 준수 컨설팅",
+        "operation": "지속적인 운영 지원"
+      }
+    },
+    "serviceBadge": "전문 서비스 · 신뢰할 수 있는",
+    "learnMore": "자세히 알아보기",
+    "bencaoHealth": "허브건강 · 글로벌 플랫폼"
   },
   "whyUs": {
     "title": "왜 우리를 선택해야 하는가",
     "subtitle": "AI 기반 · 자원 기반",
     "description": "더 빠르고 정확한 의사결정",
     "features": {
-      "local": { "title": "지역 전문성", "description": "일본 오사카 및 이탈리아에 상주 매니저." },
-      "ai": { "title": "AI 역량 강화", "description": "전체 글로벌 확장 프로세스에 깊이 통합된 AI 에이전트." },
-      "expertise": { "title": "산업 전문성", "description": "TCM/건강 분야를 위한 전과정 전문 서비스." }
+      "local": {
+        "title": "지역 전문성",
+        "description": "일본 오사카 및 이탈리아에 상주 매니저."
+      },
+      "ai": {
+        "title": "AI 역량 강화",
+        "description": "전체 글로벌 확장 프로세스에 깊이 통합된 AI 에이전트."
+      },
+      "expertise": {
+        "title": "산업 전문성",
+        "description": "TCM/건강 분야를 위한 전과정 전문 서비스."
+      }
     }
   },
   "markets": {
     "title": "글로벌 시장",
     "subtitle": "글로벌 존재감, 현지 깊이",
     "description": "성숙한 시장에서 지속적인 진행, 신흥 시장에서 정확한 돌파",
-    "japan": { "title": "일본", "description": "오사카에 상주 매니저.", "features": { "resident": "오사카 상주 매니저", "local": "현지 정책 및 문화", "service": "현지 특화 익스프레스 서비스", "language": "일본어 비즈니스 지원" } },
-    "europe": { "title": "유럽 (이탈리아)", "description": "이탈리아를 전략적 허브로.", "features": { "hub": "이탈리아 허브", "network": "유럽 네트워크", "local": "현지 팀", "compliance": "EU 규정 준수 전문가" } },
-    "southeast": { "title": "동남아시아", "description": "고성장 신흥 시장.", "features": { "market": "다국가 적용", "growth": "높은 성장", "local": "현지 파트너", "support": "원스톱 서비스" } },
-    "australia": { "title": "호주", "description": "시드니에 상주 매니저.", "features": { "resident": "시드니 상주 매니저", "local": "현지 정책", "service": "로컬 익스프레스 서비스", "language": "영어 지원" } },
-    "middleEast": { "title": "중동", "description": "부상하는 블루오션.", "features": { "opportunity": "고급 시장 기회", "partners": "현지 네트워크", "culture": "문화 적응 서비스", "support": "투자 지원" } }
+    "japan": {
+      "title": "일본",
+      "description": "오사카에 상주 매니저.",
+      "features": {
+        "resident": "오사카 상주 매니저",
+        "local": "현지 정책 및 문화",
+        "service": "현지 특화 익스프레스 서비스",
+        "language": "일본어 비즈니스 지원"
+      }
+    },
+    "europe": {
+      "title": "유럽 (이탈리아)",
+      "description": "이탈리아를 전략적 허브로.",
+      "features": {
+        "hub": "이탈리아 허브",
+        "network": "유럽 네트워크",
+        "local": "현지 팀",
+        "compliance": "EU 규정 준수 전문가"
+      }
+    },
+    "southeast": {
+      "title": "동남아시아",
+      "description": "고성장 신흥 시장.",
+      "features": {
+        "market": "다국가 적용",
+        "growth": "높은 성장",
+        "local": "현지 파트너",
+        "support": "원스톱 서비스"
+      }
+    },
+    "australia": {
+      "title": "호주",
+      "description": "시드니에 상주 매니저.",
+      "features": {
+        "resident": "시드니 상주 매니저",
+        "local": "현지 정책",
+        "service": "로컬 익스프레스 서비스",
+        "language": "영어 지원"
+      }
+    },
+    "middleEast": {
+      "title": "중동",
+      "description": "부상하는 블루오션.",
+      "features": {
+        "opportunity": "고급 시장 기회",
+        "partners": "현지 네트워크",
+        "culture": "문화 적응 서비스",
+        "support": "투자 지원"
+      }
+    }
   },
   "stats": {
     "title": "우리 성과",
@@ -109,14 +186,23 @@
       "cases": "풍부한 성공 사례",
       "support": "걱정 없는 AS"
     },
-    "items": { "companies": "성공적인 해외 확장", "experience": "년 경력", "partners": "글로벌 파트너", "countries": "커버 국가" }
+    "items": {
+      "companies": "성공적인 해외 확장",
+      "experience": "년 경력",
+      "partners": "글로벌 파트너",
+      "countries": "커버 국가"
+    }
   },
   "testimonials": {
     "title": "고객 평가",
     "subtitle": "그들이 무엇을 말하는지",
     "description": "고객의 실제 피드백",
     "items": {
-      "wang": { "quote": "팀이 일본 시장 진출에 성공하도록 도와주었습니다.", "name": "Wang Xiaoming", "position": "CEO, 의료기기 회사" }
+      "wang": {
+        "quote": "팀이 일본 시장 진출에 성공하도록 도와주었습니다.",
+        "name": "Wang Xiaoming",
+        "position": "CEO, 의료기기 회사"
+      }
     }
   },
   "contact": {
@@ -125,12 +211,42 @@
     "description": "해외 확장 서비스에 관심이 있으시면 지금 문의하세요!",
     "address": "상하이",
     "team": {
-      "zhang": { "name": "Zhang Qiang", "region": "중국 총괄", "phone": "(+86) 137 648 725381", "email": "zxq@zxqconsulting.com" },
-      "li": { "name": "Li Jing", "region": "일본/아세안 총괄", "phoneCn": "(+86) 138 166 89487", "phoneJp": "(+81) 080 962 86389", "email": "yuqian@zxqconsulting.com" },
-      "liu": { "name": "Liu Xiao", "region": "호주/홍콩 총괄", "phoneCn": "(+86) 182 177 94992", "phoneAu": "(+61) 466 981 227", "email": "dianaliu@zxqconsulting.com" }
+      "zhang": {
+        "name": "Zhang Qiang",
+        "region": "중국 총괄",
+        "phone": "(+86) 137 648 725381",
+        "email": "zxq@zxqconsulting.com"
+      },
+      "li": {
+        "name": "Li Jing",
+        "region": "일본/아세안 총괄",
+        "phoneCn": "(+86) 138 166 89487",
+        "phoneJp": "(+81) 080 962 86389",
+        "email": "yuqian@zxqconsulting.com"
+      },
+      "liu": {
+        "name": "Liu Xiao",
+        "region": "호주/홍콩 총괄",
+        "phoneCn": "(+86) 182 177 94992",
+        "phoneAu": "(+61) 466 981 227",
+        "email": "dianaliu@zxqconsulting.com"
+      }
     },
     "social": "WeChat/Video: Zhang Xiaoqiang Global",
-    "form": { "title": "문의 보내기", "name": "이름", "namePlaceholder": "이름을 입력하세요", "email": "이메일", "emailPlaceholder": "your@email.com", "phone": "전화", "phonePlaceholder": "(+86)", "company": "회사명", "companyPlaceholder": "회사명을 입력하세요", "message": "문의 내용", "messagePlaceholder": "문의 내용을 설명하세요...", "submit": "보내기" }
+    "form": {
+      "title": "문의 보내기",
+      "name": "이름",
+      "namePlaceholder": "이름을 입력하세요",
+      "email": "이메일",
+      "emailPlaceholder": "your@email.com",
+      "phone": "전화",
+      "phonePlaceholder": "(+86)",
+      "company": "회사명",
+      "companyPlaceholder": "회사명을 입력하세요",
+      "message": "문의 내용",
+      "messagePlaceholder": "문의 내용을 설명하세요...",
+      "submit": "보내기"
+    }
   },
   "footer": {
     "title": "글로벌화가 준비되셨나요?",

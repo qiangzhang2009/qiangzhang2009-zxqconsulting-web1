@@ -27,17 +27,15 @@ const Testimonials = () => {
       avatar: '/avatar1.jpg',
     },
     {
-      quote:
-        '从合规到运营，张小强提供了一站式服务，让我们的欧洲扩张之路顺畅无阻。特别是他们在中医药领域的专业资源，为我们打开了新的市场大门。',
-      author: '李婷',
-      position: '某中医药企业创始人',
+      quote: t('testimonials.items.li.quote'),
+      author: t('testimonials.items.li.name'),
+      position: t('testimonials.items.li.position'),
       avatar: '/avatar2.jpg',
     },
     {
-      quote:
-        'AI赋能的市场调研让我们节省了大量时间和成本，精准定位目标客户群体。张小强团队的效率和专业度令人印象深刻，是值得信赖的合作伙伴。',
-      author: '张伟',
-      position: '某科技公司国际业务负责人',
+      quote: t('testimonials.items.zhang.quote'),
+      author: t('testimonials.items.zhang.name'),
+      position: t('testimonials.items.zhang.position'),
       avatar: '/avatar3.jpg',
     },
   ];
@@ -76,7 +74,7 @@ const Testimonials = () => {
       ref={sectionRef}
       className="section py-24 relative"
       style={{
-        background: 'linear-gradient(180deg, #fef2f2 0%, #fef3c7 50%, #fff7ed 100%)'
+        background: 'linear-gradient(180deg, #ecfdf5 0%, #d1fae5 50%, #fff7ed 100%)'
       }}
     >
       {/* Decorative elements */}
@@ -94,19 +92,19 @@ const Testimonials = () => {
         {/* Header */}
         <div className="text-center mb-16">
           {/* Spring Festival Badge */}
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#FFD700]/20 to-[#C41E3A]/10 border border-[#FFD700]/40 rounded-full px-6 py-2 mb-4">
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#10b981]/20 to-[#059669]/10 border border-[#10b981]/40 rounded-full px-6 py-2 mb-4">
             <span className="text-lg">🐴</span>
-            <span className="text-sm font-medium text-[#C41E3A]">客户好评如潮</span>
+            <span className="text-sm font-medium text-[#059669]">{t('testimonials.header')}</span>
             <span className="text-lg">⭐</span>
           </div>
 
-          <span className="inline-block text-[#C41E3A] font-medium mb-4 tracking-wider uppercase text-sm">
+          <span className="inline-block text-[#059669] font-medium mb-4 tracking-wider uppercase text-sm">
             {t('testimonials.title')}
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#292524] mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#064e3b] mb-4">
             {t('testimonials.subtitle')}
           </h2>
-          <p className="text-[#57534e] max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[#065f46] max-w-2xl mx-auto leading-relaxed">
             {t('testimonials.description')}
           </p>
         </div>
@@ -117,23 +115,23 @@ const Testimonials = () => {
             {/* Main Card - Spring Style */}
             <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-2xl spring-card relative overflow-hidden">
               {/* Decorative gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#fef2f2]/50 via-white/30 to-[#fef3c7]/50 pointer-events-none"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-[#ecfdf5]/50 via-white/30 to-[#d1fae5]/50 pointer-events-none"></div>
 
               {/* Quote icon with gradient */}
               <div className="relative mb-6">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#C41E3A]/20 to-[#FFD700]/20 flex items-center justify-center">
-                  <Quote className="w-8 h-8 text-[#C41E3A]" />
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#059669]/20 to-[#10b981]/20 flex items-center justify-center">
+                  <Quote className="w-8 h-8 text-[#059669]" />
                 </div>
               </div>
 
-              <p className="text-lg md:text-xl text-[#3d352e] leading-relaxed mb-8">
+              <p className="text-lg md:text-xl text-[#065f46] leading-relaxed mb-8">
                 "{testimonials[activeIndex].quote}"
               </p>
 
               {/* Rating */}
               <div className="flex items-center gap-1 mb-6">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <Star key={i} className="w-5 h-5 text-[#FFD700] fill-current" />
+                  <Star key={i} className="w-5 h-5 text-[#10b981] fill-current" />
                 ))}
               </div>
 
@@ -141,14 +139,14 @@ const Testimonials = () => {
                 <img
                   src={testimonials[activeIndex].avatar}
                   alt={testimonials[activeIndex].author}
-                  className="w-14 h-14 rounded-full object-cover border-2 border-[#FFD700]"
+                  className="w-14 h-14 rounded-full object-cover border-2 border-[#10b981]"
                 />
                 <div>
-                  <div className="font-bold text-[#3d352e] flex items-center gap-2">
+                  <div className="font-bold text-[#065f46] flex items-center gap-2">
                     {testimonials[activeIndex].author}
-                    <span className="text-[#FFD700]">🐴</span>
+                    <span className="text-[#10b981]">🐴</span>
                   </div>
-                  <div className="text-sm text-[#5c4f3a]">
+                  <div className="text-sm text-[#047857]">
                     {testimonials[activeIndex].position}
                   </div>
                 </div>
@@ -156,7 +154,7 @@ const Testimonials = () => {
 
               {/* Horse badge */}
               <div className="absolute top-6 right-6">
-                <div className="bg-gradient-to-br from-[#FFD700]/20 to-[#C41E3A]/10 rounded-full p-3">
+                <div className="bg-gradient-to-br from-[#10b981]/20 to-[#059669]/10 rounded-full p-3">
                   <span className="text-2xl">🏆</span>
                 </div>
               </div>
@@ -166,7 +164,7 @@ const Testimonials = () => {
             <div className="flex items-center justify-center gap-4 mt-8">
               <button
                 onClick={prevSlide}
-                className="w-12 h-12 rounded-full bg-gradient-to-br from-[#C41E3A] to-[#DC143C] shadow-lg flex items-center justify-center text-white hover:shadow-xl transition-all duration-300 hover:scale-110"
+                className="w-12 h-12 rounded-full bg-gradient-to-br from-[#059669] to-[#10b981] shadow-lg flex items-center justify-center text-white hover:shadow-xl transition-all duration-300 hover:scale-110"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
@@ -179,8 +177,8 @@ const Testimonials = () => {
                     onClick={() => setActiveIndex(index)}
                     className={`w-3 h-3 rounded-full transition-all duration-300 ${
                       activeIndex === index
-                        ? 'bg-gradient-to-r from-[#C41E3A] to-[#FFD700] w-10'
-                        : 'bg-[#C41E3A]/30 hover:bg-[#C41E3A]/50'
+                        ? 'bg-gradient-to-r from-[#059669] to-[#10b981] w-10'
+                        : 'bg-[#059669]/30 hover:bg-[#059669]/50'
                     }`}
                   />
                 ))}
@@ -188,7 +186,7 @@ const Testimonials = () => {
 
               <button
                 onClick={nextSlide}
-                className="w-12 h-12 rounded-full bg-gradient-to-br from-[#C41E3A] to-[#DC143C] shadow-lg flex items-center justify-center text-white hover:shadow-xl transition-all duration-300 hover:scale-110"
+                className="w-12 h-12 rounded-full bg-gradient-to-br from-[#059669] to-[#10b981] shadow-lg flex items-center justify-center text-white hover:shadow-xl transition-all duration-300 hover:scale-110"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>

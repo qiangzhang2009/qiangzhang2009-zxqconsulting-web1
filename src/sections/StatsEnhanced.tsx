@@ -102,7 +102,7 @@ const StatsSection = () => {
       <div className="relative container mx-auto px-4 sm:px-6">
         {/* Section Header */}
         <div className="text-center mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-2 bg-red-50 text-[#C41E3A] px-4 py-2 rounded-full text-sm font-medium mb-4">
+          <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-600 px-4 py-2 rounded-full text-sm font-medium mb-4">
             <Star className="w-4 h-4" />
             <span>{t('stats.special2026')}</span>
           </div>

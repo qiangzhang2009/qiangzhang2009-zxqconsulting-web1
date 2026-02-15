@@ -46,41 +46,55 @@
     }
   },
   "services": {
-    "title": "Core Services",
-    "subtitle": "Comprehensive Global Expansion Solutions",
-    "description": "From strategic planning to operational implementation, we provide end-to-end professional services",
+    "title": "Core services",
+    "subtitle": "Comprehensive Herbal and Traditional Chinese Medicine Global Solutions",
+    "description": "From product export to cultural promotion, we provide end-to-end professional services",
+    "policyBadge": "Herbal Health·Global Platform",
     "tabs": {
-      "strategy": "International Market Entry Strategy",
-      "resources": "Resource Integration & Business Matching",
-      "support": "Ongoing Operations Support"
+      "bencao": "Export of herbal products",
+      "education": "Traditional Chinese Medicine Education",
+      "culture": "Promotion of traditional Chinese medicine culture",
+      "consulting": "Overseas consultation"
     },
-    "strategy": {
-      "title": "International Market Entry Strategy",
-      "description": "Combining AI-driven insights, we provide in-depth market reports for target markets, precisely identifying needs and opportunities. Covering overseas company registration, compliance support, tax planning, and comprehensive services.",
+    "bencao": {
+      "title": "Export of herbal products",
+      "description": "With the support of national policies, we help herbal product companies complete overseas market access, channel construction, and brand globalization.",
       "features": {
-        "research": "AI-Driven Market Research and Feasibility Analysis",
-        "compliance": "EU CE Certification, Japan Compliance Support",
-        "tax": "Tax Planning and Legal Structure Design"
+        "product": "Overseas registration of herbal products",
+        "compliance": "Export Compliance and Certification",
+        "channel": "Expansion of overseas sales channels"
       }
     },
-    "resources": {
-      "title": "Resource Integration & Business Matching",
-      "description": "Integrating global quality resources, matching enterprises with suitable partners, channels, and customers to accelerate overseas market expansion.",
+    "education": {
+      "title": "Traditional Chinese Medicine Education",
+      "description": "Provide professional TCM education and certification services to overseas people and promote the development of international TCM talents.",
       "features": {
-        "partners": "Global Premium Partner Network",
-        "channels": "Overseas Sales Channel Development",
-        "customers": "Precise Customer Matching"
+        "training": "Overseas Traditional Chinese Medicine Practitioner Training",
+        "certification": "International Traditional Chinese Medicine Certification",
+        "exchange": "Academic exchanges of Chinese medicine between China and foreign countries"
       }
     },
-    "support": {
-      "title": "Ongoing Operations Support",
-      "description": "Providing continuous operational support after overseas expansion, ensuring stable development in overseas markets.",
+    "culture": {
+      "title": "Promotion of traditional Chinese medicine culture",
+      "description": "Through multi-channel media communication and event planning, we will show the unique charm of traditional Chinese medicine culture to the world.",
       "features": {
-        "local": "Localized Operations Team",
-        "marketing": "Overseas Marketing Support",
-        "legal": "Continuous Legal Compliance Follow-up"
+        "media": "Traditional Chinese Medicine Culture Overseas Media",
+        "events": "International cultural exchange of traditional Chinese medicine",
+        "brand": "Traditional Chinese Medicine Cultural Brand Building"
       }
-    }
+    },
+    "consulting": {
+      "title": "Overseas market consulting",
+      "description": "Provide professional overseas market entry strategies, laws and regulations and operational support to help companies expand global markets.",
+      "features": {
+        "strategy": "Overseas market entry strategy",
+        "legal": "Legal and Compliance Consulting",
+        "operation": "Ongoing operational support"
+      }
+    },
+    "serviceBadge": "Professional services · Trustworthy",
+    "learnMore": "learn more",
+    "bencaoHealth": "Herbal Health · Global Platform"
   },
   "whyUs": {
     "title": "Why Choose Us",
@@ -161,7 +175,7 @@
     "subtitle": "Numbers That Speak Volume",
     "years": "Years Experience",
     "clients": "Clients Served",
-    "countries": "Countries Covered",
+    "countries": "Countries",
     "success": "Success Rate",
     "team": "Expert Team",
     "awards": "Awards",
@@ -184,7 +198,6 @@
     "totalVisitors": "Total Visitors",
     "uniqueVisitors": "Unique Visitors",
     "pageViews": "Page Views",
-    "countries": "Countries",
     "onlineNow": "Online Now",
     "countryDist": "Country/Region Distribution",
     "popularPages": "Popular Pages",
@@ -273,27 +286,5 @@
     "markets": "Market Regions",
     "services": "Professional Services",
     "copyright": "© 2024 Shanghai Zhang Xiaoqiang Enterprise Consulting Firm. All rights reserved."
-  },
-  "ai": {
-    "showcase": {
-      "title": "AI-Powered · Global Market Insights",
-      "subtitle": "Overseas Market Insights",
-      "description": "Based on multi-dimensional data analysis, providing precise overseas market insights and decision support for enterprises",
-      "heatLevel": "Market Heat",
-      "realtimeDynamics": "Real-time Market Dynamics",
-      "autoUpdate": "Daily Update",
-      "aiStats": "Data Capabilities",
-      "dataSources": "Data Sources",
-      "dataSourcesDesc": "Global Data Sources",
-      "updateFreq": "Update Frequency",
-      "updateFreqDesc": "Real-time Update",
-      "analysis": "Analysis Dimensions",
-      "analysisDesc": "Multi-dimensional Analysis",
-      "accuracy": "Prediction Accuracy",
-      "accuracyDesc": "AI Model Prediction",
-      "learnMore": "Contact Us for More Market Information",
-      "dataNote": "Data updated daily, for reference only",
-      "lastUpdate": "Last Update"
-    }
   }
 }

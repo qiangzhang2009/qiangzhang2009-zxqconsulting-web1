@@ -155,7 +155,7 @@ const About = () => {
             {/* Experience Badge */}
             <div
               ref={badgeRef}
-              className="absolute top-[60%] right-[30%] w-28 h-28 bg-gradient-to-br from-[#d4a373] to-[#c89f5e] rounded-full flex flex-col items-center justify-center text-white shadow-xl animate-spin-slow"
+              className="absolute top-[60%] right-[30%] w-28 h-28 bg-gradient-to-br from-[#10b981] to-[#34d399] rounded-full flex flex-col items-center justify-center text-white shadow-xl animate-spin-slow"
               style={{ animationDuration: '20s' }}
             >
               <span className="text-3xl font-bold">{t('about.experience')}</span>
@@ -165,7 +165,7 @@ const About = () => {
 
           {/* Content */}
           <div ref={contentRef}>
-            <span className="inline-block text-[#d4a373] font-medium mb-4 tracking-wider uppercase text-sm">
+            <span className="inline-block text-[#10b981] font-medium mb-4 tracking-wider uppercase text-sm">
               {t('about.title')}
             </span>
 
@@ -189,8 +189,8 @@ const About = () => {
                   key={index}
                   className="flex items-center gap-3 group"
                 >
-                  <div className="w-6 h-6 rounded-full bg-[#d4a373]/10 flex items-center justify-center group-hover:bg-[#d4a373]/20 transition-colors">
-                    <Check className="w-4 h-4 text-[#d4a373]" />
+                  <div className="w-6 h-6 rounded-full bg-[#10b981]/10 flex items-center justify-center group-hover:bg-[#10b981]/20 transition-colors">
+                    <Check className="w-4 h-4 text-[#10b981]" />
                   </div>
                   <span className="text-[#3d352e] font-medium">{feature}</span>
                 </div>
@@ -200,17 +200,17 @@ const About = () => {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6">
               <div className="text-center p-4 bg-white rounded-xl shadow-sm">
-                <Award className="w-6 h-6 text-[#d4a373] mx-auto mb-2" />
+                <Award className="w-6 h-6 text-[#10b981] mx-auto mb-2" />
                 <div className="text-xl font-bold text-[#3d352e]">{t('about.values.professional.title')}</div>
                 <div className="text-xs text-[#5c4f3a]">{t('about.values.professional.desc')}</div>
               </div>
               <div className="text-center p-4 bg-white rounded-xl shadow-sm">
-                <TrendingUp className="w-6 h-6 text-[#d4a373] mx-auto mb-2" />
+                <TrendingUp className="w-6 h-6 text-[#10b981] mx-auto mb-2" />
                 <div className="text-xl font-bold text-[#3d352e]">{t('about.values.efficient.title')}</div>
                 <div className="text-xs text-[#5c4f3a]">{t('about.values.efficient.desc')}</div>
               </div>
               <div className="text-center p-4 bg-white rounded-xl shadow-sm">
-                <Users className="w-6 h-6 text-[#d4a373] mx-auto mb-2" />
+                <Users className="w-6 h-6 text-[#10b981] mx-auto mb-2" />
                 <div className="text-xl font-bold text-[#3d352e]">{t('about.values.intimate.title')}</div>
                 <div className="text-xs text-[#5c4f3a]">{t('about.values.intimate.desc')}</div>
               </div>

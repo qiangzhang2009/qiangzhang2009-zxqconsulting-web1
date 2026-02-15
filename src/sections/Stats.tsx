@@ -77,7 +77,7 @@ const Stats = () => {
       {/* Content */}
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-12">
-          <span className="inline-block text-[#e6c9a8] font-medium mb-4 tracking-wider uppercase text-sm">
+          <span className="inline-block text-[#6ee7b7] font-medium mb-4 tracking-wider uppercase text-sm">
             {t('stats.title')}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
@@ -92,7 +92,7 @@ const Stats = () => {
                 {counts[index]}
                 {stat.suffix}
               </div>
-              <div className="text-[#e6c9a8] text-sm md:text-base">
+              <div className="text-[#6ee7b7] text-sm md:text-base">
                 {t(stat.labelKey)}
               </div>
             </div>

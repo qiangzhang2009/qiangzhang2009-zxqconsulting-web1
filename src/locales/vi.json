@@ -31,67 +31,144 @@
       "opportunity": "Giúp Khách Hàng Nắm Bắt Cơ Hội Toàn Cầu"
     },
     "values": {
-      "professional": { "title": "Chuyên Nghiệp", "desc": "Đội Ngũ Được Chứng Nhận" },
-      "efficient": { "title": "Hiệu Quả", "desc": "Xuất Sắc Trong Triển Khai" },
-      "intimate": { "title": "Tận Tâm", "desc": "Hỗ Trợ Toàn Diện" }
+      "professional": {
+        "title": "Chuyên Nghiệp",
+        "desc": "Đội Ngũ Được Chứng Nhận"
+      },
+      "efficient": {
+        "title": "Hiệu Quả",
+        "desc": "Xuất Sắc Trong Triển Khai"
+      },
+      "intimate": {
+        "title": "Tận Tâm",
+        "desc": "Hỗ Trợ Toàn Diện"
+      }
     }
   },
   "services": {
-    "title": "Dịch Vụ Cốt Lõi",
-    "subtitle": "Giải Pháp Mở Rộng Toàn Cầu Toàn Diện",
-    "description": "Từ lập kế hoạch chiến lược đến triển khai vận hành, chúng tôi cung cấp dịch vụ chuyên nghiệp từ đầu đến cuối",
+    "title": "Dịch vụ cốt lõi",
+    "subtitle": "Giải pháp toàn diện về thảo dược và y học cổ truyền Trung Quốc",
+    "description": "Từ xuất khẩu sản phẩm đến quảng bá văn hóa, chúng tôi cung cấp các dịch vụ chuyên nghiệp toàn diện",
+    "policyBadge": "Herbal Health·Nền tảng toàn cầu",
     "tabs": {
-      "strategy": "Chiến Lược Thâm Nhập Thị Trường Quốc Tế",
-      "resources": "Tích Hợp Nguồn Lực & Kết Nối Kinh Doanh",
-      "support": "Hỗ Trợ Vận Hành Liên Tục"
+      "bencao": "Xuất khẩu sản phẩm thảo dược",
+      "education": "Giáo dục y học cổ truyền Trung Quốc",
+      "culture": "Quảng bá văn hóa y học cổ truyền Trung Quốc",
+      "consulting": "Tư vấn nước ngoài"
     },
-    "strategy": {
-      "title": "Chiến Lược Thâm Nhập Thị Trường Quốc Tế",
-      "description": "Kết hợp những hiểu biết dựa trên AI, chúng tôi cung cấp báo cáo thị trường chuyên sâu cho các thị trường mục tiêu.",
+    "bencao": {
+      "title": "Xuất khẩu sản phẩm thảo dược",
+      "description": "Với sự hỗ trợ của các chính sách quốc gia, chúng tôi giúp các công ty sản phẩm thảo dược hoàn thành việc tiếp cận thị trường nước ngoài, xây dựng kênh và toàn cầu hóa thương hiệu.",
       "features": {
-        "research": "Nghiên Cứu Thị Trường Dựa Trên AI",
-        "compliance": "Chứng Nhận CE EU, Hỗ Trợ Tuân Thủ Nhật Bản",
-        "tax": "Lập Kế Hoạch Thuế & Thiết Kế Cấu Trúc Pháp Lý"
+        "product": "Đăng ký sản phẩm thảo dược ở nước ngoài",
+        "compliance": "Tuân thủ và chứng nhận xuất khẩu",
+        "channel": "Mở rộng kênh bán hàng ở nước ngoài"
       }
     },
-    "resources": {
-      "title": "Tích Hợp Nguồn Lực & Kết Nối Kinh Doanh",
-      "description": "Tích hợp nguồn lực chất lượng toàn cầu, kết nối doanh nghiệp với đối tác, kênh và khách hàng phù hợp.",
+    "education": {
+      "title": "Giáo dục y học cổ truyền Trung Quốc",
+      "description": "Cung cấp dịch vụ giáo dục và chứng nhận TCM chuyên nghiệp cho người nước ngoài và thúc đẩy sự phát triển của các tài năng TCM quốc tế.",
       "features": {
-        "partners": "Mạng Lưới Đối Tác Cao Cấp Toàn Cầu",
-        "channels": "Phát Triển Kênh Bán Hàng Nước Ngoài",
-        "customers": "Kết Nối Khách Hàng Chính Xác"
+        "training": "Đào tạo bác sĩ y học cổ truyền Trung Quốc ở nước ngoài",
+        "certification": "Chứng nhận y học cổ truyền Trung Quốc quốc tế",
+        "exchange": "Trao đổi học thuật về y học Trung Quốc giữa Trung Quốc và nước ngoài"
       }
     },
-    "support": {
-      "title": "Hỗ Trợ Vận Hành Liên Tục",
-      "description": "Cung cấp hỗ trợ vận hành liên tục sau khi mở rộng ra nước ngoài.",
+    "culture": {
+      "title": "Quảng bá văn hóa y học cổ truyền Trung Quốc",
+      "description": "Thông qua truyền thông đa kênh và lập kế hoạch sự kiện, chúng tôi sẽ thể hiện sức hấp dẫn độc đáo của văn hóa y học cổ truyền Trung Quốc với thế giới.",
       "features": {
-        "local": "Đội Ngũ Vận Hành Địa Phương Hóa",
-        "marketing": "Hỗ Trợ Marketing Nước Ngoài",
-        "legal": "Theo Dõi Tuân Thủ Pháp Luật Liên Tục"
+        "media": "Y học cổ truyền Trung Quốc Văn hóa Truyền thông hải ngoại",
+        "events": "Trao đổi văn hóa quốc tế về y học cổ truyền Trung Quốc",
+        "brand": "Xây dựng thương hiệu văn hóa y học cổ truyền Trung Quốc"
       }
-    }
+    },
+    "consulting": {
+      "title": "Tư vấn thị trường nước ngoài",
+      "description": "Cung cấp các chiến lược, luật pháp và quy định thâm nhập thị trường nước ngoài chuyên nghiệp cũng như hỗ trợ hoạt động để giúp các công ty mở rộng thị trường toàn cầu.",
+      "features": {
+        "strategy": "Chiến lược thâm nhập thị trường nước ngoài",
+        "legal": "Tư vấn pháp lý và tuân thủ",
+        "operation": "Hỗ trợ vận hành liên tục"
+      }
+    },
+    "serviceBadge": "Dịch vụ chuyên nghiệp · Đáng tin cậy",
+    "learnMore": "tìm hiểu thêm",
+    "bencaoHealth": "Herbal Health · Nền tảng toàn cầu"
   },
   "whyUs": {
     "title": "Tại Sao Chọn Chúng Tôi",
     "subtitle": "Dựa Trên AI · Dựa Trên Nguồn Lực",
     "description": "Quyết định nhanh hơn và chính xác hơn",
     "features": {
-      "local": { "title": "Chuyên Môn Vùng", "description": "Quản lý thường trú tại Osaka, Nhật Bản và Italy." },
-      "ai": { "title": "Trao Quyền AI", "description": "Đại lý AI được tích hợp sâu vào toàn bộ quá trình mở rộng toàn cầu." },
-      "expertise": { "title": "Chuyên Môn Ngành", "description": "Dịch vụ toàn diện cho lĩnh vực TCM/Sức khỏe." }
+      "local": {
+        "title": "Chuyên Môn Vùng",
+        "description": "Quản lý thường trú tại Osaka, Nhật Bản và Italy."
+      },
+      "ai": {
+        "title": "Trao Quyền AI",
+        "description": "Đại lý AI được tích hợp sâu vào toàn bộ quá trình mở rộng toàn cầu."
+      },
+      "expertise": {
+        "title": "Chuyên Môn Ngành",
+        "description": "Dịch vụ toàn diện cho lĩnh vực TCM/Sức khỏe."
+      }
     }
   },
   "markets": {
     "title": "Thị Trường Toàn Cầu",
     "subtitle": "Hiện Diện Toàn Cầu, Chiều Sâu Địa Phương",
     "description": "Tiến bộ ổn định tại các thị trường trưởng thành, đột phá chính xác tại các thị trường mới nổi",
-    "japan": { "title": "Nhật Bản", "description": "Quản lý thường trú tại Osaka.", "features": { "resident": "Quản Lý Thường Trú Tại Osaka", "local": "Chính sách và văn hóa địa phương", "service": "Dịch Vụ Express Địa Phương Hóa", "language": "Hỗ Trợ Kinh Doanh Tiếng Nhật" } },
-    "europe": { "title": "Châu Âu (Italy)", "description": "Italy như trung tâm chiến lược.", "features": { "hub": "Trung Tâm Italy", "network": "Mạng Lưới Châu Âu", "local": "Đội Ngũ Địa Phương", "compliance": "Chuyên Gia Tuân Thủ EU" } },
-    "southeast": { "title": "Đông Nam Á", "description": "Thị trường mới nổi tăng trưởng cao.", "features": { "market": "Bao Phủ Đa Quốc Gia", "growth": "Tăng Trưởng Cao", "local": "Đối Tác Địa Phương", "support": "Dịch Vụ Trọn Gói" } },
-    "australia": { "title": "Australia", "description": "Quản lý thường trú tại Sydney.", "features": { "resident": "Quản Lý Thường Trú Tại Sydney", "local": "Chính Sách Địa Phương", "service": "Dịch Vụ Nhanh Địa Phương", "language": "Hỗ Trợ Tiếng Anh" } },
-    "middleEast": { "title": "Trung Đông", "description": "Đại dương xanh đang nổi lên.", "features": { "opportunity": "Cơ Hội Cao Cấp", "partners": "Mạng Lưới Địa Phương", "culture": "Dịch Vụ Thích Nghi Văn Hóa", "support": "Hỗ Trợ Đầu Tư" } }
+    "japan": {
+      "title": "Nhật Bản",
+      "description": "Quản lý thường trú tại Osaka.",
+      "features": {
+        "resident": "Quản Lý Thường Trú Tại Osaka",
+        "local": "Chính sách và văn hóa địa phương",
+        "service": "Dịch Vụ Express Địa Phương Hóa",
+        "language": "Hỗ Trợ Kinh Doanh Tiếng Nhật"
+      }
+    },
+    "europe": {
+      "title": "Châu Âu (Italy)",
+      "description": "Italy như trung tâm chiến lược.",
+      "features": {
+        "hub": "Trung Tâm Italy",
+        "network": "Mạng Lưới Châu Âu",
+        "local": "Đội Ngũ Địa Phương",
+        "compliance": "Chuyên Gia Tuân Thủ EU"
+      }
+    },
+    "southeast": {
+      "title": "Đông Nam Á",
+      "description": "Thị trường mới nổi tăng trưởng cao.",
+      "features": {
+        "market": "Bao Phủ Đa Quốc Gia",
+        "growth": "Tăng Trưởng Cao",
+        "local": "Đối Tác Địa Phương",
+        "support": "Dịch Vụ Trọn Gói"
+      }
+    },
+    "australia": {
+      "title": "Australia",
+      "description": "Quản lý thường trú tại Sydney.",
+      "features": {
+        "resident": "Quản Lý Thường Trú Tại Sydney",
+        "local": "Chính Sách Địa Phương",
+        "service": "Dịch Vụ Nhanh Địa Phương",
+        "language": "Hỗ Trợ Tiếng Anh"
+      }
+    },
+    "middleEast": {
+      "title": "Trung Đông",
+      "description": "Đại dương xanh đang nổi lên.",
+      "features": {
+        "opportunity": "Cơ Hội Cao Cấp",
+        "partners": "Mạng Lưới Địa Phương",
+        "culture": "Dịch Vụ Thích Nghi Văn Hóa",
+        "support": "Hỗ Trợ Đầu Tư"
+      }
+    }
   },
   "stats": {
     "title": "Thành Tựu Của Chúng Tôi",
@@ -109,14 +186,23 @@
       "cases": "Trường hợp thành công",
       "support": "Hỗ trợ sau bán"
     },
-    "items": { "companies": "Mở Rộng Nước Ngoài Thành Công", "experience": "Năm Kinh Nghiệm", "partners": "Đối Tác Toàn Cầu", "countries": "Quốc Gia Được Bao Phủ" }
+    "items": {
+      "companies": "Mở Rộng Nước Ngoài Thành Công",
+      "experience": "Năm Kinh Nghiệm",
+      "partners": "Đối Tác Toàn Cầu",
+      "countries": "Quốc Gia Được Bao Phủ"
+    }
   },
   "testimonials": {
     "title": "Lời Chứng Thực Khách Hàng",
     "subtitle": "Họ Nói Gì",
     "description": "Phản hồi thực tế từ khách hàng",
     "items": {
-      "wang": { "quote": "Đội ngũ đã giúp chúng tôi thành công thâm nhập thị trường Nhật Bản.", "name": "Wang Xiaoming", "position": "CEO, Công Ty Thiết Bị Y Tế" }
+      "wang": {
+        "quote": "Đội ngũ đã giúp chúng tôi thành công thâm nhập thị trường Nhật Bản.",
+        "name": "Wang Xiaoming",
+        "position": "CEO, Công Ty Thiết Bị Y Tế"
+      }
     }
   },
   "contact": {
@@ -125,12 +211,42 @@
     "description": "Nếu bạn quan tâm đến dịch vụ mở rộng ra nước ngoài, hãy liên hệ với chúng tôi ngay!",
     "address": "Thượng Hải",
     "team": {
-      "zhang": { "name": "Zhang Qiang", "region": "Trưởng Nhóm Trung Quốc", "phone": "(+86) 137 648 725381", "email": "zxq@zxqconsulting.com" },
-      "li": { "name": "Li Jing", "region": "Trưởng Nhóm Nhật Bản/ASEAN", "phoneCn": "(+86) 138 166 89487", "phoneJp": "(+81) 080 962 86389", "email": "yuqian@zxqconsulting.com" },
-      "liu": { "name": "Liu Xiao", "region": "Trưởng Nhóm Úc/HK", "phoneCn": "(+86) 182 177 94992", "phoneAu": "(+61) 466 981 227", "email": "dianaliu@zxqconsulting.com" }
+      "zhang": {
+        "name": "Zhang Qiang",
+        "region": "Trưởng Nhóm Trung Quốc",
+        "phone": "(+86) 137 648 725381",
+        "email": "zxq@zxqconsulting.com"
+      },
+      "li": {
+        "name": "Li Jing",
+        "region": "Trưởng Nhóm Nhật Bản/ASEAN",
+        "phoneCn": "(+86) 138 166 89487",
+        "phoneJp": "(+81) 080 962 86389",
+        "email": "yuqian@zxqconsulting.com"
+      },
+      "liu": {
+        "name": "Liu Xiao",
+        "region": "Trưởng Nhóm Úc/HK",
+        "phoneCn": "(+86) 182 177 94992",
+        "phoneAu": "(+61) 466 981 227",
+        "email": "dianaliu@zxqconsulting.com"
+      }
     },
     "social": "WeChat/Video: Zhang Xiaoqiang Global",
-    "form": { "title": "Gửi Thắc Mắc", "name": "Tên", "namePlaceholder": "Vui lòng nhập tên của bạn", "email": "Email", "emailPlaceholder": "ban@email.com", "phone": "Điện Thoại", "phonePlaceholder": "(+86)", "company": "Công Ty", "companyPlaceholder": "Tên công ty", "message": "Nội Dung", "messagePlaceholder": "Mô tả nhu cầu của bạn...", "submit": "Gửi" }
+    "form": {
+      "title": "Gửi Thắc Mắc",
+      "name": "Tên",
+      "namePlaceholder": "Vui lòng nhập tên của bạn",
+      "email": "Email",
+      "emailPlaceholder": "ban@email.com",
+      "phone": "Điện Thoại",
+      "phonePlaceholder": "(+86)",
+      "company": "Công Ty",
+      "companyPlaceholder": "Tên công ty",
+      "message": "Nội Dung",
+      "messagePlaceholder": "Mô tả nhu cầu của bạn...",
+      "submit": "Gửi"
+    }
   },
   "footer": {
     "title": "Sẵn Sàng Để Toàn Cầu Hóa?",
