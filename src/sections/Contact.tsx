@@ -98,8 +98,8 @@ const Contact = () => {
     data.append('message', formDataObj.get('message') as string);
 
     try {
-      // 发送到 FormSubmit 服务
-      await fetch('https://formsubmit.co/ajax/customer@zxqconsulting.com', {
+      // 发送到 FormSubmit 服务（同时发送给两个邮箱）
+      await fetch('https://formsubmit.co/ajax/customer@zxqconsulting.com,3740977@qq.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
