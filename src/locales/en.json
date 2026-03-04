@@ -288,6 +288,7 @@
     "copyright": "© 2024 Shanghai Zhang Xiaoqiang Enterprise Consulting Firm. All rights reserved."
   },
   "tools": {
+    "selectMarket": "Step 1: Select Your Target Market",
     "badge": "Free Tools",
     "title": "Practical Tools",
     "subtitle": "Smart Decision Support",
@@ -383,6 +384,10 @@
       "reasons": "Recommendation Reasons",
       "risks": "Potential Risks",
       "nextSteps": "Next Steps"
+    },
+    "cta": {
+      "desc": "Not sure which tool to start with? Use these quick tools to get a preliminary assessment, then book a one-on-one consultation with us.",
+      "button": "Book 1-on-1 Consultation"
     }
   }
 }

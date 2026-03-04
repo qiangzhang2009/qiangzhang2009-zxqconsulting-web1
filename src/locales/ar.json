@@ -258,6 +258,7 @@
     "copyright": "© 2024 مكتب شنغهاي للاستشارات التجارية."
   },
   "tools": {
+    "selectMarket": "الخطوة 1: اختر سوقك المستهدف",
     "badge": "Free Tools",
     "title": "Practical Tools",
     "subtitle": "Smart Decision Support",
@@ -351,8 +352,12 @@
       "result": "Matching Results",
       "score": "Match Score",
       "reasons": "Recommendation Reasons",
-      "risks": "Potential Risks",
-      "nextSteps": "Next Steps"
+      "risks": "المخاطر المحتملة",
+      "nextSteps": "الخطوات التالية"
+    },
+    "cta": {
+      "desc": "لست متأكدًا من الأداة التي يجب أن تبدأ بها؟ استخدم هذه الأدوات السريعة للتقييم الأولي ثم احجز استشارة فردية معنا.",
+      "button": "احجز استشارة"
     }
   }
 }

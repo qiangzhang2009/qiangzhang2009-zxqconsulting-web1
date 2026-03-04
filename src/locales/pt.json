@@ -258,6 +258,7 @@
     "copyright": "© 2024 Escritório de Consultoria Empresarial de Xangai."
   },
   "tools": {
+    "selectMarket": "Etapa 1: Selecione Seu Mercado-Alvo",
     "badge": "Free Tools",
     "title": "Practical Tools",
     "subtitle": "Smart Decision Support",
@@ -353,6 +354,10 @@
       "reasons": "Recommendation Reasons",
       "risks": "Potential Risks",
       "nextSteps": "Next Steps"
+    },
+    "cta": {
+      "desc": "Não sabe qual ferramenta usar? Use estas ferramentas rápidas para uma avaliação preliminar e, em seguida, marque uma consulta individual conosco.",
+      "button": "Marcar consulta"
     }
   }
 }

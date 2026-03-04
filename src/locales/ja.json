@@ -258,6 +258,7 @@
     "copyright": "© 2024 上海张小強企業コンサルタント事務所. All rights reserved."
   },
   "tools": {
+    "selectMarket": "ステップ1：目標市場を選択",
     "badge": "Free Tools",
     "title": "Practical Tools",
     "subtitle": "Smart Decision Support",
@@ -351,8 +352,12 @@
       "result": "Matching Results",
       "score": "Match Score",
       "reasons": "Recommendation Reasons",
-      "risks": "Potential Risks",
-      "nextSteps": "Next Steps"
+      "risks": "潜在リスク",
+      "nextSteps": "次のステップ"
+    },
+    "cta": {
+      "desc": "どのツールから始めればよいかわからない方は、まずこれらのクイックツールで予備診断を受けてみませんか？その後、個別相談を予約してください。",
+      "button": "個別相談を予約"
     }
   }
 }

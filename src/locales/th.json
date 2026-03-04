@@ -354,6 +354,7 @@
     "bencaoHealth": "สุขภาพสมุนไพร·แพลตฟอร์มระดับโลก"
   },
   "tools": {
+    "selectMarket": "ขั้นตอนที่ 1: เลือกตลาดเป้าหมาย",
     "badge": "Free Tools",
     "title": "Practical Tools",
     "subtitle": "Smart Decision Support",
@@ -449,6 +450,10 @@
       "reasons": "Recommendation Reasons",
       "risks": "Potential Risks",
       "nextSteps": "Next Steps"
+    },
+    "cta": {
+      "desc": "ไม่แน่ใจว่าจะเริ่มจากเครื่องมือไหน? ใช้เครื่องมือเหล่านี้เพื่อประเมินเบื้องต้น จากนั้นนัดหมายการปรึกษาแบบตัวต่อตัวกับเรา",
+      "button": "นัดหมายการปรึกษา"
     }
   }
 }

@@ -258,6 +258,7 @@
     "copyright": "© 2024 Shanghai Zhang Xiaoqiang Enterprise Consulting Firm."
   },
   "tools": {
+    "selectMarket": "Paso 1: Seleccione su Mercado Objetivo",
     "badge": "Free Tools",
     "title": "Practical Tools",
     "subtitle": "Smart Decision Support",
@@ -353,6 +354,10 @@
       "reasons": "Recommendation Reasons",
       "risks": "Potential Risks",
       "nextSteps": "Next Steps"
+    },
+    "cta": {
+      "desc": "¿No sabes por dónde empezar? Usa estas herramientas rápidas para una evaluación preliminar, luego reserva una consulta individual con nosotros.",
+      "button": "Reservar consulta"
     }
   }
 }

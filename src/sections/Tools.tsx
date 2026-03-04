@@ -101,6 +101,9 @@ const Tools = () => {
   const [activeTool, setActiveTool] = useState(0);
   const sectionRef = useRef<HTMLDivElement>(null);
 
+  // 全局目标市场选择（用于所有工具）
+  const [globalMarket, setGlobalMarket] = useState('japan');
+
   // 成本计算器状态
   const [costCountry, setCostCountry] = useState('japan');
   const [costProductType, setCostProductType] = useState('supplement');
@@ -329,6 +332,11 @@ const Tools = () => {
             <button
               key={tool.id}
               onClick={() => {
+                // 切换工具时同步市场选择
+                setCostCountry(globalMarket);
+                setTimeCountry(globalMarket);
+                setPolicyMarket(globalMarket);
+                setRoiInputs({ ...roiInputs, market: globalMarket });
                 setActiveTool(index);
                 setRoiResult(null);
                 setAiAnalysis('');
@@ -349,6 +357,25 @@ const Tools = () => {
         {/* Tool Content */}
         <div className="bg-white rounded-3xl shadow-xl border border-emerald-100/30 overflow-hidden">
           
+          {/* 全局市场选择器 - 所有工具的第一步 */}
+          <div className="p-6 md:p-8 bg-gradient-to-r from-emerald-50 to-teal-50 border-b border-emerald-100">
+            <div className="flex items-center gap-2 mb-4">
+              <Sparkles className="w-5 h-5 text-emerald-600" />
+              <span className="font-medium text-emerald-700">{t('tools.selectMarket') || '选择目标市场'}</span>
+            </div>
+            <SmartMarketSelector
+              value={globalMarket}
+              onChange={(marketId) => {
+                setGlobalMarket(marketId);
+                // 同时更新各个工具的独立市场选择
+                setCostCountry(marketId);
+                setTimeCountry(marketId);
+                setPolicyMarket(marketId);
+                setRoiInputs({ ...roiInputs, market: marketId });
+              }}
+            />
+          </div>
+
           {/* 成本计算器 */}
           {activeTool === 0 && (
             <div className="p-8 md:p-12">
@@ -769,7 +796,7 @@ const Tools = () => {
           )}
 
           {/* 市场准入自测 */}
-          {activeTool === 2 && (
+          {activeTool === 4 && (
             <div className="p-8 md:p-12">
               <h3 className="text-2xl font-bold text-gray-800 mb-8 flex items-center gap-3">
                 <Target className="w-7 h-7 text-emerald-500" />
@@ -846,7 +873,7 @@ const Tools = () => {
           )}
 
           {/* ROI 模拟器 */}
-          {activeTool === 3 && (
+          {activeTool === 5 && (
             <div className="p-8 md:p-12">
               <h3 className="text-2xl font-bold text-gray-800 mb-8 flex items-center gap-3">
                 <TrendingUp className="w-7 h-7 text-emerald-500" />

@@ -258,6 +258,7 @@
     "copyright": "© 2024 Консалтинговая Компания Шанхая."
   },
   "tools": {
+    "selectMarket": "Шаг 1: Выберите целевой рынок",
     "badge": "Free Tools",
     "title": "Practical Tools",
     "subtitle": "Smart Decision Support",
@@ -353,6 +354,10 @@
       "reasons": "Recommendation Reasons",
       "risks": "Potential Risks",
       "nextSteps": "Next Steps"
+    },
+    "cta": {
+      "desc": "Не знаете, с какого инструмента начать? Используйте эти быстрые инструменты для предварительной оценки, затем забронируйте индивидуальную консультацию с нами.",
+      "button": "Забронировать консультацию"
     }
   }
 }

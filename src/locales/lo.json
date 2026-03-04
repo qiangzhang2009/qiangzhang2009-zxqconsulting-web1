@@ -258,6 +258,7 @@
     "copyright": "© 2024 บริษัทที่ปรึกษาธุรกิจเซี่ยงไฮ้"
   },
   "tools": {
+    "selectMarket": "ຂັ້ນ​ຕອນ​ທໍາ​ອິດ: ເລືອກ​ຕະ​ຫຼາດ​ເ​ປົ້າ​ຫມາຍ",
     "badge": "Free Tools",
     "title": "Practical Tools",
     "subtitle": "Smart Decision Support",
@@ -353,6 +354,10 @@
       "reasons": "Recommendation Reasons",
       "risks": "Potential Risks",
       "nextSteps": "Next Steps"
+    },
+    "cta": {
+      "desc": "ບໍ່ແນ່ໃຈວ່າຈະເລີ່ມຈາກເຄື່ອງມືໃດ? ໃຊ້ເຄື່ອງມືເຫຼົ່ານີ້ເພື່ອປະເມີນເບື້ອງຕົ້ນ, ແລ້ວຈອງ​ການ​ປື້ມ​ຄໍາ​ປຶກ​ສານ​ແບບ​ຕໍ່​ໜຶ່ງ​ກັບ​ເຮົາ",
+      "button": "จองการปรึกษา"
     }
   }
 }

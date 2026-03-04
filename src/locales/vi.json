@@ -258,6 +258,7 @@
     "copyright": "© 2024 Công Ty Tư Vấn Doanh Nghiệp Thượng Hải."
   },
   "tools": {
+    "selectMarket": "Bước 1: Chọn Thị Trường Mục Tiêu",
     "badge": "Free Tools",
     "title": "Practical Tools",
     "subtitle": "Smart Decision Support",
@@ -353,6 +354,10 @@
       "reasons": "Recommendation Reasons",
       "risks": "Potential Risks",
       "nextSteps": "Next Steps"
+    },
+    "cta": {
+      "desc": "Chưa biết bắt đầu từ công cụ nào? Hãy sử dụng các công cụ nhanh này để đánh giá sơ bộ, sau đó đặt lịch tư vấn một đề một với chúng tôi.",
+      "button": "Đặt lịch tư vấn"
     }
   }
 }

@@ -258,6 +258,7 @@
     "copyright": "© 2024 Studio di Consulenza Aziendale di Shanghai."
   },
   "tools": {
+    "selectMarket": "Passaggio 1: Seleziona il Mercato di Riferimento",
     "badge": "Free Tools",
     "title": "Practical Tools",
     "subtitle": "Smart Decision Support",
@@ -353,6 +354,10 @@
       "reasons": "Recommendation Reasons",
       "risks": "Potential Risks",
       "nextSteps": "Next Steps"
+    },
+    "cta": {
+      "desc": "Non sai da quale strumento iniziare? Usa questi strumenti rapidi per una valutazione preliminare, poi prenota una consulenza individuale con noi.",
+      "button": "Prenota consulenza"
     }
   }
 }

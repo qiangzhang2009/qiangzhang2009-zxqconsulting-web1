@@ -258,6 +258,7 @@
     "copyright": "© 2024 Kantor Konsultasi Perusahaan Shanghai."
   },
   "tools": {
+    "selectMarket": "Langkah 1: Pilih Pasar Target Anda",
     "badge": "Free Tools",
     "title": "Practical Tools",
     "subtitle": "Smart Decision Support",
@@ -353,6 +354,10 @@
       "reasons": "Recommendation Reasons",
       "risks": "Potential Risks",
       "nextSteps": "Next Steps"
+    },
+    "cta": {
+      "desc": "Tidak yakin mulai dari alat mana? Gunakan alat cepat ini untuk penilaian awal, lalu pesan konsultasi satu-satu dengan kami.",
+      "button": "Pesan konsultasi"
     }
   }
 }

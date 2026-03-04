@@ -258,6 +258,7 @@
     "copyright": "© 2024 Cabinet de Conseil Entreprise de Shanghai."
   },
   "tools": {
+    "selectMarket": "Étape 1: Sélectionnez Votre Marché Cible",
     "badge": "Free Tools",
     "title": "Practical Tools",
     "subtitle": "Smart Decision Support",
@@ -353,6 +354,10 @@
       "reasons": "Recommendation Reasons",
       "risks": "Potential Risks",
       "nextSteps": "Next Steps"
+    },
+    "cta": {
+      "desc": "Vous ne savez pas par quel outil commencer? Utilisez ces outils rapides pour une évaluation préliminaire, puis prenez rendez-vous pour une consultation individuelle avec nous.",
+      "button": "Prendre rendez-vous"
     }
   }
 }

@@ -258,6 +258,7 @@
     "copyright": "© 2024 Unternehmensberatung Shanghai."
   },
   "tools": {
+    "selectMarket": "Schritt 1: Wählen Sie Ihren Zielmarkt",
     "badge": "Free Tools",
     "title": "Practical Tools",
     "subtitle": "Smart Decision Support",
@@ -353,6 +354,10 @@
       "reasons": "Recommendation Reasons",
       "risks": "Potential Risks",
       "nextSteps": "Next Steps"
+    },
+    "cta": {
+      "desc": "Sie wissen nicht, welches Tool Sie zuerst verwenden sollen? Nutzen Sie diese schnellen Tools für eine Erstbewertung und buchen Sie dann eine Einzelberatung mit uns.",
+      "button": "Beratung buchen"
     }
   }
 }

@@ -258,6 +258,7 @@
     "copyright": "© 2024 상하이 기업 컨설팅 회사."
   },
   "tools": {
+    "selectMarket": "1단계: 목표 시장 선택",
     "badge": "Free Tools",
     "title": "Practical Tools",
     "subtitle": "Smart Decision Support",
@@ -353,6 +354,10 @@
       "reasons": "Recommendation Reasons",
       "risks": "Potential Risks",
       "nextSteps": "Next Steps"
+    },
+    "cta": {
+      "desc": "어떤 도구로 시작해야 할지 모르시나요? 이러한 빠른 도구를 사용하여 사전 평가를 받은 후 1:1 상담을 예약하세요.",
+      "button": "상담 예약"
     }
   }
 }

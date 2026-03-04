@@ -258,6 +258,7 @@
     "copyright": "© 2024 Firma Perundingan Perusahaan Shanghai."
   },
   "tools": {
+    "selectMarket": "Langkah 1: Pilih Pasaran Sasaran Anda",
     "badge": "Free Tools",
     "title": "Practical Tools",
     "subtitle": "Smart Decision Support",
@@ -353,6 +354,10 @@
       "reasons": "Recommendation Reasons",
       "risks": "Potential Risks",
       "nextSteps": "Next Steps"
+    },
+    "cta": {
+      "desc": "Tidak pasti mana satu alat untuk bermula? Gunakan alat pantas ini untuk penilaian awal, kemudian tempah konsultasi satu-lawan-satu dengan kami.",
+      "button": "Tempah konsultasi"
     }
   }
 }
