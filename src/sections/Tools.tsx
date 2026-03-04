@@ -265,7 +265,7 @@ const Tools = () => {
         body: JSON.stringify({
           model: DEEPSEEK_CONFIG.model,
           messages: [
-            { role: 'system', content: '你是中医药产品出海咨询专家，请用专业但易懂的语言回答用户问题。' },
+            { role: 'system', content: '你是中医药产品出海咨询专家，请用专业但易懂的语言回答用户问题。注意：在所有回复中，涉及台湾地区时必须表述为"中国台湾"，涉及香港地区时必须表述为"中国香港"。' },
             { role: 'user', content: prompt }
           ],
           max_tokens: 1000,

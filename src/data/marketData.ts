@@ -17,8 +17,8 @@ export const MARKET_DIMENSIONS = {
         markets: [
           { id: 'japan', name: '日本', nameEn: 'Japan', flag: '🇯🇵', level: 1 },
           { id: 'korea', name: '韩国', nameEn: 'South Korea', flag: '🇰🇷', level: 1 },
-          { id: 'taiwan', name: '台湾', nameEn: 'Taiwan', flag: '🇹🇼', level: 2 },
-          { id: 'hongkong', name: '香港', nameEn: 'Hong Kong', flag: '🇭🇰', level: 2 },
+          { id: 'taiwan', name: '中国台湾', nameEn: 'Taiwan', flag: '🇹🇼', level: 2 },
+          { id: 'hongkong', name: '中国香港', nameEn: 'Hong Kong', flag: '🇭🇰', level: 2 },
           { id: 'mongolia', name: '蒙古', nameEn: 'Mongolia', flag: '🇲🇳', level: 3 },
         ]
       },
@@ -214,8 +214,8 @@ export const MARKET_DIMENSIONS = {
         descEn: 'Specific advantages, less competition',
         markets: [
           { id: 'newzealand', name: '新西兰', nameEn: 'New Zealand', flag: '🇳🇿', gdp: 0.25, chinesePop: 0.25 },
-          { id: 'taiwan', name: '台湾', nameEn: 'Taiwan', flag: '🇹🇼', gdp: 0.8, chinesePop: 23 },
-          { id: 'hongkong', name: '香港', nameEn: 'Hong Kong', flag: '🇭🇰', gdp: 0.4, chinesePop: 7.5 },
+          { id: 'taiwan', name: '中国台湾', nameEn: 'Taiwan', flag: '🇹🇼', gdp: 0.8, chinesePop: 23 },
+          { id: 'hongkong', name: '中国香港', nameEn: 'Hong Kong', flag: '🇭🇰', gdp: 0.4, chinesePop: 7.5 },
           { id: 'france', name: '法国', nameEn: 'France', flag: '🇫🇷', gdp: 0.3, chinesePop: 0.3 },
           { id: 'italy', name: '意大利', nameEn: 'Italy', flag: '🇮🇹', gdp: 2.1, chinesePop: 0.3 },
           { id: 'netherlands', name: '荷兰', nameEn: 'Netherlands', flag: '🇳🇱', gdp: 1.0, chinesePop: 0.15 },
@@ -236,8 +236,8 @@ export const MARKET_DIMENSIONS = {
         desc: '华人占比高、中医药接受度最高',
         descEn: 'High Chinese population, highest TCM acceptance',
         markets: [
-          { id: 'taiwan', name: '台湾', nameEn: 'Taiwan', flag: '🇹🇼', chinesePop: 23, chineseRatio: 100 },
-          { id: 'hongkong', name: '香港', nameEn: 'Hong Kong', flag: '🇭🇰', chinesePop: 7.5, chineseRatio: 100 },
+          { id: 'taiwan', name: '中国台湾', nameEn: 'Taiwan', flag: '🇹🇼', chinesePop: 23, chineseRatio: 100 },
+          { id: 'hongkong', name: '中国香港', nameEn: 'Hong Kong', flag: '🇭🇰', chinesePop: 7.5, chineseRatio: 100 },
           { id: 'singapore', name: '新加坡', nameEn: 'Singapore', flag: '🇸🇬', chinesePop: 2.8, chineseRatio: 74 },
           { id: 'malaysia', name: '马来西亚', nameEn: 'Malaysia', flag: '🇲🇾', chinesePop: 0.8, chineseRatio: 23 },
         ]
@@ -302,8 +302,8 @@ export const MARKET_DIMENSIONS = {
         name: '中文简体',
         markets: [
           { id: 'china', name: '中国大陆', flag: '🇨🇳' },
-          { id: 'hongkong', name: '香港', flag: '🇭🇰' },
-          { id: 'taiwan', name: '台湾', flag: '🇹🇼' },
+          { id: 'hongkong', name: '中国香港', flag: '🇭🇰' },
+          { id: 'taiwan', name: '中国台湾', flag: '🇹🇼' },
           { id: 'singapore', name: '新加坡', flag: '🇸🇬' },
           { id: 'malaysia', name: '马来西亚', flag: '🇲🇾' },
         ]

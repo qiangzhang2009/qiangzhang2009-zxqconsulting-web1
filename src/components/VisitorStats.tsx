@@ -44,7 +44,7 @@ const fetchCloudflareStats = async (): Promise<{
         FR: { name: '法国', nameEn: 'France', flag: '🇫🇷' },
         IN: { name: '印度', nameEn: 'India', flag: '🇮🇳' },
         KR: { name: '韩国', nameEn: 'South Korea', flag: '🇰🇷' },
-        TW: { name: '台湾', nameEn: 'Taiwan', flag: '🇹🇼' },
+        TW: { name: '中国台湾', nameEn: 'Taiwan', flag: '🇹🇼' },
         CH: { name: '瑞士', nameEn: 'Switzerland', flag: '🇨🇭' },
         SG: { name: '新加坡', nameEn: 'Singapore', flag: '🇸🇬' },
         BE: { name: '比利时', nameEn: 'Belgium', flag: '🇧🇪' },
