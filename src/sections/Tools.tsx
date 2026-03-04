@@ -8,7 +8,6 @@ import {
   Target, 
   TrendingUp,
   ChevronRight,
-  CheckCircle,
   Loader2,
   Sparkles
 } from 'lucide-react';
@@ -101,8 +100,6 @@ const Tools = () => {
   
   // 自测问卷状态
   const [quizAnswers, setQuizAnswers] = useState<Record<number, string>>({});
-  const [quizResult, setQuizResult] = useState<string | null>(null);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   // ROI模拟器状态
   const [roiInputs, setRoiInputs] = useState({
@@ -112,7 +109,6 @@ const Tools = () => {
     annualSales: 10000,
   });
   const [roiResult, setRoiResult] = useState<any>(null);
-  const [isCalculatingRoi, setIsCalculatingRoi] = useState(false);
 
   // AI分析状态
   const [aiAnalysis, setAiAnalysis] = useState('');
@@ -272,7 +268,6 @@ const Tools = () => {
               key={tool.id}
               onClick={() => {
                 setActiveTool(index);
-                setQuizResult(null);
                 setRoiResult(null);
                 setAiAnalysis('');
               }}
