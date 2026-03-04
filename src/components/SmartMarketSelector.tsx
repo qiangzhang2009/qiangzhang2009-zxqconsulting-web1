@@ -30,9 +30,10 @@ const SmartMarketSelector = ({ value, onChange, label }: SmartMarketSelectorProp
   const [expandedRegion, setExpandedRegion] = useState<string | null>(null);
   const [selectedMarket, setSelectedMarket] = useState<string>(value);
 
-  // 当外部 value 变化时，同步更新内部状态
+  // 当外部 value 变化时，同步更新内部状态（标准化后）
   useEffect(() => {
-    setSelectedMarket(value);
+    const normalizedValue = normalizeMarketId(value);
+    setSelectedMarket(normalizedValue);
   }, [value]);
 
   const isZh = i18n.language === 'zh';
@@ -55,9 +56,21 @@ interface SimpleMarket {
   reasonEn?: string;
 }
 
+  // 标准化市场 ID，确保与后端数据格式一致
+  const normalizeMarketId = (id: string): string => {
+    // 统一映射规则
+    const idMap: Record<string, string> = {
+      'middleeast': 'middleEast',
+      'hongkong': 'hongKong',
+      'newzealand': 'newZealand',
+    };
+    return idMap[id] || id;
+  };
+
   const handleSelect = (market: SimpleMarket) => {
-    setSelectedMarket(market.id);
-    onChange(market.id);
+    const normalizedId = normalizeMarketId(market.id);
+    setSelectedMarket(normalizedId);
+    onChange(normalizedId);
   };
 
   const renderMarketCard = (market: SimpleMarket, compact = false) => (
