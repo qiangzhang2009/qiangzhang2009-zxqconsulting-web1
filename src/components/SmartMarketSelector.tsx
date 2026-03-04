@@ -3,7 +3,7 @@
  * 支持按地理位置、经济热度、华人影响力等多种维度选择
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import i18n from 'i18next';
 import { 
   Globe, 
@@ -29,6 +29,11 @@ const SmartMarketSelector = ({ value, onChange, label }: SmartMarketSelectorProp
   const [activeDimension, setActiveDimension] = useState<DimensionType>('hot');
   const [expandedRegion, setExpandedRegion] = useState<string | null>(null);
   const [selectedMarket, setSelectedMarket] = useState<string>(value);
+
+  // 当外部 value 变化时，同步更新内部状态
+  useEffect(() => {
+    setSelectedMarket(value);
+  }, [value]);
 
   const isZh = i18n.language === 'zh';
 
