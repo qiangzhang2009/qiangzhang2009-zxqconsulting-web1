@@ -58,11 +58,12 @@ interface SimpleMarket {
 
   // 标准化市场 ID，确保与后端数据格式一致
   const normalizeMarketId = (id: string): string => {
-    // 统一映射规则
+    // 统一映射规则：将各种命名格式统一
     const idMap: Record<string, string> = {
       'middleeast': 'middleEast',
       'hongkong': 'hongKong',
       'newzealand': 'newZealand',
+      'southkorea': 'korea',
     };
     return idMap[id] || id;
   };

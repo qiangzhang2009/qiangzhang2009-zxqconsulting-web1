@@ -132,6 +132,16 @@ const Tools = () => {
   const [policyCategory, setPolicyCategory] = useState('supplement');
   const [policyResult, setPolicyResult] = useState<any>(null);
 
+  // 将标准市场ID转换为政策查询使用的ID
+  const toPolicyId = (id: string): string => {
+    const map: Record<string, string> = {
+      'europe': 'eu',
+      'middleEast': 'middleeast',
+      'hongKong': 'hongkong',
+    };
+    return map[id] || id;
+  };
+
   // 适配度匹配状态
   const [matchProduct, setMatchProduct] = useState('supplement');
   const [matchBudget, setMatchBudget] = useState('medium');
@@ -292,7 +302,9 @@ const Tools = () => {
 
   // 政策查询函数
   const searchPolicy = () => {
-    const policy = MARKET_POLICIES[policyMarket]?.[policyCategory];
+    // 转换市场ID以匹配 MARKET_POLICIES 的 key 格式
+    const policyId = toPolicyId(policyMarket);
+    const policy = MARKET_POLICIES[policyId]?.[policyCategory];
     if (policy) {
       setPolicyResult(policy);
     }
