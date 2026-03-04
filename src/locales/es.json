@@ -256,5 +256,103 @@
     "markets": "Regiones",
     "services": "Servicios",
     "copyright": "© 2024 Shanghai Zhang Xiaoqiang Enterprise Consulting Firm."
+  },
+  "tools": {
+    "badge": "Free Tools",
+    "title": "Practical Tools",
+    "subtitle": "Smart Decision Support",
+    "description": "A suite of free tools to help you quickly assess market access, cost budgeting, and ROI, making your global expansion decisions more confident",
+    "cost": {
+      "name": "Cost Calculator",
+      "desc": "Estimate certification costs by country",
+      "title": "Market Entry Cost Calculator",
+      "country": "Target Market",
+      "productType": "Product Type",
+      "estimate": "Estimated Total Cost",
+      "getAdvice": "Get Expert Advice"
+    },
+    "time": {
+      "name": "Timeline Estimator",
+      "desc": "Approval cycles by country",
+      "title": "Certification Timeline Estimator",
+      "country": "Target Market",
+      "result": "Estimated Timeline"
+    },
+    "quiz": {
+      "name": "Entry Quiz",
+      "desc": "Assess suitable markets",
+      "title": "Market Entry Self-Assessment",
+      "q1": "What type of product do you have?",
+      "q1a": "Health food/dietary supplement",
+      "q1b": "Traditional Chinese medicine",
+      "q1c": "Cosmetics/skincare products",
+      "q2": "What is your target market?",
+      "q2a": "Japan",
+      "q2b": "Australia",
+      "q2c": "Southeast Asia",
+      "q3": "What is your budget range?",
+      "q3a": "Under $100,000",
+      "q3b": "$100,000 - $300,000",
+      "q3c": "Over $300,000",
+      "q4": "How soon do you want to enter the market?",
+      "q4a": "Within 6 months",
+      "q4b": "6-12 months",
+      "q4c": "Over 1 year",
+      "submit": "Get AI Analysis",
+      "bookConsultation": "Book Professional Consultation"
+    },
+    "roi": {
+      "name": "ROI Simulator",
+      "desc": "Calculate investment returns",
+      "title": "ROI Simulator",
+      "market": "Target Market",
+      "investment": "Initial Investment",
+      "price": "Product Unit Price",
+      "sales": "Expected Annual Sales",
+      "calculate": "Calculate ROI",
+      "result": "Results",
+      "revenue": "Annual Revenue",
+      "profit": "Annual Profit",
+      "roi": "Return on Investment",
+      "payback": "Payback Period",
+      "getAdvice": "Get Expert Analysis",
+      "hint": "Enter your investment data to calculate expected returns"
+    },
+    "common": {
+      "analyzing": "AI Analyzing...",
+      "aiAdvice": "智探Global 智能体 Advice",
+      "aiResult": "AI Assessment Result"
+    },
+    "policy": {
+      "name": "Policy Lookup",
+      "desc": "Quick access rules by country",
+      "title": "Market Access Policy Lookup",
+      "selectMarket": "Select Target Market",
+      "selectCategory": "Select Product Category",
+      "search": "Search Access Rules",
+      "result": "Search Results",
+      "requirements": "Access Requirements",
+      "timeline": "Processing Time",
+      "difficulty": "Difficulty Level",
+      "documents": "Required Documents",
+      "warnings": "Precautions",
+      "getDetail": "View Details",
+      "subscribeAlert": "Subscribe to Updates"
+    },
+    "match": {
+      "name": "Match Maker",
+      "desc": "AI-powered market recommendation",
+      "title": "AI-Powered Market Matching",
+      "product": "Your Product Type",
+      "budget": "Budget Range",
+      "timeline": "Expected Timeline",
+      "advantage": "Core Advantage",
+      "analyze": "Start Smart Matching",
+      "result": "Matching Results",
+      "score": "Match Score",
+      "reasons": "Recommendation Reasons",
+      "risks": "Potential Risks",
+      "nextSteps": "Next Steps"
+    }
   }
 }

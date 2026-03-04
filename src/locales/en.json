@@ -353,9 +353,36 @@
       "aiAdvice": "智探Global 智能体 Advice",
       "aiResult": "AI Assessment Result"
     },
-    "cta": {
-      "desc": "Need more professional guidance? Our expert team is ready to assist you",
-      "button": "Contact Now"
+    "policy": {
+      "name": "Policy Lookup",
+      "desc": "Quick access rules by country",
+      "title": "Market Access Policy Lookup",
+      "selectMarket": "Select Target Market",
+      "selectCategory": "Select Product Category",
+      "search": "Search Access Rules",
+      "result": "Search Results",
+      "requirements": "Access Requirements",
+      "timeline": "Processing Time",
+      "difficulty": "Difficulty Level",
+      "documents": "Required Documents",
+      "warnings": "Precautions",
+      "getDetail": "View Details",
+      "subscribeAlert": "Subscribe to Updates"
+    },
+    "match": {
+      "name": "Match Maker",
+      "desc": "AI-powered market recommendation",
+      "title": "AI-Powered Market Matching",
+      "product": "Your Product Type",
+      "budget": "Budget Range",
+      "timeline": "Expected Timeline",
+      "advantage": "Core Advantage",
+      "analyze": "Start Smart Matching",
+      "result": "Matching Results",
+      "score": "Match Score",
+      "reasons": "Recommendation Reasons",
+      "risks": "Potential Risks",
+      "nextSteps": "Next Steps"
     }
   }
 }

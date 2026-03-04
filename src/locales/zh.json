@@ -419,9 +419,36 @@
       "aiAdvice": "智探Global 智能体建议",
       "aiResult": "AI评估结果"
     },
-    "cta": {
-      "desc": "需要更专业的指导？我们的专家团队随时为您服务",
-      "button": "立即咨询"
+    "policy": {
+      "name": "政策查询",
+      "desc": "各国准入规则速查",
+      "title": "各国市场准入政策速查",
+      "selectMarket": "选择目标市场",
+      "selectCategory": "选择产品品类",
+      "search": "查询准入规则",
+      "result": "查询结果",
+      "requirements": "准入要求",
+      "timeline": "办理周期",
+      "difficulty": "准入难度",
+      "documents": "所需材料",
+      "warnings": "注意事项",
+      "getDetail": "查看详情",
+      "subscribeAlert": "订阅政策更新"
+    },
+    "match": {
+      "name": "适配度匹配",
+      "desc": "AI智能推荐市场",
+      "title": "目标市场智能匹配",
+      "product": "您的产品类型",
+      "budget": "预算范围",
+      "timeline": "期望周期",
+      "advantage": "核心优势",
+      "analyze": "开始智能匹配",
+      "result": "匹配结果",
+      "score": "匹配度",
+      "reasons": "推荐理由",
+      "risks": "潜在风险",
+      "nextSteps": "下一步建议"
     }
   }
 }
