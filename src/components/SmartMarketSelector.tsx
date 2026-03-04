@@ -1,9 +1,10 @@
 /**
  * 智能市场选择器组件
  * 支持按地理位置、经济热度、华人影响力等多种维度选择
+ * 统一所有市场的 ID 格式
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import i18n from 'i18next';
 import { 
   Globe, 
@@ -15,7 +16,7 @@ import {
   Check,
   Sparkles
 } from 'lucide-react';
-import { MARKET_DIMENSIONS, HOT_MARKETS, type Market } from '@/data/marketData';
+import { MARKET_DIMENSIONS, HOT_MARKETS } from '@/data/marketData';
 
 interface SmartMarketSelectorProps {
   value: string;
@@ -23,93 +24,132 @@ interface SmartMarketSelectorProps {
   label?: string;
 }
 
-type DimensionType = 'geography' | 'economy' | 'chineseInfluence' | 'language' | 'hot';
+type DimensionType = 'hot' | 'geography' | 'economy' | 'chineseInfluence' | 'language';
+
+// 统一的市场数据映射表 - 所有 ID 格式统一
+const UNIFIED_MARKET_MAP: Record<string, { id: string; name: string; nameEn: string; flag: string }> = {
+  // 热门市场
+  'japan': { id: 'japan', name: '日本', nameEn: 'Japan', flag: '🇯🇵' },
+  'australia': { id: 'australia', name: '澳大利亚', nameEn: 'Australia', flag: '🇦🇺' },
+  'southeast': { id: 'southeast', name: '东南亚', nameEn: 'Southeast Asia', flag: '🇸🇬' },
+  'usa': { id: 'usa', name: '美国', nameEn: 'USA', flag: '🇺🇸' },
+  'europe': { id: 'europe', name: '欧洲', nameEn: 'Europe', flag: '🇪🇺' },
+  'middleEast': { id: 'middleEast', name: '中东', nameEn: 'Middle East', flag: '🇸🇦' },
+  // 其他市场
+  'korea': { id: 'korea', name: '韩国', nameEn: 'South Korea', flag: '🇰🇷' },
+  'singapore': { id: 'singapore', name: '新加坡', nameEn: 'Singapore', flag: '🇸🇬' },
+  'thailand': { id: 'thailand', name: '泰国', nameEn: 'Thailand', flag: '🇹🇭' },
+  'malaysia': { id: 'malaysia', name: '马来西亚', nameEn: 'Malaysia', flag: '🇲🇾' },
+  'indonesia': { id: 'indonesia', name: '印度尼西亚', nameEn: 'Indonesia', flag: '🇮🇩' },
+  'vietnam': { id: 'vietnam', name: '越南', nameEn: 'Vietnam', flag: '🇻🇳' },
+  'philippines': { id: 'philippines', name: '菲律宾', nameEn: 'Philippines', flag: '🇵🇭' },
+  'newzealand': { id: 'newzealand', name: '新西兰', nameEn: 'New Zealand', flag: '🇳🇿' },
+  'germany': { id: 'germany', name: '德国', nameEn: 'Germany', flag: '🇩🇪' },
+  'france': { id: 'france', name: '法国', nameEn: 'France', flag: '🇫🇷' },
+  'uk': { id: 'uk', name: '英国', nameEn: 'United Kingdom', flag: '🇬🇧' },
+  'canada': { id: 'canada', name: '加拿大', nameEn: 'Canada', flag: '🇨🇦' },
+  'india': { id: 'india', name: '印度', nameEn: 'India', flag: '🇮🇳' },
+  'brazil': { id: 'brazil', name: '巴西', nameEn: 'Brazil', flag: '🇧🇷' },
+  'uae': { id: 'uae', name: '阿联酋', nameEn: 'UAE', flag: '🇦🇪' },
+  'saudi': { id: 'saudi', name: '沙特阿拉伯', nameEn: 'Saudi Arabia', flag: '🇸🇦' },
+  'hongkong': { id: 'hongkong', name: '中国香港', nameEn: 'Hong Kong', flag: '🇭🇰' },
+  'taiwan': { id: 'taiwan', name: '中国台湾', nameEn: 'Taiwan', flag: '🇹🇼' },
+};
 
 const SmartMarketSelector = ({ value, onChange, label }: SmartMarketSelectorProps) => {
   const [activeDimension, setActiveDimension] = useState<DimensionType>('hot');
   const [expandedRegion, setExpandedRegion] = useState<string | null>(null);
   const [selectedMarket, setSelectedMarket] = useState<string>(value);
 
-  // 当外部 value 变化时，同步更新内部状态（标准化后）
-  useEffect(() => {
-    const normalizedValue = normalizeMarketId(value);
-    setSelectedMarket(normalizedValue);
-  }, [value]);
-
   const isZh = i18n.language === 'zh';
 
   const dimensions = [
-    { id: 'hot' as DimensionType, icon: Sparkles, name: isZh ? '热门推荐' : 'Hot Picks', nameEn: 'Hot Picks' },
-    { id: 'geography' as DimensionType, icon: Globe, name: isZh ? '按地理位置' : 'By Geography', nameEn: 'By Geography' },
-    { id: 'economy' as DimensionType, icon: TrendingUp, name: isZh ? '按经济热度' : 'By Economy', nameEn: 'By Economy' },
-    { id: 'chineseInfluence' as DimensionType, icon: Users, name: isZh ? '按华人影响' : 'By Chinese', nameEn: 'By Chinese' },
-    { id: 'language' as DimensionType, icon: Languages, name: isZh ? '按网站语言' : 'By Language', nameEn: 'By Language' },
+    { id: 'hot' as DimensionType, icon: Sparkles, name: isZh ? '热门推荐' : 'Hot Picks' },
+    { id: 'geography' as DimensionType, icon: Globe, name: isZh ? '按地理位置' : 'By Geography' },
+    { id: 'economy' as DimensionType, icon: TrendingUp, name: isZh ? '按经济热度' : 'By Economy' },
+    { id: 'chineseInfluence' as DimensionType, icon: Users, name: isZh ? '按华人影响' : 'By Chinese' },
+    { id: 'language' as DimensionType, icon: Languages, name: isZh ? '按网站语言' : 'By Language' },
   ];
 
-// 简化的市场类型，用于处理 MARKET_DIMENSIONS 中的数据
-interface SimpleMarket {
-  id: string;
-  name: string;
-  nameEn?: string;
-  flag: string;
-  reason?: string;
-  reasonEn?: string;
-}
-
-  // 标准化市场 ID，确保与后端数据格式一致
-  const normalizeMarketId = (id: string): string => {
-    // 统一映射规则：将各种命名格式统一
-    const idMap: Record<string, string> = {
-      'middleeast': 'middleEast',
-      'hongkong': 'hongKong',
-      'newzealand': 'newZealand',
-      'southkorea': 'korea',
-    };
-    return idMap[id] || id;
+  // 标准化市场 ID - 使用更兼容的语法
+  const normalizeId = (id: string): string => {
+    // 如果已经是标准格式，直接返回
+    if (UNIFIED_MARKET_MAP[id]) return id;
+    
+    // 否则尝试找到对应的标准 ID
+    const lowerId = id.toLowerCase();
+    const keys = Object.keys(UNIFIED_MARKET_MAP);
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      const val = UNIFIED_MARKET_MAP[key];
+      const nameEn = val.nameEn || '';
+      if (key.toLowerCase() === lowerId || nameEn.toLowerCase() === lowerId) {
+        return key;
+      }
+    }
+    return id;
   };
 
-  const handleSelect = (market: SimpleMarket) => {
-    const normalizedId = normalizeMarketId(market.id);
-    setSelectedMarket(normalizedId);
-    onChange(normalizedId);
+  // 当外部 value 变化时，同步更新内部状态
+  useEffect(() => {
+    const normalized = normalizeId(value);
+    setSelectedMarket(normalized);
+  }, [value]);
+
+  // 处理市场选择
+  const handleSelect = (marketId: string) => {
+    const normalized = normalizeId(marketId);
+    setSelectedMarket(normalized);
+    onChange(normalized);
   };
 
-  const renderMarketCard = (market: SimpleMarket, compact = false) => (
-    <button
-      key={market.id}
-      onClick={() => handleSelect(market)}
-      className={`flex items-center gap-2 rounded-lg transition-all ${
-        selectedMarket === market.id 
-          ? 'bg-emerald-500 text-white' 
-          : 'bg-gray-50 hover:bg-emerald-50 text-gray-700 border border-gray-200'
-      } ${compact ? 'px-2 py-1 text-sm' : 'p-3 w-full text-left'}`}
-    >
-      <span className="text-lg">{market.flag}</span>
-      <span className="font-medium">{isZh ? market.name : (market.nameEn || market.name)}</span>
-      {selectedMarket === market.id && <Check className="ml-auto w-4 h-4" />}
-    </button>
-  );
+  // 简化版市场卡片渲染
+  const renderMarketCard = (market: { id: string; name: string; nameEn?: string; flag: string }, compact = false) => {
+    const displayName = isZh ? market.name : (market.nameEn || market.name);
+    const isSelected = selectedMarket === market.id;
+    
+    return (
+      <button
+        key={market.id}
+        onClick={() => handleSelect(market.id)}
+        className={`flex items-center gap-2 rounded-lg transition-all ${
+          isSelected 
+            ? 'bg-emerald-500 text-white' 
+            : 'bg-gray-50 hover:bg-emerald-50 text-gray-700 border border-gray-200'
+        } ${compact ? 'px-2 py-1 text-sm' : 'p-3 w-full text-left'}`}
+      >
+        <span className="text-lg">{market.flag}</span>
+        <span className="font-medium">{displayName}</span>
+        {isSelected && <Check className="ml-auto w-4 h-4" />}
+      </button>
+    );
+  };
 
+  // 渲染热门市场
   const renderHotMarkets = () => (
     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-      {HOT_MARKETS.map(market => (
-        <div key={market.id} className="relative">
-          {renderMarketCard(market)}
-          <div className={`absolute -top-1 -right-1 text-xs px-1.5 py-0.5 rounded-full ${
-            selectedMarket === market.id ? 'bg-emerald-400' : 'bg-amber-400'
-          } text-white`}>
-            HOT
+      {HOT_MARKETS.map(market => {
+        const mapped = UNIFIED_MARKET_MAP[market.id] || { ...market, id: market.id };
+        return (
+          <div key={market.id} className="relative">
+            {renderMarketCard(mapped)}
+            <div className={`absolute -top-1 -right-1 text-xs px-1.5 py-0.5 rounded-full ${
+              selectedMarket === mapped.id ? 'bg-emerald-400' : 'bg-amber-400'
+            } text-white`}>
+              HOT
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 
+  // 渲染地理维度
   const renderGeography = () => {
     const data = MARKET_DIMENSIONS.geography;
     return (
       <div className="space-y-2 max-h-96 overflow-y-auto">
-        {data.regions?.map(region => (
+        {data.regions && data.regions.map(region => (
           <div key={region.id} className="border border-gray-200 rounded-lg overflow-hidden">
             <button
               onClick={() => setExpandedRegion(expandedRegion === region.id ? null : region.id)}
@@ -120,7 +160,10 @@ interface SimpleMarket {
             </button>
             {expandedRegion === region.id && (
               <div className="p-3 grid grid-cols-2 gap-2 bg-white">
-                {region.markets.map(market => renderMarketCard(market, true))}
+                {region.markets && region.markets.map(market => {
+                  const mapped = UNIFIED_MARKET_MAP[market.id] || market;
+                  return renderMarketCard(mapped, true);
+                })}
               </div>
             )}
           </div>
@@ -129,18 +172,22 @@ interface SimpleMarket {
     );
   };
 
+  // 渲染经济维度
   const renderEconomy = () => {
     const data = MARKET_DIMENSIONS.economy;
     return (
       <div className="space-y-3 max-h-96 overflow-y-auto">
-        {data.categories?.map(category => (
+        {data.categories && data.categories.map(category => (
           <div key={category.id} className="border border-gray-200 rounded-lg overflow-hidden">
             <div className="p-3 bg-gradient-to-r from-blue-50 to-indigo-50">
               <div className="font-medium text-gray-800">{isZh ? category.name : category.nameEn}</div>
               <div className="text-sm text-gray-500">{isZh ? category.desc : category.descEn}</div>
             </div>
             <div className="p-3 grid grid-cols-2 gap-2 bg-white">
-              {category.markets.map(market => renderMarketCard(market, true))}
+              {category.markets && category.markets.map(market => {
+                const mapped = UNIFIED_MARKET_MAP[market.id] || market;
+                return renderMarketCard(mapped, true);
+              })}
             </div>
           </div>
         ))}
@@ -148,18 +195,22 @@ interface SimpleMarket {
     );
   };
 
+  // 渲染华人影响维度
   const renderChineseInfluence = () => {
     const data = MARKET_DIMENSIONS.chineseInfluence;
     return (
       <div className="space-y-3 max-h-96 overflow-y-auto">
-        {data.categories?.map(category => (
+        {data.categories && data.categories.map(category => (
           <div key={category.id} className="border border-gray-200 rounded-lg overflow-hidden">
             <div className="p-3 bg-gradient-to-r from-red-50 to-orange-50">
               <div className="font-medium text-gray-800">{isZh ? category.name : category.nameEn}</div>
               <div className="text-sm text-gray-500">{isZh ? category.desc : category.descEn}</div>
             </div>
             <div className="p-3 grid grid-cols-2 gap-2 bg-white">
-              {category.markets.map(market => renderMarketCard(market, true))}
+              {category.markets && category.markets.map(market => {
+                const mapped = UNIFIED_MARKET_MAP[market.id] || market;
+                return renderMarketCard(mapped, true);
+              })}
             </div>
           </div>
         ))}
@@ -167,11 +218,12 @@ interface SimpleMarket {
     );
   };
 
+  // 渲染语言维度
   const renderLanguage = () => {
     const data = MARKET_DIMENSIONS.language;
     return (
       <div className="space-y-2 max-h-96 overflow-y-auto">
-        {data.categories?.map(category => (
+        {data.categories && data.categories.map(category => (
           <div key={category.id} className="border border-gray-200 rounded-lg overflow-hidden">
             <button
               onClick={() => setExpandedRegion(expandedRegion === category.id ? null : category.id)}
@@ -182,7 +234,10 @@ interface SimpleMarket {
             </button>
             {expandedRegion === category.id && (
               <div className="p-3 grid grid-cols-2 gap-2 bg-white">
-                {category.markets.map(market => renderMarketCard(market, true))}
+                {category.markets && category.markets.map(market => {
+                  const mapped = UNIFIED_MARKET_MAP[market.id] || market;
+                  return renderMarketCard(mapped, true);
+                })}
               </div>
             )}
           </div>
@@ -191,6 +246,7 @@ interface SimpleMarket {
     );
   };
 
+  // 渲染内容
   const renderContent = () => {
     switch (activeDimension) {
       case 'hot': return renderHotMarkets();
@@ -202,19 +258,10 @@ interface SimpleMarket {
     }
   };
 
-  // 获取当前选中市场的信息
-  const getSelectedMarketInfo = (): SimpleMarket | undefined => {
-    const allMarkets: SimpleMarket[] = [
-      ...(HOT_MARKETS as SimpleMarket[]),
-      ...(MARKET_DIMENSIONS.geography.regions?.flatMap(r => r.markets) || []),
-      ...(MARKET_DIMENSIONS.economy.categories?.flatMap(c => c.markets) || []),
-      ...(MARKET_DIMENSIONS.chineseInfluence.categories?.flatMap(c => c.markets) || []),
-      ...(MARKET_DIMENSIONS.language.categories?.flatMap(c => c.markets) || []),
-    ];
-    return allMarkets.find(m => m.id === selectedMarket);
-  };
-
-  const selectedInfo = getSelectedMarketInfo();
+  // 获取当前选中市场信息
+  const selectedMarketInfo = useMemo(() => {
+    return UNIFIED_MARKET_MAP[selectedMarket] || null;
+  }, [selectedMarket]);
 
   return (
     <div className="space-y-4">
@@ -231,37 +278,34 @@ interface SimpleMarket {
             key={dim.id}
             onClick={() => setActiveDimension(dim.id)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
-              activeDimension === dim.id
-                ? 'bg-emerald-500 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              activeDimension === dim.id 
+                ? 'bg-emerald-500 text-white' 
+                : 'bg-gray-100 text-gray-600 hover:bg-emerald-50 hover:text-emerald-600'
             }`}
           >
             <dim.icon className="w-4 h-4" />
-            <span>{isZh ? dim.name : dim.nameEn}</span>
+            {dim.name}
           </button>
         ))}
       </div>
 
-      {/* 选择内容 */}
-      <div className="min-h-[300px]">
-        {renderContent()}
-      </div>
+      {/* 市场选择区域 */}
+      {renderContent()}
 
-      {/* 已选择显示 */}
-      {selectedInfo && (
+      {/* 当前选中显示 */}
+      {selectedMarketInfo && (
         <div className="mt-4 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl border border-emerald-200">
-          <div className="text-sm text-emerald-600 mb-1">{isZh ? '已选择' : 'Selected'}</div>
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">{selectedInfo.flag}</span>
-            <span className="text-lg font-semibold text-gray-800">
-              {isZh ? selectedInfo.name : (selectedInfo.nameEn || selectedInfo.name)}
-            </span>
-          </div>
-          {(selectedInfo as Market).reason && (
-            <div className="mt-2 text-sm text-gray-600">
-              {isZh ? (selectedInfo as Market).reason : ((selectedInfo as Market).reasonEn || (selectedInfo as Market).reason)}
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">{selectedMarketInfo.flag}</span>
+            <div>
+              <div className="font-semibold text-emerald-800">
+                {isZh ? selectedMarketInfo.name : selectedMarketInfo.nameEn}
+              </div>
+              <div className="text-sm text-emerald-600">
+                {isZh ? '已选择目标市场' : 'Selected Market'}
+              </div>
             </div>
-          )}
+          </div>
         </div>
       )}
     </div>
