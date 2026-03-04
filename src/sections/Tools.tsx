@@ -150,6 +150,12 @@ const Tools = () => {
   // 计算总成本
   const calculateTotalCost = () => {
     const country = CERTIFICATION_COSTS[costCountry as keyof typeof CERTIFICATION_COSTS];
+    
+    // 如果当前市场不在成本表中，避免报错
+    if (!country) {
+      return { total: 0, details: [] };
+    }
+    
     let total = 0;
     let details: string[] = [];
     
@@ -166,7 +172,7 @@ const Tools = () => {
 
   // 获取时间估算
   const getTimeline = () => {
-    return CERTIFICATION_TIMELINE[timeCountry as keyof typeof CERTIFICATION_TIMELINE];
+    return CERTIFICATION_TIMELINE[timeCountry as keyof typeof CERTIFICATION_TIMELINE] || null;
   };
 
   // 自测问卷题目
@@ -494,25 +500,35 @@ const Tools = () => {
                 </div>
 
                 <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6">
-                  <h4 className="font-semibold text-gray-800 mb-4">{t('tools.time.result')}</h4>
-                  
-                  <div className="text-4xl font-bold text-blue-600 mb-4">
-                    {timeline.min} - {timeline.max} {timeline.unit}
-                  </div>
-
-                  <div className="space-y-3">
-                    {timeline.phases.map((phase, i) => (
-                      <div key={i} className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold text-sm">
-                          {i + 1}
-                        </div>
-                        <div className="flex-1">
-                          <div className="text-gray-800 font-medium">{phase.name}</div>
-                        </div>
-                        <div className="text-blue-600 font-medium">{phase.duration}</div>
+                  {timeline ? (
+                    <>
+                      <h4 className="font-semibold text-gray-800 mb-4">{t('tools.time.result')}</h4>
+                      
+                      <div className="text-4xl font-bold text-blue-600 mb-4">
+                        {timeline.min} - {timeline.max} {timeline.unit}
                       </div>
-                    ))}
-                  </div>
+
+                      <div className="space-y-3">
+                        {timeline.phases.map((phase, i) => (
+                          <div key={i} className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold text-sm">
+                              {i + 1}
+                            </div>
+                            <div className="flex-1">
+                              <div className="text-gray-800 font-medium">{phase.name}</div>
+                            </div>
+                            <div className="text-blue-600 font-medium">{phase.duration}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="text-sm text-blue-800 py-8 text-center">
+                      {i18n.language === 'zh'
+                        ? '当前市场暂未配置详细审批时间，请选择日本、澳大利亚、东南亚、欧洲或中东之一查看时间估算。'
+                        : 'Timeline estimation is not available for this market. Please select Japan, Australia, Southeast Asia, Europe or Middle East.'}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
