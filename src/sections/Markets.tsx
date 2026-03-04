@@ -212,6 +212,43 @@ const Markets = () => {
                     </button>
                   ))}
                 </div>
+
+                {/* 详细指南链接 */}
+                <div className="mt-6">
+                  {activeMarket === 'japan' && (
+                    <a 
+                      href="/services/bencao-japan.html"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl font-medium hover:from-amber-600 hover:to-orange-600 transition-all shadow-md"
+                    >
+                      📖 查看日本市场详细指南
+                      <ArrowRight className="w-4 h-4" />
+                    </a>
+                  )}
+                  {activeMarket === 'australia' && (
+                    <a 
+                      href="/services/tcm-australia.html"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl font-medium hover:from-emerald-600 hover:to-teal-600 transition-all shadow-md"
+                    >
+                      📖 查看澳洲市场详细指南
+                      <ArrowRight className="w-4 h-4" />
+                    </a>
+                  )}
+                  {(activeMarket === 'sea' || activeMarket === 'southeast') && (
+                    <a 
+                      href="/services/southeast-asia.html"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-gradient-to-r from-purple-500 to-violet-500 text-white rounded-xl font-medium hover:from-purple-600 hover:to-violet-600 transition-all shadow-md"
+                    >
+                      📖 查看东南亚市场详细指南
+                      <ArrowRight className="w-4 h-4" />
+                    </a>
+                  )}
+                </div>
               </div>
             )}
           </div>

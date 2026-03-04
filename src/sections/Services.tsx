@@ -266,14 +266,40 @@ const Services = () => {
               ))}
             </div>
 
-            {/* Learn More Button */}
-            <button 
-              onClick={scrollToContact}
-              className="mt-8 flex items-center gap-2 text-emerald-600 font-medium hover:gap-3 transition-all"
-            >
-              {t('services.learnMore', '了解更多')}
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            {/* Learn More & View Guide Buttons */}
+            <div className="mt-8 flex flex-wrap gap-4">
+              <button 
+                onClick={scrollToContact}
+                className="flex items-center gap-2 text-emerald-600 font-medium hover:gap-3 transition-all"
+              >
+                {t('services.learnMore', '了解更多')}
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              
+              {/* 落地页链接按钮 - 根据当前标签显示 */}
+              {activeTab === 0 && (
+                <a 
+                  href="/services/bencao-japan.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg font-medium hover:from-amber-600 hover:to-orange-600 transition-all shadow-md"
+                >
+                  📖 查看日本市场指南
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              )}
+              {activeTab === 3 && (
+                <a 
+                  href="/services/southeast-asia.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-violet-500 text-white rounded-lg font-medium hover:from-purple-600 hover:to-violet-600 transition-all shadow-md"
+                >
+                  📖 查看东南亚市场指南
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              )}
+            </div>
           </div>
 
           {/* Image */}
