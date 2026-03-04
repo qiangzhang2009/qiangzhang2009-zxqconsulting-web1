@@ -20,7 +20,8 @@ import {
   Zap
 } from 'lucide-react';
 import { DEEPSEEK_CONFIG, AI_NAME_REPLACEMENTS } from '@/config';
-import { MARKETS, PRODUCT_CATEGORIES, MARKET_POLICIES, DIFFICULTY_LEVELS } from '@/data/marketPolicies';
+import { PRODUCT_CATEGORIES, MARKET_POLICIES, DIFFICULTY_LEVELS } from '@/data/marketPolicies';
+import SmartMarketSelector from '@/components/SmartMarketSelector';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -504,20 +505,13 @@ const Tools = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       {t('tools.policy.selectMarket')}
                     </label>
-                    <select
+                    <SmartMarketSelector
                       value={policyMarket}
-                      onChange={(e) => {
-                        setPolicyMarket(e.target.value);
+                      onChange={(marketId) => {
+                        setPolicyMarket(marketId);
                         setPolicyResult(null);
                       }}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none"
-                    >
-                      {MARKETS.map(market => (
-                        <option key={market.id} value={market.id}>
-                          {market.flag} {market.name}
-                        </option>
-                      ))}
-                    </select>
+                    />
                   </div>
 
                   <div>
