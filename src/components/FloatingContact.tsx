@@ -37,8 +37,8 @@ const FloatingContact = () => {
     {
       icon: <Mail className="w-5 h-5" />,
       label: '发送邮件',
-      value: 'info@zxqconsulting.com',
-      href: 'mailto:info@zxqconsulting.com',
+      value: 'customer@zxqconsulting.com',
+      href: 'mailto:customer@zxqconsulting.com',
       color: 'bg-blue-500 hover:bg-blue-600',
     },
     {
