@@ -3,17 +3,11 @@
  * 处理 /api/* 路由
  */
 
-interface Env {
-  SUPABASE_URL: string;
-  SUPABASE_ANON_KEY: string;
-  SUPABASE_SERVICE_KEY: string;
-}
-
 const ADMIN_API_KEY = 'zxq_admin_secret_key_2024';
 
 // 获取客户端信息
-function getClientInfo(request: Request) {
-  const cf = (request as any).cf || {};
+function getClientInfo(request) {
+  const cf = request.cf || {};
   const userAgent = request.headers.get('user-agent') || '';
   
   const isMobile = /mobile|android|iphone|ipad|phone/i.test(userAgent);
@@ -35,34 +29,12 @@ function getClientInfo(request: Request) {
 }
 
 // 验证管理员权限
-async function verifyAuth(request: Request): Promise<boolean> {
+async function verifyAuth(request) {
   const authHeader = request.headers.get('Authorization');
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return false;
   }
   return authHeader.substring(7) === ADMIN_API_KEY;
-}
-
-// Supabase 请求
-async function supabaseFetch(env: Env, endpoint: string, options: RequestInit = {}) {
-  const key = env.SUPABASE_SERVICE_KEY || env.SUPABASE_ANON_KEY;
-  const response = await fetch(`${env.SUPABASE_URL}/rest/v1/${endpoint}`, {
-    ...options,
-    headers: {
-      'apikey': key,
-      'Authorization': `Bearer ${key}`,
-      'Content-Type': 'application/json',
-      'Prefer': options.headers?.['Prefer'] || 'return=representation',
-      ...options.headers
-    }
-  });
-  
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(error);
-  }
-  
-  return { data: await response.json() };
 }
 
 // CORS 头
@@ -73,7 +45,7 @@ const corsHeaders = {
 };
 
 // ==================== TRACK API ====================
-async function handleTrack(context: { request: Request; env: Env }) {
+async function handleTrack(context) {
   const { request, env } = context;
 
   try {
@@ -124,7 +96,7 @@ async function handleTrack(context: { request: Request; env: Env }) {
     });
     
   } catch (error) {
-    return new Response(JSON.stringify({ error: (error as Error).message }), {
+    return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
@@ -132,7 +104,7 @@ async function handleTrack(context: { request: Request; env: Env }) {
 }
 
 // ==================== VISITORS API ====================
-async function handleVisitorsPut(context: { request: Request; env: Env }) {
+async function handleVisitorsPut(context) {
   const { request, env } = context;
 
   try {
@@ -155,7 +127,7 @@ async function handleVisitorsPut(context: { request: Request; env: Env }) {
     );
     const existing = await checkResponse.json();
     
-    const visitorData: Record<string, any> = {
+    const visitorData = {
       website_id,
       visitor_id: vid,
       company_name: company_name || null,
@@ -209,7 +181,7 @@ async function handleVisitorsPut(context: { request: Request; env: Env }) {
     });
     
   } catch (error) {
-    return new Response(JSON.stringify({ error: (error as Error).message }), {
+    return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
@@ -217,7 +189,7 @@ async function handleVisitorsPut(context: { request: Request; env: Env }) {
 }
 
 // ==================== CONTACT API ====================
-async function handleContact(context: { request: Request; env: Env }) {
+async function handleContact(context) {
   const { request, env } = context;
 
   try {
@@ -262,12 +234,12 @@ async function handleContact(context: { request: Request; env: Env }) {
     
     const result = await response.json();
     
-    return new Response(JSON.stringify({ success: true, id: result[0]?.id }), {
+    return new Response(JSON.stringify({ success: true, id: result[0] && result[0].id }), {
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
     
   } catch (error) {
-    return new Response(JSON.stringify({ error: (error as Error).message }), {
+    return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
@@ -275,10 +247,11 @@ async function handleContact(context: { request: Request; env: Env }) {
 }
 
 // ==================== ADMIN ANALYTICS API ====================
-async function handleAdminAnalytics(context: { request: Request; env: Env }) {
+async function handleAdminAnalytics(context) {
   const { request, env } = context;
   
-  if (!await verifyAuth(request)) {
+  const isAuth = await verifyAuth(request);
+  if (!isAuth) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
@@ -327,17 +300,17 @@ async function handleAdminAnalytics(context: { request: Request; env: Env }) {
     );
     const behaviors = await behaviorsRes.json();
     
-    const dailyStats: Record<string, { pageViews: number; submissions: number }> = {};
-    (behaviors || []).forEach((b: any) => {
+    const dailyStats = {};
+    (behaviors || []).forEach(function(b) {
       const date = b.created_at.split('T')[0];
       if (!dailyStats[date]) dailyStats[date] = { pageViews: 0, submissions: 0 };
       dailyStats[date].pageViews++;
       if (b.event_type === 'submit') dailyStats[date].submissions++;
     });
     
-    const trend = Object.entries(dailyStats)
-      .map(([date, stats]) => ({ date, ...stats }))
-      .sort((a: any, b: any) => a.date.localeCompare(b.date));
+    const trend = Object.keys(dailyStats).sort().map(function(date) {
+      return { date: date, pageViews: dailyStats[date].pageViews, submissions: dailyStats[date].submissions };
+    });
     
     // 热门页面
     const topPagesRes = await fetch(
@@ -346,14 +319,13 @@ async function handleAdminAnalytics(context: { request: Request; env: Env }) {
     );
     const topPagesRaw = await topPagesRes.json();
     
-    const pageCounts: Record<string, number> = {};
-    (topPagesRaw || []).forEach((b: any) => {
+    const pageCounts = {};
+    (topPagesRaw || []).forEach(function(b) {
       pageCounts[b.page_url] = (pageCounts[b.page_url] || 0) + 1;
     });
-    const topPages = Object.entries(pageCounts)
-      .map(([page, views]) => ({ page, views }))
-      .sort((a: any, b: any) => b.views - a.views)
-      .slice(0, 10);
+    const topPages = Object.keys(pageCounts).map(function(page) {
+      return { page: page, views: pageCounts[page] };
+    }).sort(function(a, b) { return b.views - a.views; }).slice(0, 10);
     
     // 热门国家
     const countriesRes = await fetch(
@@ -362,14 +334,13 @@ async function handleAdminAnalytics(context: { request: Request; env: Env }) {
     );
     const topCountriesRaw = await countriesRes.json();
     
-    const countryCounts: Record<string, number> = {};
-    (topCountriesRaw || []).forEach((v: any) => {
+    const countryCounts = {};
+    (topCountriesRaw || []).forEach(function(v) {
       if (v.country) countryCounts[v.country] = (countryCounts[v.country] || 0) + 1;
     });
-    const topCountries = Object.entries(countryCounts)
-      .map(([country, visitors]) => ({ country, visitors }))
-      .sort((a: any, b: any) => b.visitors - a.visitors)
-      .slice(0, 10);
+    const topCountries = Object.keys(countryCounts).map(function(country) {
+      return { country: country, visitors: countryCounts[country] };
+    }).sort(function(a, b) { return b.visitors - a.visitors; }).slice(0, 10);
     
     // 最近提交
     const recentRes = await fetch(
@@ -378,23 +349,23 @@ async function handleAdminAnalytics(context: { request: Request; env: Env }) {
     );
     const recentSubmissions = await recentRes.json();
     
-    const totalV = totalVisitors?.length || 0;
-    const totalS = totalSubmissions?.length || 0;
+    const totalV = totalVisitors ? totalVisitors.length : 0;
+    const totalS = totalSubmissions ? totalSubmissions.length : 0;
     const conversionRate = totalV > 0 ? ((totalS / totalV) * 100).toFixed(2) : 0;
     
     return new Response(JSON.stringify({
-      today: { visitors: todayVisitors?.length || 0, submissions: todaySubmissions?.length || 0 },
-      total: { visitors: totalV, submissions: totalS, conversionRate },
-      trend,
-      topPages,
-      topCountries,
+      today: { visitors: todayVisitors ? todayVisitors.length : 0, submissions: todaySubmissions ? todaySubmissions.length : 0 },
+      total: { visitors: totalV, submissions: totalS, conversionRate: conversionRate },
+      trend: trend,
+      topPages: topPages,
+      topCountries: topCountries,
       recentSubmissions: recentSubmissions || []
     }), {
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
     
   } catch (error) {
-    return new Response(JSON.stringify({ error: (error as Error).message }), {
+    return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
@@ -402,10 +373,11 @@ async function handleAdminAnalytics(context: { request: Request; env: Env }) {
 }
 
 // ==================== ADMIN VISITORS API ====================
-async function handleAdminVisitors(context: { request: Request; env: Env }) {
+async function handleAdminVisitors(context) {
   const { request, env } = context;
   
-  if (!await verifyAuth(request)) {
+  const isAuth = await verifyAuth(request);
+  if (!isAuth) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
@@ -432,26 +404,29 @@ async function handleAdminVisitors(context: { request: Request; env: Env }) {
     });
     const data = await res.json();
     
-    const visitors = (data || []).map((v: any) => ({
-      ...v,
-      selected_markets: v.selected_markets ? JSON.parse(v.selected_markets) : []
-    }));
+    const visitors = (data || []).map(function(v) {
+      let markets = [];
+      try {
+        if (v.selected_markets) markets = JSON.parse(v.selected_markets);
+      } catch(e) {}
+      return Object.assign({}, v, { selected_markets: markets });
+    });
     
     const countRes = await fetch(
       `${env.SUPABASE_URL}/rest/v1/visitors?website_id=eq.${websiteId}&select=id`,
       { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` } }
     );
     const countData = await countRes.json();
-    const total = countData?.length || 0;
+    const total = countData ? countData.length : 0;
     
     return new Response(JSON.stringify({
-      total, page, limit, totalPages: Math.ceil(total / limit), data: visitors
+      total: total, page: page, limit: limit, totalPages: Math.ceil(total / limit), data: visitors
     }), {
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
     
   } catch (error) {
-    return new Response(JSON.stringify({ error: (error as Error).message }), {
+    return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
@@ -459,10 +434,11 @@ async function handleAdminVisitors(context: { request: Request; env: Env }) {
 }
 
 // ==================== ADMIN SUBMISSIONS API ====================
-async function handleAdminSubmissions(context: { request: Request; env: Env }) {
+async function handleAdminSubmissions(context) {
   const { request, env } = context;
   
-  if (!await verifyAuth(request)) {
+  const isAuth = await verifyAuth(request);
+  if (!isAuth) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
@@ -497,16 +473,16 @@ async function handleAdminSubmissions(context: { request: Request; env: Env }) {
       headers: { 'apikey': key, 'Authorization': `Bearer ${key}` }
     });
     const countData = await countRes.json();
-    const total = countData?.length || 0;
+    const total = countData ? countData.length : 0;
     
     return new Response(JSON.stringify({
-      total, page, limit, totalPages: Math.ceil(total / limit), data: data || []
+      total: total, page: page, limit: limit, totalPages: Math.ceil(total / limit), data: data || []
     }), {
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
     
   } catch (error) {
-    return new Response(JSON.stringify({ error: (error as Error).message }), {
+    return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
@@ -551,14 +527,14 @@ export async function onRequest(context) {
     }
 
     // 404
-    return new Response(JSON.stringify({ error: 'Not found', path }), {
+    return new Response(JSON.stringify({ error: 'Not found', path: path }), {
       status: 404,
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
 
   } catch (error) {
     console.error('API Error:', error);
-    return new Response(JSON.stringify({ error: (error as Error).message }), {
+    return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
