@@ -1,6 +1,6 @@
 /**
  * 智能决策工作台
- * 包含：企业准备度评估、市场优选推荐、准入路径分析、ROI与风险分析
+ * 包含：企业基础信息、企业准备度评估、市场优选推荐、准入路径分析、ROI与风险分析
  */
 
 import { useState, useRef, useMemo, useEffect } from 'react';
@@ -24,31 +24,93 @@ import {
   FileCheck,
   Award,
   Wallet,
-  Shield
+  Shield,
+  Target,
+  ArrowDown
 } from 'lucide-react';
 import { DEEPSEEK_CONFIG, AI_NAME_REPLACEMENTS } from '@/config';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// 步骤配置
+// 汇率换算（1外币 = 人民币）
+const EXCHANGE_RATES: Record<string, { rate: number; symbol: string; name: string }> = {
+  USD: { rate: 7.2, symbol: '$', name: '美元' },
+  JPY: { rate: 0.048, symbol: '¥', name: '日元' },
+  EUR: { rate: 7.8, symbol: '€', name: '欧元' },
+  GBP: { rate: 9.1, symbol: '£', name: '英镑' },
+  AUD: { rate: 4.6, symbol: 'A$', name: '澳元' },
+  CAD: { rate: 5.0, symbol: 'C$', name: '加元' },
+  KRW: { rate: 0.005, symbol: '₩', name: '韩元' },
+  THB: { rate: 0.20, symbol: '฿', name: '泰铢' },
+  MYR: { rate: 1.6, symbol: 'RM', name: '马币' },
+  IDR: { rate: 0.00045, symbol: 'Rp', name: '印尼盾' },
+  VND: { rate: 0.00028, symbol: '₫', name: '越南盾' },
+  AED: { rate: 1.96, symbol: 'د.إ', name: '迪拉姆' },
+  SAR: { rate: 1.92, symbol: '﷼', name: '里亚尔' },
+  INR: { rate: 0.085, symbol: '₹', name: '卢比' },
+  BRL: { rate: 1.45, symbol: 'R$', name: '雷亚尔' },
+  NZD: { rate: 4.2, symbol: 'NZ$', name: '新西兰元' },
+  TWD: { rate: 0.22, symbol: 'NT$', name: '台币' },
+  HKD: { rate: 0.92, symbol: 'HK$', name: '港币' },
+};
+
+// 人民币换算显示
+const formatWithCNY = (amount: number, currency: string = 'CNY'): string => {
+  const cnyAmount = currency === 'CNY' ? amount : amount * EXCHANGE_RATES[currency]?.rate || amount;
+  if (currency === 'CNY') {
+    return `¥${amount.toLocaleString('zh-CN')}`;
+  }
+  const info = EXCHANGE_RATES[currency];
+  if (!info) return `¥${cnyAmount.toLocaleString('zh-CN')}`;
+  
+  const decimals = info.rate < 0.01 ? 0 : 2;
+  return `${info.symbol}${(amount * info.rate).toFixed(decimals)} ≈ ¥${cnyAmount.toLocaleString('zh-CN', { maximumFractionDigits: 0 })}`;
+};
+
+// 步骤配置 - 第一步改为企业基础信息
 const STEPS = [
-  { id: 'readiness', name: '企业准备度', nameEn: 'Readiness', icon: Building2 },
+  { id: 'info', name: '企业信息', nameEn: 'Company Info', icon: Building2 },
+  { id: 'readiness', name: '企业准备度', nameEn: 'Readiness', icon: Target },
   { id: 'market', name: '市场优选', nameEn: 'Market Select', icon: Globe },
   { id: 'path', name: '准入路径', nameEn: 'Access Path', icon: Route },
   { id: 'roi', name: 'ROI与风险', nameEn: 'ROI & Risk', icon: BarChart3 },
 ];
 
-// 问题类型定义
-type Question = {
-  id: string;
-  text?: string;
-  textEn?: string;
-  type?: 'select';
-  options?: { value: string; label: string; labelEn: string }[];
-};
+// 企业基础信息问题
+const COMPANY_INFO_FIELDS = [
+  { id: 'companyName', type: 'text', placeholder: '请输入公司名称', placeholderEn: 'Enter company name', label: '公司名称', labelEn: 'Company Name', required: false },
+  { id: 'contactName', type: 'text', placeholder: '请输入您的姓名', placeholderEn: 'Enter your name', label: '您的姓名', labelEn: 'Your Name', required: true },
+  { id: 'contactPhone', type: 'tel', placeholder: '请输入手机号', placeholderEn: 'Enter phone number', label: '联系电话', labelEn: 'Phone', required: true },
+  { id: 'productCategory', type: 'select', label: '产品类型', labelEn: 'Product Category', options: [
+    { value: 'supplement', label: '保健食品/膳食补充剂', labelEn: 'Health Supplements' },
+    { value: 'traditional', label: '传统中药/中成药', labelEn: 'Traditional Chinese Medicine' },
+    { value: 'cosmetic', label: '中药化妆品/护肤品', labelEn: 'TCM Cosmetics' },
+    { value: 'healthcare', label: '医疗器械/保健器械', labelEn: 'Medical Devices' },
+    { value: 'food', label: '普通食品/功能性食品', labelEn: 'Functional Food' },
+    { value: 'other', label: '其他', labelEn: 'Other' },
+  ]},
+  { id: 'productName', type: 'text', placeholder: '请输入产品名称/系列', placeholderEn: 'Enter product name', label: '产品名称', labelEn: 'Product Name', required: false },
+  { id: 'targetRegion', type: 'select', label: '目标区域', labelEn: 'Target Region', options: [
+    { value: 'east-asia', label: '东亚（日本/韩国/中国台湾/中国香港）', labelEn: 'East Asia' },
+    { value: 'southeast-asia', label: '东南亚', labelEn: 'Southeast Asia' },
+    { value: 'oceania', label: '大洋洲', labelEn: 'Oceania' },
+    { value: 'europe', label: '欧洲', labelEn: 'Europe' },
+    { value: 'north-america', label: '北美', labelEn: 'North America' },
+    { value: 'middle-east', label: '中东', labelEn: 'Middle East' },
+    { value: 'not-sure', label: '暂不确定', labelEn: 'Not Sure Yet' },
+  ]},
+  { id: 'mainNeed', type: 'select', label: '主要需求', labelEn: 'Main Need', options: [
+    { value: 'market-info', label: '了解目标市场情况', labelEn: 'Market Information' },
+    { value: 'policy', label: '了解市场准入政策', labelEn: 'Policy & Regulations' },
+    { value: 'partner', label: '寻找当地合作伙伴', labelEn: 'Find Local Partners' },
+    { value: 'certification', label: '解决认证/合规问题', labelEn: 'Certification Support' },
+    { value: 'branding', label: '品牌建设与推广', labelEn: 'Branding & Marketing' },
+    { value: 'all', label: '一站式出海服务', labelEn: 'Full-Service Support' },
+  ]},
+];
 
 // 企业准备度评估维度
-const READINESS_DIMENSIONS: { id: string; name: string; nameEn: string; icon: any; questions: Question[] }[] = [
+const READINESS_DIMENSIONS: { id: string; name: string; nameEn: string; icon: any; questions: any[] }[] = [
   { 
     id: 'certification', 
     name: '资质认证', 
@@ -80,10 +142,10 @@ const READINESS_DIMENSIONS: { id: string; name: string; nameEn: string; icon: an
     icon: Wallet,
     questions: [
       { id: 'budget', type: 'select', options: [
-        { value: 'low', label: '30万以下', labelEn: 'Under $50K' },
-        { value: 'medium', label: '30-100万', labelEn: '$50K-$150K' },
-        { value: 'high', label: '100-300万', labelEn: '$150K-$450K' },
-        { value: 'premium', label: '300万以上', labelEn: 'Over $450K' },
+        { value: 'low', label: '50万元以下', labelEn: 'Under ¥500K' },
+        { value: 'medium', label: '50-200万元', labelEn: '¥500K-2M' },
+        { value: 'high', label: '200-500万元', labelEn: '¥2M-5M' },
+        { value: 'premium', label: '500万元以上', labelEn: 'Over ¥5M' },
       ]},
       { id: 'timeline', type: 'select', options: [
         { value: 'urgent', label: '6个月内回本', labelEn: 'Break-even within 6 months' },
@@ -108,49 +170,49 @@ const READINESS_DIMENSIONS: { id: string; name: string; nameEn: string; icon: an
 ];
 
 // 市场信息映射
-const MARKET_INFO: Record<string, { name: string; flag: string; nameEn: string; tier: string; chinesePop: number; marketSize: string; growth: string; difficulty: string; risk: string }> = {
-  japan: { name: '日本', flag: '🇯🇵', nameEn: 'Japan', tier: '一线', chinesePop: 1.2, marketSize: '极大', growth: '稳定', difficulty: '高', risk: '低' },
-  australia: { name: '澳大利亚', flag: '🇦🇺', nameEn: 'Australia', tier: '一线', chinesePop: 1.4, marketSize: '大', growth: '稳定', difficulty: '中', risk: '低' },
-  usa: { name: '美国', flag: '🇺🇸', nameEn: 'USA', tier: '一线', chinesePop: 5.5, marketSize: '极大', growth: '稳定', difficulty: '高', risk: '低' },
-  singapore: { name: '新加坡', flag: '🇸🇬', nameEn: 'Singapore', tier: '一线', chinesePop: 2.8, marketSize: '中', growth: '快速增长', difficulty: '低', risk: '低' },
-  germany: { name: '德国', flag: '🇩🇪', nameEn: 'Germany', tier: '一线', chinesePop: 0.2, marketSize: '大', growth: '稳定', difficulty: '高', risk: '低' },
-  uk: { name: '英国', flag: '🇬🇧', nameEn: 'UK', tier: '一线', chinesePop: 0.5, marketSize: '大', growth: '稳定', difficulty: '中高', risk: '低' },
-  korea: { name: '韩国', flag: '🇰🇷', nameEn: 'South Korea', tier: '二线', chinesePop: 1.1, marketSize: '大', growth: '稳定', difficulty: '中', risk: '中' },
-  thailand: { name: '泰国', flag: '🇹🇭', nameEn: 'Thailand', tier: '二线', chinesePop: 0.9, marketSize: '中', growth: '快速增长', difficulty: '低', risk: '中' },
-  malaysia: { name: '马来西亚', flag: '🇲🇾', nameEn: 'Malaysia', tier: '二线', chinesePop: 0.8, marketSize: '中', growth: '快速增长', difficulty: '低', risk: '低' },
-  indonesia: { name: '印度尼西亚', flag: '🇮🇩', nameEn: 'Indonesia', tier: '二线', chinesePop: 0.3, marketSize: '大', growth: '快速增长', difficulty: '中', risk: '中高' },
-  vietnam: { name: '越南', flag: '🇻🇳', nameEn: 'Vietnam', tier: '二线', chinesePop: 0.1, marketSize: '中', growth: '高速增长', difficulty: '低', risk: '中' },
-  uae: { name: '阿联酋', flag: '🇦🇪', nameEn: 'UAE', tier: '二线', chinesePop: 0.4, marketSize: '中', growth: '快速增长', difficulty: '中', risk: '低' },
-  saudi: { name: '沙特阿拉伯', flag: '🇸🇦', nameEn: 'Saudi Arabia', tier: '二线', chinesePop: 0.05, marketSize: '中', growth: '快速增长', difficulty: '中', risk: '中' },
-  india: { name: '印度', flag: '🇮🇳', nameEn: 'India', tier: '二线', chinesePop: 0.02, marketSize: '极大', growth: '高速增长', difficulty: '高', risk: '高' },
-  brazil: { name: '巴西', flag: '🇧🇷', nameEn: 'Brazil', tier: '二线', chinesePop: 0.05, marketSize: '大', growth: '波动', difficulty: '高', risk: '中高' },
-  newzealand: { name: '新西兰', flag: '🇳🇿', nameEn: 'New Zealand', tier: '一线', chinesePop: 0.25, marketSize: '小', growth: '稳定', difficulty: '低', risk: '低' },
-  taiwan: { name: '中国台湾', flag: '🇹🇼', nameEn: 'Taiwan', tier: '细分', chinesePop: 23, marketSize: '中', growth: '稳定', difficulty: '低', risk: '低' },
-  hongkong: { name: '中国香港', flag: '🇭🇰', nameEn: 'Hong Kong', tier: '细分', chinesePop: 7.5, marketSize: '小', growth: '稳定', difficulty: '低', risk: '低' },
-  canada: { name: '加拿大', flag: '🇨🇦', nameEn: 'Canada', tier: '一线', chinesePop: 1.8, marketSize: '大', growth: '稳定', difficulty: '中', risk: '低' },
+const MARKET_INFO: Record<string, { name: string; flag: string; nameEn: string; tier: string; currency: string; chinesePop: number; marketSize: string; growth: string; difficulty: string; risk: string }> = {
+  japan: { name: '日本', flag: '🇯🇵', nameEn: 'Japan', tier: '一线', currency: 'JPY', chinesePop: 1.2, marketSize: '极大', growth: '稳定', difficulty: '高', risk: '低' },
+  australia: { name: '澳大利亚', flag: '🇦🇺', nameEn: 'Australia', tier: '一线', currency: 'AUD', chinesePop: 1.4, marketSize: '大', growth: '稳定', difficulty: '中', risk: '低' },
+  usa: { name: '美国', flag: '🇺🇸', nameEn: 'USA', tier: '一线', currency: 'USD', chinesePop: 5.5, marketSize: '极大', growth: '稳定', difficulty: '高', risk: '低' },
+  singapore: { name: '新加坡', flag: '🇸🇬', nameEn: 'Singapore', tier: '一线', currency: 'SGD', chinesePop: 2.8, marketSize: '中', growth: '快速增长', difficulty: '低', risk: '低' },
+  germany: { name: '德国', flag: '🇩🇪', nameEn: 'Germany', tier: '一线', currency: 'EUR', chinesePop: 0.2, marketSize: '大', growth: '稳定', difficulty: '高', risk: '低' },
+  uk: { name: '英国', flag: '🇬🇧', nameEn: 'UK', tier: '一线', currency: 'GBP', chinesePop: 0.5, marketSize: '大', growth: '稳定', difficulty: '中高', risk: '低' },
+  korea: { name: '韩国', flag: '🇰🇷', nameEn: 'South Korea', tier: '二线', currency: 'KRW', chinesePop: 1.1, marketSize: '大', growth: '稳定', difficulty: '中', risk: '中' },
+  thailand: { name: '泰国', flag: '🇹🇭', nameEn: 'Thailand', tier: '二线', currency: 'THB', chinesePop: 0.9, marketSize: '中', growth: '快速增长', difficulty: '低', risk: '中' },
+  malaysia: { name: '马来西亚', flag: '🇲🇾', nameEn: 'Malaysia', tier: '二线', currency: 'MYR', chinesePop: 0.8, marketSize: '中', growth: '快速增长', difficulty: '低', risk: '低' },
+  indonesia: { name: '印度尼西亚', flag: '🇮🇩', nameEn: 'Indonesia', tier: '二线', currency: 'IDR', chinesePop: 0.3, marketSize: '大', growth: '快速增长', difficulty: '中', risk: '中高' },
+  vietnam: { name: '越南', flag: '🇻🇳', nameEn: 'Vietnam', tier: '二线', currency: 'VND', chinesePop: 0.1, marketSize: '中', growth: '高速增长', difficulty: '低', risk: '中' },
+  uae: { name: '阿联酋', flag: '🇦🇪', nameEn: 'UAE', tier: '二线', currency: 'AED', chinesePop: 0.4, marketSize: '中', growth: '快速增长', difficulty: '中', risk: '低' },
+  saudi: { name: '沙特阿拉伯', flag: '🇸🇦', nameEn: 'Saudi Arabia', tier: '二线', currency: 'SAR', chinesePop: 0.05, marketSize: '中', growth: '快速增长', difficulty: '中', risk: '中' },
+  india: { name: '印度', flag: '🇮🇳', nameEn: 'India', tier: '二线', currency: 'INR', chinesePop: 0.02, marketSize: '极大', growth: '高速增长', difficulty: '高', risk: '高' },
+  brazil: { name: '巴西', flag: '🇧🇷', nameEn: 'Brazil', tier: '二线', currency: 'BRL', chinesePop: 0.05, marketSize: '大', growth: '波动', difficulty: '高', risk: '中高' },
+  newzealand: { name: '新西兰', flag: '🇳🇿', nameEn: 'New Zealand', tier: '一线', currency: 'NZD', chinesePop: 0.25, marketSize: '小', growth: '稳定', difficulty: '低', risk: '低' },
+  taiwan: { name: '中国台湾', flag: '🇹🇼', nameEn: 'Taiwan', tier: '细分', currency: 'TWD', chinesePop: 23, marketSize: '中', growth: '稳定', difficulty: '低', risk: '低' },
+  hongkong: { name: '中国香港', flag: '🇭🇰', nameEn: 'Hong Kong', tier: '细分', currency: 'HKD', chinesePop: 7.5, marketSize: '小', growth: '稳定', difficulty: '低', risk: '低' },
+  canada: { name: '加拿大', flag: '🇨🇦', nameEn: 'Canada', tier: '一线', currency: 'CAD', chinesePop: 1.8, marketSize: '大', growth: '稳定', difficulty: '中', risk: '低' },
 };
 
-// 成本估算数据
-const COST_ESTIMATES: Record<string, { name: string; cost: { min: number; max: number }; timeline: string; keyReq: string }> = {
-  japan: { name: '日本', cost: { min: 80000, max: 250000 }, timeline: '12-24月', keyReq: 'PMDA注册、功能性标示食品认证' },
-  australia: { name: '澳大利亚', cost: { min: 30000, max: 80000 }, timeline: '6-12月', keyReq: 'TGA注册、ARTG登记' },
-  usa: { name: '美国', cost: { min: 50000, max: 150000 }, timeline: '12-18月', keyReq: 'FDA注册、NDI或GRAS认证' },
-  singapore: { name: '新加坡', cost: { min: 15000, max: 40000 }, timeline: '3-6月', keyReq: 'HSA注册、健康补充剂认证' },
-  germany: { name: '德国', cost: { min: 60000, max: 180000 }, timeline: '12-24月', keyReq: 'CE认证、NVL注册' },
-  uk: { name: '英国', cost: { min: 40000, max: 120000 }, timeline: '9-18月', keyReq: 'MHRA注册、健康声称' },
-  korea: { name: '韩国', cost: { min: 25000, max: 60000 }, timeline: '6-12月', keyReq: 'KFDA注册、功能性认证' },
-  thailand: { name: '泰国', cost: { min: 15000, max: 40000 }, timeline: '4-8月', keyReq: 'FDA注册、ThaiFDA认证' },
-  malaysia: { name: '马来西亚', cost: { min: 12000, max: 35000 }, timeline: '3-6月', keyReq: 'NPRA注册、Malaysian HALAL' },
-  indonesia: { name: '印度尼西亚', cost: { min: 10000, max: 30000 }, timeline: '4-8月', keyReq: 'BPOM注册、HALAL认证' },
-  vietnam: { name: '越南', cost: { min: 8000, max: 25000 }, timeline: '3-6月', keyReq: 'MOH注册、养生产品分类' },
-  uae: { name: '阿联酋', cost: { min: 20000, max: 50000 }, timeline: '4-8月', keyReq: 'ESMA注册、HALAL认证' },
-  saudi: { name: '沙特阿拉伯', cost: { min: 18000, max: 45000 }, timeline: '6-10月', keyReq: 'SFDA注册、HALAL认证' },
-  india: { name: '印度', cost: { min: 10000, max: 30000 }, timeline: '6-12月', keyReq: 'AYUSH注册、传统医药认证' },
-  brazil: { name: '巴西', cost: { min: 20000, max: 60000 }, timeline: '8-14月', keyReq: 'ANVISA注册、Brazilian FDA' },
-  newzealand: { name: '新西兰', cost: { min: 20000, max: 50000 }, timeline: '6-10月', keyReq: 'Medsafe注册、补充药品分类' },
-  taiwan: { name: '中国台湾', cost: { min: 12000, max: 35000 }, timeline: '4-8月', keyReq: 'TFDA注册、中药制剂认证' },
-  hongkong: { name: '中国香港', cost: { min: 8000, max: 25000 }, timeline: '2-4月', keyReq: '中成药注册、商号登记' },
-  canada: { name: '加拿大', cost: { min: 35000, max: 90000 }, timeline: '8-14月', keyReq: 'NPN/NIN注册、Health Canada' },
+// 成本估算数据 - 改为以当地货币显示
+const COST_ESTIMATES: Record<string, { name: string; cost: { min: number; max: number }; currency: string; timeline: string; keyReq: string }> = {
+  japan: { name: '日本', cost: { min: 80000, max: 250000 }, currency: 'USD', timeline: '12-24月', keyReq: 'PMDA注册、功能性标示食品认证' },
+  australia: { name: '澳大利亚', cost: { min: 30000, max: 80000 }, currency: 'USD', timeline: '6-12月', keyReq: 'TGA注册、ARTG登记' },
+  usa: { name: '美国', cost: { min: 50000, max: 150000 }, currency: 'USD', timeline: '12-18月', keyReq: 'FDA注册、NDI或GRAS认证' },
+  singapore: { name: '新加坡', cost: { min: 15000, max: 40000 }, currency: 'USD', timeline: '3-6月', keyReq: 'HSA注册、健康补充剂认证' },
+  germany: { name: '德国', cost: { min: 60000, max: 180000 }, currency: 'USD', timeline: '12-24月', keyReq: 'CE认证、NVL注册' },
+  uk: { name: '英国', cost: { min: 40000, max: 120000 }, currency: 'USD', timeline: '9-18月', keyReq: 'MHRA注册、健康声称' },
+  korea: { name: '韩国', cost: { min: 25000, max: 60000 }, currency: 'USD', timeline: '6-12月', keyReq: 'KFDA注册、功能性认证' },
+  thailand: { name: '泰国', cost: { min: 15000, max: 40000 }, currency: 'USD', timeline: '4-8月', keyReq: 'FDA注册、ThaiFDA认证' },
+  malaysia: { name: '马来西亚', cost: { min: 12000, max: 35000 }, currency: 'USD', timeline: '3-6月', keyReq: 'NPRA注册、Malaysian HALAL' },
+  indonesia: { name: '印度尼西亚', cost: { min: 10000, max: 30000 }, currency: 'USD', timeline: '4-8月', keyReq: 'BPOM注册、HALAL认证' },
+  vietnam: { name: '越南', cost: { min: 8000, max: 25000 }, currency: 'USD', timeline: '3-6月', keyReq: 'MOH注册、养生产品分类' },
+  uae: { name: '阿联酋', cost: { min: 20000, max: 50000 }, currency: 'USD', timeline: '4-8月', keyReq: 'ESMA注册、HALAL认证' },
+  saudi: { name: '沙特阿拉伯', cost: { min: 18000, max: 45000 }, currency: 'USD', timeline: '6-10月', keyReq: 'SFDA注册、HALAL认证' },
+  india: { name: '印度', cost: { min: 10000, max: 30000 }, currency: 'USD', timeline: '6-12月', keyReq: 'AYUSH注册、传统医药认证' },
+  brazil: { name: '巴西', cost: { min: 20000, max: 60000 }, currency: 'USD', timeline: '8-14月', keyReq: 'ANVISA注册、Brazilian FDA' },
+  newzealand: { name: '新西兰', cost: { min: 20000, max: 50000 }, currency: 'USD', timeline: '6-10月', keyReq: 'Medsafe注册、补充药品分类' },
+  taiwan: { name: '中国台湾', cost: { min: 12000, max: 35000 }, currency: 'USD', timeline: '4-8月', keyReq: 'TFDA注册、中药制剂认证' },
+  hongkong: { name: '中国香港', cost: { min: 8000, max: 25000 }, currency: 'USD', timeline: '2-4月', keyReq: '中成药注册、商号登记' },
+  canada: { name: '加拿大', cost: { min: 35000, max: 90000 }, currency: 'USD', timeline: '8-14月', keyReq: 'NPN/NIN注册、Health Canada' },
 };
 
 // 风险等级配置
@@ -181,9 +243,20 @@ export default function DecisionWorkspace() {
   const isZh = i18n.language === 'zh';
 
   // 当前步骤
-  const [currentStep, setCurrentStep] = useState('readiness');
+  const [currentStep, setCurrentStep] = useState('info');
   
-  // 企业准备度数据 - 修复类型定义
+  // 企业基础信息
+  const [companyInfo, setCompanyInfo] = useState<Record<string, string>>({
+    companyName: '',
+    contactName: '',
+    contactPhone: '',
+    productCategory: '',
+    productName: '',
+    targetRegion: 'not-sure',
+    mainNeed: 'market-info',
+  });
+
+  // 企业准备度数据
   const [readinessData, setReadinessData] = useState<Record<string, Record<string, boolean | string>>>({
     certification: { gmp: false, iso: false, export: false, productCert: false },
     product: { patent: false, clinical: false, standard: false, unique: false },
@@ -194,43 +267,38 @@ export default function DecisionWorkspace() {
   // 选择的市场
   const [selectedMarkets, setSelectedMarkets] = useState<string[]>([]);
   
-  // ROI计算参数
+  // ROI计算参数 - 改为人民币
   const [roiParams, setRoiParams] = useState({
-    investment: 100000,
-    productPrice: 50,
+    investment: 1000000,  // 100万人民币
+    productPrice: 500,   // 500元人民币
     annualVolume: 10000,
-    productCategory: 'supplement',
   });
 
   // AI分析结果
   const [aiAnalysis, setAiAnalysis] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-  // 计算准备度得分 - 优化逻辑
+  // 计算准备度得分
   const readinessScore = useMemo(() => {
     let score = 0;
     let total = 0;
     
-    // 资质认证 (25分)
     const certKeys = ['gmp', 'iso', 'export', 'productCert'];
     certKeys.forEach(key => {
       if ((readinessData.certification as any)[key]) score += 6.25;
       total += 6.25;
     });
 
-    // 产品能力 (25分)
     const prodKeys = ['patent', 'clinical', 'standard', 'unique'];
     prodKeys.forEach(key => {
       if ((readinessData.product as any)[key]) score += 6.25;
       total += 6.25;
     });
 
-    // 资金实力 (25分)
     const budgetMap: Record<string, number> = { low: 6.25, medium: 12.5, high: 18.75, premium: 25 };
     score += budgetMap[(readinessData.financial as any).budget as string] || 6.25;
     total += 25;
 
-    // 团队能力 (25分)
     const teamKeys = ['overseas', 'language', 'experience', 'resources'];
     teamKeys.forEach(key => {
       if ((readinessData.team as any)[key]) score += 6.25;
@@ -248,45 +316,40 @@ export default function DecisionWorkspace() {
     return { label: '需提升', labelEn: 'Needs Improvement', color: 'text-red-600', bg: 'bg-red-100' };
   }, [readinessScore]);
 
-  // 推荐市场 - 优化逻辑，考虑更多因素
+  // 推荐市场
   const recommendedMarkets = useMemo(() => {
     const budget = (readinessData.financial as any).budget as string;
     const hasCert = (readinessData.certification as any).gmp || (readinessData.certification as any).iso;
     
-    // 预算越高 + 有资质 + 有团队 = 可以挑战一线市场
     if (readinessScore >= 75 && (budget === 'high' || budget === 'premium') && hasCert) {
       return ['japan', 'usa', 'germany', 'australia', 'singapore'];
     }
-    // 准备度较好，中等预算
     if (readinessScore >= 60 && budget === 'medium') {
       return ['singapore', 'australia', 'korea', 'thailand', 'malaysia'];
     }
-    // 准备度一般，低预算
     if (readinessScore >= 40) {
       return ['thailand', 'malaysia', 'indonesia', 'vietnam', 'hongkong'];
     }
-    // 准备度较低
     return ['hongkong', 'taiwan', 'singapore', 'malaysia', 'uae'];
   }, [readinessScore, readinessData]);
 
-  // 计算ROI - 修复逻辑
+  // 计算ROI - 使用人民币
   const roiResult = useMemo(() => {
-    const costMin = selectedMarkets.reduce((sum, m) => sum + (COST_ESTIMATES[m]?.cost.min || 0), 0);
-    const costMax = selectedMarkets.reduce((sum, m) => sum + (COST_ESTIMATES[m]?.cost.max || 0), 0);
+    const costMin = selectedMarkets.reduce((sum, m) => sum + (COST_ESTIMATES[m]?.cost.min || 0) * 7.2, 0); // 转换为人民币
+    const costMax = selectedMarkets.reduce((sum, m) => sum + (COST_ESTIMATES[m]?.cost.max || 0) * 7.2, 0);
     const avgCost = (costMin + costMax) / 2;
     
     const revenue = roiParams.productPrice * roiParams.annualVolume;
     const profitMin = revenue - costMax;
     const profitMax = revenue - costMin;
     
-    // 修复ROI计算：避免除以0
     const roiMin = costMax > 0 ? ((revenue - costMax) / costMax) * 100 : 0;
     const roiMax = costMin > 0 ? ((revenue - costMin) / costMin) * 100 : 0;
 
     return { revenue, avgCost, costMin, costMax, profitMin, profitMax, roiMin, roiMax };
   }, [selectedMarkets, roiParams]);
 
-  // 风险评估 - 修复逻辑：一线市场=低风险，新兴市场=中高风险
+  // 风险评估
   const riskAssessment = useMemo(() => {
     if (selectedMarkets.length === 0) return null;
     
@@ -300,12 +363,10 @@ export default function DecisionWorkspace() {
       
       marketCount++;
       
-      // 修复风险逻辑：一线市场风险低，新兴市场风险高
-      if (market.tier === '一线') riskScore += 1;       // 低风险
-      else if (market.tier === '二线') riskScore += 2;  // 中等风险
-      else if (market.tier === '细分') riskScore += 1.5; // 较低风险
+      if (market.tier === '一线') riskScore += 1;
+      else if (market.tier === '二线') riskScore += 2;
+      else if (market.tier === '细分') riskScore += 1.5;
       
-      // 成本风险：高成本=高风险
       if (cost.cost.max > 150000) riskScore += 2;
       else if (cost.cost.max > 50000) riskScore += 1;
       else riskScore += 0.5;
@@ -318,23 +379,34 @@ export default function DecisionWorkspace() {
     return RISK_LEVELS.veryHigh;
   }, [selectedMarkets]);
 
-  // 运行AI分析 - 修复Markdown显示问题
+  // 运行AI分析
   const runAIAnalysis = async (type: string) => {
     setIsAnalyzing(true);
     setAiAnalysis('');
     
+    // 构建用户上下文
+    const productCategory = companyInfo.productCategory ? 
+      (COMPANY_INFO_FIELDS.find(f => f.id === 'productCategory')?.options?.find(o => o.value === companyInfo.productCategory)?.[isZh ? 'label' : 'labelEn'] || '') 
+      : '';
+    const targetRegion = companyInfo.targetRegion ?
+      (COMPANY_INFO_FIELDS.find(f => f.id === 'targetRegion')?.options?.find(o => o.value === companyInfo.targetRegion)?.[isZh ? 'label' : 'labelEn'] || '')
+      : '';
+    const mainNeed = companyInfo.mainNeed ?
+      (COMPANY_INFO_FIELDS.find(f => f.id === 'mainNeed')?.options?.find(o => o.value === companyInfo.mainNeed)?.[isZh ? 'label' : 'labelEn'] || '')
+      : '';
+
     let prompt = '';
     if (type === 'market') {
       const markets = selectedMarkets.length > 0 
         ? selectedMarkets.map(m => MARKET_INFO[m]?.name).join('、')
         : recommendedMarkets.map(m => MARKET_INFO[m]?.name).join('、');
-      prompt = `作为中医药产品出海专家，请根据企业准备度得分${readinessScore}分，分析目标市场${markets}的优劣势、准入要点和注意事项。请用简洁专业的语言列出要点，不需要使用Markdown格式符号如#或*，直接以段落形式呈现。`;
+      prompt = `作为中医药产品出海专家，请分析目标市场${markets}的优劣势、准入要点和注意事项。用户情况：产品类型${productCategory || '待定'}，目标区域${targetRegion || '待定'}，主要需求${mainNeed}，企业准备度得分${readinessScore}分。请用简洁专业的语言列出要点，不需要使用Markdown格式符号如#或*，直接以段落形式呈现。`;
     } else if (type === 'path') {
       const markets = selectedMarkets.map(m => MARKET_INFO[m]?.name).join('、');
-      prompt = `作为中医药产品出海专家，请分析中医药产品进入${markets}市场的准入路径、政策要求、审批流程和时间节点。请用简洁专业的语言列出要点，不需要使用Markdown格式符号如#或*。`;
+      prompt = `作为中医药产品出海专家，请分析${productCategory || '中医药产品'}进入${markets}市场的准入路径、政策要求、审批流程和时间节点。请用简洁专业的语言列出要点，不需要使用Markdown格式符号如#或*。`;
     } else if (type === 'roi') {
       const markets = selectedMarkets.map(m => MARKET_INFO[m]?.name).join('、');
-      prompt = `作为中医药产品出海专家，请分析投资${(roiParams.investment/10000).toFixed(0)}万美元进入${markets}市场的投资回报预期、风险评估和运营建议。请用简洁专业的语言列出要点，不需要使用Markdown格式符号如#或*。`;
+      prompt = `作为中医药产品出海专家，请分析投资${(roiParams.investment/10000).toFixed(0)}万元人民币进入${markets}市场的投资回报预期、风险评估和运营建议。请用简洁专业的语言列出要点，不需要使用Markdown格式符号如#或*。`;
     } else {
       prompt = `作为中医药产品出海专家，请对准备度得分${readinessScore}分的企业给出出海建议和改进方向，特别是哪些方面需要提升。请用简洁专业的语言列出要点，不需要使用Markdown格式符号如#或*。`;
     }
@@ -359,15 +431,10 @@ export default function DecisionWorkspace() {
 
       const data = await response.json();
       let content = data.choices?.[0]?.message?.content || '抱歉，分析服务暂时不可用。';
-      
-      // 去除Markdown符号
       content = stripMarkdown(content);
-      
-      // 替换AI名称
       Object.entries(AI_NAME_REPLACEMENTS).forEach(([key, value]) => {
         content = content.replace(new RegExp(key, 'gi'), value);
       });
-      
       setAiAnalysis(content);
     } catch (error) {
       setAiAnalysis('抱歉，AI分析服务暂时不可用。请稍后再试。');
@@ -376,7 +443,6 @@ export default function DecisionWorkspace() {
     }
   };
 
-  // 切换市场选择
   const toggleMarket = (marketId: string) => {
     setSelectedMarkets(prev => 
       prev.includes(marketId) 
@@ -385,10 +451,8 @@ export default function DecisionWorkspace() {
     );
   };
 
-  // 获取步骤索引
   const currentStepIndex = STEPS.findIndex(s => s.id === currentStep);
 
-  // 自动滚动到当前步骤
   useEffect(() => {
     if (sectionRef.current) {
       gsap.fromTo(sectionRef.current, 
@@ -450,7 +514,7 @@ export default function DecisionWorkspace() {
                 <button
                   key={step.id}
                   onClick={() => setCurrentStep(step.id)}
-                  className={`flex-1 flex items-center gap-2 px-3 py-3 rounded-xl transition-all whitespace-nowrap ${
+                  className={`flex-1 flex items-center gap-2 px-2 py-3 rounded-xl transition-all whitespace-nowrap ${
                     isActive 
                       ? 'bg-emerald-500 text-white shadow-md' 
                       : isCompleted 
@@ -463,7 +527,7 @@ export default function DecisionWorkspace() {
                   }`}>
                     {isCompleted ? <CheckCircle className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
                   </div>
-                  <span className="font-medium text-sm">
+                  <span className="font-medium text-xs sm:text-sm">
                     {isZh ? step.name : step.nameEn}
                   </span>
                   {index < STEPS.length - 1 && (
@@ -481,6 +545,99 @@ export default function DecisionWorkspace() {
           {/* 左侧主内容区 */}
           <div className="lg:col-span-2">
             
+            {/* 步骤0: 企业基础信息 */}
+            {currentStep === 'info' && (
+              <div className="bg-white rounded-2xl shadow-lg p-6">
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-slate-800">{isZh ? '企业基础信息' : 'Company Information'}</h3>
+                  <p className="text-slate-500 text-sm mt-1">
+                    {isZh ? '请填写基本信息，以便我们更好地为您服务' : 'Please provide your information for better service'}
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {COMPANY_INFO_FIELDS.slice(0, 3).map(field => (
+                      <div key={field.id}>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">
+                          {isZh ? field.label : field.labelEn}
+                          {field.required && <span className="text-red-500">*</span>}
+                        </label>
+                        <input
+                          type={field.type}
+                          value={companyInfo[field.id] || ''}
+                          onChange={(e) => setCompanyInfo(prev => ({ ...prev, [field.id]: e.target.value }))}
+                          placeholder={isZh ? field.placeholder : field.placeholderEn}
+                          className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:border-emerald-500 focus:outline-none"
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
+                      {isZh ? '产品类型' : 'Product Category'}
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={companyInfo.productCategory}
+                      onChange={(e) => setCompanyInfo(prev => ({ ...prev, productCategory: e.target.value }))}
+                      className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:border-emerald-500 focus:outline-none"
+                    >
+                      <option value="">{isZh ? '请选择产品类型' : 'Select product category'}</option>
+                      {COMPANY_INFO_FIELDS.find(f => f.id === 'productCategory')?.options?.map(opt => (
+                        <option key={opt.value} value={opt.value}>
+                          {isZh ? opt.label : opt.labelEn}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
+                      {isZh ? '产品名称/系列' : 'Product Name/Series'}
+                    </label>
+                    <input
+                      type="text"
+                      value={companyInfo.productName}
+                      onChange={(e) => setCompanyInfo(prev => ({ ...prev, productName: e.target.value }))}
+                      placeholder={isZh ? '请输入产品名称或系列' : 'Enter product name or series'}
+                      className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:border-emerald-500 focus:outline-none"
+                    />
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {COMPANY_INFO_FIELDS.slice(5).map(field => (
+                      <div key={field.id}>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">
+                          {isZh ? field.label : field.labelEn}
+                        </label>
+                        <select
+                          value={companyInfo[field.id]}
+                          onChange={(e) => setCompanyInfo(prev => ({ ...prev, [field.id]: e.target.value }))}
+                          className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:border-emerald-500 focus:outline-none"
+                        >
+                          {field.options?.map(opt => (
+                            <option key={opt.value} value={opt.value}>
+                              {isZh ? opt.label : opt.labelEn}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => setCurrentStep('readiness')}
+                  className="mt-6 w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl font-medium flex items-center justify-center gap-2 hover:from-emerald-600 hover:to-teal-600"
+                >
+                  {isZh ? '开始评估' : 'Start Assessment'}
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+
             {/* 步骤1: 企业准备度评估 */}
             {currentStep === 'readiness' && (
               <div className="bg-white rounded-2xl shadow-lg p-6">
@@ -496,26 +653,25 @@ export default function DecisionWorkspace() {
                   </div>
                 </div>
 
-                {/* 准备度维度 */}
                 <div className="space-y-4">
                   {READINESS_DIMENSIONS.map(dim => {
                     const Icon = dim.icon;
                     return (
                       <div key={dim.id} className="border border-slate-200 rounded-xl p-4">
-                        <h4 className="font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                          <h4 className="font-semibold text-slate-700 mb-3 flex items-center gap-2">
                           <Icon className="w-4 h-4 text-emerald-500" />
                           {isZh ? dim.name : dim.nameEn}
                         </h4>
                         <div className="grid sm:grid-cols-2 gap-3">
-                          {dim.questions.map(q => {
-                            // 判断是下拉选择还是复选框
+                          {dim.questions.map((q: any) => {
                             const isSelect = 'type' in q && q.type === 'select';
                             if (isSelect) {
-                              const selectQ = q as Question;
+                              const selectQ = q;
+                              const isBudget = selectQ.id === 'budget';
                               return (
                                 <div key={selectQ.id} className="p-3 bg-slate-50 rounded-lg">
                                   <label className="block text-xs text-slate-500 mb-1">
-                                    {isZh ? '期望预算' : 'Budget Expectation'}
+                                    {isZh ? (isBudget ? '预算范围' : '期望回本周期') : (isBudget ? 'Budget Range' : 'Expected Break-even')}
                                   </label>
                                   <select
                                     value={(readinessData[dim.id as keyof typeof readinessData] as any)?.[selectQ.id] as string || 'medium'}
@@ -527,7 +683,7 @@ export default function DecisionWorkspace() {
                                     }}
                                     className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:border-emerald-500 focus:outline-none"
                                   >
-                                    {selectQ.options?.map((opt) => (
+                                    {selectQ.options?.map((opt: any) => (
                                       <option key={opt.value} value={opt.value}>
                                         {isZh ? opt.label : opt.labelEn}
                                       </option>
@@ -566,7 +722,6 @@ export default function DecisionWorkspace() {
                   })}
                 </div>
 
-                {/* AI建议按钮 */}
                 <button
                   onClick={() => runAIAnalysis('readiness')}
                   disabled={isAnalyzing}
@@ -593,7 +748,6 @@ export default function DecisionWorkspace() {
                   </div>
                 </div>
 
-                {/* 推荐市场列表 */}
                 <div className="mb-6">
                   <h4 className="font-medium text-slate-700 mb-3 flex items-center gap-2">
                     <Sparkles className="w-4 h-4 text-amber-500" />
@@ -641,7 +795,6 @@ export default function DecisionWorkspace() {
                   </div>
                 </div>
 
-                {/* 更多市场选择 */}
                 <div>
                   <h4 className="font-medium text-slate-700 mb-3 flex items-center gap-2">
                     <Globe className="w-4 h-4 text-blue-500" />
@@ -672,7 +825,6 @@ export default function DecisionWorkspace() {
                   </div>
                 </div>
 
-                {/* AI分析按钮 */}
                 <button
                   onClick={() => runAIAnalysis('market')}
                   disabled={isAnalyzing}
@@ -715,7 +867,6 @@ export default function DecisionWorkspace() {
                             <div className="flex-1">
                               <h4 className="font-semibold text-slate-800">{market.name}</h4>
                               
-                              {/* 时间和成本信息 */}
                               <div className="grid sm:grid-cols-2 gap-3 mt-3">
                                 <div className="flex items-center gap-2 text-sm">
                                   <Clock className="w-4 h-4 text-blue-500 shrink-0" />
@@ -726,20 +877,16 @@ export default function DecisionWorkspace() {
                                   <DollarSign className="w-4 h-4 text-emerald-500 shrink-0" />
                                   <span className="text-slate-600">{isZh ? '预估成本' : 'Est. Cost'}:</span>
                                   <span className="font-medium text-slate-800">
-                                    ${(cost.cost.min / 10000).toFixed(1)}万 - ${(cost.cost.max / 10000).toFixed(1)}万
+                                    {formatWithCNY(cost.cost.min, 'USD')} - {formatWithCNY(cost.cost.max, 'USD')}
                                   </span>
                                 </div>
                               </div>
 
-                              {/* 准入要点 */}
                               <div className="mt-3 p-3 bg-slate-50 rounded-lg">
                                 <div className="text-xs text-slate-500 mb-1">{isZh ? '准入要点' : 'Key Requirements'}</div>
-                                <div className="text-sm text-slate-700">
-                                  {cost.keyReq}
-                                </div>
+                                <div className="text-sm text-slate-700">{cost.keyReq}</div>
                               </div>
 
-                              {/* 市场特点 */}
                               <div className="mt-2 flex flex-wrap gap-2">
                                 <span className={`text-xs px-2 py-1 rounded ${
                                   market.risk === '低' ? 'bg-green-100 text-green-700' :
@@ -751,9 +898,6 @@ export default function DecisionWorkspace() {
                                 <span className="text-xs px-2 py-1 bg-slate-100 text-slate-600 rounded">
                                   {isZh ? `市场${market.marketSize}` : `Size: ${market.marketSize}`}
                                 </span>
-                                <span className="text-xs px-2 py-1 bg-slate-100 text-slate-600 rounded">
-                                  {isZh ? `增长${market.growth}` : `Growth: ${market.growth}`}
-                                </span>
                               </div>
                             </div>
                           </div>
@@ -763,7 +907,6 @@ export default function DecisionWorkspace() {
                   </div>
                 )}
 
-                {/* AI分析按钮 */}
                 {selectedMarkets.length > 0 && (
                   <button
                     onClick={() => runAIAnalysis('path')}
@@ -789,11 +932,10 @@ export default function DecisionWorkspace() {
                   </div>
                 </div>
 
-                {/* ROI计算器 */}
                 <div className="grid sm:grid-cols-3 gap-4 mb-6">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">
-                      {isZh ? '初始投资 (元)' : 'Investment (CNY)'}
+                      {isZh ? '初始投资 (人民币)' : 'Investment (CNY)'}
                     </label>
                     <input
                       type="number"
@@ -804,7 +946,7 @@ export default function DecisionWorkspace() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">
-                      {isZh ? '产品单价 (元)' : 'Unit Price (CNY)'}
+                      {isZh ? '产品单价 (人民币)' : 'Unit Price (CNY)'}
                     </label>
                     <input
                       type="number"
@@ -826,7 +968,6 @@ export default function DecisionWorkspace() {
                   </div>
                 </div>
 
-                {/* ROI结果展示 */}
                 {selectedMarkets.length > 0 ? (
                   <>
                     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -850,6 +991,12 @@ export default function DecisionWorkspace() {
                         <div className={`text-xl font-bold ${roiResult.profitMin > 0 ? 'text-amber-600' : 'text-red-600'}`}>
                           ¥{(((roiResult.profitMin + roiResult.profitMax) / 2 / 10000)).toFixed(1)}万
                         </div>
+                        {roiResult.profitMin < 0 && (
+                          <div className="text-xs text-red-500 flex items-center gap-1">
+                            <ArrowDown className="w-3 h-3" />
+                            {isZh ? '预计亏损' : 'Expected loss'}
+                          </div>
+                        )}
                       </div>
                       <div className="bg-gradient-to-br from-rose-50 to-red-50 rounded-xl p-4">
                         <div className="text-sm text-slate-600 mb-1">{isZh ? '投资回报率' : 'ROI Range'}</div>
@@ -859,7 +1006,6 @@ export default function DecisionWorkspace() {
                       </div>
                     </div>
 
-                    {/* 风险评估 */}
                     {riskAssessment && (
                       <div className="p-4 border-2 border-slate-200 rounded-xl mb-6">
                         <div className="flex items-center justify-between mb-2">
@@ -884,7 +1030,6 @@ export default function DecisionWorkspace() {
                   </div>
                 )}
 
-                {/* AI分析按钮 */}
                 {selectedMarkets.length > 0 && (
                   <button
                     onClick={() => runAIAnalysis('roi')}
@@ -953,6 +1098,24 @@ export default function DecisionWorkspace() {
                 {isZh ? '决策摘要' : 'Decision Summary'}
               </h3>
 
+              {/* 用户信息 */}
+              <div className="mb-4 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl">
+                <div className="text-sm text-slate-600 mb-2">{isZh ? '当前信息' : 'Current Info'}</div>
+                {companyInfo.contactName && (
+                  <div className="font-medium text-slate-800">{companyInfo.contactName}</div>
+                )}
+                {companyInfo.productCategory && (
+                  <div className="text-sm text-slate-600">
+                    {COMPANY_INFO_FIELDS.find(f => f.id === 'productCategory')?.options?.find(o => o.value === companyInfo.productCategory)?.[isZh ? 'label' : 'labelEn']}
+                  </div>
+                )}
+                {companyInfo.mainNeed && (
+                  <div className="text-xs text-slate-500 mt-1">
+                    {COMPANY_INFO_FIELDS.find(f => f.id === 'mainNeed')?.options?.find(o => o.value === companyInfo.mainNeed)?.[isZh ? 'label' : 'labelEn']}
+                  </div>
+                )}
+              </div>
+
               {/* 准备度得分 */}
               <div className="mb-4 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl">
                 <div className="text-sm text-slate-600 mb-2">{isZh ? '企业准备度' : 'Enterprise Readiness'}</div>
@@ -1010,6 +1173,9 @@ export default function DecisionWorkspace() {
                 <div className="flex items-start gap-2">
                   <Info className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
                   <div className="text-xs text-amber-800">
+                    {currentStep === 'info' && (isZh 
+                      ? '填写企业信息后开始评估'
+                      : 'Fill info to start assessment')}
                     {currentStep === 'readiness' && (isZh 
                       ? '完成评估后，点击"下一步"获取市场推荐'
                       : 'After assessment, click "Next" for market recommendations')}
@@ -1037,7 +1203,7 @@ export default function DecisionWorkspace() {
                     team: { overseas: false, language: false, experience: false, resources: false },
                   });
                   setAiAnalysis('');
-                  setCurrentStep('readiness');
+                  setCurrentStep('info');
                 }}
                 className="mt-4 w-full py-2 text-sm text-slate-500 hover:text-slate-700 flex items-center justify-center gap-1"
               >

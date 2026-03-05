@@ -14,6 +14,20 @@ import SmartMarketSelector from '@/components/SmartMarketSelector';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// 去除Markdown格式符号
+const stripMarkdown = (text: string): string => {
+  return text
+    .replace(/^#{1,6}\s+/gm, '')           // 移除标题 #
+    .replace(/\*\*([^*]+)\*\*/g, '$1')      // 移除粗体 **
+    .replace(/\*([^*]+)\*/g, '$1')          // 移除斜体 *
+    .replace(/`([^`]+)`/g, '$1')            // 移除行内代码 `
+    .replace(/^[-*+]\s+/gm, '')             // 移除列表符号
+    .replace(/^\d+\.\s+/gm, '')             // 移除有序列表
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // 移除链接，保留文字
+    .replace(/\n{3,}/g, '\n\n')              // 合并多余的换行
+    .trim();
+};
+
 // 统一的市场配置 - 所有工具使用同一套数据
 // 成本计算数据
 const COST_DATA: Record<string, { name: string; items: { name: string; min: number; max: number }[] }> = {
@@ -78,42 +92,42 @@ const TIMELINE_DATA: Record<string, { name: string; phases: { name: string; dura
   japan: {
     name: '日本',
     phases: [
-      { name: '资料准备', duration: '2-3月' },
-      { name: 'PMDA审查', duration: '8-12月' },
-      { name: '现场核查', duration: '2-3月' },
-      { name: '获得认证', duration: '1-2月' },
+    { name: '资料准备', duration: '2-3月' },
+    { name: 'PMDA审查', duration: '8-12月' },
+    { name: '现场核查', duration: '2-3月' },
+    { name: '获得认证', duration: '1-2月' },
     ]
   },
   australia: {
     name: '澳大利亚',
     phases: [
-      { name: '资料准备', duration: '1-2月' },
-      { name: 'TGA审查', duration: '4-10月' },
-      { name: '补充资料', duration: '1-3月' },
-      { name: '获得认证', duration: '1-2月' },
+    { name: '资料准备', duration: '1-2月' },
+    { name: 'TGA审查', duration: '4-10月' },
+    { name: '补充资料', duration: '1-3月' },
+    { name: '获得认证', duration: '1-2月' },
     ]
   },
   southeast: {
     name: '东南亚',
     phases: [
-      { name: '资料准备', duration: '1-2月' },
-      { name: '各国审查', duration: '2-6月' },
-      { name: '批准上市', duration: '1-2月' },
+    { name: '资料准备', duration: '1-2月' },
+    { name: '各国审查', duration: '2-6月' },
+    { name: '批准上市', duration: '1-2月' },
     ]
   },
   europe: {
     name: '欧洲',
     phases: [
-      { name: '资料准备', duration: '3-6月' },
-      { name: '公告机构审核', duration: '6-18月' },
-      { name: '临床评估', duration: '6-12月' },
-      { name: '获得CE', duration: '1-2月' },
+    { name: '资料准备', duration: '3-6月' },
+    { name: '公告机构审核', duration: '6-18月' },
+    { name: '临床评估', duration: '6-12月' },
+    { name: '获得CE', duration: '1-2月' },
     ]
   },
   middleEast: {
     name: '中东',
     phases: [
-      { name: '资料准备', duration: '1-2月' },
+    { name: '资料准备', duration: '1-2月' },
       { name: 'SFDA审查', duration: '2-5月' },
       { name: '获得批准', duration: '1-2月' },
     ]
@@ -124,7 +138,7 @@ const TIMELINE_DATA: Record<string, { name: string; phases: { name: string; dura
       { name: '资料准备', duration: '2-3月' },
       { name: 'FDA审查', duration: '6-12月' },
       { name: '补充资料', duration: '2-4月' },
-      { name: '获得批准', duration: '1-2月' },
+    { name: '获得批准', duration: '1-2月' },
     ]
   },
 };
@@ -168,7 +182,7 @@ const getPolicyId = (marketId: string): string => {
 export default function Tools() {
   const { t } = useTranslation();
   const sectionRef = useRef<HTMLDivElement>(null);
-  
+
   // 核心状态：统一的目标市场
   const [globalMarket, setGlobalMarket] = useState('japan');
   
@@ -183,12 +197,12 @@ export default function Tools() {
   
   // 时间估算
   const timelineData = TIMELINE_DATA[globalMarket];
-  
+
   // ROI 计算器
   const [roiInvestment, setRoiInvestment] = useState(100000);
   const [roiProductPrice, setRoiProductPrice] = useState(50);
   const [roiAnnualSales, setRoiAnnualSales] = useState(10000);
-  
+
   // AI 分析
   const [aiAnalysis, setAiAnalysis] = useState('');
   const [isLoadingAnalysis, setIsLoadingAnalysis] = useState(false);
@@ -212,7 +226,7 @@ export default function Tools() {
   const runAIAnalysis = async (type: string) => {
     setIsLoadingAnalysis(true);
     const marketInfo = MARKET_INFO[globalMarket] || { name: '日本', flag: '🇯🇵', nameEn: 'Japan' };
-    
+
     let prompt = '';
     if (type === 'cost') {
       prompt = `作为中医药产品出海专家，请分析进入${marketInfo.name}市场的成本结构和注意事项。`;
@@ -234,7 +248,7 @@ export default function Tools() {
         body: JSON.stringify({
           model: DEEPSEEK_CONFIG.model,
           messages: [
-            { role: 'system', content: '你是中医药产品出海咨询专家，请用专业但易懂的语言回答用户问题。注意：在所有回复中，涉及台湾地区时必须表述为"中国台湾"，涉及香港地区时必须表述为"中国香港"。' },
+            { role: 'system', content: '你是中医药产品出海咨询专家，请用专业但易懂的语言回答用户问题。重要提示：请不要使用任何Markdown格式符号（如#、*、-、`等），直接用纯文本段落形式回答。涉及台湾地区时必须表述为"中国台湾"，涉及香港地区时必须表述为"中国香港"。' },
             { role: 'user', content: prompt }
           ],
           max_tokens: 1000,
@@ -244,6 +258,9 @@ export default function Tools() {
 
       const data = await response.json();
       let content = data.choices?.[0]?.message?.content || '抱歉，分析服务暂时不可用。';
+      
+      // 去除Markdown符号
+      content = stripMarkdown(content);
       
       // 替换 AI 名称
       Object.entries(AI_NAME_REPLACEMENTS).forEach(([key, value]) => {
@@ -299,24 +316,24 @@ export default function Tools() {
                 <Calculator className="w-5 h-5 text-emerald-600" />
               </div>
               <h3 className="font-bold text-gray-800">{t('tools.cost.name') || '成本计算器'}</h3>
-            </div>
-            
+                  </div>
+                  
             <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
                   {t('tools.cost.productType') || '产品类型'}
-                </label>
-                <select
-                  value={costProductType}
-                  onChange={(e) => setCostProductType(e.target.value)}
+                    </label>
+                    <select
+                      value={costProductType}
+                      onChange={(e) => setCostProductType(e.target.value)}
                   className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-emerald-500 outline-none"
-                >
-                  <option value="supplement">💊 保健食品</option>
-                  <option value="traditional">🌿 传统草药</option>
-                  <option value="cosmetic">✨ 化妆品</option>
+                    >
+                      <option value="supplement">💊 保健食品</option>
+                      <option value="traditional">🌿 传统草药</option>
+                      <option value="cosmetic">✨ 化妆品</option>
                   <option value="food">🍎 普通食品</option>
-                </select>
-              </div>
+                    </select>
+                  </div>
 
               {costData && (
                 <div className="bg-gray-50 rounded-xl p-4">
@@ -335,22 +352,22 @@ export default function Tools() {
                 </div>
               )}
 
-              <button
+                  <button
                 onClick={() => runAIAnalysis('cost')}
-                disabled={isLoadingAnalysis}
+                    disabled={isLoadingAnalysis}
                 className="w-full py-2 bg-emerald-500 text-white rounded-lg font-medium hover:bg-emerald-600 disabled:opacity-50"
-              >
+                  >
                 {isLoadingAnalysis ? '分析中...' : '🤖 AI成本分析'}
-              </button>
-            </div>
-          </div>
+                  </button>
+                </div>
+              </div>
 
           {/* 时间估算 */}
           <div className="bg-white rounded-2xl shadow-lg p-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
                 <Clock className="w-5 h-5 text-blue-600" />
-              </div>
+                </div>
               <h3 className="font-bold text-gray-800">{t('tools.time.name') || '时间估算'}</h3>
             </div>
 
@@ -372,30 +389,30 @@ export default function Tools() {
                   {timelineData.phases.map((phase, i) => (
                     <div key={i} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                       <div className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs">
-                        {i + 1}
-                      </div>
-                      <div className="flex-1">
+                          {i + 1}
+                        </div>
+                        <div className="flex-1">
                         <div className="font-medium text-gray-800">{phase.name}</div>
-                      </div>
+                        </div>
                       <div className="text-blue-600 text-sm font-medium">{phase.duration}</div>
-                    </div>
-                  ))}
+                      </div>
+                    ))}
                 </div>
               </div>
             ) : (
               <div className="text-center py-8 text-gray-500">
                 暂无时间数据
-              </div>
-            )}
+            </div>
+          )}
 
-            <button
+                  <button
               onClick={() => runAIAnalysis('timeline')}
               disabled={isLoadingAnalysis}
               className="w-full mt-4 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 disabled:opacity-50"
-            >
+                  >
               {isLoadingAnalysis ? '分析中...' : '🤖 AI时间分析'}
-            </button>
-          </div>
+                  </button>
+                </div>
 
           {/* 政策查询 */}
           <div className="bg-white rounded-2xl shadow-lg p-6">
@@ -407,20 +424,20 @@ export default function Tools() {
             </div>
 
             <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
                   {t('tools.policy.selectCategory') || '产品类别'}
-                </label>
-                <select
+                    </label>
+                    <select
                   value={policyCategory}
                   onChange={(e) => setPolicyCategory(e.target.value)}
                   className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-purple-500 outline-none"
-                >
+                    >
                   {PRODUCT_CATEGORIES.map(cat => (
                     <option key={cat.id} value={cat.id}>{cat.name}</option>
                   ))}
-                </select>
-              </div>
+                    </select>
+                  </div>
 
               {policyData ? (
                 <div className="bg-gray-50 rounded-xl p-4 space-y-3">
@@ -440,14 +457,14 @@ export default function Tools() {
                     <span className="text-gray-600">周期</span>
                     <span className="text-purple-600 font-medium">{policyData.timeline}</span>
                   </div>
-                </div>
-              ) : (
+                    </div>
+                  ) : (
                 <div className="text-center py-4 text-gray-500">
                   暂无政策数据
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </div>
+              </div>
 
           {/* ROI 计算器 */}
           <div className="bg-white rounded-2xl shadow-lg p-6 md:col-span-2">
@@ -457,37 +474,37 @@ export default function Tools() {
               </div>
               <h3 className="font-bold text-gray-800">{t('tools.roi.name') || 'ROI 计算器'}</h3>
             </div>
-
+              
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
                     初始投资 ($)
-                  </label>
-                  <input
-                    type="number"
+                    </label>
+                    <input
+                      type="number"
                     value={roiInvestment}
                     onChange={(e) => setRoiInvestment(Number(e.target.value))}
                     className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-orange-500 outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
                     产品单价 ($)
-                  </label>
-                  <input
-                    type="number"
+                    </label>
+                    <input
+                      type="number"
                     value={roiProductPrice}
                     onChange={(e) => setRoiProductPrice(Number(e.target.value))}
                     className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-orange-500 outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
                     预计年销量
-                  </label>
-                  <input
-                    type="number"
+                    </label>
+                    <input
+                      type="number"
                     value={roiAnnualSales}
                     onChange={(e) => setRoiAnnualSales(Number(e.target.value))}
                     className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-orange-500 outline-none"
@@ -507,33 +524,33 @@ export default function Tools() {
                   <div className="text-xl font-bold text-gray-700">
                     ${roiResult.cost.toLocaleString()}
                   </div>
-                </div>
+                        </div>
                 <div className="text-center">
                   <div className="text-sm text-gray-600">预估年利润</div>
                   <div className={`text-2xl font-bold ${roiResult.profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                     ${roiResult.profit.toLocaleString()}
-                  </div>
-                </div>
+                        </div>
+                      </div>
                 <div className="text-center pt-2 border-t border-orange-200">
                   <div className="text-sm text-gray-600">投资回报率</div>
                   <div className={`text-3xl font-bold ${roiResult.roi >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    {roiResult.roi.toFixed(1)}%
+                            {roiResult.roi.toFixed(1)}%
                   </div>
-                </div>
-              </div>
-            </div>
+                        </div>
+                        </div>
+                      </div>
 
-            <button
-              onClick={() => runAIAnalysis('roi')}
-              disabled={isLoadingAnalysis}
+                      <button
+                        onClick={() => runAIAnalysis('roi')}
+                        disabled={isLoadingAnalysis}
               className="w-full mt-4 py-2 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 disabled:opacity-50"
-            >
+                      >
               {isLoadingAnalysis ? '分析中...' : '🤖 AI投资分析'}
-            </button>
-          </div>
+                      </button>
+              </div>
 
-          {/* AI 分析结果 */}
-          {aiAnalysis && (
+              {/* AI 分析结果 */}
+              {aiAnalysis && (
             <div className="bg-white rounded-2xl shadow-lg p-6 md:col-span-3">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center">
