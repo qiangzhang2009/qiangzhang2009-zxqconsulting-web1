@@ -492,38 +492,38 @@ async function handleAdminSubmissions(context) {
 // ==================== MAIN HANDLER ====================
 export async function onRequest(context) {
   const { request, env } = context;
-  const url = new URL(request.url);
+  const { url, method } = request;
   const path = url.pathname;
 
   // 处理 OPTIONS 预检
-  if (request.method === 'OPTIONS') {
+  if (method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
-  // API 路由
+  // 只处理 API 路由
   if (path.startsWith('/api/')) {
     try {
-      if (path === '/api/track' && request.method === 'POST') {
+      if (path === '/api/track' && method === 'POST') {
         return await handleTrack(context);
       }
       
-      if (path === '/api/visitors' && request.method === 'PUT') {
+      if (path === '/api/visitors' && method === 'PUT') {
         return await handleVisitorsPut(context);
       }
       
-      if (path === '/api/contact' && request.method === 'POST') {
+      if (path === '/api/contact' && method === 'POST') {
         return await handleContact(context);
       }
       
-      if (path === '/api/admin/analytics' && request.method === 'GET') {
+      if (path === '/api/admin/analytics' && method === 'GET') {
         return await handleAdminAnalytics(context);
       }
       
-      if (path === '/api/admin/visitors' && request.method === 'GET') {
+      if (path === '/api/admin/visitors' && method === 'GET') {
         return await handleAdminVisitors(context);
       }
       
-      if (path === '/api/admin/submissions' && request.method === 'GET') {
+      if (path === '/api/admin/submissions' && method === 'GET') {
         return await handleAdminSubmissions(context);
       }
 
@@ -540,36 +540,6 @@ export async function onRequest(context) {
     }
   }
 
-  // SPA: 所有其他路由返回 index.html
-  // 尝试获取静态文件，如果没有则返回 index.html
-  try {
-    // 移除查询参数
-    const cleanPath = path.split('?')[0];
-    
-    // 常见静态文件扩展名
-    const isStatic = /\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/i.test(cleanPath);
-    
-    if (isStatic) {
-      // 尝试获取静态文件
-      const staticUrl = path;
-      const response = await fetch(staticUrl);
-      
-      if (response.ok) {
-        return response;
-      }
-    }
-    
-    // 返回 index.html 让 SPA 处理路由
-    const indexHtml = await fetch('/index.html');
-    return new Response(indexHtml.body, {
-      headers: { 'Content-Type': 'text/html' }
-    });
-    
-  } catch (e) {
-    // 兜底：返回 index.html
-    const indexHtml = await fetch('/index.html');
-    return new Response(indexHtml.body, {
-      headers: { 'Content-Type': 'text/html' }
-    });
-  }
+  // 非 API 路径返回 404（静态文件由 Cloudflare Pages 直接服务）
+  return new Response('Not Found', { status: 404 });
 }
