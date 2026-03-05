@@ -63,10 +63,14 @@ function App() {
         <Markets />
         <Tools />
         <DecisionWorkspace />
+        {/* "我们的成就"版块数据不够真实，暂不显示
         <StatsEnhanced />
         <VisitorStats />
         <AIShowcase />
+        */}
+        {/* "他们说什么"版块数据不够真实，暂不显示
         <Testimonials />
+        */}
         {/* <BlogSection /> */}
         <Contact />
       </main>
