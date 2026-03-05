@@ -8,10 +8,6 @@
  * 3. 追踪事件: trackPageView(), trackEvent('click', 'button', 'contact');
  */
 
-import { DEEPSEEK_CONFIG } from '@/config';
-
-const API_BASE = ''; // 同域名下调用
-
 // 获取或生成访客ID
 function getVisitorId(): string {
   const COOKIE_NAME = 'visitor_id';

@@ -6,12 +6,14 @@
  * PATCH /api/admin/submissions/:id - 更新表单状态
  */
 
-const SUPABASE_URL = 'https://your-project.supabase.co';
-const SUPABASE_SERVICE_KEY = 'your-service-role-key';  // 服务端密钥，有管理员权限
+interface Env {
+  SUPABASE_URL: string;
+  SUPABASE_SERVICE_KEY: string;
+}
 
 const ADMIN_API_KEY = 'zxq_admin_secret_key_2024';
 
-async function verifyAuth(request) {
+async function verifyAuth(request: Request): Promise<boolean> {
   const authHeader = request.headers.get('Authorization');
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return false;
@@ -19,14 +21,14 @@ async function verifyAuth(request) {
   return authHeader.substring(7) === ADMIN_API_KEY;
 }
 
-async function supabaseFetch(endpoint, options = {}) {
-  const response = await fetch(`${SUPABASE_URL}/rest/v1/${endpoint}`, {
+async function supabaseFetch(env: Env, endpoint: string, options: RequestInit = {}) {
+  const response = await fetch(`${env.SUPABASE_URL}/rest/v1/${endpoint}`, {
     ...options,
     headers: {
-      'apikey': SUPABASE_SERVICE_KEY,
-      'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+      'apikey': env.SUPABASE_SERVICE_KEY,
+      'Authorization': `Bearer ${env.SUPABASE_SERVICE_KEY}`,
       'Content-Type': 'application/json',
-      'Prefer': options.prefer || 'return=representation',
+      'Prefer': options.headers?.['Prefer'] || 'return=representation',
       ...options.headers
     }
   });
@@ -36,16 +38,15 @@ async function supabaseFetch(endpoint, options = {}) {
     throw new Error(error);
   }
   
-  const contentRange = response.headers.get('Content-Range');
-  return { data: await response.json(), contentRange };
+  return { data: await response.json() };
 }
 
 /**
  * 获取访客列表
  * GET /api/admin/visitors?page=1&limit=20&search=&website_id=
  */
-export async function onRequestGet(context) {
-  const { request, params } = context;
+export async function onRequestGet(context: { request: Request; params: any; env: Env }) {
+  const { request, env } = context;
   
   if (!await verifyAuth(request)) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
@@ -69,16 +70,16 @@ export async function onRequestGet(context) {
       query = `visitors?website_id=eq.${websiteId}&or=(contact_name.ilike.*${search}*,company_name.ilike.*${search}*,phone.ilike.*${search}*)&order=created_at.desc&offset=${offset}&limit=${limit}`;
     }
     
-    const { data, contentRange } = await supabaseFetch(query);
+    const { data } = await supabaseFetch(env, query);
     
     // 解析 selected_markets JSON
-    const visitors = (data || []).map(v => ({
+    const visitors = (data || []).map((v: any) => ({
       ...v,
       selected_markets: v.selected_markets ? JSON.parse(v.selected_markets) : []
     }));
     
     // 获取总数
-    const countRes = await supabaseFetch(`visitors?website_id=eq.${websiteId}&select=id`);
+    const countRes = await supabaseFetch(env, `visitors?website_id=eq.${websiteId}&select=id`);
     const total = countRes.data?.length || 0;
     
     return new Response(JSON.stringify({
@@ -93,7 +94,7 @@ export async function onRequestGet(context) {
     
   } catch (error) {
     console.error('Get Visitors error:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ error: (error as Error).message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });
@@ -104,8 +105,8 @@ export async function onRequestGet(context) {
  * 获取表单提交列表
  * GET /api/admin/submissions?page=1&limit=20&status=&website_id=
  */
-export async function onRequestPatch(context) {
-  const { request, params } = context;
+export async function onRequestPatch(context: { request: Request; params: any; env: Env }) {
+  const { request, env } = context;
   
   if (!await verifyAuth(request)) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
@@ -129,14 +130,14 @@ export async function onRequestPatch(context) {
       query = `submissions?website_id=eq.${websiteId}&status=eq.${status}&order=created_at.desc&offset=${offset}&limit=${limit}`;
     }
     
-    const { data } = await supabaseFetch(query);
+    const { data } = await supabaseFetch(env, query);
     
     // 获取总数
     let countQuery = `submissions?website_id=eq.${websiteId}&select=id`;
     if (status) {
       countQuery = `submissions?website_id=eq.${websiteId}&status=eq.${status}&select=id`;
     }
-    const countRes = await supabaseFetch(countQuery);
+    const countRes = await supabaseFetch(env, countQuery);
     const total = countRes.data?.length || 0;
     
     return new Response(JSON.stringify({
@@ -151,7 +152,7 @@ export async function onRequestPatch(context) {
     
   } catch (error) {
     console.error('Get Submissions error:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ error: (error as Error).message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });

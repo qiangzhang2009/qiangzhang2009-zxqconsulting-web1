@@ -1,14 +1,17 @@
 /**
  * 统计分析 API
  * GET /api/admin/analytics?website_id=&days=30
+ * PATCH /api/admin/submissions/:id - 更新表单状态
  */
 
-const SUPABASE_URL = 'https://your-project.supabase.co';
-const SUPABASE_SERVICE_KEY = 'your-service-role-key';
+interface Env {
+  SUPABASE_URL: string;
+  SUPABASE_SERVICE_KEY: string;
+}
 
 const ADMIN_API_KEY = 'zxq_admin_secret_key_2024';
 
-async function verifyAuth(request) {
+async function verifyAuth(request: Request): Promise<boolean> {
   const authHeader = request.headers.get('Authorization');
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return false;
@@ -16,14 +19,14 @@ async function verifyAuth(request) {
   return authHeader.substring(7) === ADMIN_API_KEY;
 }
 
-async function supabaseFetch(endpoint, options = {}) {
-  const response = await fetch(`${SUPABASE_URL}/rest/v1/${endpoint}`, {
+async function supabaseFetch(env: Env, endpoint: string, options: RequestInit = {}) {
+  const response = await fetch(`${env.SUPABASE_URL}/rest/v1/${endpoint}`, {
     ...options,
     headers: {
-      'apikey': SUPABASE_SERVICE_KEY,
-      'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+      'apikey': env.SUPABASE_SERVICE_KEY,
+      'Authorization': `Bearer ${env.SUPABASE_SERVICE_KEY}`,
       'Content-Type': 'application/json',
-      'Prefer': options.prefer || 'return=representation',
+      'Prefer': options.headers?.['Prefer'] || 'return=representation',
       ...options.headers
     }
   });
@@ -36,8 +39,8 @@ async function supabaseFetch(endpoint, options = {}) {
   return { data: await response.json() };
 }
 
-export async function onRequestGet(context) {
-  const { request } = context;
+export async function onRequestGet(context: { request: Request; env: Env }) {
+  const { request, env } = context;
   
   if (!await verifyAuth(request)) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
@@ -55,29 +58,29 @@ export async function onRequestGet(context) {
     const sinceDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
     
     // 今日统计
-    const todayVisitors = await supabaseFetch(
+    const todayVisitors = await supabaseFetch(env,
       `visitors?website_id=eq.${websiteId}&last_visit=gte.${today}T00:00:00&select=id`
     );
-    const todaySubmissions = await supabaseFetch(
+    const todaySubmissions = await supabaseFetch(env,
       `submissions?website_id=eq.${websiteId}&created_at=gte.${today}T00:00:00&select=id`
     );
     
     // 总计统计
-    const totalVisitors = await supabaseFetch(
+    const totalVisitors = await supabaseFetch(env,
       `visitors?website_id=eq.${websiteId}&select=id`
     );
-    const totalSubmissions = await supabaseFetch(
+    const totalSubmissions = await supabaseFetch(env,
       `submissions?website_id=eq.${websiteId}&select=id`
     );
     
     // 趋势数据（按天聚合）
-    const { data: behaviors } = await supabaseFetch(
+    const { data: behaviors } = await supabaseFetch(env,
       `behaviors?website_id=eq.${websiteId}&created_at=gte.${sinceDate}&select=created_at,event_type`
     );
     
     // 按天统计
     const dailyStats: Record<string, { pageViews: number; submissions: number }> = {};
-    behaviors?.forEach(b => {
+    behaviors?.forEach((b: any) => {
       const date = b.created_at.split('T')[0];
       if (!dailyStats[date]) {
         dailyStats[date] = { pageViews: 0, submissions: 0 };
@@ -93,12 +96,12 @@ export async function onRequestGet(context) {
       .sort((a, b) => a.date.localeCompare(b.date));
     
     // 热门页面
-    const { data: topPagesRaw } = await supabaseFetch(
+    const { data: topPagesRaw } = await supabaseFetch(env,
       `behaviors?website_id=eq.${websiteId}&event_type=eq.page_view&select=page_url&created_at=gte.${sinceDate}`
     );
     
     const pageCounts: Record<string, number> = {};
-    topPagesRaw?.forEach(b => {
+    topPagesRaw?.forEach((b: any) => {
       pageCounts[b.page_url] = (pageCounts[b.page_url] || 0) + 1;
     });
     const topPages = Object.entries(pageCounts)
@@ -107,12 +110,12 @@ export async function onRequestGet(context) {
       .slice(0, 10);
     
     // 热门国家
-    const { data: topCountriesRaw } = await supabaseFetch(
+    const { data: topCountriesRaw } = await supabaseFetch(env,
       `visitors?website_id=eq.${websiteId}&country=not.is.null&select=country`
     );
     
     const countryCounts: Record<string, number> = {};
-    topCountriesRaw?.forEach(v => {
+    topCountriesRaw?.forEach((v: any) => {
       if (v.country) {
         countryCounts[v.country] = (countryCounts[v.country] || 0) + 1;
       }
@@ -123,7 +126,7 @@ export async function onRequestGet(context) {
       .slice(0, 10);
     
     // 最近提交
-    const { data: recentSubmissions } = await supabaseFetch(
+    const { data: recentSubmissions } = await supabaseFetch(env,
       `submissions?website_id=eq.${websiteId}&order=created_at.desc&limit=5`
     );
     
@@ -152,7 +155,7 @@ export async function onRequestGet(context) {
     
   } catch (error) {
     console.error('Analytics error:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ error: (error as Error).message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });
@@ -163,8 +166,8 @@ export async function onRequestGet(context) {
  * 更新表单状态
  * PATCH /api/admin/submissions/:id
  */
-export async function onRequestPatch(context) {
-  const { request, params } = context;
+export async function onRequestPatch(context: { request: Request; params: any; env: Env }) {
+  const { request, params, env } = context;
   
   if (!await verifyAuth(request)) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
@@ -178,7 +181,7 @@ export async function onRequestPatch(context) {
     const body = await request.json();
     const { status, notes, assigned_to } = body;
     
-    const updateData: any = {
+    const updateData: Record<string, any> = {
       updated_at: new Date().toISOString()
     };
     
@@ -186,7 +189,7 @@ export async function onRequestPatch(context) {
     if (notes !== undefined) updateData.notes = notes;
     if (assigned_to !== undefined) updateData.assigned_to = assigned_to;
     
-    await supabaseFetch(`submissions?id=eq.${id}`, {
+    await supabaseFetch(env, `submissions?id=eq.${id}`, {
       method: 'PATCH',
       body: JSON.stringify(updateData)
     });
@@ -197,7 +200,7 @@ export async function onRequestPatch(context) {
     
   } catch (error) {
     console.error('Update submission error:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ error: (error as Error).message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });

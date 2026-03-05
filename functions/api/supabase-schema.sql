@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS visitors (
   website_id TEXT NOT NULL,          -- 关联网站
   visitor_id TEXT NOT NULL,          -- 访客唯一标识 (cookie)
   company_name TEXT,                 -- 公司名称
-  contact_name TEXT,                 -- 联系人姓名
+  contact_name TEXT,                -- 联系人姓名
   contact_phone TEXT,                -- 联系电话
   email TEXT,                       -- 邮箱
   product_category TEXT,            -- 产品类型
@@ -85,18 +85,15 @@ CREATE TABLE IF NOT EXISTS behaviors (
 
 -- 索引
 CREATE INDEX IF NOT EXISTS idx_visitors_website ON visitors(website_id);
+CREATE INDEX IF NOT EXISTS idx_visitors_visitor ON visitors(visitor_id);
 CREATE INDEX IF NOT EXISTS idx_visitors_created ON visitors(created_at);
 CREATE INDEX IF NOT EXISTS idx_submissions_website ON submissions(website_id);
 CREATE INDEX IF NOT EXISTS idx_submissions_created ON submissions(created_at);
+CREATE INDEX IF NOT EXISTS idx_submissions_status ON submissions(status);
 CREATE INDEX IF NOT EXISTS idx_behaviors_website ON behaviors(website_id);
 CREATE INDEX IF NOT EXISTS idx_behaviors_visitor ON behaviors(visitor_id);
 CREATE INDEX IF NOT EXISTS idx_behaviors_type ON behaviors(event_type);
 CREATE INDEX IF NOT EXISTS idx_behaviors_created ON behaviors(created_at);
-
--- RLS 策略（可选，生产环境建议开启）
--- ALTER TABLE visitors ENABLE ROW LEVEL SECURITY;
--- ALTER TABLE submissions ENABLE ROW LEVEL SECURITY;
--- ALTER TABLE behaviors ENABLE ROW LEVEL SECURITY;
 
 -- =====================================================
 -- 示例数据
