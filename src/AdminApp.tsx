@@ -33,24 +33,24 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 export default function AdminApp() {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
-      <Route path="/dashboard" element={
+      <Route path="/admin/login" element={<Login />} />
+      <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+      <Route path="/admin/dashboard" element={
         <ProtectedRoute>
           <Dashboard />
         </ProtectedRoute>
       } />
-      <Route path="/visitors" element={
+      <Route path="/admin/visitors" element={
         <ProtectedRoute>
           <Visitors />
         </ProtectedRoute>
       } />
-      <Route path="/submissions" element={
+      <Route path="/admin/submissions" element={
         <ProtectedRoute>
           <Submissions />
         </ProtectedRoute>
       } />
-      <Route path="/analytics" element={
+      <Route path="/admin/analytics" element={
         <ProtectedRoute>
           <Analytics />
         </ProtectedRoute>
