@@ -8,6 +8,7 @@ import Services from './sections/Services';
 import WhyUs from './sections/WhyUs';
 import Markets from './sections/Markets';
 import Tools from './sections/Tools';
+import DecisionWorkspace from './sections/DecisionWorkspace';
 import StatsEnhanced from './sections/StatsEnhanced';
 import Testimonials from './sections/Testimonials';
 import Contact from './sections/Contact';
@@ -61,6 +62,7 @@ function App() {
         <WhyUs />
         <Markets />
         <Tools />
+        <DecisionWorkspace />
         <StatsEnhanced />
         <VisitorStats />
         <AIShowcase />
