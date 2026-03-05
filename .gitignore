@@ -5,6 +5,9 @@ node_modules/
 dist/
 build/
 
+# CNAME (custom domain, managed separately)
+CNAME
+
 # Environment files
 .env
 .env.local
