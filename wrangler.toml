@@ -2,9 +2,6 @@ name = "qiangzhang2009-zxqconsulting-web1"
 compatibility_date = "2025-01-01"
 pages_build_output_dir = "./dist"
 
-[build]
-command = "npm run build"
-
 # Cloudflare Pages Functions 配置
 # _worker.js 会自动处理 /api/* 路由
 
