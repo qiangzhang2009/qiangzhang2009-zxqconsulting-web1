@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import AdminSidebar from './components/admin/AdminSidebar';
 import Dashboard from './pages/admin/Dashboard';
@@ -32,31 +32,29 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 export default function AdminApp() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/admin/login" element={<Login />} />
-        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
-        <Route path="/admin/dashboard" element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/visitors" element={
-          <ProtectedRoute>
-            <Visitors />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/submissions" element={
-          <ProtectedRoute>
-            <Submissions />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/analytics" element={
-          <ProtectedRoute>
-            <Analytics />
-          </ProtectedRoute>
-        } />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/dashboard" element={
+        <ProtectedRoute>
+          <Dashboard />
+        </ProtectedRoute>
+      } />
+      <Route path="/visitors" element={
+        <ProtectedRoute>
+          <Visitors />
+        </ProtectedRoute>
+      } />
+      <Route path="/submissions" element={
+        <ProtectedRoute>
+          <Submissions />
+        </ProtectedRoute>
+      } />
+      <Route path="/analytics" element={
+        <ProtectedRoute>
+          <Analytics />
+        </ProtectedRoute>
+      } />
+    </Routes>
   );
 }
