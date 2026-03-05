@@ -500,43 +500,76 @@ export async function onRequest(context) {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // API 路由
+  if (path.startsWith('/api/')) {
+    try {
+      if (path === '/api/track' && request.method === 'POST') {
+        return await handleTrack(context);
+      }
+      
+      if (path === '/api/visitors' && request.method === 'PUT') {
+        return await handleVisitorsPut(context);
+      }
+      
+      if (path === '/api/contact' && request.method === 'POST') {
+        return await handleContact(context);
+      }
+      
+      if (path === '/api/admin/analytics' && request.method === 'GET') {
+        return await handleAdminAnalytics(context);
+      }
+      
+      if (path === '/api/admin/visitors' && request.method === 'GET') {
+        return await handleAdminVisitors(context);
+      }
+      
+      if (path === '/api/admin/submissions' && request.method === 'GET') {
+        return await handleAdminSubmissions(context);
+      }
+
+      return new Response(JSON.stringify({ error: 'Not found', path: path }), {
+        status: 404,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders }
+      });
+    } catch (error) {
+      console.error('API Error:', error);
+      return new Response(JSON.stringify({ error: error.message }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders }
+      });
+    }
+  }
+
+  // SPA: 所有其他路由返回 index.html
+  // 尝试获取静态文件，如果没有则返回 index.html
   try {
-    // 路由匹配
-    if (path === '/api/track' && request.method === 'POST') {
-      return await handleTrack(context);
+    // 移除查询参数
+    const cleanPath = path.split('?')[0];
+    
+    // 常见静态文件扩展名
+    const isStatic = /\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/i.test(cleanPath);
+    
+    if (isStatic) {
+      // 尝试获取静态文件
+      const staticUrl = path;
+      const response = await fetch(staticUrl);
+      
+      if (response.ok) {
+        return response;
+      }
     }
     
-    if (path === '/api/visitors' && request.method === 'PUT') {
-      return await handleVisitorsPut(context);
-    }
-    
-    if (path === '/api/contact' && request.method === 'POST') {
-      return await handleContact(context);
-    }
-    
-    if (path === '/api/admin/analytics' && request.method === 'GET') {
-      return await handleAdminAnalytics(context);
-    }
-    
-    if (path === '/api/admin/visitors' && request.method === 'GET') {
-      return await handleAdminVisitors(context);
-    }
-    
-    if (path === '/api/admin/submissions' && request.method === 'GET') {
-      return await handleAdminSubmissions(context);
-    }
-
-    // 404
-    return new Response(JSON.stringify({ error: 'Not found', path: path }), {
-      status: 404,
-      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    // 返回 index.html 让 SPA 处理路由
+    const indexHtml = await fetch('/index.html');
+    return new Response(indexHtml.body, {
+      headers: { 'Content-Type': 'text/html' }
     });
-
-  } catch (error) {
-    console.error('API Error:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    
+  } catch (e) {
+    // 兜底：返回 index.html
+    const indexHtml = await fetch('/index.html');
+    return new Response(indexHtml.body, {
+      headers: { 'Content-Type': 'text/html' }
     });
   }
 }
