@@ -226,6 +226,8 @@ export default function Tools() {
   const runAIAnalysis = async (type: string) => {
     setIsLoadingAnalysis(true);
     const marketInfo = MARKET_INFO[globalMarket] || { name: '日本', flag: '🇯🇵', nameEn: 'Japan' };
+    const startTime = Date.now();
+    track('AI分析', 'start', { analysis_type: type, market: globalMarket });
 
     let prompt = '';
     if (type === 'cost') {
@@ -268,8 +270,10 @@ export default function Tools() {
       });
       
       setAiAnalysis(content);
+      track('AI分析', 'complete', { analysis_type: type, market: globalMarket, duration_ms: Date.now() - startTime });
     } catch (error) {
       setAiAnalysis('抱歉，AI分析服务暂时不可用。请稍后再试。');
+      track('AI分析', 'error', { analysis_type: type, market: globalMarket });
     } finally {
       setIsLoadingAnalysis(false);
     }
@@ -277,6 +281,13 @@ export default function Tools() {
 
   // 当前市场信息
   const currentMarket = MARKET_INFO[globalMarket] || MARKET_INFO.japan;
+
+  // 追踪工具埋点辅助函数
+  const track = (toolName: string, action: string, params?: Record<string, unknown>) => {
+    if (typeof window !== 'undefined' && (window as { zxqTrack?: { tool: (t: string, a: string, p?: Record<string, unknown>) => void } }).zxqTrack) {
+      (window as { zxqTrack: { tool: (t: string, a: string, p?: Record<string, unknown>) => void } }).zxqTrack.tool(toolName, action, params);
+    }
+  };
 
   return (
     <section ref={sectionRef} id="tools" className="py-20 bg-gradient-to-b from-gray-50 to-white">
@@ -302,7 +313,10 @@ export default function Tools() {
           </div>
           <SmartMarketSelector
             value={globalMarket}
-            onChange={setGlobalMarket}
+            onChange={(market: string) => {
+              setGlobalMarket(market);
+              track('市场选择器', 'select', { market, market_name: MARKET_INFO[market]?.name });
+            }}
           />
         </div>
 
@@ -325,7 +339,10 @@ export default function Tools() {
                     </label>
                     <select
                       value={costProductType}
-                      onChange={(e) => setCostProductType(e.target.value)}
+                      onChange={(e) => {
+                        setCostProductType(e.target.value);
+                        track('成本计算器', 'input', { field: 'product_type', value: e.target.value, market: globalMarket });
+                      }}
                   className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-emerald-500 outline-none"
                     >
                       <option value="supplement">💊 保健食品</option>
@@ -353,7 +370,10 @@ export default function Tools() {
               )}
 
                   <button
-                onClick={() => runAIAnalysis('cost')}
+                onClick={() => {
+                  track('成本计算器', 'submit', { market: globalMarket, product_type: costProductType, estimated_cost: totalCost });
+                  runAIAnalysis('cost');
+                }}
                     disabled={isLoadingAnalysis}
                 className="w-full py-2 bg-emerald-500 text-white rounded-lg font-medium hover:bg-emerald-600 disabled:opacity-50"
                   >
@@ -406,7 +426,10 @@ export default function Tools() {
           )}
 
                   <button
-              onClick={() => runAIAnalysis('timeline')}
+              onClick={() => {
+                track('时间估算', 'submit', { market: globalMarket, phases_count: timelineData?.phases.length });
+                runAIAnalysis('timeline');
+              }}
               disabled={isLoadingAnalysis}
               className="w-full mt-4 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 disabled:opacity-50"
                   >
@@ -430,7 +453,10 @@ export default function Tools() {
                     </label>
                     <select
                   value={policyCategory}
-                  onChange={(e) => setPolicyCategory(e.target.value)}
+                  onChange={(e) => {
+                    setPolicyCategory(e.target.value);
+                    track('政策查询', 'input', { field: 'category', value: e.target.value, market: globalMarket });
+                  }}
                   className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-purple-500 outline-none"
                     >
                   {PRODUCT_CATEGORIES.map(cat => (
@@ -541,7 +567,10 @@ export default function Tools() {
                       </div>
 
                       <button
-                        onClick={() => runAIAnalysis('roi')}
+                        onClick={() => {
+                          track('ROI计算器', 'submit', { market: globalMarket, investment: roiInvestment, product_price: roiProductPrice, annual_sales: roiAnnualSales, roi: roiResult.roi });
+                          runAIAnalysis('roi');
+                        }}
                         disabled={isLoadingAnalysis}
               className="w-full mt-4 py-2 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 disabled:opacity-50"
                       >
