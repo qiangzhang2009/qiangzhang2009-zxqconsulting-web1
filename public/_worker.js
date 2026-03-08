@@ -48,24 +48,43 @@ const corsHeaders = {
 async function handleTrack(context) {
   const { request, env } = context;
 
+  console.log('[Track API] Request received');
+  console.log('[Track API] SUPABASE_URL configured:', !!env.SUPABASE_URL);
+  console.log('[Track API] SUPABASE_ANON_KEY configured:', !!env.SUPABASE_ANON_KEY);
+
   try {
     const body = await request.json();
-    const { website_id, visitor_id, event_type, event_category, event_label, page_url, page_title, duration_seconds, metadata } = body;
     
-    if (!website_id) {
-      return new Response(JSON.stringify({ error: 'website_id is required' }), {
+    const {
+      visitor_id: inputVisitorId,
+      session_id: inputSessionId,
+      website_id,
+      event_type,
+      event_category,
+      event_label,
+      page_url,
+      page_title,
+      duration_seconds,
+      metadata
+    } = body;
+    
+    if (!event_type) {
+      return new Response(JSON.stringify({ error: 'event_type is required' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json', ...corsHeaders }
       });
     }
     
     const clientInfo = getClientInfo(request);
-    const vid = visitor_id || `v_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    
+    const vid = inputVisitorId || `v_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const sid = inputSessionId || `s_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
     const data = {
-      website_id,
+      website_id: website_id || 'zxqconsulting',
       visitor_id: vid,
-      event_type: event_type || 'page_view',
+      session_id: sid,
+      event_type: event_type,
       event_category: event_category || '',
       event_label: event_label || '',
       page_url: page_url || new URL(request.url).pathname,
@@ -80,23 +99,142 @@ async function handleTrack(context) {
       created_at: new Date().toISOString()
     };
     
-    await fetch(`${env.SUPABASE_URL}/rest/v1/behaviors`, {
-      method: 'POST',
-      headers: {
-        'apikey': env.SUPABASE_ANON_KEY,
-        'Authorization': `Bearer ${env.SUPABASE_ANON_KEY}`,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=minimal'
-      },
-      body: JSON.stringify(data)
-    });
+    console.log('[Track API] Received event:', event_type, event_category, event_label);
     
-    return new Response(JSON.stringify({ success: true, visitor_id: vid }), {
+    // 如果 Supabase 配置存在，存储数据
+    if (env.SUPABASE_URL && env.SUPABASE_ANON_KEY) {
+      console.log('[Track API] Saving to Supabase...');
+      
+      const response = await fetch(`${env.SUPABASE_URL}/rest/v1/behaviors`, {
+        method: 'POST',
+        headers: {
+          'apikey': env.SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${env.SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(data)
+      });
+      
+      if (!response.ok) {
+        const error = await response.text();
+        console.error('[Track API] Supabase error:', response.status, error);
+      } else {
+        console.log('[Track API] Successfully saved to Supabase');
+      }
+    } else {
+      console.log('[Track API] Supabase not configured, skipping save');
+    }
+    
+    return new Response(JSON.stringify({
+      success: true,
+      visitor_id: vid,
+      session_id: sid,
+      debug: {
+        event_type,
+        event_category,
+        supabase_configured: !!(env.SUPABASE_URL && env.SUPABASE_ANON_KEY)
+      }
+    }), {
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
     
   } catch (error) {
+    console.error('[Track API] Error:', error);
     return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    });
+  }
+}
+
+// ==================== AI CHAT API ====================
+async function handleAIChat(context) {
+  const { request, env } = context;
+  
+  console.log('[AI Proxy] Request received');
+  
+  const apiKey = env.DEEPSEEK_API_KEY;
+  
+  if (!apiKey) {
+    console.error('[AI Proxy] Missing DEEPSEEK_API_KEY');
+    return new Response(JSON.stringify({ error: 'Server configuration error: Missing API key' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    });
+  }
+  
+  console.log('[AI Proxy] API key configured:', !!apiKey);
+
+  try {
+    const body = await request.json();
+    const { 
+      messages, 
+      model = 'deepseek-chat', 
+      temperature = 0.7, 
+      max_tokens = 2048 
+    } = body;
+
+    if (!messages || !Array.isArray(messages)) {
+      return new Response(JSON.stringify({ error: 'Missing or invalid messages parameter' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders }
+      });
+    }
+
+    console.log('[AI Proxy] Calling DeepSeek API...');
+    
+    const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model,
+        messages,
+        temperature,
+        max_tokens
+      })
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('[AI Proxy] DeepSeek API error:', response.status, errorText);
+      
+      let errorMessage = 'AI service error';
+      if (response.status === 401) {
+        errorMessage = 'AI service authentication failed - check API key';
+      } else if (response.status === 429) {
+        errorMessage = 'AI service rate limit exceeded';
+      } else if (response.status >= 500) {
+        errorMessage = 'AI service temporarily unavailable';
+      }
+      
+      return new Response(JSON.stringify({ error: errorMessage }), {
+        status: response.status,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders }
+      });
+    }
+
+    const data = await response.json();
+    console.log('[AI Proxy] Success! Got response');
+    
+    return new Response(JSON.stringify(data), {
+      headers: { 
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache',
+        ...corsHeaders
+      }
+    });
+
+  } catch (error) {
+    console.error('[AI Proxy] Error:', error);
+    
+    return new Response(JSON.stringify({ 
+      error: error.message || 'Internal server error',
+      retry: true
+    }), {
       status: 500,
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
@@ -119,64 +257,40 @@ async function handleVisitorsPut(context) {
     }
     
     const clientInfo = getClientInfo(request);
-    const vid = visitor_id || `v_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
-    const checkResponse = await fetch(
-      `${env.SUPABASE_URL}/rest/v1/visitors?website_id=eq.${website_id}&visitor_id=eq.${vid}`,
-      { headers: { 'apikey': env.SUPABASE_ANON_KEY, 'Authorization': `Bearer ${env.SUPABASE_ANON_KEY}` } }
-    );
-    const existing = await checkResponse.json();
-    
-    const visitorData = {
+    const data = {
       website_id,
-      visitor_id: vid,
-      company_name: company_name || null,
-      contact_name: contact_name || null,
-      contact_phone: contact_phone || null,
-      email: email || null,
-      product_category: product_category || null,
-      product_name: product_name || null,
-      target_region: target_region || null,
-      main_need: main_need || null,
-      readiness_score: readiness_score || null,
+      visitor_id,
+      company_name,
+      contact_name,
+      contact_phone,
+      email,
+      product_category,
+      product_name,
+      target_region,
+      main_need,
+      readiness_score,
       selected_markets: selected_markets ? JSON.stringify(selected_markets) : null,
       ip_address: clientInfo.ipAddress,
       country: clientInfo.country,
       city: clientInfo.city,
       device_type: clientInfo.deviceType,
       browser: clientInfo.browser,
-      last_visit: new Date().toISOString()
+      updated_at: new Date().toISOString()
     };
     
-    if (existing && existing.length > 0) {
-      await fetch(`${env.SUPABASE_URL}/rest/v1/visitors?website_id=eq.${website_id}&visitor_id=eq.${vid}`, {
-        method: 'PATCH',
-        headers: {
-          'apikey': env.SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${env.SUPABASE_ANON_KEY}`,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify(visitorData)
-      });
-    } else {
-      visitorData.first_visit = new Date().toISOString();
-      visitorData.visit_count = 1;
-      visitorData.created_at = new Date().toISOString();
-      
-      await fetch(`${env.SUPABASE_URL}/rest/v1/visitors`, {
-        method: 'POST',
-        headers: {
-          'apikey': env.SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${env.SUPABASE_ANON_KEY}`,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify(visitorData)
-      });
-    }
+    await fetch(`${env.SUPABASE_URL}/rest/v1/visitors?visitor_id=eq.${visitor_id}`, {
+      method: 'PATCH',
+      headers: {
+        'apikey': env.SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${env.SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(data)
+    });
     
-    return new Response(JSON.stringify({ success: true, visitor_id: vid }), {
+    return new Response(JSON.stringify({ success: true }), {
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
     
@@ -188,53 +302,49 @@ async function handleVisitorsPut(context) {
   }
 }
 
-// ==================== CONTACT API ====================
+// ==================== CONTACT FORM API ====================
 async function handleContact(context) {
   const { request, env } = context;
 
   try {
     const body = await request.json();
-    const { website_id, visitor_id, name, email, phone, company, message, product_interest, source_page } = body;
+    const { website_id, visitor_id, company_name, contact_name, contact_phone, email, product_category, product_name, target_region, main_need, message } = body;
     
-    if (!website_id) {
-      return new Response(JSON.stringify({ error: 'website_id is required' }), {
+    if (!contact_name || !email || !message) {
+      return new Response(JSON.stringify({ error: 'contact_name, email, and message are required' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json', ...corsHeaders }
       });
     }
     
-    const clientInfo = getClientInfo(request);
-    
     const data = {
-      website_id,
-      visitor_id: visitor_id || null,
-      name,
-      email: email || null,
-      phone: phone || null,
-      company: company || null,
-      message: message || null,
-      product_interest: product_interest || null,
-      source_page: source_page || '/',
-      ip_address: clientInfo.ipAddress,
-      country: clientInfo.country,
-      status: 'new',
+      website_id: website_id || 'zxqconsulting',
+      visitor_id: visitor_id || '',
+      company_name,
+      contact_name,
+      contact_phone,
+      email,
+      product_category,
+      product_name,
+      target_region,
+      main_need,
+      message,
+      status: 'pending',
       created_at: new Date().toISOString()
     };
     
-    const response = await fetch(`${env.SUPABASE_URL}/rest/v1/submissions`, {
+    await fetch(`${env.SUPABASE_URL}/rest/v1/submissions`, {
       method: 'POST',
       headers: {
         'apikey': env.SUPABASE_ANON_KEY,
         'Authorization': `Bearer ${env.SUPABASE_ANON_KEY}`,
         'Content-Type': 'application/json',
-        'Prefer': 'return=representation'
+        'Prefer': 'return=minimal'
       },
       body: JSON.stringify(data)
     });
     
-    const result = await response.json();
-    
-    return new Response(JSON.stringify({ success: true, id: result[0] && result[0].id }), {
+    return new Response(JSON.stringify({ success: true }), {
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
     
@@ -249,8 +359,8 @@ async function handleContact(context) {
 // ==================== ADMIN ANALYTICS API ====================
 async function handleAdminAnalytics(context) {
   const { request, env } = context;
-  
   const isAuth = await verifyAuth(request);
+  
   if (!isAuth) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
@@ -263,103 +373,64 @@ async function handleAdminAnalytics(context) {
     const websiteId = url.searchParams.get('website_id') || 'zxqconsulting';
     const days = parseInt(url.searchParams.get('days') || '30');
     
-    const today = new Date().toISOString().split('T')[0];
-    const sinceDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - days);
     
     const key = env.SUPABASE_SERVICE_KEY || env.SUPABASE_ANON_KEY;
     
-    // 今日统计
-    const todayVisitorsRes = await fetch(
-      `${env.SUPABASE_URL}/rest/v1/visitors?website_id=eq.${websiteId}&last_visit=gte.${today}T00:00:00&select=id`,
-      { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` } }
-    );
-    const todaySubmissionsRes = await fetch(
-      `${env.SUPABASE_URL}/rest/v1/submissions?website_id=eq.${websiteId}&created_at=gte.${today}T00:00:00&select=id`,
-      { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` } }
-    );
-    
-    // 总计
-    const totalVisitorsRes = await fetch(
-      `${env.SUPABASE_URL}/rest/v1/visitors?website_id=eq.${websiteId}&select=id`,
-      { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` } }
-    );
-    const totalSubmissionsRes = await fetch(
-      `${env.SUPABASE_URL}/rest/v1/submissions?website_id=eq.${websiteId}&select=id`,
-      { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` } }
-    );
-    
-    const todayVisitors = await todayVisitorsRes.json();
-    const todaySubmissions = await todaySubmissionsRes.json();
-    const totalVisitors = await totalVisitorsRes.json();
-    const totalSubmissions = await totalSubmissionsRes.json();
-    
-    // 趋势数据
+    // 获取行为数据统计
     const behaviorsRes = await fetch(
-      `${env.SUPABASE_URL}/rest/v1/behaviors?website_id=eq.${websiteId}&created_at=gte.${sinceDate}&select=created_at,event_type`,
+      `${env.SUPABASE_URL}/rest/v1/behaviors?website_id=eq.${websiteId}&created_at=gte.${startDate.toISOString()}&select=event_type,event_category,country,device_type`,
       { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` } }
     );
     const behaviors = await behaviorsRes.json();
     
-    const dailyStats = {};
-    (behaviors || []).forEach(function(b) {
-      const date = b.created_at.split('T')[0];
-      if (!dailyStats[date]) dailyStats[date] = { pageViews: 0, submissions: 0 };
-      dailyStats[date].pageViews++;
-      if (b.event_type === 'submit') dailyStats[date].submissions++;
-    });
-    
-    const trend = Object.keys(dailyStats).sort().map(function(date) {
-      return { date: date, pageViews: dailyStats[date].pageViews, submissions: dailyStats[date].submissions };
-    });
-    
-    // 热门页面
-    const topPagesRes = await fetch(
-      `${env.SUPABASE_URL}/rest/v1/behaviors?website_id=eq.${websiteId}&event_type=eq.page_view&select=page_url&created_at=gte.${sinceDate}`,
+    // 获取唯一访客数
+    const visitorsRes = await fetch(
+      `${env.SUPABASE_URL}/rest/v1/behaviors?website_id=eq.${websiteId}&created_at=gte.${startDate.toISOString()}&select=visitor_id`,
       { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` } }
     );
-    const topPagesRaw = await topPagesRes.json();
+    const visitorsData = await visitorsRes.json();
+    const uniqueVisitors = visitorsData ? [...new Set(visitorsData.map(v => v.visitor_id))].length : 0;
     
-    const pageCounts = {};
-    (topPagesRaw || []).forEach(function(b) {
-      pageCounts[b.page_url] = (pageCounts[b.page_url] || 0) + 1;
-    });
-    const topPages = Object.keys(pageCounts).map(function(page) {
-      return { page: page, views: pageCounts[page] };
-    }).sort(function(a, b) { return b.views - a.views; }).slice(0, 10);
-    
-    // 热门国家
-    const countriesRes = await fetch(
-      `${env.SUPABASE_URL}/rest/v1/visitors?website_id=eq.${websiteId}&country=not.is.null&select=country`,
+    // 获取表单提交数
+    const submissionsRes = await fetch(
+      `${env.SUPABASE_URL}/rest/v1/submissions?website_id=eq.${websiteId}&created_at=gte.${startDate.toISOString()}&select=id`,
       { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` } }
     );
-    const topCountriesRaw = await countriesRes.json();
+    const submissions = await submissionsRes.json();
     
-    const countryCounts = {};
-    (topCountriesRaw || []).forEach(function(v) {
-      if (v.country) countryCounts[v.country] = (countryCounts[v.country] || 0) + 1;
+    // 按事件类型统计
+    const eventStats = {};
+    behaviors.forEach(b => {
+      const key = b.event_type;
+      eventStats[key] = (eventStats[key] || 0) + 1;
     });
-    const topCountries = Object.keys(countryCounts).map(function(country) {
-      return { country: country, visitors: countryCounts[country] };
-    }).sort(function(a, b) { return b.visitors - a.visitors; }).slice(0, 10);
     
-    // 最近提交
-    const recentRes = await fetch(
-      `${env.SUPABASE_URL}/rest/v1/submissions?website_id=eq.${websiteId}&order=created_at.desc&limit=5`,
-      { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` } }
-    );
-    const recentSubmissions = await recentRes.json();
+    // 按国家统计
+    const countryStats = {};
+    behaviors.forEach(b => {
+      if (b.country) {
+        countryStats[b.country] = (countryStats[b.country] || 0) + 1;
+      }
+    });
     
-    const totalV = totalVisitors ? totalVisitors.length : 0;
-    const totalS = totalSubmissions ? totalSubmissions.length : 0;
-    const conversionRate = totalV > 0 ? ((totalS / totalV) * 100).toFixed(2) : 0;
+    // 按设备统计
+    const deviceStats = {};
+    behaviors.forEach(b => {
+      if (b.device_type) {
+        deviceStats[b.device_type] = (deviceStats[b.device_type] || 0) + 1;
+      }
+    });
     
     return new Response(JSON.stringify({
-      today: { visitors: todayVisitors ? todayVisitors.length : 0, submissions: todaySubmissions ? todaySubmissions.length : 0 },
-      total: { visitors: totalV, submissions: totalS, conversionRate: conversionRate },
-      trend: trend,
-      topPages: topPages,
-      topCountries: topCountries,
-      recentSubmissions: recentSubmissions || []
+      totalVisitors: uniqueVisitors,
+      totalEvents: behaviors ? behaviors.length : 0,
+      totalSubmissions: submissions ? submissions.length : 0,
+      eventStats,
+      countryStats,
+      deviceStats,
+      period: { days, startDate: startDate.toISOString() }
     }), {
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
@@ -375,8 +446,8 @@ async function handleAdminAnalytics(context) {
 // ==================== ADMIN VISITORS API ====================
 async function handleAdminVisitors(context) {
   const { request, env } = context;
-  
   const isAuth = await verifyAuth(request);
+  
   if (!isAuth) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
@@ -388,31 +459,18 @@ async function handleAdminVisitors(context) {
     const url = new URL(request.url);
     const page = parseInt(url.searchParams.get('page') || '1');
     const limit = parseInt(url.searchParams.get('limit') || '20');
-    const search = url.searchParams.get('search') || '';
     const websiteId = url.searchParams.get('website_id') || 'zxqconsulting';
     const offset = (page - 1) * limit;
     
     const key = env.SUPABASE_SERVICE_KEY || env.SUPABASE_ANON_KEY;
     
-    let query = `visitors?website_id=eq.${websiteId}&order=created_at.desc&offset=${offset}&limit=${limit}`;
-    if (search) {
-      query = `visitors?website_id=eq.${websiteId}&or=(contact_name.ilike.*${search}*,company_name.ilike.*${search}*,phone.ilike.*${search}*)&order=created_at.desc&offset=${offset}&limit=${limit}`;
-    }
-    
-    const res = await fetch(`${env.SUPABASE_URL}/rest/v1/${query}`, {
-      headers: { 'apikey': key, 'Authorization': `Bearer ${key}` }
-    });
+    const res = await fetch(
+      `${env.SUPABASE_URL}/rest/v1/visitors?website_id=eq.${websiteId}&order=updated_at.desc&offset=${offset}&limit=${limit}`,
+      { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` } }
+    );
     const data = await res.json();
     
-    const visitors = (data || []).map(function(v) {
-      let markets = [];
-      try {
-        if (v.selected_markets) markets = JSON.parse(v.selected_markets);
-      } catch(e) {}
-      return Object.assign({}, v, { selected_markets: markets });
-    });
-    
-    const countRes = await fetch(
+    let countRes = await fetch(
       `${env.SUPABASE_URL}/rest/v1/visitors?website_id=eq.${websiteId}&select=id`,
       { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` } }
     );
@@ -420,7 +478,7 @@ async function handleAdminVisitors(context) {
     const total = countData ? countData.length : 0;
     
     return new Response(JSON.stringify({
-      total: total, page: page, limit: limit, totalPages: Math.ceil(total / limit), data: visitors
+      total, page, limit, totalPages: Math.ceil(total / limit), data: data || []
     }), {
       headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
@@ -436,8 +494,8 @@ async function handleAdminVisitors(context) {
 // ==================== ADMIN SUBMISSIONS API ====================
 async function handleAdminSubmissions(context) {
   const { request, env } = context;
-  
   const isAuth = await verifyAuth(request);
+  
   if (!isAuth) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
@@ -505,6 +563,10 @@ export async function onRequest(context) {
     try {
       if (path === '/api/track' && method === 'POST') {
         return await handleTrack(context);
+      }
+      
+      if (path === '/api/ai/chat' && method === 'POST') {
+        return await handleAIChat(context);
       }
       
       if (path === '/api/visitors' && method === 'PUT') {
