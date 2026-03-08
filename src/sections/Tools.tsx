@@ -9,7 +9,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Calculator, Clock, Search, TrendingUp, Sparkles, X } from 'lucide-react';
 import { PRODUCT_CATEGORIES, MARKET_POLICIES } from '@/data/marketPolicies';
-import { DEEPSEEK_CONFIG, AI_NAME_REPLACEMENTS } from '@/config';
+import { AI_CONFIG, AI_NAME_REPLACEMENTS } from '@/config';
+import { tracking } from '@/lib/tracking';
 import SmartMarketSelector from '@/components/SmartMarketSelector';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -224,6 +225,8 @@ export default function Tools() {
 
   // 运行 AI 分析
   const runAIAnalysis = async (type: string) => {
+    // 追踪 AI 查询
+    tracking.toolInteraction('Tools AI', type);
     setIsLoadingAnalysis(true);
     const marketInfo = MARKET_INFO[globalMarket] || { name: '日本', flag: '🇯🇵', nameEn: 'Japan' };
     const startTime = Date.now();
@@ -241,14 +244,14 @@ export default function Tools() {
     }
 
     try {
-      const response = await fetch(`${DEEPSEEK_CONFIG.baseUrl}/chat/completions`, {
+      const response = await fetch(`${AI_CONFIG.apiUrl}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${DEEPSEEK_CONFIG.apiKey}`,
+          
         },
         body: JSON.stringify({
-          model: DEEPSEEK_CONFIG.model,
+          model: AI_CONFIG.model,
           messages: [
             { role: 'system', content: '你是中医药产品出海咨询专家，请用专业但易懂的语言回答用户问题。重要提示：请不要使用任何Markdown格式符号（如#、*、-、`等），直接用纯文本段落形式回答。涉及台湾地区时必须表述为"中国台湾"，涉及香港地区时必须表述为"中国香港"。' },
             { role: 'user', content: prompt }
@@ -284,8 +287,11 @@ export default function Tools() {
 
   // 追踪工具埋点辅助函数
   const track = (toolName: string, action: string, params?: Record<string, unknown>) => {
-    if (typeof window !== 'undefined' && (window as { zxqTrack?: { tool: (t: string, a: string, p?: Record<string, unknown>) => void } }).zxqTrack) {
-      (window as { zxqTrack: { tool: (t: string, a: string, p?: Record<string, unknown>) => void } }).zxqTrack.tool(toolName, action, params);
+    if (typeof window !== 'undefined') {
+      const win = window as unknown as { zxqTrack?: { tool: (t: string, a: string, p?: Record<string, unknown>) => void } };
+      if (win.zxqTrack) {
+        win.zxqTrack.tool(toolName, action, params);
+      }
     }
   };
 

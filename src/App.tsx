@@ -12,6 +12,8 @@ import DecisionWorkspace from './sections/DecisionWorkspace';
 import Contact from './sections/Contact';
 import Footer from './sections/Footer';
 import FloatingContact from './components/FloatingContact';
+import { initAutoTracking } from './lib/tracking';
+
 // "我们的成就"版块数据不够真实，暂不显示
 // import StatsEnhanced from './sections/StatsEnhanced';
 // import VisitorStats from './components/VisitorStats';
@@ -44,6 +46,9 @@ function App() {
         }
       );
     });
+
+    // 初始化自动追踪
+    initAutoTracking();
 
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());

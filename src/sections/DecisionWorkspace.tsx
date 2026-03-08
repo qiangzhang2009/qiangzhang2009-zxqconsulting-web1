@@ -28,7 +28,8 @@ import {
   Target,
   ArrowDown
 } from 'lucide-react';
-import { DEEPSEEK_CONFIG, AI_NAME_REPLACEMENTS } from '@/config';
+import { AI_CONFIG, AI_NAME_REPLACEMENTS } from '@/config';
+import { tracking } from '@/lib/tracking';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -381,6 +382,12 @@ export default function DecisionWorkspace() {
 
   // 运行AI分析
   const runAIAnalysis = async (type: string) => {
+    // 追踪 AI 查询
+    tracking.toolInteraction('AI Analysis', type, {
+      productCategory: companyInfo.productCategory,
+      targetRegion: companyInfo.targetRegion,
+      readinessScore
+    });
     setIsAnalyzing(true);
     setAiAnalysis('');
     
@@ -412,14 +419,14 @@ export default function DecisionWorkspace() {
     }
 
     try {
-      const response = await fetch(`${DEEPSEEK_CONFIG.baseUrl}/chat/completions`, {
+      const response = await fetch(`${AI_CONFIG.apiUrl}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${DEEPSEEK_CONFIG.apiKey}`,
+          
         },
         body: JSON.stringify({
-          model: DEEPSEEK_CONFIG.model,
+          model: AI_CONFIG.model,
           messages: [
             { role: 'system', content: '你是中医药产品出海咨询专家，请用专业但易懂的语言回答用户问题。重要：请不要使用任何Markdown格式符号（如#、*、-等），直接用纯文本段落形式回答。涉及台湾地区时必须表述为"中国台湾"，涉及香港地区时必须表述为"中国香港"。' },
             { role: 'user', content: prompt }

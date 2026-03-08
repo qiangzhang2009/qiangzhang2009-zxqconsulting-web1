@@ -2,11 +2,13 @@
  * 网站配置文件
  */
 
-// DeepSeek API 配置
-export const DEEPSEEK_CONFIG = {
-  apiKey: 'sk-5e05ef423c5446c599afe2ad15263233',
-  baseUrl: 'https://api.deepseek.com/v1',
+// AI 服务配置 - 使用 Cloudflare Worker 代理
+export const AI_CONFIG = {
+  // 使用 Cloudflare Worker 代理 API，保护 API 密钥
+  apiUrl: '/api/ai/chat',
   model: 'deepseek-chat',
+  temperature: 0.7,
+  maxTokens: 2048,
 };
 
 /**
@@ -25,4 +27,6 @@ export const SITE_CONFIG = {
   tagline: '专注本草出海 | 可靠 专业 高效',
   email: 'customer@zxqconsulting.com',
   wechat: 'zxq_consulting',
+  // 追踪 API 端点
+  trackingApi: '/api/track',
 };

@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Phone, Mail, MapPin, Send, User, Building, MessageSquare } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { tracking } from '@/lib/tracking';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +14,7 @@ const Contact = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const [showDialog, setShowDialog] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -85,36 +87,47 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     const form = e.currentTarget;
     const formDataObj = new FormData(form);
 
-    // 转换为 URL 编码格式发送
-    const data = new URLSearchParams();
-    data.append('name', formDataObj.get('name') as string);
-    data.append('email', formDataObj.get('email') as string);
-    data.append('phone', formDataObj.get('phone') as string);
-    data.append('company', formDataObj.get('company') as string);
-    data.append('message', formDataObj.get('message') as string);
+    const data = {
+      name: formDataObj.get('name') as string,
+      email: formDataObj.get('email') as string,
+      phone: formDataObj.get('phone') as string,
+      company: formDataObj.get('company') as string,
+      message: formDataObj.get('message') as string,
+      source_page: window.location.pathname,
+    };
 
     try {
-      // 发送到 FormSubmit 服务（同时发送给两个邮箱）
-      await fetch('https://formsubmit.co/ajax/customer@zxqconsulting.com,3740977@qq.com', {
+      // 发送到自己的 API（同时保存数据到数据库）
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: data
+        body: JSON.stringify(data),
       });
 
-      // 显示成功弹窗并重置表单
-      setShowDialog(true);
-      form.reset();
-      setFormData({ name: '', email: '', phone: '', company: '', message: '' });
+      if (response.ok) {
+        // 追踪表单提交事件
+        tracking.formSubmit('contact_form', true);
+        
+        // 显示成功弹窗并重置表单
+        setShowDialog(true);
+        form.reset();
+        setFormData({ name: '', email: '', phone: '', company: '', message: '' });
+      } else {
+        throw new Error('Submission failed');
+      }
     } catch (error) {
       console.error('提交失败:', error);
+      tracking.formSubmit('contact_form', false);
       alert(t('contact.form.error'));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -318,10 +331,11 @@ const Contact = () => {
 
               <button
                 type="submit"
-                className="w-full btn-primary flex items-center justify-center gap-2 py-4"
+                disabled={isSubmitting}
+                className="w-full btn-primary flex items-center justify-center gap-2 py-4 disabled:opacity-50"
               >
                 <Send className="w-4 h-4" />
-                {t('contact.form.submit')}
+                {isSubmitting ? t('contact.form.submitting') : t('contact.form.submit')}
               </button>
             </div>
           </form>
