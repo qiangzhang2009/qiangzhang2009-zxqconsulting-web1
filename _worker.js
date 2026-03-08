@@ -5,6 +5,9 @@
 
 const ADMIN_API_KEY = 'zxq_admin_secret_key_2024';
 
+// 开发环境使用的 DeepSeek API Key（fallback）
+const FALLBACK_DEEPSEEK_API_KEY = 'sk-af7161086d14482aac4d8127002e6bcd';
+
 // 获取客户端信息
 function getClientInfo(request) {
   const cf = request.cf || {};
@@ -154,7 +157,8 @@ async function handleAIChat(context) {
   
   console.log('[AI Proxy] Request received');
   
-  const apiKey = env.DEEPSEEK_API_KEY;
+  // 优先使用环境变量，如果没有则使用 fallback
+  const apiKey = env.DEEPSEEK_API_KEY || FALLBACK_DEEPSEEK_API_KEY;
   
   if (!apiKey) {
     console.error('[AI Proxy] Missing DEEPSEEK_API_KEY');
