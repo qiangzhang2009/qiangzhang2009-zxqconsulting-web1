@@ -55,7 +55,26 @@ const stripMarkdown = (text: string): string => {
     .trim();
 };
 
-// 市场数据
+// 根据产品类别调整市场参数
+const getAdjustedMarketData = (baseData: typeof MARKET_DATA[0], categoryId: string) => {
+  const adjustments: Record<string, { opportunityMod: number; investmentMod: number; riskMod: '低' | '中' | '高'; barrierMod: string }> = {
+    supplement: { opportunityMod: 0, investmentMod: 1.0, riskMod: '低', barrierMod: '低' },
+    traditional: { opportunityMod: -5, investmentMod: 1.3, riskMod: '中', barrierMod: '高' },
+    cosmetic: { opportunityMod: -3, investmentMod: 1.1, riskMod: '中', barrierMod: '中' },
+    food: { opportunityMod: 5, investmentMod: 0.8, riskMod: '低', barrierMod: '低' },
+    medical: { opportunityMod: -8, investmentMod: 1.5, riskMod: '高', barrierMod: '高' },
+  };
+  
+  const adj = adjustments[categoryId] || adjustments.supplement;
+  
+  return {
+    ...baseData,
+    opportunity: Math.max(50, Math.min(99, baseData.opportunity + adj.opportunityMod)),
+    investment: Math.round(baseData.investment * adj.investmentMod),
+    risk: adj.riskMod,
+    barrier: adj.barrierMod,
+  };
+};
 const MARKET_DATA = [
   { id: 'japan', name: '日本', nameEn: 'Japan', flag: '🇯🇵', gdp: 4.9, growth: 1.2, marketSize: 450, risk: '低', barrier: '高', competition: '中等', opportunity: 92, timeline: '12-18月', investment: 120 },
   { id: 'australia', name: '澳大利亚', nameEn: 'Australia', flag: '🇦🇺', gdp: 1.7, growth: 2.1, marketSize: 180, risk: '低', barrier: '中', competition: '低', opportunity: 88, timeline: '8-12月', investment: 80 },
@@ -176,7 +195,9 @@ export default function AIAdvisor() {
   const [currentAnalysis, setCurrentAnalysis] = useState<string | null>(null);
 
   // 当前市场数据
-  const marketData = MARKET_DATA.find(m => m.id === selectedMarket) || MARKET_DATA[0];
+  // 当前市场数据（根据产品类别动态调整）
+  const baseMarketData = MARKET_DATA.find(m => m.id === selectedMarket) || MARKET_DATA[0];
+  const marketData = getAdjustedMarketData(baseMarketData, selectedCategory);
   const categoryData = PRODUCT_CATEGORIES.find(c => c.id === selectedCategory) || PRODUCT_CATEGORIES[0];
 
   // 滚动动画
@@ -480,7 +501,7 @@ export default function AIAdvisor() {
                 <div className="text-center">
                   <div className="text-xs text-slate-500 mb-1">{isZh ? '投资预算' : 'Investment'}</div>
                   <div className="text-2xl font-bold text-slate-800">
-                    ${marketData.investment}
+                    ¥{(marketData.investment * 7.2 / 10).toFixed(1)}万
                   </div>
                 </div>
                 <div className="text-center">
