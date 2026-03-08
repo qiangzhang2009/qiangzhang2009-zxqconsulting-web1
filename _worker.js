@@ -40,11 +40,12 @@ async function verifyAuth(request) {
   return authHeader.substring(7) === ADMIN_API_KEY;
 }
 
-// CORS 头
+// CORS 头 - 更宽松的配置
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With, Accept, Origin',
+  'Access-Control-Max-Age': '86400',
 };
 
 // ==================== TRACK API ====================
@@ -561,52 +562,74 @@ export async function onRequest(context) {
   console.log('[Worker] Request received:', method, path);
   console.log('[Worker] User-Agent:', request.headers.get('user-agent'));
   console.log('[Worker] Origin:', request.headers.get('origin'));
+  console.log('[Worker] Host:', request.headers.get('host'));
 
-  // 处理 OPTIONS 预检
+  // 处理 OPTIONS 预检 - 立即返回
   if (method === 'OPTIONS') {
     console.log('[Worker] Handling OPTIONS preflight');
-    return new Response(null, { headers: corsHeaders });
+    return new Response(null, { 
+      status: 204,
+      headers: corsHeaders 
+    });
   }
 
   // 只处理 API 路由
   if (path.startsWith('/api/')) {
     console.log('[Worker] API path detected, processing...');
+    
+    // 调试：确保我们知道请求正在被处理
     try {
+      // Track API
       if (path === '/api/track' && method === 'POST') {
+        console.log('[Worker] Routing to handleTrack');
         return await handleTrack(context);
       }
       
+      // AI Chat API
       if (path === '/api/ai/chat' && method === 'POST') {
+        console.log('[Worker] Routing to handleAIChat');
         return await handleAIChat(context);
       }
       
+      // Visitors API
       if (path === '/api/visitors' && method === 'PUT') {
         return await handleVisitorsPut(context);
       }
       
+      // Contact API
       if (path === '/api/contact' && method === 'POST') {
         return await handleContact(context);
       }
       
+      // Admin Analytics API
       if (path === '/api/admin/analytics' && method === 'GET') {
         return await handleAdminAnalytics(context);
       }
       
+      // Admin Visitors API
       if (path === '/api/admin/visitors' && method === 'GET') {
         return await handleAdminVisitors(context);
       }
       
+      // Admin Submissions API
       if (path === '/api/admin/submissions' && method === 'GET') {
         return await handleAdminSubmissions(context);
       }
 
-      return new Response(JSON.stringify({ error: 'Not found', path: path }), {
+      // 未匹配的 API 路由 - 返回 404 而不是 403
+      console.log('[Worker] API route not found:', path, method);
+      return new Response(JSON.stringify({ 
+        error: 'Not found', 
+        path: path, 
+        method: method,
+        message: 'API endpoint not defined'
+      }), {
         status: 404,
         headers: { 'Content-Type': 'application/json', ...corsHeaders }
       });
     } catch (error) {
       console.error('[Worker] API Error:', error);
-      return new Response(JSON.stringify({ error: error.message }), {
+      return new Response(JSON.stringify({ error: error.message, stack: error.stack }), {
         status: 500,
         headers: { 'Content-Type': 'application/json', ...corsHeaders }
       });
