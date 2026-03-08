@@ -7,8 +7,7 @@ import About from './sections/About';
 import Services from './sections/Services';
 import WhyUs from './sections/WhyUs';
 import Markets from './sections/Markets';
-import Tools from './sections/Tools';
-import DecisionWorkspace from './sections/DecisionWorkspace';
+import AIAdvisor from './sections/AIAdvisor';
 import Contact from './sections/Contact';
 import Footer from './sections/Footer';
 import FloatingContact from './components/FloatingContact';
@@ -67,8 +66,7 @@ function App() {
         <Services />
         <WhyUs />
         <Markets />
-        <Tools />
-        <DecisionWorkspace />
+        <AIAdvisor />
         {/* "我们的成就"版块数据不够真实，暂不显示
         <StatsEnhanced />
         <VisitorStats />

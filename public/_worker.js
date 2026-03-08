@@ -553,13 +553,20 @@ export async function onRequest(context) {
   const { url, method } = request;
   const path = url.pathname;
 
+  // 调试：打印请求信息
+  console.log('[Worker] Request received:', method, path);
+  console.log('[Worker] User-Agent:', request.headers.get('user-agent'));
+  console.log('[Worker] Origin:', request.headers.get('origin'));
+
   // 处理 OPTIONS 预检
   if (method === 'OPTIONS') {
+    console.log('[Worker] Handling OPTIONS preflight');
     return new Response(null, { headers: corsHeaders });
   }
 
   // 只处理 API 路由
   if (path.startsWith('/api/')) {
+    console.log('[Worker] API path detected, processing...');
     try {
       if (path === '/api/track' && method === 'POST') {
         return await handleTrack(context);
@@ -594,7 +601,7 @@ export async function onRequest(context) {
         headers: { 'Content-Type': 'application/json', ...corsHeaders }
       });
     } catch (error) {
-      console.error('API Error:', error);
+      console.error('[Worker] API Error:', error);
       return new Response(JSON.stringify({ error: error.message }), {
         status: 500,
         headers: { 'Content-Type': 'application/json', ...corsHeaders }
@@ -603,5 +610,12 @@ export async function onRequest(context) {
   }
 
   // 非 API 路径返回 404（静态文件由 Cloudflare Pages 直接服务）
+  console.log('[Worker] Non-API path, returning 404');
   return new Response('Not Found', { status: 404 });
+}
+
+// 全局错误处理
+export async function onRequestError(context) {
+  console.error('[Worker] Uncaught error:', context.error);
+  return new Response('Internal Server Error', { status: 500 });
 }
