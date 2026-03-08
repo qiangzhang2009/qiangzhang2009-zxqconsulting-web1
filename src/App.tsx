@@ -6,6 +6,7 @@ import Hero from './sections/Hero';
 import About from './sections/About';
 import Services from './sections/Services';
 import WhyUs from './sections/WhyUs';
+import Markets from './sections/Markets';
 import AIToolsHub from './sections/AIToolsHub';
 import AISolutionsShowcase from './sections/AISolutionsShowcase';
 import AIAdvisor from './sections/AIAdvisor';
@@ -66,6 +67,7 @@ function App() {
         <About />
         <Services />
         <WhyUs />
+        <Markets />
         <AIToolsHub />
         <AIAdvisor />
         <AIShowcase />
