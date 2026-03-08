@@ -141,88 +141,88 @@ const Contact = () => {
     <section
       id="contact"
       ref={sectionRef}
-      className="section py-24 bg-white"
+      className="py-20 bg-gray-50/50"
     >
       <div className="container mx-auto px-6">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <span className="inline-block text-[#10b981] font-medium mb-4 tracking-wider uppercase text-sm">
+        {/* Header - macOS style */}
+        <div className="text-center mb-12">
+          <span className="inline-block text-blue-600 font-medium mb-3 text-sm">
             {t('contact.title')}
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#064e3b] mb-4">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-3 tracking-tight">
             {t('contact.subtitle')}
           </h2>
-          <p className="text-[#5c4f3a] max-w-2xl mx-auto">
+          <p className="text-gray-500 max-w-2xl mx-auto">
             {t('contact.description')}
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-16">
+        <div className="grid lg:grid-cols-2 gap-10">
           {/* Contact Info & Image */}
           <div>
             <div
               ref={imageRef}
-              className="relative rounded-2xl overflow-hidden shadow-xl mb-8"
+              className="relative rounded-2xl overflow-hidden shadow-md mb-6"
             >
               <img
                 src="/contact-bg.jpg"
                 alt="Contact"
-                className="w-full h-[300px] object-cover"
+                className="w-full h-[240px] object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#064e3b]/80 to-transparent" />
-              <div className="absolute bottom-6 left-6 right-6 text-white">
-                <h3 className="text-xl font-bold mb-2">{t('brand.fullName')}</h3>
-                <p className="text-sm text-white/80">{t('brand.tagline')}</p>
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent" />
+              <div className="absolute bottom-5 left-5 right-5 text-white">
+                <h3 className="text-lg font-semibold">{t('brand.fullName')}</h3>
+                <p className="text-sm text-white/70">{t('brand.tagline')}</p>
               </div>
             </div>
 
-            {/* Contact Cards */}
-            <div className="space-y-4">
+            {/* Contact Cards - macOS style */}
+            <div className="space-y-3">
               {contacts.map((contact, index) => (
                 <div
                   key={index}
-                  className="bg-[#ecfdf5] rounded-xl p-5 hover:bg-[#6ee7b7]/30 transition-colors"
+                  className="bg-white rounded-xl p-4 hover:shadow-md transition-shadow border border-gray-100"
                 >
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-[#10b981] flex items-center justify-center text-white flex-shrink-0">
-                      <User className="w-5 h-5" />
+                  <div className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 flex-shrink-0">
+                      <User className="w-4 h-4" />
                     </div>
                     <div>
-                      <div className="font-bold text-[#064e3b]">{contact.name}</div>
-                      <div className="text-sm text-[#5c4f3a] mb-2">{contact.role}</div>
-                      <div className="flex flex-col gap-1 text-sm">
+                      <div className="font-semibold text-gray-900">{contact.name}</div>
+                      <div className="text-xs text-gray-500 mb-2">{contact.role}</div>
+                      <div className="flex flex-col gap-1 text-xs">
                         {contact.phone && (
                           <a
                             href={`tel:${contact.phone}`}
-                            className="flex items-center gap-2 text-[#064e3b] hover:text-[#10b981] transition-colors"
+                            className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
                           >
-                            <Phone className="w-4 h-4" />
+                            <Phone className="w-3.5 h-3.5" />
                             {contact.phone}
                           </a>
                         )}
                         {contact.phone1 && (
                           <a
                             href={`tel:${contact.phone1}`}
-                            className="flex items-center gap-2 text-[#064e3b] hover:text-[#10b981] transition-colors"
+                            className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
                           >
-                            <Phone className="w-4 h-4" />
+                            <Phone className="w-3.5 h-3.5" />
                             {contact.phone1}
                           </a>
                         )}
                         {contact.phone2 && (
                           <a
                             href={`tel:${contact.phone2}`}
-                            className="flex items-center gap-2 text-[#064e3b] hover:text-[#10b981] transition-colors"
+                            className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
                           >
-                            <Phone className="w-4 h-4" />
+                            <Phone className="w-3.5 h-3.5" />
                             {contact.phone2}
                           </a>
                         )}
                         <a
                           href={`mailto:${contact.email}`}
-                          className="flex items-center gap-2 text-[#064e3b] hover:text-[#10b981] transition-colors"
+                          className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
                         >
-                          <Mail className="w-4 h-4" />
+                          <Mail className="w-3.5 h-3.5" />
                           {contact.email}
                         </a>
                       </div>
@@ -232,44 +232,61 @@ const Contact = () => {
               ))}
             </div>
 
-            {/* Social */}
-            <div className="mt-6 p-5 bg-gradient-to-r from-[#10b981]/10 to-[#6ee7b7]/10 rounded-xl">
-              <div className="flex items-center gap-2 text-[#064e3b]">
-                <MapPin className="w-5 h-5 text-[#10b981]" />
-                <span className="font-medium">{t('contact.social')}</span>
+            {/* Social - macOS style */}
+            <div className="mt-4 p-4 bg-gray-100/50 rounded-xl">
+              <div className="flex items-center gap-2 text-gray-600">
+                <MapPin className="w-4 h-4 text-blue-500" />
+                <span className="text-sm font-medium">{t('contact.social')}</span>
               </div>
             </div>
           </div>
 
-          {/* Form */}
+          {/* Form - macOS style */}
           <form
             ref={formRef}
             onSubmit={handleSubmit}
-            className="bg-white rounded-2xl p-8 shadow-xl border border-[#6ee7b7]/30"
+            className="bg-white rounded-2xl p-6 shadow-md border border-gray-100"
           >
-            <h3 className="text-xl font-bold text-[#064e3b] mb-6">{t('contact.form.title')}</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-5">{t('contact.form.title')}</h3>
 
-            <div className="space-y-5">
-              <div className="input-focus">
-                <label className="flex items-center gap-2 text-sm font-medium text-[#064e3b] mb-2">
-                  <User className="w-4 h-4 text-[#10b981]" />
-                  {t('contact.form.name')}
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 bg-[#ecfdf5] rounded-lg border-0 focus:ring-2 focus:ring-[#10b981] transition-all"
-                  placeholder={t('contact.form.namePlaceholder')}
-                />
+            <div className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1.5">
+                    <User className="w-4 h-4 text-blue-500" />
+                    {t('contact.form.name')}
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="mac-input"
+                    placeholder={t('contact.form.namePlaceholder')}
+                  />
+                </div>
+
+                <div>
+                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1.5">
+                    <Building className="w-4 h-4 text-blue-500" />
+                    {t('contact.form.company')}
+                  </label>
+                  <input
+                    type="text"
+                    name="company"
+                    value={formData.company}
+                    onChange={handleChange}
+                    className="mac-input"
+                    placeholder={t('contact.form.companyPlaceholder')}
+                  />
+                </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-5">
-                <div className="input-focus">
-                  <label className="flex items-center gap-2 text-sm font-medium text-[#064e3b] mb-2">
-                    <Mail className="w-4 h-4 text-[#10b981]" />
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1.5">
+                    <Mail className="w-4 h-4 text-blue-500" />
                     {t('contact.form.email')}
                   </label>
                   <input
@@ -278,14 +295,14 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-[#ecfdf5] rounded-lg border-0 focus:ring-2 focus:ring-[#10b981] transition-all"
+                    className="mac-input"
                     placeholder={t('contact.form.emailPlaceholder')}
                   />
                 </div>
 
-                <div className="input-focus">
-                  <label className="flex items-center gap-2 text-sm font-medium text-[#064e3b] mb-2">
-                    <Phone className="w-4 h-4 text-[#10b981]" />
+                <div>
+                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1.5">
+                    <Phone className="w-4 h-4 text-blue-500" />
                     {t('contact.form.phone')}
                   </label>
                   <input
@@ -293,38 +310,23 @@ const Contact = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-[#ecfdf5] rounded-lg border-0 focus:ring-2 focus:ring-[#10b981] transition-all"
+                    className="mac-input"
                     placeholder={t('contact.form.phonePlaceholder')}
                   />
                 </div>
               </div>
 
-              <div className="input-focus">
-                <label className="flex items-center gap-2 text-sm font-medium text-[#064e3b] mb-2">
-                  <Building className="w-4 h-4 text-[#10b981]" />
-                  {t('contact.form.company')}
-                </label>
-                <input
-                  type="text"
-                  name="company"
-                  value={formData.company}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-[#ecfdf5] rounded-lg border-0 focus:ring-2 focus:ring-[#10b981] transition-all"
-                  placeholder={t('contact.form.companyPlaceholder')}
-                />
-              </div>
-
-              <div className="input-focus">
-                <label className="flex items-center gap-2 text-sm font-medium text-[#064e3b] mb-2">
-                  <MessageSquare className="w-4 h-4 text-[#10b981]" />
+              <div>
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1.5">
+                  <MessageSquare className="w-4 h-4 text-blue-500" />
                   {t('contact.form.message')}
                 </label>
                 <textarea
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  rows={4}
-                  className="w-full px-4 py-3 bg-[#ecfdf5] rounded-lg border-0 focus:ring-2 focus:ring-[#10b981] transition-all resize-none"
+                  rows={3}
+                  className="mac-input resize-none"
                   placeholder={t('contact.form.messagePlaceholder')}
                 />
               </div>
@@ -332,7 +334,7 @@ const Contact = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full btn-primary flex items-center justify-center gap-2 py-4 disabled:opacity-50"
+                className="btn btn-primary w-full justify-center py-3 disabled:opacity-50"
               >
                 <Send className="w-4 h-4" />
                 {isSubmitting ? t('contact.form.submitting') : t('contact.form.submit')}
@@ -346,15 +348,15 @@ const Contact = () => {
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-center text-[#064e3b]">{t('contact.form.success')}</DialogTitle>
-            <DialogDescription className="text-center text-[#5c4f3a]">
+            <DialogTitle className="text-center text-gray-900">{t('contact.form.success')}</DialogTitle>
+            <DialogDescription className="text-center text-gray-500">
               {t('contact.form.successMessage')}
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-center mt-4">
             <button
               onClick={() => setShowDialog(false)}
-              className="btn-primary"
+              className="btn btn-primary"
             >
               {t('contact.form.gotIt')}
             </button>

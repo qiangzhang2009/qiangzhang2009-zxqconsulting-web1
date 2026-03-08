@@ -6,7 +6,8 @@ import Hero from './sections/Hero';
 import About from './sections/About';
 import Services from './sections/Services';
 import WhyUs from './sections/WhyUs';
-import Markets from './sections/Markets';
+import AIToolsHub from './sections/AIToolsHub';
+import AISolutionsShowcase from './sections/AISolutionsShowcase';
 import AIAdvisor from './sections/AIAdvisor';
 import Contact from './sections/Contact';
 import Footer from './sections/Footer';
@@ -16,7 +17,7 @@ import { initAutoTracking } from './lib/tracking';
 // "我们的成就"版块数据不够真实，暂不显示
 // import StatsEnhanced from './sections/StatsEnhanced';
 // import VisitorStats from './components/VisitorStats';
-// import AIShowcase from './components/AIShowcase';
+import AIShowcase from './components/AIShowcase';
 // import Testimonials from './sections/Testimonials';
 // TODO: 出海攻略版块暂时隐藏，如有需要可以重新启用
 // import BlogSection from './components/BlogSection';
@@ -65,13 +66,10 @@ function App() {
         <About />
         <Services />
         <WhyUs />
-        <Markets />
+        <AIToolsHub />
         <AIAdvisor />
-        {/* "我们的成就"版块数据不够真实，暂不显示
-        <StatsEnhanced />
-        <VisitorStats />
         <AIShowcase />
-        */}
+        <AISolutionsShowcase />
         {/* "他们说什么"版块数据不够真实，暂不显示
         <Testimonials />
         */}
