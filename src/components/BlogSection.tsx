@@ -35,13 +35,12 @@ const fetchArticles = async (): Promise<Article[]> => {
     }));
   } catch (error) {
     console.error('Error loading articles:', error);
-    return [];
+    return generateArticles();
   }
 };
 
-// 保留旧数据函数（已不使用）
-// @ts-ignore
-const _generateArticles = (): Article[] => {
+// 备用文章数据（当 /articles.json 不可用时）
+const generateArticles = (): Article[] => {
   const today = new Date();
   const articles: Article[] = [
     {

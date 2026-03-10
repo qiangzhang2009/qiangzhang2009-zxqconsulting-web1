@@ -1,221 +1,337 @@
-import { useState, useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { MapPin, ArrowRight } from 'lucide-react';
+/**
+ * 市场展示板块 - 专业B2B咨询风格
+ * 简洁、清晰、信息丰富
+ */
 
-gsap.registerPlugin(ScrollTrigger);
+import { useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ArrowRight, Clock, Shield, DollarSign, Filter } from 'lucide-react';
 
 interface Market {
   id: string;
   name: string;
+  nameEn: string;
+  flag: string;
+  tier: string;
+  tierEn: string;
+  difficulty: string;
+  difficultyEn: string;
+  timeline: string;
+  timelineEn: string;
+  cost: string;
   description: string;
-  image: string;
-  position: { x: number; y: number };
-  details: string[];
+  descriptionEn: string;
 }
 
 const Markets = () => {
-  const { t } = useTranslation();
-  const [activeMarket, setActiveMarket] = useState<string>('australia');
+  const { t, i18n } = useTranslation();
   const sectionRef = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const isZh = i18n.language === 'zh';
+
+  const [filter, setFilter] = useState('all');
 
   const markets: Market[] = [
     {
       id: 'japan',
-      name: t('markets.japan.title'),
-      description: t('markets.japan.description'),
-      image: '/osaka.jpg',
-      position: { x: 78, y: 35 },
-      details: [
-        t('markets.japan.features.resident'),
-        t('markets.japan.features.local'),
-        t('markets.japan.features.service'),
-        t('markets.japan.features.language'),
-      ],
-    },
-    {
-      id: 'europe',
-      name: t('markets.europe.title'),
-      description: t('markets.europe.description'),
-      image: '/europe.jpg',
-      position: { x: 52, y: 28 },
-      details: [
-        t('markets.europe.features.hub'),
-        t('markets.europe.features.network'),
-        t('markets.europe.features.local'),
-        t('markets.europe.features.compliance'),
-      ],
-    },
-    {
-      id: 'sea',
-      name: t('markets.southeast.title'),
-      description: t('markets.southeast.description'),
-      image: '/malaysia.jpg',
-      position: { x: 72, y: 55 },
-      details: [
-        t('markets.southeast.features.market'),
-        t('markets.southeast.features.growth'),
-        t('markets.southeast.features.local'),
-        t('markets.southeast.features.support'),
-      ],
+      name: '日本',
+      nameEn: 'Japan',
+      flag: '🇯🇵',
+      tier: '一线',
+      tierEn: 'Tier 1',
+      difficulty: '高',
+      difficultyEn: 'High',
+      timeline: '12-18月',
+      timelineEn: '12-18 months',
+      cost: '$80K-250K',
+      description: '成熟市场，消费者对品质要求高，品牌溢价空间大',
+      descriptionEn: 'Mature market with high quality standards and strong brand premium potential',
     },
     {
       id: 'australia',
-      name: t('markets.australia.title'),
-      description: t('markets.australia.description'),
-      image: '/australia.jpg',
-      position: { x: 85, y: 58 },
-      details: [
-        t('markets.australia.features.resident'),
-        t('markets.australia.features.local'),
-        t('markets.australia.features.service'),
-        t('markets.australia.features.language'),
-      ],
+      name: '澳大利亚',
+      nameEn: 'Australia',
+      flag: '🇦🇺',
+      tier: '一线',
+      tierEn: 'Tier 1',
+      difficulty: '中',
+      difficultyEn: 'Medium',
+      timeline: '6-12月',
+      timelineEn: '6-12 months',
+      cost: '$30K-80K',
+      description: '监管清晰，市场规模适中，是进入大洋洲的优质跳板',
+      descriptionEn: 'Clear regulations, moderate market size, excellent gateway to Oceania',
     },
     {
-      id: 'mena',
-      name: t('markets.middleEast.title'),
-      description: t('markets.middleEast.description'),
-      image: '/mideast.jpg',
-      position: { x: 58, y: 40 },
-      details: [
-        t('markets.middleEast.features.opportunity'),
-        t('markets.middleEast.features.partners'),
-        t('markets.middleEast.features.culture'),
-        t('markets.middleEast.features.support'),
-      ],
+      id: 'singapore',
+      name: '新加坡',
+      nameEn: 'Singapore',
+      flag: '🇸🇬',
+      tier: '一线',
+      tierEn: 'Tier 1',
+      difficulty: '低',
+      difficultyEn: 'Low',
+      timeline: '3-6月',
+      timelineEn: '3-6 months',
+      cost: '$15K-40K',
+      description: '东南亚金融中心，准入门槛低，营商环境优越',
+      descriptionEn: 'Southeast Asian financial hub with low barriers and excellent business environment',
+    },
+    {
+      id: 'usa',
+      name: '美国',
+      nameEn: 'USA',
+      flag: '🇺🇸',
+      tier: '一线',
+      tierEn: 'Tier 1',
+      difficulty: '高',
+      difficultyEn: 'High',
+      timeline: '12-24月',
+      timelineEn: '12-24 months',
+      cost: '$50K-150K',
+      description: '全球最大市场，审批严格，但回报潜力最高',
+      descriptionEn: 'World largest market with strict approval, but highest return potential',
+    },
+    {
+      id: 'germany',
+      name: '德国',
+      nameEn: 'Germany',
+      flag: '🇩🇪',
+      tier: '一线',
+      tierEn: 'Tier 1',
+      difficulty: '高',
+      difficultyEn: 'High',
+      timeline: '12-24月',
+      timelineEn: '12-24 months',
+      cost: '$60K-180K',
+      description: '欧洲最大市场，标准严格，进入后可辐射欧盟',
+      descriptionEn: 'Largest European market with strict standards, gateway to EU',
+    },
+    {
+      id: 'korea',
+      name: '韩国',
+      nameEn: 'South Korea',
+      flag: '🇰🇷',
+      tier: '二线',
+      tierEn: 'Tier 2',
+      difficulty: '中',
+      difficultyEn: 'Medium',
+      timeline: '6-10月',
+      timelineEn: '6-10 months',
+      cost: '$25K-60K',
+      description: '文化相近，消费能力强，对中药接受度逐渐提高',
+      descriptionEn: 'Cultural proximity, strong consumption, increasing acceptance of TCM',
+    },
+    {
+      id: 'thailand',
+      name: '泰国',
+      nameEn: 'Thailand',
+      flag: '🇹🇭',
+      tier: '二线',
+      tierEn: 'Tier 2',
+      difficulty: '中',
+      difficultyEn: 'Medium',
+      timeline: '4-8月',
+      timelineEn: '4-8 months',
+      cost: '$15K-40K',
+      description: '东南亚第二大市场，准入政策相对宽松',
+      descriptionEn: 'Second largest Southeast Asian market with relatively relaxed policies',
+    },
+    {
+      id: 'malaysia',
+      name: '马来西亚',
+      nameEn: 'Malaysia',
+      flag: '🇲🇾',
+      tier: '二线',
+      tierEn: 'Tier 2',
+      difficulty: '低',
+      difficultyEn: 'Low',
+      timeline: '3-6月',
+      timelineEn: '3-6 months',
+      cost: '$12K-35K',
+      description: '多元文化市场，伊斯兰清真认证优势',
+      descriptionEn: 'Multicultural market with Islamic halal certification advantage',
+    },
+    {
+      id: 'uae',
+      name: '阿联酋',
+      nameEn: 'UAE',
+      flag: '🇦🇪',
+      tier: '二线',
+      tierEn: 'Tier 2',
+      difficulty: '低',
+      difficultyEn: 'Low',
+      timeline: '3-6月',
+      timelineEn: '3-6 months',
+      cost: '$20K-50K',
+      description: '中东门户市场，辐射海合会国家',
+      descriptionEn: 'Gateway to Middle East, access to GCC countries',
+    },
+    {
+      id: 'hongkong',
+      name: '中国香港',
+      nameEn: 'Hong Kong',
+      flag: '🇭🇰',
+      tier: '细分',
+      tierEn: 'Niche',
+      difficulty: '低',
+      difficultyEn: 'Low',
+      timeline: '2-4月',
+      timelineEn: '2-4 months',
+      cost: '$8K-25K',
+      description: '进入门槛最低，可作为出海第一站',
+      descriptionEn: 'Lowest barrier to entry, ideal as first step for expansion',
+    },
+    {
+      id: 'taiwan',
+      name: '中国台湾',
+      nameEn: 'Taiwan',
+      flag: '🇹🇼',
+      tier: '细分',
+      tierEn: 'Niche',
+      difficulty: '中',
+      difficultyEn: 'Medium',
+      timeline: '4-8月',
+      timelineEn: '4-8 months',
+      cost: '$12K-35K',
+      description: '文化相通，语言无障碍，市场熟悉度高',
+      descriptionEn: 'Cultural affinity, no language barrier, high market familiarity',
     },
   ];
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Map animation
-      gsap.fromTo(
-        mapRef.current,
-        { scale: 0.9, opacity: 0 },
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-          },
-        }
-      );
+  const filteredMarkets = filter === 'all' 
+    ? markets 
+    : filter === 'tier1'
+      ? markets.filter(m => m.tier === '一线')
+      : filter === 'tier2'
+        ? markets.filter(m => m.tier === '二线')
+        : markets.filter(m => m.tier === '细分');
 
-      // Content animation
-      gsap.fromTo(
-        contentRef.current,
-        { x: 40, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 60%',
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  const activeMarketData = markets.find((m) => m.id === activeMarket);
+  const getDifficultyColor = (difficulty: string) => {
+    if (difficulty === '低') return 'bg-green-100 text-green-700';
+    if (difficulty === '中') return 'bg-yellow-100 text-yellow-700';
+    return 'bg-red-100 text-red-700';
+  };
 
   return (
     <section
       id="markets"
       ref={sectionRef}
-      className="section py-24 bg-white overflow-hidden"
+      className="py-20 bg-gray-50"
     >
-      <div className="container mx-auto px-6">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <span className="inline-block text-[#10b981] font-medium mb-4 tracking-wider uppercase text-sm">
-            {t('markets.title')}
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#064e3b] mb-4">
-            {t('markets.subtitle')}
+      <div className="max-w-6xl mx-auto px-4">
+        {/* 标题 */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-3">
+            {t('markets.title') || isZh ? '目标市场' : 'Target Markets'}
           </h2>
-          <p className="text-[#5c4f3a] max-w-2xl mx-auto">
-            {t('markets.description')}
+          <p className="text-gray-500 max-w-2xl mx-auto">
+            {t('markets.subtitle') || (isZh 
+              ? '选择适合您的出海目的地，获取详细的市场进入方案' 
+              : 'Choose your ideal export destination and get detailed market entry plans')}
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-12 items-center">
-          {/* Map */}
-          <div ref={mapRef} className="lg:col-span-3 relative">
-            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-xl">
-              {/* Market Background Image */}
-              <img 
-                src={activeMarketData?.image} 
-                alt="Market Background"
-                className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-              />
-              
-              {/* Dark overlay for better visibility */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
+        {/* 筛选器 */}
+        <div className="flex items-center justify-center gap-2 mb-8">
+          <Filter className="w-4 h-4 text-gray-400" />
+          <button
+            onClick={() => setFilter('all')}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              filter === 'all' 
+                ? 'bg-gray-900 text-white' 
+                : 'bg-white text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            {isZh ? '全部' : 'All'}
+          </button>
+          <button
+            onClick={() => setFilter('tier1')}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              filter === 'tier1' 
+                ? 'bg-gray-900 text-white' 
+                : 'bg-white text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            {isZh ? '一线市场' : 'Tier 1'}
+          </button>
+          <button
+            onClick={() => setFilter('tier2')}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              filter === 'tier2' 
+                ? 'bg-gray-900 text-white' 
+                : 'bg-white text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            {isZh ? '二线市场' : 'Tier 2'}
+          </button>
+          <button
+            onClick={() => setFilter('niche')}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              filter === 'niche' 
+                ? 'bg-gray-900 text-white' 
+                : 'bg-white text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            {isZh ? '细分市场' : 'Niche'}
+          </button>
+        </div>
 
-            </div>
-          </div>
-
-          {/* Content */}
-          <div ref={contentRef} className="lg:col-span-2">
-            {activeMarketData && (
-              <div className="bg-white rounded-2xl p-8 shadow-xl border border-emerald-100/30">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white">
-                    <MapPin className="w-5 h-5" />
+        {/* 市场卡片网格 */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredMarkets.map((market) => (
+            <div
+              key={market.id}
+              className="bg-white rounded-xl border border-gray-200 p-5 hover:border-gray-300 hover:shadow-md transition-all"
+            >
+              {/* 头部 */}
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-3xl">{market.flag}</span>
+                  <div>
+                    <h3 className="font-semibold text-gray-900">
+                      {isZh ? market.name : market.nameEn}
+                    </h3>
+                    <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${
+                      market.tier === '一线' ? 'bg-blue-100 text-blue-700' :
+                      market.tier === '二线' ? 'bg-purple-100 text-purple-700' :
+                      'bg-gray-100 text-gray-700'
+                    }`}>
+                      {isZh ? market.tier : market.tierEn}
+                    </span>
                   </div>
-                  <h3 className="text-2xl font-bold text-[#064e3b]">
-                    {activeMarketData.name}
-                  </h3>
-                </div>
-
-                <p className="text-[#5c4f3a] mb-6 leading-relaxed">
-                  {activeMarketData.description}
-                </p>
-
-                <div className="space-y-3">
-                  {activeMarketData.details.map((detail, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-3 text-[#064e3b]"
-                    >
-                      <ArrowRight className="w-4 h-4 text-[#10b981] flex-shrink-0" />
-                      <span>{detail}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Market selector */}
-                <div className="mt-8 flex flex-wrap gap-2">
-                  {markets.map((market) => (
-                    <button
-                      key={market.id}
-                      onClick={() => setActiveMarket(market.id)}
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                        activeMarket === market.id
-                          ? 'bg-emerald-500 text-white'
-                          : 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100'
-                      }`}
-                    >
-                      {market.name}
-                    </button>
-                  ))}
                 </div>
               </div>
-            )}
-          </div>
+
+              {/* 描述 */}
+              <p className="text-sm text-gray-600 mb-4">
+                {isZh ? market.description : market.descriptionEn}
+              </p>
+
+              {/* 指标标签 */}
+              <div className="flex flex-wrap gap-2 mb-4">
+                <span className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium ${getDifficultyColor(market.difficulty)}`}>
+                  <Shield className="w-3 h-3" />
+                  {isZh ? `难度${market.difficulty}` : market.difficultyEn}
+                </span>
+                <span className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-700">
+                  <Clock className="w-3 h-3" />
+                  {isZh ? market.timeline : market.timelineEn}
+                </span>
+                <span className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-700">
+                  <DollarSign className="w-3 h-3" />
+                  {market.cost}
+                </span>
+              </div>
+
+              {/* CTA */}
+              <button className="w-full py-2.5 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-colors flex items-center justify-center gap-2">
+                {isZh ? '查看详情' : 'View Details'}
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          ))}
         </div>
+
       </div>
     </section>
   );

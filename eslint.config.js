@@ -20,4 +20,19 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  // UI library / generated components often export helpers/constants alongside components.
+  // Disable the Fast Refresh-only export restriction for these files.
+  {
+    files: ['src/components/ui/**/*.{ts,tsx}'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
+  // Serverless function handlers may legitimately use `any` at the edges.
+  {
+    files: ['functions/**/*.{ts,tsx}', 'api/**/*.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
 ])

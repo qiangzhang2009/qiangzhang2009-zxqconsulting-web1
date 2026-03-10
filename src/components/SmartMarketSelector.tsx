@@ -4,7 +4,7 @@
  * 统一所有市场的 ID 格式
  */
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import i18n from 'i18next';
 import { 
   Globe, 
@@ -59,7 +59,6 @@ const UNIFIED_MARKET_MAP: Record<string, { id: string; name: string; nameEn: str
 const SmartMarketSelector = ({ value, onChange, label }: SmartMarketSelectorProps) => {
   const [activeDimension, setActiveDimension] = useState<DimensionType>('hot');
   const [expandedRegion, setExpandedRegion] = useState<string | null>(null);
-  const [selectedMarket, setSelectedMarket] = useState<string>(value);
 
   const isZh = i18n.language === 'zh';
 
@@ -72,7 +71,7 @@ const SmartMarketSelector = ({ value, onChange, label }: SmartMarketSelectorProp
   ];
 
   // 标准化市场 ID - 使用更兼容的语法
-  const normalizeId = (id: string): string => {
+  function normalizeId(id: string): string {
     // 如果已经是标准格式，直接返回
     if (UNIFIED_MARKET_MAP[id]) return id;
     
@@ -88,18 +87,13 @@ const SmartMarketSelector = ({ value, onChange, label }: SmartMarketSelectorProp
       }
     }
     return id;
-  };
+  }
 
-  // 当外部 value 变化时，同步更新内部状态
-  useEffect(() => {
-    const normalized = normalizeId(value);
-    setSelectedMarket(normalized);
-  }, [value]);
+  const selectedMarket = useMemo(() => normalizeId(value), [value]);
 
   // 处理市场选择
   const handleSelect = (marketId: string) => {
     const normalized = normalizeId(marketId);
-    setSelectedMarket(normalized);
     onChange(normalized);
   };
 

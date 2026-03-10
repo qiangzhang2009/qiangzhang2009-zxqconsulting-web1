@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Globe, ArrowRight, Star } from 'lucide-react';
+import { Globe, ArrowRight } from 'lucide-react';
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -43,73 +43,56 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-[#3d352e] text-white">
-      {/* CTA Banner - 本草出海特别版 */}
-      <div className="bg-gradient-to-r from-emerald-600 via-teal-500 to-teal-400 py-16 relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-4 left-10 text-4xl animate-float">🌿</div>
-        <div className="absolute top-4 right-10 text-4xl animate-float" style={{ animationDelay: '1s' }}>🏥</div>
-        <div className="absolute bottom-4 left-1/4 text-3xl gold-sparkle">✨</div>
-        <div className="absolute bottom-4 right-1/4 text-3xl gold-sparkle" style={{ animationDelay: '0.5s' }}>🌟</div>
-        
-        <div className="container mx-auto px-6 text-center relative z-10">
-          {/* Bencao Badge */}
-          <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 mb-6">
-            <Star className="w-5 h-5 text-teal-200 fill-current" />
-            <span className="text-white font-medium">🌿 {t('footer.banner.badge')} 🌿</span>
-            <Star className="w-5 h-5 text-teal-200 fill-current" />
-          </div>
-          
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
-            🌍 {t('footer.banner.title')} 🌍
+    <footer className="bg-gray-100 text-gray-700">
+      {/* CTA Banner - macOS style: clean, minimal */}
+      <div className="bg-white py-16 border-b border-gray-200">
+        <div className="container mx-auto px-6 text-center">
+          <span className="inline-block text-blue-600 font-medium mb-3 text-sm">
+            {t('footer.banner.badge')}
+          </span>
+          <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-900">
+            {t('footer.banner.title')}
           </h2>
-          <p className="text-white/95 mb-8 max-w-2xl mx-auto text-lg leading-relaxed">
+          <p className="text-gray-500 mb-6 max-w-xl mx-auto text-sm leading-relaxed">
             {t('footer.banner.description')}
-            <br />
-            <span className="font-semibold text-teal-200">{t('footer.banner.tagline')}</span>
           </p>
           <button
             onClick={() => scrollToSection('#contact')}
-            className="bg-white text-emerald-600 px-10 py-4 rounded-full font-bold inline-flex items-center gap-2 hover:bg-teal-50 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
+            className="btn btn-primary"
           >
-            🌿 {t('footer.banner.button')}
-            <ArrowRight className="w-5 h-5" />
+            {t('footer.banner.button')}
+            <ArrowRight className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      {/* Main Footer */}
-      <div className="py-16">
+      {/* Main Footer - macOS style */}
+      <div className="py-12">
         <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-5 gap-12">
+          <div className="grid md:grid-cols-5 gap-8">
             {/* Brand */}
             <div className="md:col-span-2">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg">
-                  <Globe className="w-7 h-7 text-white" />
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center">
+                  <Globe className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <div className="font-bold text-xl">{t('brand.fullName')}</div>
-                  <div className="text-xs text-white/60">{t('brand.name')}</div>
+                  <div className="font-semibold text-gray-900">{t('brand.fullName')}</div>
+                  <div className="text-xs text-gray-500">{t('brand.name')}</div>
                 </div>
               </div>
-              <p className="text-white/70 mb-6 leading-relaxed">
+              <p className="text-gray-500 text-sm mb-4 leading-relaxed">
                 {t('brand.tagline')}
               </p>
-              <div className="flex items-center gap-2 text-sm text-white/60">
-                <span className="text-emerald-400">🐴</span>
-                <span>{t('footer.promo.spring')}</span>
-                <span className="text-emerald-400">✨</span>
-              </div>
             </div>
 
             {/* Links */}
             {footerLinks.map((group, index) => (
               <div key={index}>
-                <h4 className="font-bold mb-4 text-[#FFD700] flex items-center gap-2">
+                <h4 className="font-semibold mb-3 text-sm text-gray-900">
                   {group.title}
                 </h4>
-                <ul className="space-y-3">
+                <ul className="space-y-2">
                   {group.links.map((link, linkIndex) => (
                     <li key={linkIndex}>
                       <a
@@ -118,9 +101,8 @@ const Footer = () => {
                           e.preventDefault();
                           scrollToSection(link.href);
                         }}
-                        className="text-white/70 hover:text-[#FFD700] transition-colors flex items-center gap-2"
+                        className="text-gray-500 hover:text-blue-600 transition-colors text-sm"
                       >
-                        <span className="text-[#C41E3A]">›</span>
                         {link.name}
                       </a>
                     </li>
@@ -132,27 +114,14 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-white/10 py-6 relative">
-        {/* Decorative corners */}
-        <div className="absolute top-0 left-0 w-16 h-16 border-l border-t border-[#FFD700]/30 rounded-tl-3xl"></div>
-        <div className="absolute top-0 right-0 w-16 h-16 border-r border-t border-[#FFD700]/30 rounded-tr-3xl"></div>
-        
-        <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="text-white/60 text-sm">
+      {/* Bottom Bar - macOS style */}
+      <div className="border-t border-gray-200 py-4">
+        <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-2">
+          <div className="text-gray-400 text-xs">
             {t('footer.copyright')}
           </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 text-white/40 text-sm">
-              <span>🐴</span>
-              <span>{t('footer.promo.spirit')}</span>
-              <span>·</span>
-              <span>{t('footer.promo.stride')}</span>
-            </div>
-          </div>
-          <div className="text-white/40 text-sm flex items-center gap-2">
-            <span>✨</span>
-            <span>{t('brand.tagline')}</span>
+          <div className="text-gray-400 text-xs">
+            {t('brand.tagline')}
           </div>
         </div>
       </div>

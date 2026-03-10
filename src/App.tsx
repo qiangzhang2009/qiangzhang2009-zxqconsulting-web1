@@ -1,30 +1,27 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from './sections/Navbar';
 import Hero from './sections/Hero';
 import About from './sections/About';
 import Services from './sections/Services';
-import WhyUs from './sections/WhyUs';
 import AIToolsHub from './sections/AIToolsHub';
-import AISolutionsShowcase from './sections/AISolutionsShowcase';
 import AIAdvisor from './sections/AIAdvisor';
 import Contact from './sections/Contact';
 import Footer from './sections/Footer';
 import FloatingContact from './components/FloatingContact';
+import GA4 from './components/GA4';
 import { initAutoTracking } from './lib/tracking';
-
-// "我们的成就"版块数据不够真实，暂不显示
-// import StatsEnhanced from './sections/StatsEnhanced';
-// import VisitorStats from './components/VisitorStats';
-import AIShowcase from './components/AIShowcase';
-// import Testimonials from './sections/Testimonials';
-// TODO: 出海攻略版块暂时隐藏，如有需要可以重新启用
-// import BlogSection from './components/BlogSection';
+import CaseStudies from './sections/CaseStudies';
+import { MarketContext, type TargetMarket } from './sections/aiToolsMarketContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
+  // 共享的市场选择状态 - 供所有需要市场选择的组件使用
+  const [selectedMarket, setSelectedMarket] = useState<TargetMarket | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+
   useEffect(() => {
     // Initialize scroll-triggered animations
     const sections = document.querySelectorAll('.animate-on-scroll');
@@ -56,31 +53,27 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen relative">
-      {/* 春节装饰已暂停 */}
-      {/* <SpringDecorations /> */}
-      
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Services />
-        <WhyUs />
-        <AIToolsHub />
-        <AIAdvisor />
-        <AIShowcase />
-        <AISolutionsShowcase />
-        {/* "他们说什么"版块数据不够真实，暂不显示
-        <Testimonials />
-        */}
-        {/* <BlogSection /> */}
-        <Contact />
-      </main>
-      <Footer />
-      
-      {/* Floating Contact Button - 浮动联系按钮 */}
-      <FloatingContact />
-    </div>
+    <MarketContext.Provider value={{ selectedMarket, selectedRegion, setSelectedMarket, setSelectedRegion }}>
+      <div className="min-h-screen relative">
+        {/* Google Analytics 4 */}
+        <GA4 />
+        
+        <Navbar />
+        <main>
+          <Hero />
+          <About />
+          <Services />
+          <AIToolsHub />
+          <AIAdvisor />
+          <CaseStudies />
+          <Contact />
+        </main>
+        <Footer />
+        
+        {/* Floating Contact Button - 浮动联系按钮 */}
+        <FloatingContact />
+      </div>
+    </MarketContext.Provider>
   );
 }
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -11,18 +11,36 @@ interface Stat {
   labelKey: string;
 }
 
+const STATS: Stat[] = [
+  { value: 200, suffix: '+', labelKey: 'stats.items.companies' },
+  { value: 10, suffix: '+', labelKey: 'stats.items.experience' },
+  { value: 50, suffix: '+', labelKey: 'stats.items.partners' },
+  { value: 30, suffix: '+', labelKey: 'stats.items.countries' },
+];
+
 const Stats = () => {
   const { t } = useTranslation();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [counts, setCounts] = useState<number[]>([0, 0, 0, 0]);
   const hasAnimated = useRef(false);
 
-  const stats: Stat[] = [
-    { value: 200, suffix: '+', labelKey: 'stats.items.companies' },
-    { value: 10, suffix: '+', labelKey: 'stats.items.experience' },
-    { value: 50, suffix: '+', labelKey: 'stats.items.partners' },
-    { value: 30, suffix: '+', labelKey: 'stats.items.countries' },
-  ];
+  const animateCounts = useCallback(() => {
+    STATS.forEach((stat, index) => {
+      const obj = { value: 0 };
+      gsap.to(obj, {
+        value: stat.value,
+        duration: 2,
+        ease: 'power3.out',
+        onUpdate: () => {
+          setCounts((prev) => {
+            const newCounts = [...prev];
+            newCounts[index] = Math.round(obj.value);
+            return newCounts;
+          });
+        },
+      });
+    });
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -39,25 +57,7 @@ const Stats = () => {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
-
-  const animateCounts = () => {
-    stats.forEach((stat, index) => {
-      const obj = { value: 0 };
-      gsap.to(obj, {
-        value: stat.value,
-        duration: 2,
-        ease: 'power3.out',
-        onUpdate: () => {
-          setCounts((prev) => {
-            const newCounts = [...prev];
-            newCounts[index] = Math.round(obj.value);
-            return newCounts;
-          });
-        },
-      });
-    });
-  };
+  }, [animateCounts]);
 
   return (
     <section
@@ -86,7 +86,7 @@ const Stats = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {stats.map((stat, index) => (
+          {STATS.map((stat, index) => (
             <div key={index} className="text-center">
               <div className="stat-number text-white mb-2">
                 {counts[index]}

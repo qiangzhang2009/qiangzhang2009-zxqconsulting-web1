@@ -76,7 +76,7 @@ export async function trackEvent(
   eventType: string,
   eventCategory: string,
   eventLabel?: string,
-  metadata?: Record<string, any>
+  metadata?: Record<string, unknown>
 ): Promise<void> {
   const visitorId = getVisitorId();
   

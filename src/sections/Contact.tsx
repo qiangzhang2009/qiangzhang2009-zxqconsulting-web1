@@ -102,26 +102,42 @@ const Contact = () => {
     };
 
     try {
-      // 发送到自己的 API（同时保存数据到数据库）
-      const response = await fetch('/api/contact', {
+      // 1. 发送邮件到两个邮箱 (customer@zxqconsulting.com 和 3740977@qq.com)
+      const formData = new FormData();
+      formData.append('name', data.name);
+      formData.append('email', data.email);
+      formData.append('phone', data.phone);
+      formData.append('company', data.company);
+      formData.append('message', data.message);
+
+      // 发送到第一个邮箱
+      await fetch('https://formsubmit.co/ajax/customer@zxqconsulting.com', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Accept': 'application/json' },
+        body: formData
+      });
+
+      // 发送到第二个邮箱
+      await fetch('https://formsubmit.co/ajax/3740977@qq.com', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: formData
+      });
+
+      // 2. 同时保存到数据库
+      await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
 
-      if (response.ok) {
-        // 追踪表单提交事件
-        tracking.formSubmit('contact_form', true);
-        
-        // 显示成功弹窗并重置表单
-        setShowDialog(true);
-        form.reset();
-        setFormData({ name: '', email: '', phone: '', company: '', message: '' });
-      } else {
-        throw new Error('Submission failed');
-      }
+      // 追踪表单提交事件
+      tracking.formSubmit('contact_form', true);
+      
+      // 显示成功弹窗并重置表单
+      setShowDialog(true);
+      form.reset();
+      setFormData({ name: '', email: '', phone: '', company: '', message: '' });
     } catch (error) {
       console.error('提交失败:', error);
       tracking.formSubmit('contact_form', false);

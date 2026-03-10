@@ -3,10 +3,9 @@
  * 设计理念: 极简双筛、实时刷新、可视化图表、抽屉详情
  */
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  Globe,
   Package,
   TrendingUp,
   TrendingDown,
@@ -17,20 +16,10 @@ import {
   RefreshCw,
   Sparkles,
   Info,
-  BarChart3,
   PieChart,
   LineChart
 } from 'lucide-react';
-
-// 地区选项
-const REGIONS = [
-  { value: 'japan', label: '日本', labelEn: 'Japan', flag: '🇯🇵' },
-  { value: 'europe', label: '欧洲', labelEn: 'Europe', flag: '🇪🇺' },
-  { value: 'southeast', label: '东南亚', labelEn: 'Southeast Asia', flag: '🇸🇬' },
-  { value: 'australia', label: '澳大利亚', labelEn: 'Australia', flag: '🇦🇺' },
-  { value: 'middleeast', label: '中东', labelEn: 'Middle East', flag: '🇸🇦' },
-  { value: 'global', label: '全球', labelEn: 'Global', flag: '🌍' },
-];
+import { useMarket } from './aiToolsMarketContext';
 
 // 品类选项
 const CATEGORIES = [
@@ -398,9 +387,8 @@ export default function FeasibilityAssessment() {
   const { i18n } = useTranslation();
   const isZh = i18n.language === 'zh';
 
-  // 筛选状态
-  const [selectedRegion, setSelectedRegion] = useState('japan');
-  const [selectedCategory, setSelectedCategory] = useState('supplement');
+  // 从上下文获取选中的市场
+  const { selectedMarket } = useMarket();
 
   // 展开详情
   const [showDetails, setShowDetails] = useState(false);
@@ -408,9 +396,29 @@ export default function FeasibilityAssessment() {
   // 抽屉状态
   const [showDrawer, setShowDrawer] = useState(false);
 
+  // 将选中的市场映射到区域（用于获取数据）
+  const getRegionKey = useCallback(() => {
+    if (!selectedMarket) return 'japan';
+    // 映射国家到区域键值
+    const regionMap: Record<string, string> = {
+      usa: 'global', canada: 'global', mexico: 'global',
+      germany: 'europe', france: 'europe', uk: 'europe', italy: 'europe', spain: 'europe', netherlands: 'europe',
+      japan: 'japan', australia: 'australia',
+      southkorea: 'global', singapore: 'southeast', hongkong: 'southeast', taiwan: 'southeast', nz: 'australia',
+      indonesia: 'southeast', thailand: 'southeast', vietnam: 'southeast', malaysia: 'southeast', philippines: 'southeast', myanmar: 'southeast',
+      saudiarabia: 'middleeast', uae: 'middleeast', israel: 'middleeast', qatar: 'middleeast', turkey: 'middleeast', egypt: 'middleeast', southafrica: 'middleeast', nigeria: 'middleeast',
+      brazil: 'global', argentina: 'global', chile: 'global', colombia: 'global', peru: 'global',
+    };
+    return regionMap[selectedMarket.id] || 'global';
+  }, [selectedMarket]);
+
+  // 筛选状态 - 使用选中市场或默认
+  const [selectedCategory, setSelectedCategory] = useState('supplement');
+
   // 获取当前数据
   const currentData = useMemo(() => {
-    return MARKET_DATA[selectedRegion]?.[selectedCategory] || {
+    const regionKey = getRegionKey();
+    return MARKET_DATA[regionKey]?.[selectedCategory] || {
       heat: 0,
       growth: 0,
       risk: 'low' as const,
@@ -423,11 +431,10 @@ export default function FeasibilityAssessment() {
       suggestion: '',
       suggestionEn: '',
     };
-  }, [selectedRegion, selectedCategory, isZh]);
+  }, [getRegionKey, selectedCategory, isZh]);
 
   // 重置筛选
   const handleReset = () => {
-    setSelectedRegion('japan');
     setSelectedCategory('supplement');
     setShowDetails(false);
     setShowDrawer(false);
@@ -436,50 +443,44 @@ export default function FeasibilityAssessment() {
   // 风险等级
   const riskInfo = RISK_LABELS[currentData.risk];
 
-  // 筛选地区名称
-  const regionName = REGIONS.find(r => r.value === selectedRegion);
+  // 获取当前地区名称
+  const getRegionName = () => {
+    if (selectedMarket) {
+      return { flag: selectedMarket.flag, name: isZh ? selectedMarket.name : selectedMarket.nameEn };
+    }
+    const regionKey = getRegionKey();
+    const regionMap: Record<string, { flag: string; name: string }> = {
+      japan: { flag: '🇯🇵', name: '日本' },
+      europe: { flag: '🇪🇺', name: '欧洲' },
+      southeast: { flag: '🇸🇬', name: '东南亚' },
+      australia: { flag: '🇦🇺', name: '澳大利亚' },
+      middleeast: { flag: '🇸🇦', name: '中东' },
+      global: { flag: '🌍', name: '全球' },
+    };
+    return regionMap[regionKey] || { flag: '🌍', name: '全球' };
+  };
+
+  const regionName = getRegionName();
   const categoryName = CATEGORIES.find(c => c.value === selectedCategory);
 
   return (
-    <section id="feasibility" className="py-20 bg-gray-50">
+    <section id="feasibility" className="py-8 bg-gray-50">
       <div className="max-w-5xl mx-auto px-4">
         
-        {/* 标题 */}
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium mb-4">
-            <BarChart3 className="w-4 h-4" />
-            {isZh ? '可行性评估' : 'Feasibility Assessment'}
+        {/* 显示当前选中市场 */}
+        {selectedMarket && (
+          <div className="mb-6 text-center">
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full">
+              <span className="text-xl">{selectedMarket.flag}</span>
+              <span className="font-medium">{isZh ? selectedMarket.name : selectedMarket.nameEn}</span>
+              <span className="text-sm text-emerald-600">({isZh ? '市场分析' : 'Market Analysis'})</span>
+            </span>
           </div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">
-            {isZh ? 'AI 市场可行性分析' : 'AI Market Feasibility Analysis'}
-          </h2>
-          <p className="text-gray-500 max-w-xl mx-auto">
-            {isZh 
-              ? '基于全球实时数据，智能评估海外市场准入可行性' 
-              : 'AI-powered feasibility assessment based on global real-time data'}
-          </p>
-        </div>
+        )}
 
-        {/* 筛选栏 */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+        {/* 品类筛选 */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
           <div className="flex flex-wrap items-center gap-4">
-            {/* 地区筛选 */}
-            <div className="flex items-center gap-2">
-              <Globe className="w-5 h-5 text-gray-400" />
-              <select
-                value={selectedRegion}
-                onChange={(e) => setSelectedRegion(e.target.value)}
-                className="px-4 py-2 border border-gray-200 rounded-lg focus:border-emerald-500 focus:outline-none bg-white min-w-[140px]"
-              >
-                {REGIONS.map(region => (
-                  <option key={region.value} value={region.value}>
-                    {region.flag} {isZh ? region.label : region.labelEn}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* 品类筛选 */}
             <div className="flex items-center gap-2">
               <Package className="w-5 h-5 text-gray-400" />
               <select
@@ -690,7 +691,7 @@ export default function FeasibilityAssessment() {
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h3 className="text-xl font-bold text-gray-900">
-                    {regionName?.flag} {isZh ? regionName?.label : regionName?.labelEn}
+                    {regionName.flag} {regionName.name}
                   </h3>
                   <p className="text-sm text-gray-500">
                     {isZh ? categoryName?.label : categoryName?.labelEn}

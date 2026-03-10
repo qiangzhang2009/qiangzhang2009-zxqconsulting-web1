@@ -171,10 +171,8 @@ export function initAutoTracking(): void {
   
   // 滚动深度追踪
   let maxScroll = 0;
-  let scrollTracked = false;
+  const trackedMilestones = new Set<number>();
   window.addEventListener('scroll', () => {
-    if (scrollTracked) return;
-    
     const scrollPercent = Math.round(
       (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
     );
@@ -182,15 +180,12 @@ export function initAutoTracking(): void {
     if (scrollPercent > maxScroll) maxScroll = scrollPercent;
     
     // 记录 25%, 50%, 75%, 100% 滚动点
-    if (maxScroll >= 25 && maxScroll < 50 && !scrollTracked) {
-      tracking.scroll(25);
-      scrollTracked = true;
-    } else if (maxScroll >= 50 && maxScroll < 75) {
-      tracking.scroll(50);
-    } else if (maxScroll >= 75 && maxScroll < 100) {
-      tracking.scroll(75);
-    } else if (maxScroll >= 100) {
-      tracking.scroll(100);
+    const milestones = [25, 50, 75, 100] as const;
+    for (const m of milestones) {
+      if (maxScroll >= m && !trackedMilestones.has(m)) {
+        tracking.scroll(m);
+        trackedMilestones.add(m);
+      }
     }
   });
   

@@ -4,13 +4,7 @@
     "outputDirectory": "dist"
   },
   "framework": "vite",
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "headers": {
-        "Access-Control-Allow-Origin": "*"
-      },
-      "continue": true
-    }
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" }
   ]
 }

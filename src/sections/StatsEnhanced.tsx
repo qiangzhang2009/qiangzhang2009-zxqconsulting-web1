@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Globe, Award, Users, TrendingUp, Building2, Star } from 'lucide-react';
 
@@ -15,50 +15,64 @@ const StatsSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [animatedValues, setAnimatedValues] = useState<Record<string, string>>({});
 
-  const stats: StatItem[] = [
-    {
-      id: 'years',
-      icon: <Building2 className="w-6 h-6" />,
-      value: '10+',
-      label: t('stats.years'),
-      color: 'from-red-500 to-pink-500',
-    },
-    {
-      id: 'clients',
-      icon: <Users className="w-6 h-6" />,
-      value: '500+',
-      label: t('stats.clients'),
-      color: 'from-yellow-500 to-orange-500',
-    },
-    {
-      id: 'countries',
-      icon: <Globe className="w-6 h-6" />,
-      value: '20+',
-      label: t('stats.countries'),
-      color: 'from-green-500 to-emerald-500',
-    },
-    {
-      id: 'success',
-      icon: <TrendingUp className="w-6 h-6" />,
-      value: '98%',
-      label: t('stats.success'),
-      color: 'from-blue-500 to-cyan-500',
-    },
-    {
-      id: 'team',
-      icon: <Star className="w-6 h-6" />,
-      value: '50+',
-      label: t('stats.team'),
-      color: 'from-purple-500 to-violet-500',
-    },
-    {
-      id: 'awards',
-      icon: <Award className="w-6 h-6" />,
-      value: '15+',
-      label: t('stats.awards'),
-      color: 'from-amber-500 to-yellow-500',
-    },
-  ];
+  const stats: StatItem[] = useMemo(
+    () => [
+      {
+        id: 'years',
+        icon: <Building2 className="w-6 h-6" />,
+        value: '10+',
+        label: t('stats.years'),
+        color: 'from-red-500 to-pink-500',
+      },
+      {
+        id: 'clients',
+        icon: <Users className="w-6 h-6" />,
+        value: '500+',
+        label: t('stats.clients'),
+        color: 'from-yellow-500 to-orange-500',
+      },
+      {
+        id: 'countries',
+        icon: <Globe className="w-6 h-6" />,
+        value: '20+',
+        label: t('stats.countries'),
+        color: 'from-green-500 to-emerald-500',
+      },
+      {
+        id: 'success',
+        icon: <TrendingUp className="w-6 h-6" />,
+        value: '98%',
+        label: t('stats.success'),
+        color: 'from-blue-500 to-cyan-500',
+      },
+      {
+        id: 'team',
+        icon: <Star className="w-6 h-6" />,
+        value: '50+',
+        label: t('stats.team'),
+        color: 'from-purple-500 to-violet-500',
+      },
+      {
+        id: 'awards',
+        icon: <Award className="w-6 h-6" />,
+        value: '15+',
+        label: t('stats.awards'),
+        color: 'from-amber-500 to-yellow-500',
+      },
+    ],
+    [t]
+  );
+
+  const animateValues = useCallback(() => {
+    stats.forEach((stat, index) => {
+      setTimeout(() => {
+        setAnimatedValues((prev) => ({
+          ...prev,
+          [stat.id]: stat.value,
+        }));
+      }, index * 150);
+    });
+  }, [stats]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -75,18 +89,7 @@ const StatsSection = () => {
     if (element) observer.observe(element);
 
     return () => observer.disconnect();
-  }, []);
-
-  const animateValues = () => {
-    stats.forEach((stat, index) => {
-      setTimeout(() => {
-        setAnimatedValues(prev => ({
-          ...prev,
-          [stat.id]: stat.value
-        }));
-      }, index * 150);
-    });
-  };
+  }, [animateValues]);
 
   return (
     <section

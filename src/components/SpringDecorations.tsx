@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState, useId } from 'react';
 
 // 飘落元素配置
 const snowflakeSymbols = ['❄', '✦', '✧', '✶', '✴', '⭐', '🌟'];
@@ -16,8 +16,8 @@ interface FloatingElement {
 }
 
 export const SpringDecorations = () => {
-  const [elements, setElements] = useState<FloatingElement[]>([]);
   const [isMobile, setIsMobile] = useState(false);
+  const stableId = useId();
 
   useEffect(() => {
     // 检测是否为移动设备
@@ -30,45 +30,60 @@ export const SpringDecorations = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  useEffect(() => {
-    // 生成飘落元素
+  const elements = useMemo(() => {
+    // Deterministic pseudo-random generator based on a stable id.
+    // Must stay pure during render (no mutation / reassignment).
+    let seed = 0;
+    for (let i = 0; i < stableId.length; i++) {
+      seed = (seed * 31 + stableId.charCodeAt(i)) >>> 0;
+    }
+    const rand = (n: number) => {
+      // Produce [0, 1) from a hash-like transform.
+      const x = Math.sin(seed + n * 99991) * 10000;
+      return x - Math.floor(x);
+    };
+
     const newElements: FloatingElement[] = [];
-    // 移动端减少元素数量
     const count = isMobile ? 8 : 25;
 
     for (let i = 0; i < count; i++) {
-      const types: FloatingElement['type'][] = ['snowflake', 'blessing', 'flower', 'gold'];
-      const type = types[Math.floor(Math.random() * types.length)];
-      
+      const types: FloatingElement['type'][] = [
+        'snowflake',
+        'blessing',
+        'flower',
+        'gold',
+      ];
+      const type = types[Math.floor(rand(i * 10 + 1) * types.length)];
+
       let symbol = '';
       switch (type) {
         case 'snowflake':
-          symbol = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
+          symbol = snowflakeSymbols[Math.floor(rand(i * 10 + 2) * snowflakeSymbols.length)];
           break;
         case 'blessing':
-          symbol = blessingSymbols[Math.floor(Math.random() * blessingSymbols.length)];
+          symbol = blessingSymbols[Math.floor(rand(i * 10 + 3) * blessingSymbols.length)];
           break;
         case 'flower':
-          symbol = flowerSymbols[Math.floor(Math.random() * flowerSymbols.length)];
+          symbol = flowerSymbols[Math.floor(rand(i * 10 + 4) * flowerSymbols.length)];
           break;
         case 'gold':
-          symbol = ['🪙', '💰', '✨', '🌟'][Math.floor(Math.random() * 4)];
+          symbol = ['🪙', '💰', '✨', '🌟'][Math.floor(rand(i * 10 + 5) * 4)];
           break;
       }
 
       newElements.push({
         id: i,
         symbol,
-        left: Math.random() * 100,
-        animationDuration: isMobile ? 8 + Math.random() * 10 : 10 + Math.random() * 15,
-        animationDelay: Math.random() * 10,
-        fontSize: isMobile ? 12 + Math.random() * 14 : 16 + Math.random() * 20,
+        left: rand(i * 10 + 6) * 100,
+        animationDuration: isMobile ? 8 + rand(i * 10 + 7) * 10 : 10 + rand(i * 10 + 7) * 15,
+        animationDelay: rand(i * 10 + 8) * 10,
+        fontSize: isMobile ? 12 + rand(i * 10 + 9) * 14 : 16 + rand(i * 10 + 9) * 20,
         type,
       });
     }
 
-    setElements(newElements);
-  }, [isMobile]);
+    return newElements;
+  }, [isMobile, stableId]);
 
   return (
     <div className="pointer-events-none fixed inset-0 overflow-hidden z-[9990]">

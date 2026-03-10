@@ -29,4 +29,6 @@ export const SITE_CONFIG = {
   wechat: 'zxq_consulting',
   // 追踪 API 端点
   trackingApi: '/api/track',
+  // Google Analytics 4 - 请替换为你的 GA4 测量 ID (格式: G-XXXXXXXXXX)
+  ga4MeasurementId: '',
 };

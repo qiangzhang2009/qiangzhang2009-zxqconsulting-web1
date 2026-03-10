@@ -2,6 +2,22 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Globe, Users, Eye, MapPin, ArrowRight, Loader2, AlertCircle } from 'lucide-react';
 
+type CountryStat = {
+  country: string;
+  visitors?: number;
+  pageViews?: number;
+  uniqueVisitors?: number;
+};
+
+type AnalyticsApiResponse = {
+  isMockData?: boolean;
+  totals?: {
+    uniqueVisitors?: number;
+    pageViews?: number;
+  };
+  countryMap?: CountryStat[];
+};
+
 // 从 Cloudflare API 获取真实数据
 const fetchCloudflareStats = async (): Promise<{
   totalVisitors: number;
@@ -16,7 +32,7 @@ const fetchCloudflareStats = async (): Promise<{
     const response = await fetch('/api/analytics');
     
     // 尝试解析 JSON，无论 HTTP 状态如何
-    let data: any;
+    let data: unknown;
     try {
       data = await response.json();
     } catch {
@@ -27,11 +43,14 @@ const fetchCloudflareStats = async (): Promise<{
     
     console.log('[VisitorStats] API 响应:', data);
     
+    const apiData = data as AnalyticsApiResponse;
+
     // 检查是否是模拟数据或错误数据
-    if (data.isMockData || (data.totals && data.countryMap)) {
-      const totalVisitors = data.totals?.uniqueVisitors || 0;
-      const pageViews = data.totals?.pageViews || 0;
-      const countries = new Set(data.countryMap?.map((c: any) => c.country)).size || 0;
+    if (apiData.isMockData || (apiData.totals && apiData.countryMap)) {
+      const totalVisitors = apiData.totals?.uniqueVisitors || 0;
+      const pageViews = apiData.totals?.pageViews || 0;
+      const countries =
+        new Set((apiData.countryMap || []).map((c) => c.country)).size || 0;
       
       const countryNames: Record<string, { name: string; nameEn: string; flag: string }> = {
         CN: { name: '中国', nameEn: 'China', flag: '🇨🇳' },
@@ -53,12 +72,21 @@ const fetchCloudflareStats = async (): Promise<{
       };
       
       // 计算总访问量
-      const totalCountryVisitors = data.countryMap?.reduce((sum: number, c: any) => sum + (c.visitors || c.pageViews || c.uniqueVisitors || 0), 0) || 0;
+      const totalCountryVisitors =
+        apiData.countryMap?.reduce(
+          (sum: number, c) =>
+            sum + (c.visitors || c.pageViews || c.uniqueVisitors || 0),
+          0
+        ) || 0;
       
-      const topCountries = (data.countryMap || [])
-        .sort((a: any, b: any) => (b.visitors || b.pageViews || b.uniqueVisitors || 0) - (a.visitors || a.pageViews || a.uniqueVisitors || 0))
+      const topCountries = (apiData.countryMap || [])
+        .sort(
+          (a, b) =>
+            (b.visitors || b.pageViews || b.uniqueVisitors || 0) -
+            (a.visitors || a.pageViews || a.uniqueVisitors || 0)
+        )
         .slice(0, 8)
-        .map((c: any) => {
+        .map((c) => {
           const visitors = c.visitors || c.pageViews || c.uniqueVisitors || 0;
           const percentage = totalCountryVisitors > 0 ? Math.round((visitors / totalCountryVisitors) * 100) : 0;
           return {

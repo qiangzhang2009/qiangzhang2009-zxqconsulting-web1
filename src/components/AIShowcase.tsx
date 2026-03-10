@@ -237,22 +237,20 @@ const Counter = ({ value, suffix = '' }: { value: number; suffix?: string }) => 
 const AIShowcase = () => {
   const { t, i18n } = useTranslation();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [lastUpdate, setLastUpdate] = useState('');
 
   // 生成当日数据
   const marketData = useMemo(() => generateMarketData(), []);
   const aiDynamics = useMemo(() => generateAIDynamics(), []);
   const aiStats = useMemo(() => generateAIStats(), []);
 
-  // 设置更新时间
-  useEffect(() => {
+  const lastUpdate = useMemo(() => {
     const now = new Date();
-    setLastUpdate(now.toLocaleString('zh-CN', { 
-      month: '2-digit', 
-      day: '2-digit', 
-      hour: '2-digit', 
-      minute: '2-digit' 
-    }));
+    return now.toLocaleString('zh-CN', {
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
   }, []);
 
   // 自动轮播AI动态
