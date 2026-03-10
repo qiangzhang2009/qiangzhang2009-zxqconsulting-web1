@@ -82,9 +82,6 @@ const TABS = [
   },
 ];
 
-// 即将上线模块
-const COMING_SOON = ['compliance', 'insight', 'channel', 'risk'];
-
 export default function AIToolsHub() {
   const { i18n } = useTranslation();
   const isZh = i18n.language === 'zh';
@@ -116,20 +113,15 @@ export default function AIToolsHub() {
             {TABS.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
-              const isComingSoon = COMING_SOON.includes(tab.id);
-              
               return (
                 <button
                   key={tab.id}
-                  onClick={() => !isComingSoon && setActiveTab(tab.id)}
-                  disabled={isComingSoon}
+                  onClick={() => setActiveTab(tab.id)}
                   className={`
                     relative p-4 rounded-xl text-left transition-all duration-300
                     ${isActive 
                       ? `bg-gradient-to-br ${tab.color} text-white shadow-lg transform scale-105` 
-                      : isComingSoon
-                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                        : 'bg-white border border-gray-200 text-gray-700 hover:border-emerald-300 hover:shadow-md'
+                      : 'bg-white border border-gray-200 text-gray-700 hover:border-emerald-300 hover:shadow-md'
                     }
                   `}
                 >
@@ -140,11 +132,6 @@ export default function AIToolsHub() {
                   <div className={`text-xs mt-1 ${isActive ? 'text-white/80' : 'text-gray-400'}`}>
                     {isZh ? tab.description : tab.descriptionEn}
                   </div>
-                  {isComingSoon && (
-                    <div className="absolute -top-2 -right-2 bg-gray-400 text-white text-xs px-2 py-0.5 rounded-full">
-                      {isZh ? '即将上线' : 'Coming'}
-                    </div>
-                  )}
                 </button>
               );
             })}
