@@ -10,64 +10,53 @@ const Hero = () => {
   const descRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
-  const horseRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Initial state
-      gsap.set([badgeRef.current, titleRef.current, descRef.current, ctaRef.current, horseRef.current], {
+      gsap.set([badgeRef.current, titleRef.current, descRef.current, ctaRef.current], {
         opacity: 0,
-        y: 30,
+        y: 20,
       });
 
-      // Animation timeline
-      const tl = gsap.timeline({ delay: 0.3 });
+      // Animation timeline - macOS style: smooth and subtle
+      const tl = gsap.timeline({ delay: 0.2 });
 
       tl.to(badgeRef.current, {
         opacity: 1,
         y: 0,
-        duration: 0.6,
-        ease: 'power3.out',
+        duration: 0.5,
+        ease: 'power2.out',
       })
         .to(
           titleRef.current,
           {
             opacity: 1,
             y: 0,
-            duration: 0.8,
-            ease: 'power3.out',
+            duration: 0.6,
+            ease: 'power2.out',
           },
-          '-=0.3'
+          '-=0.2'
         )
         .to(
           descRef.current,
           {
             opacity: 1,
             y: 0,
-            duration: 0.6,
-            ease: 'power3.out',
+            duration: 0.5,
+            ease: 'power2.out',
           },
-          '-=0.4'
+          '-=0.3'
         )
         .to(
           ctaRef.current,
           {
             opacity: 1,
             y: 0,
-            duration: 0.5,
-            ease: 'power3.out',
-          },
-          '-=0.3'
-        )
-        .to(
-          horseRef.current,
-          {
-            opacity: 1,
-            x: 0,
-            duration: 0.8,
+            duration: 0.4,
             ease: 'power2.out',
           },
-          '-=0.5'
+          '-=0.2'
         );
     }, heroRef);
 
@@ -91,83 +80,56 @@ const Hero = () => {
       <div
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: 'url(/hero-bg.jpg)',
+          backgroundImage: 'url(/hero-bg.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',
         }}
       />
       
-      {/* Bencao Gradient Overlay */}
-      <div
-        className="absolute inset-0 z-0"
-        style={{
-          background: 'linear-gradient(135deg, rgba(236,252,247,0.92) 0%, rgba(209,250,239,0.85) 30%, rgba(240,253,250,0.8) 70%, rgba(236,253,245,0.85) 100%)'
-        }}
-      />
-
-      {/* Decorative Elements */}
-      <div ref={horseRef} className="absolute right-10 top-1/3 opacity-0 hidden lg:block z-10">
-        <div className="relative">
-          <span className="text-9xl filter drop-shadow-2xl animate-float">🌿</span>
-          <div className="absolute -top-4 -right-4 gold-sparkle">
-            <Star className="w-6 h-6 text-teal-400 fill-current" />
-          </div>
-        </div>
-      </div>
+      {/* Overlay for readability */}
+      <div className="absolute inset-0 z-0 bg-white/70" />
 
       {/* Content */}
-      <div className="container mx-auto px-6 relative z-20 pt-20">
-        <div className="max-w-2xl">
-          {/* Bencao Banner */}
-          <div className="mb-6">
-            <div className="blessing-banner text-sm md:text-base py-3">
-              🏥 {t('hero.banner')} 🏥
-            </div>
-          </div>
-
-          {/* Badge with Bencao */}
+      <div className="container mx-auto px-6 relative z-10 pt-20">
+        <div className="max-w-3xl">
+          {/* Badge - macOS style: simple pill */}
           <div
             ref={badgeRef}
-            className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-xl rounded-full px-6 py-3 mb-6 shadow-xl border-2 border-teal-400"
+            className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 py-1.5 mb-6 shadow-sm border border-gray-200/50"
           >
-            <div className="flex gap-1">
-              <Star className="w-4 h-4 text-teal-400 fill-current animate-pulse" />
-              <Star className="w-4 h-4 text-emerald-600 fill-current" />
-              <Star className="w-4 h-4 text-teal-400 fill-current animate-pulse" />
-            </div>
-            <span className="text-sm font-semibold text-emerald-600">
-              🌿 {t('hero.badge')}
+            <Sparkles className="w-3.5 h-3.5 text-blue-500" />
+            <span className="text-sm font-medium text-gray-600">
+              {t('hero.badge')}
             </span>
-            <Sparkles className="w-4 h-4 text-teal-400" />
           </div>
 
-          {/* Title with Spring Theme */}
+          {/* Title - macOS style: clean, bold */}
           <h1
             ref={titleRef}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#292524] leading-tight mb-6"
+            className="text-4xl md:text-5xl lg:text-6xl font-semibold text-gray-900 leading-tight mb-6 tracking-tight"
           >
             {t('hero.title')}
-            <span className="spring-text"> {t('hero.highlight')}</span>
+            <span className="text-blue-600"> {t('hero.highlight')}</span>
           </h1>
 
-          {/* Description */}
+          {/* Description - macOS style: clear, readable */}
           <p
             ref={descRef}
-            className="text-lg md:text-xl text-[#57534e] leading-relaxed mb-8 max-w-xl"
+            className="text-lg md:text-xl text-gray-500 leading-relaxed mb-8 max-w-xl"
           >
             {t('hero.subtitle')}
           </p>
 
-          {/* CTA Buttons - Spring Theme */}
-          <div ref={ctaRef} className="flex flex-wrap gap-4">
+          {/* CTA Buttons - macOS style: simple, clean */}
+          <div ref={ctaRef} className="flex flex-wrap gap-3">
             <button
               onClick={scrollToContact}
-              className="btn-spring flex items-center gap-2 group px-8 py-4 rounded-xl font-semibold text-white shadow-xl hover:shadow-2xl transition-all duration-300"
+              className="btn btn-primary flex items-center gap-2 group"
             >
-              <Zap className="w-5 h-5" />
+              <Zap className="w-4 h-4" />
               {t('hero.cta')}
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </button>
             <a
               href="#about"
@@ -175,50 +137,42 @@ const Hero = () => {
                 e.preventDefault();
                 document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="px-8 py-4 border-2 border-emerald-600 text-emerald-600 rounded-xl font-semibold hover:bg-emerald-600 hover:text-white transition-all duration-300 bg-white/90 backdrop-blur-sm shadow-lg"
+              className="btn btn-secondary"
             >
               {t('hero.learnMore')}
             </a>
           </div>
 
-          {/* Trust indicators */}
-          <div className="mt-12 flex items-center gap-8">
-            <div>
-              <div className="text-3xl font-bold spring-text">200+</div>
-              <div className="text-sm text-[#57534e]">{t('stats.items.companies')}</div>
+          {/* Trust indicators - macOS style: minimal */}
+          <div className="mt-10 flex items-center gap-6 text-sm">
+            <div className="flex items-center gap-2">
+              <span className="font-semibold text-gray-900">200+</span>
+              <span className="text-gray-500">{t('stats.items.companies')}</span>
             </div>
-            <div className="w-px h-12 bg-gradient-to-b from-emerald-400/40 to-teal-400/40" />
-            <div>
-              <div className="text-3xl font-bold text-emerald-600">30+</div>
-              <div className="text-sm text-[#5c4f3a]">{t('stats.items.countries')}</div>
+            <div className="w-px h-4 bg-gray-300" />
+            <div className="flex items-center gap-2">
+              <span className="font-semibold text-gray-900">30+</span>
+              <span className="text-gray-500">{t('stats.items.countries')}</span>
             </div>
-            <div className="w-px h-12 bg-emerald-400/30" />
-            <div>
-              <div className="text-3xl font-bold text-emerald-600">10+</div>
-              <div className="text-sm text-[#5c4f3a]">{t('stats.items.experience')}</div>
+            <div className="w-px h-4 bg-gray-300" />
+            <div className="flex items-center gap-2">
+              <span className="font-semibold text-gray-900">10+</span>
+              <span className="text-gray-500">{t('stats.items.experience')}</span>
             </div>
           </div>
 
-          {/* Bencao Badge */}
-          <div className="mt-8">
-            <div className="inline-flex items-center gap-2 horse-badge">
-              <span className="text-lg">🌿</span>
+          {/* Trust Badge - macOS style: subtle */}
+          <div className="mt-6">
+            <div className="inline-flex items-center gap-2 text-sm text-gray-500 bg-gray-100/80 backdrop-blur-sm rounded-full px-4 py-1.5">
+              <Star className="w-3.5 h-3.5 text-yellow-500 fill-current" />
               <span>{t('hero.trustBadge')}</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Decorative elements */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-emerald-50 to-transparent z-10" />
-      
-      {/* Corner decorations */}
-      <div className="absolute top-20 right-20 gold-sparkle hidden lg:block">
-        <span className="text-4xl">✨</span>
-      </div>
-      <div className="absolute bottom-40 left-20 gold-sparkle hidden lg:block" style={{ animationDelay: '1s' }}>
-        <span className="text-3xl">🌟</span>
-      </div>
+      {/* Decorative - macOS style: minimal, abstract */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-gray-50 to-transparent z-10" />
     </section>
   );
 };
