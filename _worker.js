@@ -5,8 +5,8 @@
 
 const ADMIN_API_KEY = 'zxq_admin_secret_key_2024';
 
-// 开发环境使用的 DeepSeek API Key（fallback）
-const FALLBACK_DEEPSEEK_API_KEY = 'sk-af7161086d14482aac4d8127002e6bcd';
+// DeepSeek API Key
+const DEEPSEEK_API_KEY = 'sk-af7161086d14482aac4d8127002e6bcd';
 
 // 获取客户端信息
 function getClientInfo(request) {
@@ -158,17 +158,9 @@ async function handleAIChat(context) {
   
   console.log('[AI Proxy] Request received');
   
-  // 优先使用环境变量，如果没有则使用 fallback
-  const apiKey = env.DEEPSEEK_API_KEY || FALLBACK_DEEPSEEK_API_KEY;
-  
-  if (!apiKey) {
-    console.error('[AI Proxy] Missing DEEPSEEK_API_KEY');
-    return new Response(JSON.stringify({ error: 'Server configuration error: Missing API key' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json', ...corsHeaders }
-    });
-  }
-  
+  // DeepSeek API Key (hardcoded)
+  const apiKey = DEEPSEEK_API_KEY;
+
   console.log('[AI Proxy] API key configured:', !!apiKey);
 
   try {
@@ -188,20 +180,44 @@ async function handleAIChat(context) {
     }
 
     console.log('[AI Proxy] Calling DeepSeek API...');
+
+    // 添加超时控制
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 25000); // 25秒超时
+
+    try {
+      var response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model,
+          messages,
+          temperature,
+          max_tokens
+        }),
+        signal: controller.signal
+      });
+    } catch (fetchError) {
+      clearTimeout(timeoutId);
+      console.error('[AI Proxy] Fetch error:', fetchError.message);
+      
+      if (fetchError.name === 'AbortError') {
+        return new Response(JSON.stringify({ error: 'AI service timeout - please try again later' }), {
+          status: 504,
+          headers: { 'Content-Type': 'application/json', ...corsHeaders }
+        });
+      }
+      
+      return new Response(JSON.stringify({ error: 'Failed to connect to AI service' }), {
+        status: 502,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders }
+      });
+    }
     
-    const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model,
-        messages,
-        temperature,
-        max_tokens
-      })
-    });
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -212,6 +228,8 @@ async function handleAIChat(context) {
         errorMessage = 'AI service authentication failed - check API key';
       } else if (response.status === 429) {
         errorMessage = 'AI service rate limit exceeded';
+      } else if (response.status === 504) {
+        errorMessage = 'AI service timeout - please try again';
       } else if (response.status >= 500) {
         errorMessage = 'AI service temporarily unavailable';
       }
