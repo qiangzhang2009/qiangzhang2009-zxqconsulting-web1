@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import i18n from '../i18n';
 import { Menu, X, Globe, Star, Languages } from 'lucide-react';
 import LanguageSwitcher from '../components/LanguageSwitcher';
+import { tracking } from '../lib/tracking';
 
 const Navbar = () => {
   const { t } = useTranslation();
@@ -26,12 +27,33 @@ const Navbar = () => {
     { name: t('nav.contact'), href: '#contact' },
   ];
 
-  const scrollToSection = (href: string) => {
+  const externalLinks = [
+    {
+      label: 'AfricaZero 非洲零关税',
+      href: 'https://africa.zxqconsulting.com/',
+      badge: 'A0',
+      badgeBg: 'bg-orange-600',
+      trackingLabel: 'navbar_africa',
+    },
+    {
+      label: 'Global2China 进口咨询',
+      href: 'https://global2china.zxqconsulting.com/',
+      badge: 'G2C',
+      badgeBg: 'bg-emerald-600',
+      trackingLabel: 'navbar_global2china',
+    },
+  ];
+
+  const scrollToSection = (href: string, label?: string) => {
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
     setIsMobileMenuOpen(false);
+    // 追踪导航点击
+    if (label) {
+      tracking.click(label, 'navigation');
+    }
   };
 
   return (
@@ -64,11 +86,11 @@ const Navbar = () => {
             </div>
             <div>
               <span className={`font-serif font-bold text-base sm:text-lg transition-colors duration-300 ${
-                isScrolled ? 'text-emerald-800' : 'text-emerald-800'
+                isScrolled ? 'text-white' : 'text-white'
               }`}>
                 {t('brand.name')}
               </span>
-              <div className="text-xs text-emerald-600 font-medium flex items-center gap-1">
+              <div className="text-xs text-emerald-400 font-medium flex items-center gap-1">
                 <Star className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-current text-teal-400" />
                 <span>{t('brand.tagline')}</span>
               </div>
@@ -76,12 +98,12 @@ const Navbar = () => {
           </a>
 
           {/* Desktop Navigation - Language Switcher + Nav Links */}
-          <div className="hidden md:flex items-center gap-6 lg:gap-8">
+          <div className="hidden md:flex items-center gap-4 lg:gap-6">
             {/* Language Switcher - First Position */}
             <div className="relative">
               <LanguageSwitcher />
             </div>
-            
+
             {/* Nav Links */}
             {navLinks.map((link) => (
               <a
@@ -89,15 +111,32 @@ const Navbar = () => {
                 href={link.href}
                 onClick={(e) => {
                   e.preventDefault();
-                  scrollToSection(link.href);
+                  scrollToSection(link.href, link.name);
                 }}
-                className={`text-sm font-medium transition-colors duration-300 hover:text-emerald-600 ${
+                className={`text-sm font-medium transition-colors duration-300 hover:text-emerald-400 ${
                   isScrolled
-                    ? 'text-[#3d352e]'
-                    : 'text-[#3d352e]'
+                    ? 'text-gray-200'
+                    : 'text-gray-200'
                 }`}
               >
                 {link.name}
+              </a>
+            ))}
+
+            {/* External Site Links */}
+            {externalLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => tracking.click(link.trackingLabel, 'navbar')}
+                className="flex items-center gap-1.5 text-sm font-medium transition-colors duration-300 text-orange-400 hover:text-orange-300"
+              >
+                <span className={`w-5 h-5 ${link.badgeBg} rounded flex items-center justify-center text-white font-bold text-[9px]`}>
+                  {link.badge}
+                </span>
+                {link.label}
               </a>
             ))}
           </div>
@@ -105,7 +144,10 @@ const Navbar = () => {
           {/* Desktop CTA Button (Right) */}
           <div className="hidden md:flex items-center gap-4">
             <button
-              onClick={() => scrollToSection('#contact')}
+              onClick={() => {
+                scrollToSection('#contact', 'header_cta');
+                tracking.click('header_cta', 'cta');
+              }}
               className="btn-spring text-sm"
             >
               🧧 {t('footer.cta')}
@@ -118,16 +160,16 @@ const Navbar = () => {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? (
-              <X className="w-6 h-6 text-[#3d352e]" />
+              <X className="w-6 h-6 text-white" />
             ) : (
-              <Menu className="w-6 h-6 text-[#3d352e]" />
+              <Menu className="w-6 h-6 text-white" />
             )}
           </button>
         </div>
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-gray-200/50 pt-4">
+          <div className="md:hidden mt-4 pb-4 border-t border-gray-700/50 pt-4 bg-gray-900/95 backdrop-blur-md rounded-xl">
             <div className="flex flex-col gap-2">
               {navLinks.map((link) => (
                 <a
@@ -135,19 +177,35 @@ const Navbar = () => {
                   href={link.href}
                   onClick={(e) => {
                     e.preventDefault();
-                    scrollToSection(link.href);
+                    scrollToSection(link.href, `mobile_${link.name}`);
                   }}
-                  className="text-emerald-800 hover:text-emerald-600 font-medium transition-colors py-3 px-2 rounded-lg hover:bg-gray-50"
+                  className="text-white hover:text-emerald-400 font-medium transition-colors py-3 px-2 rounded-lg hover:bg-gray-800"
                 >
                   {link.name}
+                </a>
+              ))}
+
+              {/* External site links - mobile */}
+              {externalLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-orange-400 hover:text-orange-300 font-medium transition-colors py-3 px-2 rounded-lg hover:bg-gray-800"
+                >
+                  <span className={`w-5 h-5 ${link.badgeBg} rounded flex items-center justify-center text-white font-bold text-[9px]`}>
+                    {link.badge}
+                  </span>
+                  {link.label}
                 </a>
               ))}
               
               {/* Mobile Language Section - Direct grid display */}
               <div className="mt-4 pt-4 border-t border-gray-100">
                 <div className="flex items-center gap-2 px-2 mb-3">
-                  <Languages className="w-5 h-5 text-emerald-600" />
-                  <span className="font-semibold text-[#3d352e]">{t('brand.selectLanguage')}</span>
+                  <Languages className="w-5 h-5 text-emerald-400" />
+                  <span className="font-semibold text-white">{t('brand.selectLanguage')}</span>
                 </div>
                 
                 {/* 直接显示所有语言 - 3列网格 */}
@@ -177,8 +235,8 @@ const Navbar = () => {
                       }}
                       className={`flex flex-col items-center justify-center p-2 rounded-lg text-xs font-medium transition-colors duration-150 ${
                         i18n.language === lang.code 
-                          ? 'bg-emerald-50 text-emerald-600 border border-emerald-600' 
-                          : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                          ? 'bg-gray-800 text-white border border-emerald-600' 
+                          : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                       }`}
                     >
                       <span className="text-xl">{lang.flag}</span>
@@ -190,7 +248,10 @@ const Navbar = () => {
               
               {/* Mobile CTA Button */}
               <button
-                onClick={() => scrollToSection('#contact')}
+                onClick={() => {
+                  scrollToSection('#contact', 'mobile_cta');
+                  tracking.click('mobile_cta', 'cta');
+                }}
                 className="btn-spring text-sm mt-4 w-full justify-center py-3"
               >
                 🧧 {t('footer.cta')}
