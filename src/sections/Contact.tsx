@@ -131,8 +131,15 @@ const Contact = () => {
         body: JSON.stringify(data),
       });
 
-      // 追踪表单提交事件
-      tracking.formSubmit('contact_form', true);
+      // 追踪表单提交事件（包含完整业务意向数据）
+      tracking.formSubmit('contact_form', true, {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        company: data.company,
+        message: data.message,
+        source_page: window.location.pathname,
+      });
       
       // 显示成功弹窗并重置表单
       setShowDialog(true);
@@ -140,7 +147,13 @@ const Contact = () => {
       setFormData({ name: '', email: '', phone: '', company: '', message: '' });
     } catch (error) {
       console.error('提交失败:', error);
-      tracking.formSubmit('contact_form', false);
+      tracking.formSubmit('contact_form', false, {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        company: data.company,
+        message: data.message,
+      });
       alert(t('contact.form.error'));
     } finally {
       setIsSubmitting(false);
@@ -157,7 +170,7 @@ const Contact = () => {
     <section
       id="contact"
       ref={sectionRef}
-      className="py-20 bg-gray-50/50"
+      className="py-20 bg-gray-900"
     >
       <div className="container mx-auto px-6">
         {/* Header - macOS style */}
@@ -165,10 +178,10 @@ const Contact = () => {
           <span className="inline-block text-blue-600 font-medium mb-3 text-sm">
             {t('contact.title')}
           </span>
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-3 tracking-tight">
+          <h2 className="text-2xl md:text-3xl font-semibold text-white mb-3 tracking-tight">
             {t('contact.subtitle')}
           </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto">
+          <p className="text-gray-400 max-w-2xl mx-auto">
             {t('contact.description')}
           </p>
         </div>
@@ -197,20 +210,20 @@ const Contact = () => {
               {contacts.map((contact, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-xl p-4 hover:shadow-md transition-shadow border border-gray-100"
+                  className="bg-gray-800 rounded-xl p-4 hover:shadow-md transition-shadow border border-gray-700"
                 >
                   <div className="flex items-start gap-3">
                     <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 flex-shrink-0">
                       <User className="w-4 h-4" />
                     </div>
                     <div>
-                      <div className="font-semibold text-gray-900">{contact.name}</div>
-                      <div className="text-xs text-gray-500 mb-2">{contact.role}</div>
+                      <div className="font-semibold text-white">{contact.name}</div>
+                      <div className="text-xs text-gray-400 mb-2">{contact.role}</div>
                       <div className="flex flex-col gap-1 text-xs">
                         {contact.phone && (
                           <a
                             href={`tel:${contact.phone}`}
-                            className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
+                            className="flex items-center gap-2 text-gray-300 hover:text-blue-600 transition-colors"
                           >
                             <Phone className="w-3.5 h-3.5" />
                             {contact.phone}
@@ -219,7 +232,7 @@ const Contact = () => {
                         {contact.phone1 && (
                           <a
                             href={`tel:${contact.phone1}`}
-                            className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
+                            className="flex items-center gap-2 text-gray-300 hover:text-blue-600 transition-colors"
                           >
                             <Phone className="w-3.5 h-3.5" />
                             {contact.phone1}
@@ -228,7 +241,7 @@ const Contact = () => {
                         {contact.phone2 && (
                           <a
                             href={`tel:${contact.phone2}`}
-                            className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
+                            className="flex items-center gap-2 text-gray-300 hover:text-blue-600 transition-colors"
                           >
                             <Phone className="w-3.5 h-3.5" />
                             {contact.phone2}
@@ -236,7 +249,7 @@ const Contact = () => {
                         )}
                         <a
                           href={`mailto:${contact.email}`}
-                          className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
+                          className="flex items-center gap-2 text-gray-300 hover:text-blue-600 transition-colors"
                         >
                           <Mail className="w-3.5 h-3.5" />
                           {contact.email}
@@ -249,8 +262,8 @@ const Contact = () => {
             </div>
 
             {/* Social - macOS style */}
-            <div className="mt-4 p-4 bg-gray-100/50 rounded-xl">
-              <div className="flex items-center gap-2 text-gray-600">
+            <div className="mt-4 p-4 bg-gray-700/50 rounded-xl">
+              <div className="flex items-center gap-2 text-gray-300">
                 <MapPin className="w-4 h-4 text-blue-500" />
                 <span className="text-sm font-medium">{t('contact.social')}</span>
               </div>
@@ -261,14 +274,14 @@ const Contact = () => {
           <form
             ref={formRef}
             onSubmit={handleSubmit}
-            className="bg-white rounded-2xl p-6 shadow-md border border-gray-100"
+            className="bg-gray-800 rounded-2xl p-6 shadow-md border border-gray-700"
           >
-            <h3 className="text-lg font-semibold text-gray-900 mb-5">{t('contact.form.title')}</h3>
+            <h3 className="text-lg font-semibold text-white mb-5">{t('contact.form.title')}</h3>
 
             <div className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1.5">
+                  <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-1.5">
                     <User className="w-4 h-4 text-blue-500" />
                     {t('contact.form.name')}
                   </label>
@@ -278,13 +291,13 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="mac-input"
+                    className="mac-input focus-ring"
                     placeholder={t('contact.form.namePlaceholder')}
                   />
                 </div>
 
                 <div>
-                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1.5">
+                  <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-1.5">
                     <Building className="w-4 h-4 text-blue-500" />
                     {t('contact.form.company')}
                   </label>
@@ -293,7 +306,7 @@ const Contact = () => {
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
-                    className="mac-input"
+                    className="mac-input focus-ring"
                     placeholder={t('contact.form.companyPlaceholder')}
                   />
                 </div>
@@ -301,7 +314,7 @@ const Contact = () => {
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1.5">
+                  <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-1.5">
                     <Mail className="w-4 h-4 text-blue-500" />
                     {t('contact.form.email')}
                   </label>
@@ -311,13 +324,13 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="mac-input"
+                    className="mac-input focus-ring"
                     placeholder={t('contact.form.emailPlaceholder')}
                   />
                 </div>
 
                 <div>
-                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1.5">
+                  <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-1.5">
                     <Phone className="w-4 h-4 text-blue-500" />
                     {t('contact.form.phone')}
                   </label>
@@ -326,14 +339,14 @@ const Contact = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="mac-input"
+                    className="mac-input focus-ring"
                     placeholder={t('contact.form.phonePlaceholder')}
                   />
                 </div>
               </div>
 
               <div>
-                <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1.5">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-1.5">
                   <MessageSquare className="w-4 h-4 text-blue-500" />
                   {t('contact.form.message')}
                 </label>
@@ -341,8 +354,8 @@ const Contact = () => {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  rows={3}
-                  className="mac-input resize-none"
+                  rows={4}
+                  className="mac-input focus-ring resize-none"
                   placeholder={t('contact.form.messagePlaceholder')}
                 />
               </div>
@@ -364,8 +377,8 @@ const Contact = () => {
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-center text-gray-900">{t('contact.form.success')}</DialogTitle>
-            <DialogDescription className="text-center text-gray-500">
+            <DialogTitle className="text-center text-white">{t('contact.form.success')}</DialogTitle>
+            <DialogDescription className="text-center text-gray-400">
               {t('contact.form.successMessage')}
             </DialogDescription>
           </DialogHeader>

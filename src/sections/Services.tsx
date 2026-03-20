@@ -10,7 +10,8 @@ import {
   ChevronRight,
   Shield,
   Globe,
-  Users
+  Users,
+  Sparkles
 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -108,7 +109,7 @@ const Services = () => {
     <section
       id="services"
       ref={sectionRef}
-      className="py-24 bg-white relative"
+      className="py-24 bg-gray-900 relative"
     >
       <div className="container mx-auto px-6">
         {/* Header */}
@@ -116,10 +117,10 @@ const Services = () => {
           <span className="inline-block text-blue-600 font-semibold mb-3 text-sm tracking-wide">
             全生命周期服务
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             陪伴式出海服务
           </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto text-lg">
+          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
             从规划到运营，我们不只是提供方案，更是陪您走完全程
           </p>
         </div>
@@ -129,7 +130,7 @@ const Services = () => {
           {stages.map((stage, index) => (
             <div
               key={stage.id}
-              className="stage-card relative bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-100 hover:border-gray-200 hover:shadow-xl transition-all duration-300"
+              className="stage-card relative bg-gray-800 rounded-2xl p-6 border border-gray-700 hover:border-gray-600 hover:shadow-xl transition-all duration-300"
             >
               {/* Stage Number */}
               <div className="absolute -top-3 -left-3 w-8 h-8 bg-gray-900 text-white rounded-full flex items-center justify-center text-sm font-bold">
@@ -141,15 +142,15 @@ const Services = () => {
                 <div className={`w-12 h-12 ${stage.bgColor} rounded-xl flex items-center justify-center text-white`}>
                   {stage.icon}
                 </div>
-                <span className="text-xs font-medium text-gray-400 bg-gray-100 px-2 py-1 rounded-full">
+                <span className="text-xs font-medium text-gray-300 bg-gray-700 px-2 py-1 rounded-full">
                   {stage.duration}
                 </span>
               </div>
 
-              <h3 className="text-xl font-bold text-gray-900 mb-2">
+              <h3 className="text-xl font-bold text-white mb-2">
                 {stage.title}
               </h3>
-              <p className="text-gray-500 text-sm mb-6">
+              <p className="text-gray-400 text-sm mb-6">
                 {stage.description}
               </p>
 
@@ -158,11 +159,11 @@ const Services = () => {
                 {stage.services.map((service, idx) => (
                   <div
                     key={idx}
-                    className="flex items-start gap-3 p-3 bg-white rounded-lg border border-gray-100"
+                    className="flex items-start gap-3 p-3 bg-gray-800 rounded-lg border border-gray-700"
                   >
                     <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
                     <div>
-                      <div className="font-medium text-gray-900 text-sm">
+                      <div className="font-medium text-white text-sm">
                         {service.name}
                       </div>
                       <div className="text-gray-400 text-xs">
@@ -176,7 +177,7 @@ const Services = () => {
               {/* Arrow to next stage */}
               {index < stages.length - 1 && (
                 <div className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 z-10">
-                  <div className="w-6 h-6 bg-white border border-gray-200 rounded-full flex items-center justify-center">
+                  <div className="w-6 h-6 bg-gray-800 border border-gray-600 rounded-full flex items-center justify-center">
                     <ChevronRight className="w-4 h-4 text-gray-400" />
                   </div>
                 </div>
@@ -190,9 +191,27 @@ const Services = () => {
           <h3 className="text-2xl font-bold text-white mb-4">
             为什么选择我们？
           </h3>
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 max-w-5xl mx-auto">
             <div className="text-center">
-              <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gray-800/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Sparkles className="w-8 h-8 text-violet-400" />
+              </div>
+              <h4 className="text-white font-semibold mb-2">AI 嵌入全流程</h4>
+              <p className="text-gray-400 text-sm">
+                AI+行业认知嵌入中医出海全流程
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gray-800/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Globe className="w-8 h-8 text-amber-400" />
+              </div>
+              <h4 className="text-white font-semibold mb-2">跨境独立站免费搭建</h4>
+              <p className="text-gray-400 text-sm">
+                告别平台内卷，利润大幅提升，全球化布局
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gray-800/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Shield className="w-8 h-8 text-blue-400" />
               </div>
               <h4 className="text-white font-semibold mb-2">风险可控</h4>
@@ -201,7 +220,7 @@ const Services = () => {
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gray-800/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Globe className="w-8 h-8 text-green-400" />
               </div>
               <h4 className="text-white font-semibold mb-2">本地化深耕</h4>
@@ -210,7 +229,7 @@ const Services = () => {
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gray-800/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Users className="w-8 h-8 text-purple-400" />
               </div>
               <h4 className="text-white font-semibold mb-2">陪伴式服务</h4>

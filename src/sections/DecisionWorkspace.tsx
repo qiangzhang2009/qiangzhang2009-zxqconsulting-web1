@@ -28,7 +28,7 @@ import {
   Users,
   AlertCircle
 } from 'lucide-react';
-import { AI_CONFIG, AI_NAME_REPLACEMENTS } from '@/config';
+import { AI_CONFIG } from '@/config';
 import { tracking } from '@/lib/tracking';
 
 // 企业信息字段
@@ -36,10 +36,61 @@ const COMPANY_INFO_FIELDS = [
   { id: 'contactName', label: '您的姓名', labelEn: 'Your Name', required: true },
   { id: 'contactPhone', label: '联系电话', labelEn: 'Phone', required: true },
   { id: 'productCategory', label: '产品类型', labelEn: 'Product Category', options: [
+    // 保健食品大类
     { value: 'supplement', label: '保健食品', labelEn: 'Health Supplements' },
-    { value: 'traditional', label: '中药/中成药', labelEn: 'TCM' },
-    { value: 'cosmetic', label: '中药化妆品', labelEn: 'TCM Cosmetics' },
-    { value: 'food', label: '功能性食品', labelEn: 'Functional Food' },
+    { value: 'nutraceutical', label: '功能性食品', labelEn: 'Nutraceuticals' },
+    { value: 'vitamin', label: '维生素矿物质', labelEn: 'Vitamins & Minerals' },
+    { value: 'probiotic', label: '益生菌产品', labelEn: 'Probiotic Products' },
+    { value: 'protein', label: '蛋白质粉', labelEn: 'Protein Powders' },
+    { value: 'sports', label: '运动营养品', labelEn: 'Sports Nutrition' },
+
+    // 中医药产品
+    { value: 'traditional', label: '中药饮片', labelEn: 'TCM Herbs' },
+    { value: 'decoction', label: '中药配方颗粒', labelEn: 'TCM Granules' },
+    { value: 'patent', label: '中成药', labelEn: 'Patent TCM' },
+    { value: 'tcmdecoction', label: '膏方制剂', labelEn: 'Herbal Decoctions' },
+    { value: 'teapills', label: '丸散膏丹', labelEn: 'TCM Pills & Powders' },
+    { value: 'tcmexternal', label: '外用膏贴', labelEn: 'TCM Topical Products' },
+
+    // 护肤品类
+    { value: 'cosmetic', label: '本草护肤品', labelEn: 'Herbal Skincare' },
+    { value: 'skincare', label: '功效性护肤品', labelEn: 'Cosmeceuticals' },
+    { value: 'makeup', label: '彩妆产品', labelEn: 'Makeup Products' },
+    { value: 'fragrance', label: '香水香氛', labelEn: 'Fragrances' },
+    { value: 'haircare', label: '护发产品', labelEn: 'Hair Care Products' },
+    { value: 'bodycare', label: '身体护理', labelEn: 'Body Care Products' },
+
+    // 医疗器械/个护
+    { value: 'medical', label: '医疗器械', labelEn: 'Medical Devices' },
+    { value: 'healthdevice', label: '健康器械', labelEn: 'Health Devices' },
+    { value: 'diagnostic', label: '诊断设备', labelEn: 'Diagnostic Equipment' },
+    { value: 'therapeutic', label: '治疗设备', labelEn: 'Therapeutic Equipment' },
+    { value: 'monitoring', label: '监护设备', labelEn: 'Monitoring Devices' },
+    { value: 'disposable', label: '一次性耗材', labelEn: 'Disposable Medical Supplies' },
+    { value: 'dental', label: '口腔器械', labelEn: 'Dental Equipment' },
+
+    // 银发经济
+    { value: 'elderly', label: '老年营养品', labelEn: 'Elderly Nutrition' },
+    { value: 'elderlycare', label: '老年护理用品', labelEn: 'Elderly Care' },
+    { value: 'mobility', label: '助行器材', labelEn: 'Mobility Aids' },
+    { value: 'hearing', label: '听力辅助', labelEn: 'Hearing Aids' },
+    { value: 'vision', label: '视力辅助', labelEn: 'Vision Aids' },
+
+    // 宠物经济
+    { value: 'petsupplement', label: '宠物保健品', labelEn: 'Pet Supplements' },
+    { value: 'petfood', label: '宠物功能性食品', labelEn: 'Pet Functional Food' },
+    { value: 'petcare', label: '宠物护理用品', labelEn: 'Pet Care Products' },
+    { value: 'pettoy', label: '宠物玩具', labelEn: 'Pet Toys' },
+
+    // 食品饮料
+    { value: 'functionalDrink', label: '功能性饮料', labelEn: 'Functional Beverages' },
+    { value: 'healthFood', label: '健康食品', labelEn: 'Health Food' },
+    { value: 'organic', label: '有机食品', labelEn: 'Organic Food' },
+    { value: 'babyFood', label: '婴幼儿食品', labelEn: 'Baby Food' },
+    { value: 'dietary', label: '膳食补充剂', labelEn: 'Dietary Supplements' },
+
+    // 其他
+    { value: 'other', label: '其他产品', labelEn: 'Other Products' },
   ]},
   { id: 'targetRegion', label: '目标区域', labelEn: 'Target Region', options: [
     { value: 'east-asia', label: '东亚', labelEn: 'East Asia' },
@@ -147,12 +198,12 @@ const ProgressIndicator = ({ current, total, labels }: { current: number; total:
                 ? 'bg-[#1e3a5f] text-white'
                 : i + 1 === current 
                   ? 'bg-[#1e3a5f] text-white'
-                  : 'bg-gray-200 text-gray-400'
+                  : 'bg-gray-700 text-gray-400'
             }`}>
               {i + 1 < current ? <CheckCircle2 className="w-4 h-4" /> : i + 1}
             </div>
             {i < total - 1 && (
-              <div className={`w-24 h-px mx-2 ${i + 1 < current ? 'bg-[#1e3a5f]' : 'bg-gray-200'}`} />
+              <div className={`w-24 h-px mx-2 ${i + 1 < current ? 'bg-[#1e3a5f]' : 'bg-gray-700'}`} />
             )}
           </div>
         ))}
@@ -275,7 +326,8 @@ export default function DecisionWorkspace() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: AI_CONFIG.model,
+          // 使用 DeepSeek 兼容的模型名称
+          model: 'deepseek-chat',
           messages: [
             { role: 'system', content: '你是中医药产品出海咨询专家，请用专业但易懂的语言回答。重要：请不要使用Markdown符号。涉及台湾必须说"中国台湾"，香港说"中国香港"。' },
             { role: 'user', content: prompt }
@@ -288,9 +340,6 @@ export default function DecisionWorkspace() {
       const data = await response.json();
       let content = data.choices?.[0]?.message?.content || '抱歉，分析服务暂时不可用。';
       content = stripMarkdown(content);
-      Object.entries(AI_NAME_REPLACEMENTS).forEach(([key, value]) => {
-        content = content.replace(new RegExp(key, 'gi'), value);
-      });
       setAiAnalysis(content);
     } catch {
       setAiAnalysis('抱歉，AI分析服务暂时不可用。');
@@ -330,7 +379,7 @@ export default function DecisionWorkspace() {
   };
 
   return (
-    <section ref={sectionRef} id="decision-workspace" className="py-24 bg-[#faf9f7]">
+    <section ref={sectionRef} id="decision-workspace" className="py-24 bg-gray-900">
       <div className="max-w-4xl mx-auto px-6">
         
         {/* 标题 */}
@@ -341,10 +390,10 @@ export default function DecisionWorkspace() {
               {isZh ? '决策支持系统' : 'Decision Support System'}
             </span>
           </div>
-          <h2 className="text-4xl font-serif text-gray-900 mb-4 leading-tight">
+          <h2 className="text-4xl font-serif text-white mb-4 leading-tight">
             {isZh ? '企业出海可行性评估' : 'Export Readiness Assessment'}
           </h2>
-          <p className="text-lg text-gray-500 font-light max-w-xl">
+          <p className="text-lg text-gray-400 font-light max-w-xl">
             {isZh 
               ? '基于多维度数据的企业出海成功率评估与策略建议' 
               : 'Multi-dimensional assessment of your export readiness with strategic recommendations'}
@@ -359,7 +408,7 @@ export default function DecisionWorkspace() {
         />
 
         {/* 主要内容卡片 */}
-        <div className="bg-white border border-gray-100 p-10">
+        <div className="bg-gray-800 border border-gray-700 p-10">
           
           {/* Step 1: 企业信息 */}
           {currentStep === 1 && (
@@ -367,11 +416,11 @@ export default function DecisionWorkspace() {
               <div className="mb-8">
                 <div className="flex items-center gap-3 mb-2">
                   <Building2 className="w-5 h-5 text-[#1e3a5f]" />
-                  <h3 className="text-xl font-serif text-gray-900">
+                  <h3 className="text-xl font-serif text-white">
                     {isZh ? '企业基础信息' : 'Company Information'}
                   </h3>
                 </div>
-                <p className="text-gray-500 font-light">
+                <p className="text-gray-400 font-light">
                   {isZh ? '请提供您的企业基本信息，以便我们为您提供更精准的评估' : 'Please provide your company information for a more accurate assessment'}
                 </p>
               </div>
@@ -387,7 +436,7 @@ export default function DecisionWorkspace() {
                       value={companyInfo.contactName}
                       onChange={(e) => setCompanyInfo(prev => ({ ...prev, contactName: e.target.value }))}
                       placeholder={isZh ? '请输入姓名' : 'Enter your name'}
-                      className="w-full px-4 py-3 border-b border-gray-200 focus:border-[#1e3a5f] focus:outline-none bg-transparent"
+                      className="w-full px-4 py-3 border-b border-gray-600 focus:border-[#1e3a5f] focus:outline-none bg-transparent"
                     />
                   </div>
                   <div>
@@ -399,7 +448,7 @@ export default function DecisionWorkspace() {
                       value={companyInfo.contactPhone}
                       onChange={(e) => setCompanyInfo(prev => ({ ...prev, contactPhone: e.target.value }))}
                       placeholder={isZh ? '请输入电话' : 'Enter phone number'}
-                      className="w-full px-4 py-3 border-b border-gray-200 focus:border-[#1e3a5f] focus:outline-none bg-transparent"
+                      className="w-full px-4 py-3 border-b border-gray-600 focus:border-[#1e3a5f] focus:outline-none bg-transparent"
                     />
                   </div>
                 </div>
@@ -411,7 +460,7 @@ export default function DecisionWorkspace() {
                     <select
                       value={companyInfo.productCategory}
                       onChange={(e) => setCompanyInfo(prev => ({ ...prev, productCategory: e.target.value }))}
-                      className="w-full px-4 py-3 border-b border-gray-200 focus:border-[#1e3a5f] focus:outline-none bg-transparent"
+                      className="w-full px-4 py-3 border-b border-gray-600 focus:border-[#1e3a5f] focus:outline-none bg-transparent"
                     >
                       {COMPANY_INFO_FIELDS.find(f => f.id === 'productCategory')?.options?.map(opt => (
                         <option key={opt.value} value={opt.value}>
@@ -427,7 +476,7 @@ export default function DecisionWorkspace() {
                     <select
                       value={companyInfo.targetRegion}
                       onChange={(e) => setCompanyInfo(prev => ({ ...prev, targetRegion: e.target.value }))}
-                      className="w-full px-4 py-3 border-b border-gray-200 focus:border-[#1e3a5f] focus:outline-none bg-transparent"
+                      className="w-full px-4 py-3 border-b border-gray-600 focus:border-[#1e3a5f] focus:outline-none bg-transparent"
                     >
                       {COMPANY_INFO_FIELDS.find(f => f.id === 'targetRegion')?.options?.map(opt => (
                         <option key={opt.value} value={opt.value}>
@@ -447,17 +496,17 @@ export default function DecisionWorkspace() {
               <div className="mb-8">
                 <div className="flex items-center gap-3 mb-2">
                   <Target className="w-5 h-5 text-[#1e3a5f]" />
-                  <h3 className="text-xl font-serif text-gray-900">
+                  <h3 className="text-xl font-serif text-white">
                     {isZh ? '企业准备度评估' : 'Enterprise Readiness'}
                   </h3>
                 </div>
-                <p className="text-gray-500 font-light">
+                <p className="text-gray-400 font-light">
                   {isZh ? '勾选符合您企业情况的选项，以便我们评估您的出海准备程度' : 'Check the options that apply to your company to assess your export readiness'}
                 </p>
               </div>
 
               {/* 当前得分 */}
-              <div className="bg-gray-50 p-6 mb-8 flex items-center justify-between">
+              <div className="bg-gray-700 p-6 mb-8 flex items-center justify-between">
                 <div>
                   <div className="text-xs tracking-wider text-gray-400 uppercase mb-1">
                     {isZh ? '当前得分' : 'Current Score'}
@@ -473,7 +522,7 @@ export default function DecisionWorkspace() {
                 {READINESS_DIMENSIONS.map(dim => {
                   const Icon = dim.icon;
                   return (
-                    <div key={dim.id} className="border border-gray-100 p-6">
+                    <div key={dim.id} className="border border-gray-700 p-6">
                       <h4 className="font-medium text-gray-800 mb-4 flex items-center gap-2">
                         <Icon className="w-4 h-4 text-[#1e3a5f]" />
                         {isZh ? dim.name : dim.nameEn}
@@ -482,7 +531,7 @@ export default function DecisionWorkspace() {
                         {dim.questions.map((q: ReadinessQuestion) => (
                           <label 
                             key={q.id} 
-                            className="flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-50 transition-colors"
+                            className="flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-700 transition-colors"
                           >
                             <input
                               type="checkbox"
@@ -495,7 +544,7 @@ export default function DecisionWorkspace() {
                               }}
                               className="w-4 h-4 text-[#1e3a5f] border-gray-300 focus:ring-[#1e3a5f]"
                             />
-                            <span className="text-sm text-gray-600">
+                            <span className="text-sm text-gray-300">
                               {isZh ? q.text : q.textEn}
                             </span>
                           </label>
@@ -514,11 +563,11 @@ export default function DecisionWorkspace() {
               <div className="mb-8">
                 <div className="flex items-center gap-3 mb-2">
                   <Globe className="w-5 h-5 text-[#1e3a5f]" />
-                  <h3 className="text-xl font-serif text-gray-900">
+                  <h3 className="text-xl font-serif text-white">
                     {isZh ? '目标市场选择' : 'Target Market Selection'}
                   </h3>
                 </div>
-                <p className="text-gray-500 font-light">
+                <p className="text-gray-400 font-light">
                   {selectedMarkets.length} {isZh ? '个市场已选' : 'markets selected'}
                 </p>
               </div>
@@ -551,14 +600,14 @@ export default function DecisionWorkspace() {
                       className={`p-4 text-left border transition-all ${
                         isSelected 
                           ? 'border-[#1e3a5f] bg-[#1e3a5f]/5' 
-                          : 'border-gray-200 hover:border-gray-300'
+                          : 'border-gray-600 hover:border-gray-300'
                       }`}
                     >
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-xl">{market.flag}</span>
                         {isSelected && <CheckCircle2 className="w-4 h-4 text-[#1e3a5f]" />}
                       </div>
-                      <div className="font-medium text-gray-900 text-sm">{market.name}</div>
+                      <div className="font-medium text-white text-sm">{market.name}</div>
                       <div className="text-xs text-gray-400 mt-1">{market.tier} · {market.cost}</div>
                     </button>
                   );
@@ -567,7 +616,7 @@ export default function DecisionWorkspace() {
 
               {/* 选中市场概览 */}
               {selectedMarkets.length > 0 && (
-                <div className="bg-gray-50 p-6">
+                <div className="bg-gray-700 p-6">
                   <div className="grid grid-cols-3 gap-8 text-center">
                     <div>
                       <div className="text-xs tracking-wider text-gray-400 uppercase mb-2">
@@ -600,11 +649,11 @@ export default function DecisionWorkspace() {
           )}
 
           {/* 底部按钮 */}
-          <div className="mt-10 pt-10 border-t border-gray-100 flex gap-4">
+          <div className="mt-10 pt-10 border-t border-gray-700 flex gap-4">
             {currentStep > 1 ? (
               <button
                 onClick={goToPrevStep}
-                className="flex-1 py-4 border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 flex items-center justify-center gap-2 transition-colors"
+                className="flex-1 py-4 border border-gray-600 text-gray-300 font-medium hover:bg-gray-700 flex items-center justify-center gap-2 transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
                 {isZh ? '上一步' : 'Previous'}
@@ -616,7 +665,7 @@ export default function DecisionWorkspace() {
                   setCompanyInfo({ contactName: '', contactPhone: '', productCategory: 'supplement', targetRegion: 'not-sure' });
                   setReadinessData({ certification: {}, product: {}, financial: {}, team: {} });
                 }}
-                className="flex-1 py-4 border border-gray-200 text-gray-400 font-medium hover:bg-gray-50 flex items-center justify-center gap-2 transition-colors"
+                className="flex-1 py-4 border border-gray-600 text-gray-400 font-medium hover:bg-gray-700 flex items-center justify-center gap-2 transition-colors"
               >
                 <RefreshCw className="w-4 h-4" />
                 {isZh ? '重置' : 'Reset'}

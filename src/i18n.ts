@@ -36,20 +36,41 @@ const resources = {
   vi: { translation: vi },
 };
 
+// 支持的语言代码映射（处理地区代码如 zh-CN -> zh）
+const supportedLanguages = ['zh', 'en', 'ja', 'es', 'ar', 'fr', 'it', 'id', 'ms', 'pt', 'ru', 'de', 'lo', 'ko', 'vi'];
+
+function getLanguageFromNavigator(): string {
+  // 获取浏览器语言
+  const navLang = navigator.language || (navigator as { userLanguage?: string }).userLanguage;
+  if (!navLang) return 'zh';
+
+  // 提取语言代码（去掉地区部分，如 "zh-CN" -> "zh"）
+  const langCode = navLang.split('-')[0].split('_')[0].toLowerCase();
+
+  // 如果支持该语言，直接返回
+  if (supportedLanguages.includes(langCode)) {
+    return langCode;
+  }
+
+  // 默认返回中文
+  return 'zh';
+}
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'zh',
+    lng: getLanguageFromNavigator(), // 使用系统语言
     fallbackLng: 'zh',
     debug: false,
     interpolation: {
       escapeValue: false,
     },
     detection: {
-      order: ['localStorage', 'navigator', 'htmlTag'],
+      order: ['navigator', 'localStorage', 'htmlTag'],
       caches: ['localStorage'],
+      lookupLocalStorage: 'i18nextLng',
     },
   });
 

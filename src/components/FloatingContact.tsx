@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MessageCircle, Phone, Mail, X, Send } from 'lucide-react';
+import { tracking } from '../lib/tracking';
 
 const FloatingContact = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,7 +51,10 @@ const FloatingContact = () => {
     },
   ];
 
-  const handleOptionClick = (option: typeof contactOptions[0]) => {
+  const handleOptionClick = (option: typeof contactOptions[0], index: number) => {
+    // 追踪浮动联系按钮点击
+    tracking.click(`floating_contact_${index}`, 'contact');
+    
     if (option.action === 'scroll') {
       // 滚动到联系区域
       const contactSection = document.getElementById('contact');
@@ -63,6 +67,7 @@ const FloatingContact = () => {
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
+    tracking.click('copy_wechat', 'contact');
     alert('已复制微信号: ' + text);
   };
 
@@ -99,7 +104,7 @@ const FloatingContact = () => {
               <a
                 key={index}
                 href={option.href}
-                onClick={() => handleOptionClick(option)}
+                onClick={() => handleOptionClick(option, index)}
                 className={`flex items-center gap-3 p-3 rounded-xl text-white ${option.color} transition-transform hover:scale-[1.02] active:scale-[0.98]`}
               >
                 <div className="flex-shrink-0">{option.icon}</div>
@@ -133,7 +138,10 @@ const FloatingContact = () => {
 
         {/* 主按钮 */}
         <button
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => {
+            setIsOpen(!isOpen);
+            tracking.click('floating_button_toggle', 'contact');
+          }}
           className="group relative w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-emerald-600 to-teal-400 rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-transform duration-300"
           aria-label="联系我们"
         >

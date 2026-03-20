@@ -101,6 +101,10 @@
     "subtitle": "AI-Powered, Resource-Driven",
     "description": "Making faster and more precise decisions",
     "features": {
+      "aiFullProcess": {
+        "title": "AI Embedded Full-Process",
+        "description": "Efficient · Accurate · Fully Automated. AI deeply integrated into market research, cost calculation, compliance assessment, and channel matching, significantly improving efficiency and reducing human errors."
+      },
       "local": {
         "title": "Regional Expertise",
         "description": "Resident manager in Osaka, Japan; deep expertise in Europe (Italy), providing localized express services to directly solve the last mile challenge of overseas implementation."

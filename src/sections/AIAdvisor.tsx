@@ -13,7 +13,7 @@ import {
   ArrowRight,
   RefreshCw
 } from 'lucide-react';
-import { AI_CONFIG, AI_NAME_REPLACEMENTS } from '@/config';
+import { AI_CONFIG } from '@/config';
 import { tracking } from '@/lib/tracking';
 
 // 预设问题
@@ -77,23 +77,38 @@ const AIAdvisor = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: AI_CONFIG.model,
+          model: 'deepseek-chat',
           messages: [
-            { role: 'system', content: '你是中医药产品出海咨询专家，请用专业但易懂的语言回答用户问题。重要提示：请不要使用任何Markdown格式符号（如#、*、-、`等），直接用纯文本段落形式回答。涉及台湾地区时必须表述为"中国台湾"，涉及香港地区时必须表述为"中国香港"。' },
             ...messages.map(m => ({ role: m.role, content: m.content })),
             { role: 'user', content: userMessage.content }
           ],
-          max_tokens: 1500,
+          max_tokens: 800,
           temperature: 0.7,
         }),
       });
 
+      // 检查响应状态
+      if (!response.ok) {
+        let errorMsg = isZh ? '服务暂时不可用，请稍后再试。' : 'Service temporarily unavailable. Please try again later.';
+        try {
+          const errorData = await response.json();
+          if (errorData.error) {
+            errorMsg = errorData.error;
+          }
+        } catch {
+          // 忽略 JSON 解析错误
+        }
+        throw new Error(errorMsg);
+      }
+
       const data = await response.json();
-      let content = data.choices?.[0]?.message?.content || '抱歉，服务暂时不可用。';
+      let content = data.choices?.[0]?.message?.content;
+
+      if (!content) {
+        throw new Error(isZh ? 'AI 未返回有效回复' : 'AI did not return a valid response');
+      }
+
       content = stripMarkdown(content);
-      Object.entries(AI_NAME_REPLACEMENTS).forEach(([key, value]) => {
-        content = content.replace(new RegExp(key, 'gi'), value);
-      });
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -103,11 +118,12 @@ const AIAdvisor = () => {
       };
 
       setMessages(prev => [...prev, assistantMessage]);
-    } catch {
+    } catch (error) {
+      const errorContent = error instanceof Error ? error.message : (isZh ? '抱歉，服务暂时不可用。请稍后再试。' : 'Sorry, service is temporarily unavailable. Please try again later.');
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: isZh ? '抱歉，服务暂时不可用。请稍后再试。' : 'Sorry, service is temporarily unavailable. Please try again later.',
+        content: errorContent,
         timestamp: new Date(),
       };
       setMessages(prev => [...prev, errorMessage]);
@@ -133,7 +149,7 @@ const AIAdvisor = () => {
   };
 
   return (
-    <section ref={sectionRef} id="ai-advisor" className="py-20 bg-gray-50">
+    <section ref={sectionRef} id="ai-advisor" className="py-20 bg-gray-900">
       <div className="max-w-4xl mx-auto px-4">
         
         {/* 标题 */}
@@ -142,24 +158,29 @@ const AIAdvisor = () => {
             <Brain className="w-4 h-4" />
             {isZh ? 'AI 顾问' : 'AI Advisor'}
           </div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">
+          <h2 className="text-3xl font-bold text-white mb-3">
             {isZh ? '专业问题解答' : 'Expert Q&A'}
           </h2>
-          <p className="text-gray-500 max-w-xl mx-auto">
+          <p className="text-gray-300 max-w-xl mx-auto">
             {isZh 
               ? '关于中医药产品出海的一切问题，AI专家随时为您解答' 
               : 'Get instant answers to all your TCM product export questions'}
           </p>
         </div>
 
-        {/* 主内容区 */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        {/* 主内容区 - 科技感发光边框 */}
+        <div className="bg-gray-800 rounded-xl shadow-lg border border-gray-600 overflow-hidden relative">
+          {/* 发光边框效果 */}
+          <div className="absolute inset-0 rounded-xl pointer-events-none">
+            <div className="absolute inset-0 rounded-xl border border-emerald-500/20" />
+            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent" />
+          </div>
           
           {/* 预设问题 - 未开始对话时显示 */}
           {!showChat && messages.length === 0 && (
             <div className="p-8">
               <div className="text-center mb-6">
-                <p className="text-gray-600 mb-6">
+                <p className="text-gray-300 mb-6">
                   {isZh ? '点击常见问题或输入您的问题' : 'Click a common question or type your question'}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -167,11 +188,11 @@ const AIAdvisor = () => {
                     <button
                       key={pq.id}
                       onClick={() => sendMessage(isZh ? pq.question : pq.questionEn)}
-                      className="p-4 text-left border border-gray-200 rounded-lg hover:border-emerald-500 hover:bg-emerald-50 transition-colors"
+                      className="p-4 text-left border border-gray-700 rounded-lg hover:border-emerald-500 hover:bg-emerald-50 transition-colors"
                     >
                       <div className="flex items-start gap-3">
                         <MessageCircle className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
-                        <span className="text-sm text-gray-700">
+                        <span className="text-sm text-gray-300">
                           {isZh ? pq.question : pq.questionEn}
                         </span>
                       </div>
@@ -198,7 +219,7 @@ const AIAdvisor = () => {
               {/* 消息列表 */}
               <div className="h-[400px] overflow-y-auto p-6 space-y-4">
                 {messages.length === 0 && (
-                  <div className="text-center text-gray-400 py-8">
+                  <div className="text-center text-gray-300 py-8">
                     <MessageCircle className="w-12 h-12 mx-auto mb-3 opacity-50" />
                     <p>{isZh ? '请输入您的问题...' : 'Please enter your question...'}</p>
                   </div>
@@ -213,7 +234,7 @@ const AIAdvisor = () => {
                       className={`max-w-[80%] rounded-xl px-4 py-3 ${
                         msg.role === 'user'
                           ? 'bg-emerald-600 text-white'
-                          : 'bg-gray-100 text-gray-800'
+                          : 'bg-gray-700 text-white'
                       }`}
                     >
                       <p className="text-sm whitespace-pre-wrap leading-relaxed">
@@ -225,8 +246,8 @@ const AIAdvisor = () => {
                 
                 {isLoading && (
                   <div className="flex justify-start">
-                    <div className="bg-gray-100 rounded-xl px-4 py-3">
-                      <div className="flex items-center gap-2 text-gray-500">
+                    <div className="bg-gray-700 rounded-xl px-4 py-3">
+                      <div className="flex items-center gap-2 text-gray-100">
                         <Loader2 className="w-4 h-4 animate-spin" />
                         <span className="text-sm">{isZh ? 'AI 思考中...' : 'AI thinking...'}</span>
                       </div>
@@ -245,7 +266,7 @@ const AIAdvisor = () => {
                     onKeyPress={handleKeyPress}
                     placeholder={isZh ? '输入您的问题...' : 'Type your question...'}
                     disabled={isLoading}
-                    className="flex-1 px-4 py-3 border border-gray-200 rounded-lg focus:border-emerald-500 focus:outline-none disabled:opacity-50"
+                    className="flex-1 px-4 py-3 border border-gray-700 rounded-lg focus:border-emerald-500 focus:outline-none disabled:opacity-50"
                   />
                   <button
                     onClick={handleSend}
@@ -261,7 +282,7 @@ const AIAdvisor = () => {
                   <div className="flex gap-2">
                     <button
                       onClick={clearChat}
-                      className="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1"
+                      className="text-xs text-gray-300 hover:text-gray-300 flex items-center gap-1"
                     >
                       <RefreshCw className="w-3 h-3" />
                       {isZh ? '清空对话' : 'Clear chat'}

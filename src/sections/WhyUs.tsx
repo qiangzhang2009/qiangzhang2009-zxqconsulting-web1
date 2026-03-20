@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { MapPin, Cpu, HeartPulse } from 'lucide-react';
+import { Sparkles, MapPin, Cpu, HeartPulse } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +13,12 @@ const WhyUs = () => {
   const titleRef = useRef<HTMLDivElement>(null);
 
   const cards = [
+    {
+      icon: <Sparkles className="w-8 h-8" />,
+      title: t('whyUs.features.aiFullProcess.title'),
+      description: t('whyUs.features.aiFullProcess.description'),
+      color: 'from-[#8b5cf6] to-[#a78bfa]',
+    },
     {
       icon: <MapPin className="w-8 h-8" />,
       title: t('whyUs.features.local.title'),
@@ -77,7 +83,7 @@ const WhyUs = () => {
     <section
       id="whyus"
       ref={sectionRef}
-      className="section py-24 bg-[#f5f0e8]"
+      className="section py-24 bg-gray-900"
     >
       <div className="container mx-auto px-6">
         {/* Header */}
@@ -85,11 +91,11 @@ const WhyUs = () => {
           <span className="inline-block text-[#10b981] font-medium mb-4 tracking-wider uppercase text-sm">
             {t('whyUs.title')}
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#3d352e] mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             {t('whyUs.subtitle')}
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-[#10b981] to-[#34d399] mx-auto mb-4 rounded-full" />
-          <p className="text-[#5c4f3a] text-lg">
+          <p className="text-gray-300 text-lg">
             {t('whyUs.description')}
           </p>
         </div>
@@ -97,13 +103,12 @@ const WhyUs = () => {
         {/* Cards */}
         <div
           ref={cardsRef}
-          className="grid md:grid-cols-3 gap-8"
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           {cards.map((card, index) => (
             <div
               key={index}
-              className="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover"
-              style={{ marginTop: index === 1 ? '40px' : '0' }}
+              className="group relative bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 card-hover"
             >
               {/* Icon */}
               <div
@@ -113,10 +118,10 @@ const WhyUs = () => {
               </div>
 
               {/* Content */}
-              <h3 className="text-xl font-bold text-[#3d352e] mb-4">
+              <h3 className="text-xl font-bold text-white mb-4">
                 {card.title}
               </h3>
-              <p className="text-[#5c4f3a] leading-relaxed">
+              <p className="text-gray-300 leading-relaxed">
                 {card.description}
               </p>
 

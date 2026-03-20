@@ -1,118 +1,14 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, lazy, Suspense } from 'react';
 import gsap from 'gsap';
 import { ArrowRight, Globe, Sparkles, TrendingUp, Shield, CheckCircle, Leaf } from 'lucide-react';
+import { tracking } from '../lib/tracking';
+
+// 延迟加载 WalkingFigures
+const WalkingFigures = lazy(() => import('@/components/WalkingFigures'));
 
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    // 粒子动画
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let animationFrame: number;
-    let particles: Array<{
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      size: number;
-      alpha: number;
-      color: string;
-    }> = [];
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-
-    const createParticles = () => {
-      particles = [];
-      const colors = ['#10b981', '#06b6d4', '#f59e0b', '#ef4444', '#8b5cf6'];
-      
-      for (let i = 0; i < 80; i++) {
-        particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.5,
-          vy: (Math.random() - 0.5) * 0.5,
-          size: Math.random() * 3 + 1,
-          alpha: Math.random() * 0.5 + 0.2,
-          color: colors[Math.floor(Math.random() * colors.length)],
-        });
-      }
-    };
-
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      // 绘制粒子
-      particles.forEach((p) => {
-        p.x += p.vx;
-        p.y += p.vy;
-
-        // 边界检测
-        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-        // 绘制发光点
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = p.alpha;
-        ctx.fill();
-
-        // 绘制光晕
-        const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 3);
-        gradient.addColorStop(0, p.color);
-        gradient.addColorStop(1, 'transparent');
-        ctx.globalAlpha = p.alpha * 0.3;
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      // 绘制连线
-      ctx.strokeStyle = 'rgba(16, 185, 129, 0.1)';
-      ctx.lineWidth = 1;
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          
-          if (dist < 150) {
-            ctx.globalAlpha = (1 - dist / 150) * 0.2;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      animationFrame = requestAnimationFrame(animate);
-    };
-
-    resize();
-    createParticles();
-    animate();
-
-    window.addEventListener('resize', () => {
-      resize();
-      createParticles();
-    });
-
-    return () => {
-      cancelAnimationFrame(animationFrame);
-    };
-  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -143,6 +39,7 @@ const Hero = () => {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+    tracking.click('hero_ai_tools', 'cta');
   };
 
   const scrollToContact = () => {
@@ -150,6 +47,7 @@ const Hero = () => {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+    tracking.click('hero_consult', 'cta');
   };
 
   return (
@@ -158,13 +56,7 @@ const Hero = () => {
       ref={heroRef}
       className="relative min-h-screen flex items-center overflow-hidden"
     >
-      {/* Canvas 粒子背景 */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 z-0"
-      />
-
-      {/* 水墨风格背景渐变 */}
+      {/* 科技感背景 - 网格和发光效果 */}
       <div 
         className="absolute inset-0 z-0"
         style={{
@@ -176,6 +68,25 @@ const Hero = () => {
           `
         }}
       />
+      
+      {/* 科技网格背景 */}
+      <div className="absolute inset-0 z-0 opacity-10">
+        <div 
+          className="w-full h-full"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(16, 185, 129, 0.3) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(16, 185, 129, 0.3) 1px, transparent 1px)
+            `,
+            backgroundSize: '60px 60px'
+          }}
+        />
+      </div>
+
+      {/* 扫描线效果 */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent animate-scan" />
+      </div>
 
       {/* 国风装饰元素 - 抽象云纹 */}
       <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
@@ -295,6 +206,11 @@ const Hero = () => {
           </div>
         </div>
       </div>
+
+      {/* Mirofish 风格卡通人物带 */}
+      <Suspense fallback={null}>
+        <WalkingFigures />
+      </Suspense>
     </section>
   );
 };

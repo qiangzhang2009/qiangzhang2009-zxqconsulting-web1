@@ -160,60 +160,6 @@ const Footer = () => {
                   ))}
                 </ul>
               </div>
-            ))}
-
-            {/* AfricaZero */}
-            <div>
-              <h4 className="font-semibold mb-3 text-sm text-orange-400 flex items-center gap-2">
-                <div className="w-5 h-5 bg-orange-600 rounded flex items-center justify-center shrink-0">
-                  <span className="text-white font-bold text-[9px]">A0</span>
-                </div>
-                AfricaZero
-              </h4>
-              <ul className="space-y-2">
-                <li>
-                  <a
-                    href="https://africa.zxqconsulting.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-orange-400 transition-colors text-sm"
-                  >
-                    关税计算器
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://africa.zxqconsulting.com/products"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-orange-400 transition-colors text-sm"
-                  >
-                    非洲选品清单
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://africa.zxqconsulting.com/origin-check"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-orange-400 transition-colors text-sm"
-                  >
-                    原产地自测
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://africa.zxqconsulting.com/getting-started"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-orange-400 transition-colors text-sm"
-                  >
-                    新手入门
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
         </div>
       </div>
 

@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -128,7 +127,7 @@ const CaseStudies = () => {
     <section
       id="cases"
       ref={sectionRef}
-      className="py-24 bg-gradient-to-br from-slate-50 to-blue-50"
+      className="py-24 bg-gray-900"
     >
       <div className="container mx-auto px-6">
         {/* Header */}
@@ -136,10 +135,10 @@ const CaseStudies = () => {
           <span className="inline-block text-blue-600 font-semibold mb-3 text-sm tracking-wide">
             {isZh ? '真实案例' : 'Case Studies'}
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             {isZh ? '他们都成功出海了' : 'They All Successfully Went Overseas'}
           </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto text-lg">
+          <p className="text-gray-300 max-w-2xl mx-auto text-lg">
             {isZh ? '来自不同细分领域的中医药企业，都找到了适合自己的出海之路' : 'TCM companies from different sectors found their own path to overseas markets'}
           </p>
         </div>
@@ -149,16 +148,16 @@ const CaseStudies = () => {
           {cases.map((caseItem) => (
             <div
               key={caseItem.id}
-              className="case-card bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-xl transition-all duration-300"
+              className="case-card bg-gray-800 rounded-2xl p-6 border border-gray-700 hover:shadow-xl transition-all duration-300"
             >
               {/* Company Header */}
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-2xl">{caseItem.flag}</span>
-                    <h3 className="font-bold text-gray-900">{isZh ? caseItem.company : caseItem.companyEn}</h3>
+                    <h3 className="font-bold text-white">{isZh ? caseItem.company : caseItem.companyEn}</h3>
                   </div>
-                  <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                  <span className="text-xs text-gray-300 bg-gray-100 px-2 py-1 rounded-full">
                     {isZh ? caseItem.industry : caseItem.industryEn}
                   </span>
                 </div>
@@ -179,13 +178,13 @@ const CaseStudies = () => {
               {/* Challenge */}
               <div className="mb-4">
                 <div className="text-xs font-medium text-gray-400 mb-1">{isZh ? '痛点' : 'Challenge'}</div>
-                <p className="text-sm text-gray-600">{isZh ? caseItem.challenge : caseItem.challengeEn}</p>
+                <p className="text-sm text-gray-300">{isZh ? caseItem.challenge : caseItem.challengeEn}</p>
               </div>
 
               {/* Solution */}
               <div className="mb-4">
                 <div className="text-xs font-medium text-gray-400 mb-1">{isZh ? '方案' : 'Solution'}</div>
-                <p className="text-sm text-gray-600">{isZh ? caseItem.solution : caseItem.solutionEn}</p>
+                <p className="text-sm text-gray-300">{isZh ? caseItem.solution : caseItem.solutionEn}</p>
               </div>
 
               {/* Result */}
@@ -195,30 +194,16 @@ const CaseStudies = () => {
               </div>
 
               {/* Metrics */}
-              <div className="grid grid-cols-3 gap-2 pt-4 border-t border-gray-100">
+              <div className="grid grid-cols-3 gap-2 pt-4 border-t border-gray-700">
                 {caseItem.metrics.map((metric, idx) => (
                   <div key={idx} className="text-center">
-                    <div className="text-lg font-bold text-gray-900">{metric.value}</div>
+                    <div className="text-lg font-bold text-white">{metric.value}</div>
                     <div className="text-xs text-gray-400">{isZh ? metric.label : metric.labelEn}</div>
                   </div>
                 ))}
               </div>
             </div>
           ))}
-        </div>
-
-        {/* CTA */}
-        <div className="text-center">
-          <button
-            onClick={scrollToContact}
-            className="bg-white border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-4 rounded-xl font-semibold inline-flex items-center gap-2 transition-all"
-          >
-            {isZh ? '预约免费咨询' : 'Book Free Consultation'}
-            <ArrowRight className="w-5 h-5" />
-          </button>
-          <p className="text-gray-400 text-sm mt-4">
-            {isZh ? '立即预约，获取您的专属出海方案' : 'Book now to get your exclusive overseas plan'}
-          </p>
         </div>
       </div>
     </section>

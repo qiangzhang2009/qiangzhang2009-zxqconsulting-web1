@@ -1,26 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, lazy, Suspense } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from './sections/Navbar';
 import Hero from './sections/Hero';
-import About from './sections/About';
-import Services from './sections/Services';
-import AIToolsHub from './sections/AIToolsHub';
-import AIAdvisor from './sections/AIAdvisor';
-import Contact from './sections/Contact';
-import Footer from './sections/Footer';
 import FloatingContact from './components/FloatingContact';
 import GA4 from './components/GA4';
-import { initAutoTracking } from './lib/tracking';
-import CaseStudies from './sections/CaseStudies';
-import { MarketContext, type TargetMarket } from './sections/aiToolsMarketContext';
+import { initAutoTracking, tracking } from './lib/tracking';
+import { MarketProvider } from './sections/aiToolsMarketContext';
+
+// 延迟加载非首屏区块
+const About = lazy(() => import('./sections/About'));
+const Services = lazy(() => import('./sections/Services'));
+const AIToolsHub = lazy(() => import('./sections/AIToolsHub'));
+const AIAdvisor = lazy(() => import('./sections/AIAdvisor'));
+const CaseStudies = lazy(() => import('./sections/CaseStudies'));
+const Contact = lazy(() => import('./sections/Contact'));
+const Footer = lazy(() => import('./sections/Footer'));
 
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
-  // 共享的市场选择状态 - 供所有需要市场选择的组件使用
-  const [selectedMarket, setSelectedMarket] = useState<TargetMarket | null>(null);
-  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+  const trackedSections = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     // Initialize scroll-triggered animations
@@ -47,13 +47,39 @@ function App() {
     // 初始化自动追踪
     initAutoTracking();
 
+    // 区块浏览追踪 - 使用 IntersectionObserver
+    const sectionIds = ['hero', 'about', 'services', 'ai-tools', 'ai-advisor', 'cases', 'contact'];
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+            const sectionId = entry.target.id;
+            if (sectionId && !trackedSections.current.has(sectionId)) {
+              trackedSections.current.add(sectionId);
+              tracking.sectionView(sectionId);
+            }
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    sectionIds.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      observer.disconnect();
     };
   }, []);
 
   return (
-    <MarketContext.Provider value={{ selectedMarket, selectedRegion, setSelectedMarket, setSelectedRegion }}>
+    <MarketProvider>
       <div className="min-h-screen relative">
         {/* Google Analytics 4 */}
         <GA4 />
@@ -61,19 +87,23 @@ function App() {
         <Navbar />
         <main>
           <Hero />
-          <About />
-          <Services />
-          <AIToolsHub />
-          <AIAdvisor />
-          <CaseStudies />
-          <Contact />
+          <Suspense fallback={null}>
+            <About />
+            <Services />
+            <AIToolsHub />
+            <AIAdvisor />
+            <CaseStudies />
+            <Contact />
+          </Suspense>
         </main>
-        <Footer />
+        <Suspense fallback={null}>
+          <Footer />
+        </Suspense>
         
         {/* Floating Contact Button - 浮动联系按钮 */}
         <FloatingContact />
       </div>
-    </MarketContext.Provider>
+    </MarketProvider>
   );
 }
 

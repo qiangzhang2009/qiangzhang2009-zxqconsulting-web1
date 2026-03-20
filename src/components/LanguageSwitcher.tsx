@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useState, useRef, useEffect } from 'react';
+import { tracking } from '../lib/tracking';
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇺🇸' },
@@ -52,6 +53,8 @@ export default function LanguageSwitcher() {
   const handleLanguageChange = (langCode: string) => {
     i18n.changeLanguage(langCode);
     setIsOpen(false);
+    // 追踪语言切换
+    tracking.click(`lang_${langCode}`, 'language_switch');
   };
 
   return (

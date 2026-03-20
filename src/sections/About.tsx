@@ -122,7 +122,7 @@ const About = () => {
     <section
       id="about"
       ref={sectionRef}
-      className="section py-24 bg-[#f5f0e8] overflow-hidden"
+      className="section py-24 bg-gray-900 overflow-hidden"
     >
       <div className="container mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -143,7 +143,7 @@ const About = () => {
             {/* Secondary Image */}
             <div
               ref={image2Ref}
-              className="absolute bottom-0 right-0 w-[55%] h-[55%] rounded-2xl overflow-hidden shadow-2xl border-4 border-white"
+              className="absolute bottom-0 right-0 w-[55%] h-[55%] rounded-2xl overflow-hidden shadow-2xl border-4 border-gray-700"
             >
               <img
                 src="/about-partnership.jpg"
@@ -169,16 +169,16 @@ const About = () => {
               {t('about.title')}
             </span>
 
-            <h2 className="text-3xl md:text-4xl font-bold text-[#3d352e] mb-6 leading-tight">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
               {t('about.subtitle')}
               <span className="gradient-text">Global Partner</span>
             </h2>
 
-            <p className="text-[#5c4f3a] mb-6 leading-relaxed">
+            <p className="text-gray-300 mb-6 leading-relaxed">
               {t('about.description')}
             </p>
 
-            <p className="text-[#5c4f3a] mb-8 leading-relaxed">
+            <p className="text-gray-300 mb-8 leading-relaxed">
               {t('about.highlight')}
             </p>
 
@@ -192,27 +192,27 @@ const About = () => {
                   <div className="w-6 h-6 rounded-full bg-[#10b981]/10 flex items-center justify-center group-hover:bg-[#10b981]/20 transition-colors">
                     <Check className="w-4 h-4 text-[#10b981]" />
                   </div>
-                  <span className="text-[#3d352e] font-medium">{feature}</span>
+                  <span className="text-white font-medium">{feature}</span>
                 </div>
               ))}
             </div>
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6">
-              <div className="text-center p-4 bg-white rounded-xl shadow-sm">
+              <div className="text-center p-4 bg-gray-800 rounded-xl shadow-sm">
                 <Award className="w-6 h-6 text-[#10b981] mx-auto mb-2" />
-                <div className="text-xl font-bold text-[#3d352e]">{t('about.values.professional.title')}</div>
-                <div className="text-xs text-[#5c4f3a]">{t('about.values.professional.desc')}</div>
+                <div className="text-xl font-bold text-white">{t('about.values.professional.title')}</div>
+                <div className="text-xs text-gray-300">{t('about.values.professional.desc')}</div>
               </div>
-              <div className="text-center p-4 bg-white rounded-xl shadow-sm">
+              <div className="text-center p-4 bg-gray-800 rounded-xl shadow-sm">
                 <TrendingUp className="w-6 h-6 text-[#10b981] mx-auto mb-2" />
-                <div className="text-xl font-bold text-[#3d352e]">{t('about.values.efficient.title')}</div>
-                <div className="text-xs text-[#5c4f3a]">{t('about.values.efficient.desc')}</div>
+                <div className="text-xl font-bold text-white">{t('about.values.efficient.title')}</div>
+                <div className="text-xs text-gray-300">{t('about.values.efficient.desc')}</div>
               </div>
-              <div className="text-center p-4 bg-white rounded-xl shadow-sm">
+              <div className="text-center p-4 bg-gray-800 rounded-xl shadow-sm">
                 <Users className="w-6 h-6 text-[#10b981] mx-auto mb-2" />
-                <div className="text-xl font-bold text-[#3d352e]">{t('about.values.intimate.title')}</div>
-                <div className="text-xs text-[#5c4f3a]">{t('about.values.intimate.desc')}</div>
+                <div className="text-xl font-bold text-white">{t('about.values.intimate.title')}</div>
+                <div className="text-xs text-gray-300">{t('about.values.intimate.desc')}</div>
               </div>
             </div>
           </div>
