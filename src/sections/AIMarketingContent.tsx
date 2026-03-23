@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { AI_CONFIG } from '@/config';
 import { tracking } from '@/lib/tracking';
+import { useMarket } from './aiToolsMarketContext';
 
 const CONTENT_TYPES = [
   {
@@ -97,8 +98,7 @@ export default function AIMarketingContent() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [results, setResults] = useState<Record<string, any>>({});
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [selectedMarket, setSelectedMarket] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const { selectedMarket, selectedCategory } = useMarket();
 
   // Mock 数据生成器
   const generateMockMarketingData = (type: string, market: string, category: string, prodName: string): any => {
@@ -170,8 +170,8 @@ export default function AIMarketingContent() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          market: selectedMarket,
-          marketEn: '',
+          market: selectedMarket?.name ?? selectedMarket ?? '',
+          marketEn: selectedMarket?.nameEn ?? '',
           category: selectedCategory,
           categoryEn: '',
           productName: productName || selectedCategory,
