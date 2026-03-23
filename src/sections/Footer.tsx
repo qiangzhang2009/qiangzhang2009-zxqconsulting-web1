@@ -117,6 +117,33 @@ const Footer = () => {
         </div>
       </div>
 
+      {/* Global2China Cross-Promotion Banner */}
+      <div className="bg-gradient-to-r from-emerald-700 to-teal-700 py-8">
+        <div className="container mx-auto px-6 text-center">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <Globe className="w-5 h-5 text-emerald-200" />
+            <span className="text-emerald-100 text-sm font-medium">
+              Global2China · 全球产品进口中国一站式咨询平台
+            </span>
+          </div>
+          <h3 className="text-lg md:text-xl font-bold text-white mb-2">
+            想把全球好产品卖到中国市场？Global2China 提供全链路进口咨询
+          </h3>
+          <p className="text-emerald-200 text-sm max-w-xl mx-auto mb-5">
+            从原产地直采、海关合规到国内市场准入，Global2China 帮您打通全球优品进入中国的最后一公里。
+          </p>
+          <a
+            href="https://global2china.zxqconsulting.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-white text-emerald-700 px-6 py-2.5 rounded-full font-semibold text-sm hover:shadow-xl transition-all hover:scale-105"
+          >
+            访问 Global2China
+            <ArrowRight className="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+
       {/* Main Footer - macOS style */}
       <div className="py-12">
         <div className="container mx-auto px-6">
@@ -160,6 +187,8 @@ const Footer = () => {
                   ))}
                 </ul>
               </div>
+            ))}
+          </div>
         </div>
       </div>
 

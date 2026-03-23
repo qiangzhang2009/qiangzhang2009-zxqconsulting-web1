@@ -30,6 +30,7 @@ import {
   Dog,
   Coffee,
   Zap,
+  Lightbulb,
 } from 'lucide-react';
 import FeasibilityAssessment from './FeasibilityAssessment';
 import Tools from './Tools';
@@ -37,6 +38,7 @@ import ComplianceTest from './ComplianceTest';
 import MarketInsight from './MarketInsight';
 import ChannelMatch from './ChannelMatch';
 import RiskWarning from './RiskWarning';
+import AIMarketingContent from './AIMarketingContent';
 import { MarketContext, type TargetMarket } from './aiToolsMarketContext';
 import { tracking } from '../lib/tracking';
 
@@ -140,6 +142,63 @@ const PRODUCT_TYPES = [
 
 // 扁平化的产品类别选项（用于默认值）
 // const DEFAULT_CATEGORY = 'supplement';
+
+// 市场 → 推荐产品类型映射（基于市场特点智能推荐）
+const MARKET_PRODUCT_RECOMMENDATIONS: Record<string, { productType: string; category: string; reason: string; reasonEn: string; badge: string }[]> = {
+  japan: [
+    { productType: 'supplement', category: 'supplement', reason: '日本保健食品市场成熟，消费者接受度高', reasonEn: 'Mature market, high consumer acceptance', badge: '🔥 热门' },
+    { productType: 'nutraceutical', category: 'health', reason: '功能性食品分类清晰，注册门槛较低', reasonEn: 'Clear functional food category, lower barriers', badge: '⭐ 推荐' },
+    { productType: 'skincare', category: 'cosmetic', reason: '药妆市场规模庞大，利润空间高', reasonEn: 'Huge cosmetics market, high margins', badge: '💎 高价值' },
+  ],
+  usa: [
+    { productType: 'supplement', category: 'health', reason: '全球最大保健品市场，法规透明', reasonEn: "World's largest supplement market, clear regulations", badge: '🔥 热门' },
+    { productType: 'nutraceutical', category: 'health', reason: 'NDI认证路径清晰，可规模化', reasonEn: 'Clear NDI pathway, scalable', badge: '⭐ 推荐' },
+    { productType: 'probiotic', category: 'health', reason: '益生菌品类增长迅速，消费者意识强', reasonEn: 'Rapidly growing probiotic category', badge: '📈 增长快' },
+  ],
+  australia: [
+    { productType: 'supplement', category: 'health', reason: 'TGA监管清晰，中国产品信任度高', reasonEn: 'Clear TGA regulation, high trust in Chinese products', badge: '⭐ 推荐' },
+    { productType: 'nutraceutical', category: 'health', reason: '补充药品分类适合中药产品', reasonEn: 'Complementary medicine category suits TCM', badge: '🏆 最佳' },
+    { productType: 'probiotic', category: 'health', reason: '澳洲消费者对益生菌认知度最高', reasonEn: 'Highest probiotic awareness among consumers', badge: '📈 增长快' },
+  ],
+  germany: [
+    { productType: 'supplement', category: 'health', reason: '食品补充剂分类适合，无处方药注册门槛', reasonEn: 'Food supplement category, no prescription barriers', badge: '⭐ 推荐' },
+    { productType: 'nutraceutical', category: 'health', reason: '欧盟THR注册完成后可进入全欧', reasonEn: 'THR registration opens entire EU market', badge: '🏆 最佳' },
+    { productType: 'herbal', category: 'traditional', reason: '德国消费者对草本产品接受度高', reasonEn: 'High acceptance of herbal products', badge: '📈 潜力' },
+  ],
+  southeastasia: [
+    { productType: 'supplement', category: 'health', reason: '越南/印尼准入门槛低，复制成本低', reasonEn: 'Low entry barriers in Vietnam/Indonesia', badge: '🔥 入门首选' },
+    { productType: 'nutraceutical', category: 'health', reason: '东南亚华人群体对中药认知基础好', reasonEn: 'Chinese diaspora has TCM awareness base', badge: '⭐ 推荐' },
+    { productType: 'functionalDrink', category: 'food', reason: '功能性饮料在东南亚增速全球最快', reasonEn: 'Fastest growing functional beverage market globally', badge: '📈 增长快' },
+  ],
+  middleeast: [
+    { productType: 'supplement', category: 'health', reason: '阿联酋/沙特消费力强，高端定位合适', reasonEn: 'Strong purchasing power, suits premium positioning', badge: '💎 高价值' },
+    { productType: 'nutraceutical', category: 'health', reason: '清真认证后市场空间巨大', reasonEn: 'Massive market after halal certification', badge: '⭐ 推荐' },
+    { productType: 'herbal', category: 'traditional', reason: '中东传统草本医学与中医有共鸣', reasonEn: 'Middle Eastern traditional medicine resonates with TCM', badge: '📈 潜力' },
+  ],
+  southkorea: [
+    { productType: 'skincare', category: 'cosmetic', reason: '韩国美妆全球领先，但中国汉方护肤品差异化强', reasonEn: 'Korean beauty leads globally, but Chinese Hanfang skincare differentiates', badge: '⭐ 推荐' },
+    { productType: 'supplement', category: 'health', reason: '韩国消费者对健康产品接受度高', reasonEn: 'High health product acceptance', badge: '📈 增长快' },
+    { productType: 'nutraceutical', category: 'health', reason: 'K-健康风潮带动功能性食品需求', reasonEn: 'K-health trend drives functional food demand', badge: '🔥 热门' },
+  ],
+};
+
+function getRecommendations(marketId: string) {
+  // 优先精确匹配
+  if (MARKET_PRODUCT_RECOMMENDATIONS[marketId]) {
+    return MARKET_PRODUCT_RECOMMENDATIONS[marketId];
+  }
+  // 其次按区域匹配
+  const regionMap: Record<string, string> = {
+    northamerica: 'usa',
+    europe: 'germany',
+    asiapacific: 'australia',
+    southeastasia: 'southeastasia',
+    middleeast: 'middleeast',
+    latinamerica: 'usa',
+  };
+  const regionKey = regionMap[marketId] || 'usa';
+  return MARKET_PRODUCT_RECOMMENDATIONS[regionKey] || MARKET_PRODUCT_RECOMMENDATIONS.usa;
+}
 
 // 目标市场数据
 const TARGET_MARKETS: TargetMarket[] = [
@@ -254,6 +313,15 @@ const TABS = [
     description: '政策风险实时监测',
     descriptionEn: 'Real-time policy risk monitoring',
     color: 'from-red-500 to-rose-600',
+  },
+  {
+    id: 'marketing',
+    name: '营销内容',
+    nameEn: 'Marketing Content',
+    icon: Zap,
+    description: 'AI生成多平台营销文案',
+    descriptionEn: 'AI multi-platform marketing copy',
+    color: 'from-violet-500 to-purple-600',
   },
 ];
 
@@ -522,7 +590,51 @@ export default function AIToolsHub() {
                   </div>
                 </div>
               )}
+
             </div>
+
+            {/* 智能推荐：根据已选市场推荐产品类型 */}
+            {selectedMarket && (
+              <div className="mt-4 p-4 bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/20 rounded-xl">
+                <div className="flex items-center gap-2 mb-3">
+                  <Lightbulb className="w-4 h-4 text-amber-400" />
+                  <span className="text-sm font-medium text-amber-400">
+                    {isZh
+                      ? `💡 ${selectedMarket.flag} ${isZh ? selectedMarket.name : selectedMarket.nameEn} — AI 推荐产品类型`
+                    : `💡 AI Recommendations for ${selectedMarket.nameEn}`}
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {getRecommendations(selectedMarket.id).map((rec, i) => {
+                    const productType = PRODUCT_TYPES.find(pt => pt.value === rec.productType);
+                    if (!productType) return null;
+                    const Icon = productType.icon;
+                    return (
+                      <button
+                        key={i}
+                        onClick={() => {
+                          handleProductTypeSelect(rec.productType);
+                        }}
+                        className="flex items-center gap-2 px-3 py-2 bg-gray-700/50 border border-gray-600 hover:border-amber-500 rounded-lg transition-all group"
+                      >
+                        <Icon className="w-4 h-4 text-amber-400 group-hover:text-amber-300" />
+                        <div className="text-left">
+                          <div className="text-xs font-medium text-white">
+                            {isZh ? productType.label : productType.labelEn}
+                          </div>
+                          <div className="text-xs text-gray-400">
+                            {isZh ? rec.reason : rec.reasonEn}
+                          </div>
+                        </div>
+                        <span className="text-xs bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded">
+                          {rec.badge}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             {/* 第二行：产品类别选择 - 分级筛选 */}
             <div>
@@ -718,6 +830,7 @@ export default function AIToolsHub() {
               {activeTab === 'insight' && <MarketInsight />}
               {activeTab === 'channel' && <ChannelMatch />}
               {activeTab === 'risk' && <RiskWarning />}
+              {activeTab === 'marketing' && <AIMarketingContent />}
             </>
           )}
         </div>

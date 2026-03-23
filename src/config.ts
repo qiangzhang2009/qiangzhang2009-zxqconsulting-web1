@@ -17,8 +17,8 @@ export const SITE_CONFIG = {
   tagline: '专注本草出海 | 可靠 专业 高效',
   email: 'customer@zxqconsulting.com',
   wechat: 'zxq_consulting',
-  // 追踪 API 端点 - 改为后台管理系统的API
-  trackingApi: '/api/tracking',
+  // 追踪 API 端点 - 改为 track 而非 tracking
+  trackingApi: '/api/track',
   trackingTenant: 'zxqconsulting',
   // Google Analytics 4 - 请替换为你的 GA4 测量 ID (格式: G-XXXXXXXXXX)
   ga4MeasurementId: '',

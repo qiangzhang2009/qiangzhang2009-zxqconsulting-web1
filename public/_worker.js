@@ -5,8 +5,9 @@
 
 const ADMIN_API_KEY = 'zxq_admin_secret_key_2024';
 
-// DeepSeek API Key
-const DEEPSEEK_API_KEY = 'sk-af7161086d14482aac4d8127002e6bcd';
+// DeepSeek API Key — MUST be set as an environment variable in Cloudflare Pages dashboard
+// Never hardcode API keys in source code. Set DEEPSEEK_API_KEY in:
+// Cloudflare Pages → Settings → Environment Variables → Production
 
 // 获取客户端信息
 function getClientInfo(request) {
@@ -157,9 +158,18 @@ async function handleAIChat(context) {
   const { request, env } = context;
   
   console.log('[AI Proxy] Request received');
-  
-  // DeepSeek API Key (hardcoded)
-  const apiKey = DEEPSEEK_API_KEY;
+
+  const apiKey = env.DEEPSEEK_API_KEY;
+
+  if (!apiKey) {
+    console.error('[AI Proxy] Missing DEEPSEEK_API_KEY — set it in Cloudflare Pages dashboard');
+    return new Response(JSON.stringify({
+      error: 'Server configuration error: AI service not configured. Please contact the administrator.'
+    }), {
+      status: 503,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    });
+  }
 
   console.log('[AI Proxy] API key configured:', !!apiKey);
 
@@ -570,6 +580,290 @@ async function handleAdminSubmissions(context) {
   }
 }
 
+// ==================== AI BATCH API (market context prefetch) ====================
+async function handleAIBatch(context) {
+  const { request, env } = context;
+
+  const apiKey = env.DEEPSEEK_API_KEY;
+  if (!apiKey) {
+    return new Response(JSON.stringify({ success: false, error: 'AI service not configured' }), {
+      status: 503,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    });
+  }
+
+  try {
+    const body = await request.json();
+    const { market, marketEn, category, categoryEn, region, priority } = body;
+
+    if (!market || !category) {
+      return new Response(JSON.stringify({ success: false, error: 'market and category required' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders }
+      });
+    }
+
+    console.log('[AI Batch] priority:', priority, 'market:', market, 'category:', category);
+
+    // Build tool list based on priority
+    const toolTypes = priority === 'feasibility'
+      ? ['feasibility']
+      : ['feasibility', 'cost', 'compliance', 'insight', 'channel', 'risk'];
+
+    const promptTemplates = {
+      feasibility: `请作为中医药/健康产品出海市场分析专家，提供${market}(${marketEn})市场对于${category}(${categoryEn})产品的市场准入可行性分析。请返回JSON格式的数据，包含以下字段：{"heat": 0-100,"growth": 0-100,"risk": "low"|"medium"|"high","competition": 0-100,"recommendation": "中文推荐","recommendationEn": "En rec","conclusion": "中文总结","conclusionEn": "En summary","policyPoints": "政策要点","policyPointsEn": "Policy","threshold": "准入门槛","thresholdEn": "Threshold","logistics": "物流要点","logisticsEn": "Logistics","caseStudies": "案例","caseStudiesEn": "Cases"}只返回JSON。`,
+      cost: `请作为成本测算专家，提供${market}市场对于${category}产品的成本测算。请返回JSON格式：{"items": [{"name": "项","nameEn":"Item","min": 1000,"max": 5000,"description":"说明","descriptionEn":"Desc"}],"timeline": {"months": 12,"phases": ["阶段1"],"phasesEn": ["Phase 1"]},"roi": {"expected": 20,"payback":"12个月","paybackEn":"12 months"}}只返回JSON。`,
+      compliance: `请作为合规专家，提供${market}市场对于${category}产品的合规评估。请返回JSON格式：{"status": "passed","score": 85,"requirements": ["要求1"],"requirementsEn": ["Req 1"],"documents": ["文件1"],"documentsEn": ["Doc 1"],"timeline": "时间线","timelineEn":"Timeline","warnings": ["警告1"],"warningsEn": ["Warning 1"],"tips": ["建议1"],"tipsEn": ["Tip 1"]}只返回JSON。`,
+      insight: `请作为市场洞察专家，提供${market}市场对于${category}产品的洞察。请返回JSON格式：{"marketSize": "约50亿美元","growth": 15,"ageGroups": [{"range": "18-25岁","rangeEn": "18-25","percentage": 20}],"channels": [{"name": "线上电商","nameEn": "Online","percentage": 45}],"competitors": [{"name": "品牌A","nameEn": "Brand A","share": 25}],"trends": ["趋势1"],"trendsEn": ["Trend 1"],"consumerInsights": "洞察","consumerInsightsEn": "Insights"}只返回JSON。`,
+      channel: `请作为渠道专家，提供${market}市场对于${category}产品的渠道推荐。请返回JSON格式：{"channels": [{"name": "电商","nameEn": "E-commerce","type": "online","rating": 85,"investment": {"min": 10000,"max": 50000},"pros": ["优势1"],"prosEn": ["Pro 1"],"cons": ["劣势1"],"consEn": ["Con 1"],"description": "描述","descriptionEn": "Desc"}],"recommendation": "推荐","recommendationEn": "Rec"}只返回JSON。`,
+      risk: `请作为风险管理专家，提供${market}市场对于${category}产品的风险预警。请返回JSON格式：{"level": "medium","score": 45,"factors": [{"name": "风险","nameEn": "Risk","impact": "negative","description": "描述","descriptionEn": "Desc"}],"warnings": ["警告1"],"warningsEn": ["Warning 1"],"mitigations": ["缓解1"],"mitigationsEn": ["Mitigation 1"],"trend": "stable"}只返回JSON。`,
+    };
+
+    // For feasibility priority, do a single call
+    if (priority === 'feasibility') {
+      const response = await fetchWithRetry('https://api.deepseek.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+        body: JSON.stringify({
+          model: 'deepseek-chat',
+          messages: [
+            { role: 'system', content: '你是专业的国际贸易咨询专家。请严格按照JSON格式返回数据。' },
+            { role: 'user', content: promptTemplates.feasibility }
+          ],
+          temperature: 0.7,
+          max_tokens: 2048
+        })
+      });
+
+      if (!response.ok) {
+        const err = await response.text();
+        console.error('[AI Batch] DeepSeek error:', response.status, err);
+        return new Response(JSON.stringify({ success: false, error: 'AI service error', status: response.status }), {
+          status: response.status,
+          headers: { 'Content-Type': 'application/json', ...corsHeaders }
+        });
+      }
+
+      const data = await response.json();
+      const content = data.choices?.[0]?.message?.content || '';
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      const parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : {};
+
+      return new Response(JSON.stringify({ success: true, data: { feasibility: parsed } }), {
+        headers: { 'Content-Type': 'application/json', ...corsHeaders }
+      });
+    }
+
+    // Full priority: call all tools concurrently
+    const toolPromises = toolTypes.map(async (toolType) => {
+      const response = await fetchWithRetry('https://api.deepseek.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+        body: JSON.stringify({
+          model: 'deepseek-chat',
+          messages: [
+            { role: 'system', content: '你是专业的国际贸易咨询专家。请严格按照JSON格式返回数据。' },
+            { role: 'user', content: promptTemplates[toolType] }
+          ],
+          temperature: 0.7,
+          max_tokens: 2048
+        })
+      });
+
+      if (!response.ok) return { toolType, data: null };
+
+      const data = await response.json();
+      const content = data.choices?.[0]?.message?.content || '';
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      return { toolType, data: jsonMatch ? JSON.parse(jsonMatch[0]) : null };
+    });
+
+    const results = await Promise.all(toolPromises);
+    const data = {};
+    results.forEach(({ toolType, data: toolData }) => {
+      if (toolData) data[toolType] = toolData;
+    });
+
+    return new Response(JSON.stringify({ success: true, data }), {
+      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    });
+
+  } catch (error) {
+    console.error('[AI Batch] Error:', error);
+    return new Response(JSON.stringify({ success: false, error: error.message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    });
+  }
+}
+
+// Shared retry helper for AI Batch
+async function fetchWithRetry(url, options, retries = 2) {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const res = await fetch(url, options);
+      if (res.ok || i === retries) return res;
+      await new Promise(r => setTimeout(r, 500 * (i + 1)));
+    } catch (e) {
+      if (i === retries) throw e;
+      await new Promise(r => setTimeout(r, 500 * (i + 1)));
+    }
+  }
+}
+
+// ==================== AI MARKETING CONTENT API ====================
+async function handleAIMarketing(context) {
+  const { request, env } = context;
+
+  const apiKey = env.DEEPSEEK_API_KEY;
+  if (!apiKey) {
+    return new Response(JSON.stringify({ success: false, error: 'AI service not configured' }), {
+      status: 503,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    });
+  }
+
+  try {
+    const body = await request.json();
+    const { market, category, productName, tone = 'professional' } = body;
+
+    if (!market || !category) {
+      return new Response(JSON.stringify({ success: false, error: 'market and category required' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders }
+      });
+    }
+
+    const toneDesc = {
+      professional: '专业严谨',
+      friendly: '亲切友好',
+      luxury: '高端奢华',
+      casual: '轻松随意'
+    };
+
+    const systemPrompt = '你是专业的国际贸易营销文案专家。请严格按照JSON格式返回数据。';
+    const userPrompt = `请为${productName || category}产品在${market}市场生成营销文案，语气风格要求${toneDesc[tone] || '专业严谨'}。请返回JSON格式：{"social": {"zh": "中文社交媒体文案","en": "English social media post"},"article": {"zh": "中文文章","en": "English article"},"email": {"zh": "中文邮件","en": "English email"},"ad": {"zh": "中文广告语","en": "English ad copy"},"hashtag": {"zh": "#标签1 #标签2","en": "#Tag1 #Tag2"}}只返回JSON。`;
+
+    const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+      body: JSON.stringify({
+        model: 'deepseek-chat',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        temperature: 0.8,
+        max_tokens: 2048
+      })
+    });
+
+    if (!response.ok) {
+      const err = await response.text();
+      console.error('[AI Marketing] DeepSeek error:', response.status, err);
+      return new Response(JSON.stringify({ success: false, error: 'AI service error' }), {
+        status: response.status,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders }
+      });
+    }
+
+    const data = await response.json();
+    const content = data.choices?.[0]?.message?.content || '';
+    const jsonMatch = content.match(/\{[\s\S]*\}/);
+    const parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : {};
+
+    return new Response(JSON.stringify({ success: true, data: parsed }), {
+      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    });
+
+  } catch (error) {
+    console.error('[AI Marketing] Error:', error);
+    return new Response(JSON.stringify({ success: false, error: error.message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    });
+  }
+}
+
+// ==================== ANALYTICS API (frontend VisitorStats) ====================
+async function handleAnalytics(context) {
+  const { request, env } = context;
+
+  try {
+    const url = new URL(request.url);
+    const websiteId = url.searchParams.get('website_id') || 'zxqconsulting';
+    const days = parseInt(url.searchParams.get('days') || '30');
+
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - days);
+
+    const key = env.SUPABASE_SERVICE_KEY || env.SUPABASE_ANON_KEY;
+
+    // If Supabase not configured, return empty data gracefully
+    if (!env.SUPABASE_URL || !key) {
+      return new Response(JSON.stringify({
+        pageViews: 0, uniqueVisitors: 0, submissions: 0,
+        topPages: [], topCountries: [], recentEvents: []
+      }), {
+        headers: { 'Content-Type': 'application/json', ...corsHeaders }
+      });
+    }
+
+    // Get behaviors
+    const behaviorsRes = await fetch(
+      `${env.SUPABASE_URL}/rest/v1/behaviors?website_id=eq.${websiteId}&created_at=gte.${startDate.toISOString()}&select=*`,
+      { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` } }
+    );
+    const behaviors = behaviorsRes.ok ? await behaviorsRes.json() : [];
+
+    // Get submissions
+    const submissionsRes = await fetch(
+      `${env.SUPABASE_URL}/rest/v1/submissions?website_id=eq.${websiteId}&created_at=gte.${startDate.toISOString()}&select=id`,
+      { headers: { 'apikey': key, 'Authorization': `Bearer ${key}` } }
+    );
+    const submissions = submissionsRes.ok ? await submissionsRes.json() : [];
+
+    const uniqueVisitors = behaviors ? [...new Set(behaviors.map(v => v.visitor_id))].length : 0;
+
+    // Top pages
+    const pageCounts = {};
+    behaviors.forEach(b => {
+      const page = b.page_url || '/';
+      pageCounts[page] = (pageCounts[page] || 0) + 1;
+    });
+    const topPages = Object.entries(pageCounts)
+      .sort((a, b) => b[1] - a[1]).slice(0, 5)
+      .map(([page, count]) => ({ page, count }));
+
+    // Top countries
+    const countryCounts = {};
+    behaviors.forEach(b => {
+      if (b.country) countryCounts[b.country] = (countryCounts[b.country] || 0) + 1;
+    });
+    const topCountries = Object.entries(countryCounts)
+      .sort((a, b) => b[1] - a[1]).slice(0, 5)
+      .map(([country, count]) => ({ country, count }));
+
+    return new Response(JSON.stringify({
+      pageViews: behaviors ? behaviors.length : 0,
+      uniqueVisitors,
+      submissions: submissions ? submissions.length : 0,
+      topPages,
+      topCountries,
+      recentEvents: []
+    }), {
+      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    });
+
+  } catch (error) {
+    console.error('[Analytics] Error:', error);
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    });
+  }
+}
+
 // ==================== MAIN HANDLER ====================
 export async function onRequest(context) {
   const { request, env } = context;
@@ -632,6 +926,26 @@ export async function onRequest(context) {
       // Admin Submissions API
       if (path === '/api/admin/submissions' && method === 'GET') {
         return await handleAdminSubmissions(context);
+      }
+
+      // Tracking API (plural — used by lib/tracking)
+      if (path === '/api/tracking' && method === 'POST') {
+        return await handleTrack(context);
+      }
+
+      // AI Batch API (market context prefetch)
+      if (path === '/api/ai/batch' && method === 'POST') {
+        return await handleAIBatch(context);
+      }
+
+      // AI Marketing Content API
+      if (path === '/api/ai/marketing' && method === 'POST') {
+        return await handleAIMarketing(context);
+      }
+
+      // Analytics API (frontend VisitorStats)
+      if (path === '/api/analytics' && method === 'GET') {
+        return await handleAnalytics(context);
       }
 
       // 未匹配的 API 路由 - 返回 404 而不是 403

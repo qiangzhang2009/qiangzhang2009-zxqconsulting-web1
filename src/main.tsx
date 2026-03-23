@@ -1,3 +1,4 @@
+import './lib/patches/global-shim'; // 必须在最前面导入，消除第三方库警告
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';

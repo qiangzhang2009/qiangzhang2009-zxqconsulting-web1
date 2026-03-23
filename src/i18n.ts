@@ -36,23 +36,29 @@ const resources = {
   vi: { translation: vi },
 };
 
-// 支持的语言代码映射（处理地区代码如 zh-CN -> zh）
+// 支持的语言代码映射
 const supportedLanguages = ['zh', 'en', 'ja', 'es', 'ar', 'fr', 'it', 'id', 'ms', 'pt', 'ru', 'de', 'lo', 'ko', 'vi'];
 
-function getLanguageFromNavigator(): string {
-  // 获取浏览器语言
-  const navLang = navigator.language || (navigator as { userLanguage?: string }).userLanguage;
-  if (!navLang) return 'zh';
+// 从 localStorage 读取保存的语言，避免 hydration 不匹配
+function getInitialLanguage(): string {
+  // 1. 先尝试 localStorage
+  try {
+    const stored = localStorage.getItem('i18nextLng');
+    if (stored && supportedLanguages.includes(stored)) {
+      return stored;
+    }
+  } catch {}
+  
+  // 2. 从浏览器语言推断
+  try {
+    const navLang = navigator.language || '';
+    const langCode = navLang.split('-')[0].split('_')[0].toLowerCase();
+    if (supportedLanguages.includes(langCode)) {
+      return langCode;
+    }
+  } catch {}
 
-  // 提取语言代码（去掉地区部分，如 "zh-CN" -> "zh"）
-  const langCode = navLang.split('-')[0].split('_')[0].toLowerCase();
-
-  // 如果支持该语言，直接返回
-  if (supportedLanguages.includes(langCode)) {
-    return langCode;
-  }
-
-  // 默认返回中文
+  // 3. 默认中文
   return 'zh';
 }
 
@@ -61,14 +67,14 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: getLanguageFromNavigator(), // 使用系统语言
+    lng: getInitialLanguage(), // 同步获取初始语言，防止 hydration 不匹配
     fallbackLng: 'zh',
     debug: false,
     interpolation: {
       escapeValue: false,
     },
     detection: {
-      order: ['navigator', 'localStorage', 'htmlTag'],
+      order: ['localStorage', 'navigator', 'htmlTag'],
       caches: ['localStorage'],
       lookupLocalStorage: 'i18nextLng',
     },

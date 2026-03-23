@@ -75,7 +75,7 @@ const FloatingContact = () => {
     <>
       {/* 浮动按钮 - 只在滚动后显示 */}
       <div
-        className={`fixed right-4 sm:right-6 bottom-6 sm:bottom-8 z-40 transition-all duration-300 ${
+        className={`fixed right-4 sm:right-6 bottom-6 sm:bottom-8 z-[60] transition-all duration-300 ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
         }`}
       >
@@ -84,6 +84,7 @@ const FloatingContact = () => {
           className={`absolute bottom-16 right-0 w-64 sm:w-72 bg-white rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 ${
             isOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 translate-y-4 invisible'
           }`}
+          style={{ zIndex: 70 }}
         >
           {/* 头部 */}
           <div className="bg-gradient-to-r from-emerald-600 to-teal-500 px-4 py-3">
@@ -142,7 +143,7 @@ const FloatingContact = () => {
             setIsOpen(!isOpen);
             tracking.click('floating_button_toggle', 'contact');
           }}
-          className="group relative w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-emerald-600 to-teal-400 rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-transform duration-300"
+          className="group relative w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-emerald-600 to-teal-400 rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-transform duration-300 z-[61]"
           aria-label="联系我们"
         >
           {/* 消息提示 */}
