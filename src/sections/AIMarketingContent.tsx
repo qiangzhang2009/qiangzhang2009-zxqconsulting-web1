@@ -193,7 +193,7 @@ export default function AIMarketingContent() {
       // API 失败时使用 mock 数据
       const mockData: Record<string, any> = {};
       for (const ct of CONTENT_TYPES) {
-        mockData[ct.id] = generateMockMarketingData(ct.id, selectedMarket, selectedCategory, productName);
+        mockData[ct.id] = generateMockMarketingData(ct.id, selectedMarket?.name ?? '', selectedCategory, productName);
       }
       setResults(mockData);
     } finally {
