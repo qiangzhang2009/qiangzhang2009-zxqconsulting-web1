@@ -3,7 +3,7 @@
  * 社交媒体、小红书、官网文案、邮件、SEO、新闻稿
  */
 
-import { useState } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   FileText,
@@ -98,7 +98,17 @@ export default function AIMarketingContent() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [results, setResults] = useState<Record<string, any>>({});
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const { selectedMarket, selectedCategory } = useMarket();
+
+  // 使用 ref 确保 generate 函数始终读取最新值（避免闭包陷阱）
+  const marketCtx = useMarket();
+  const selectedMarketRef = useRef(marketCtx.selectedMarket);
+  const selectedCategoryRef = useRef(marketCtx.selectedCategory);
+
+  // 保持 ref 与 context 同步
+  useEffect(() => {
+    selectedMarketRef.current = marketCtx.selectedMarket;
+    selectedCategoryRef.current = marketCtx.selectedCategory;
+  });
 
   // Mock 数据生成器
   const generateMockMarketingData = (type: string, market: string, category: string, prodName: string): any => {
@@ -157,7 +167,10 @@ export default function AIMarketingContent() {
   };
 
   const generate = async () => {
-    if (!selectedMarket || !selectedCategory) {
+    const market = selectedMarketRef.current;
+    const category = selectedCategoryRef.current;
+
+    if (!market || !category) {
       alert(isZh ? '请先在 AI 工具中心选择市场和产品类别' : 'Please select market and product category first');
       return;
     }
@@ -170,11 +183,11 @@ export default function AIMarketingContent() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          market: selectedMarket?.name ?? selectedMarket ?? '',
-          marketEn: selectedMarket?.nameEn ?? '',
-          category: selectedCategory,
+          market: market.name ?? market,
+          marketEn: market.nameEn ?? '',
+          category: category,
           categoryEn: '',
-          productName: productName || selectedCategory,
+          productName: productName || category,
           tone,
         }),
       });
@@ -193,7 +206,7 @@ export default function AIMarketingContent() {
       // API 失败时使用 mock 数据
       const mockData: Record<string, any> = {};
       for (const ct of CONTENT_TYPES) {
-        mockData[ct.id] = generateMockMarketingData(ct.id, selectedMarket?.name ?? '', selectedCategory, productName);
+        mockData[ct.id] = generateMockMarketingData(ct.id, market?.name ?? '', category, productName);
       }
       setResults(mockData);
     } finally {
