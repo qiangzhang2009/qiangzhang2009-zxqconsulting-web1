@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "analyze": "ANALYZE=1 vite build"
+    "analyze": "ANALYZE=1 vite build",
+    "e2e:prod": "node scripts/e2e-prod-smoke.mjs",
+    "e2e:error-reporter": "node scripts/verify-error-reporter.mjs"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
