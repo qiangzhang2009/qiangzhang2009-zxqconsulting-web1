@@ -217,6 +217,7 @@ async function getGeoInfo(): Promise<Record<string, unknown>> {
 // 发送追踪数据 (格式与后台系统一致)
 async function track(eventType: string, eventData?: Record<string, unknown>): Promise<void> {
   if (typeof window === 'undefined') return;
+  if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') return;
   
   try {
     const deviceInfo = getDeviceInfo();

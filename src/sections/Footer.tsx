@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Globe, ArrowRight } from 'lucide-react';
+import { Globe2, ArrowRight, ShieldCheck, MapPinned, Building2 } from 'lucide-react';
 import { tracking } from '../lib/tracking';
 
 const Footer = () => {
@@ -7,200 +7,187 @@ const Footer = () => {
 
   const scrollToSection = (href: string, label?: string) => {
     const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    if (label) {
-      tracking.click(label, 'footer');
-    }
+    if (element) { element.scrollIntoView({ behavior: 'smooth' }); }
+    if (label) { tracking.click(label, 'footer'); }
   };
 
-  const footerLinks = [
+  const navGroups = [
     {
-      title: t('footer.quickLinks'),
+      title: t('footer.nav'),
       links: [
-        { name: t('nav.home'), href: '#hero' },
-        { name: t('nav.about'), href: '#about' },
-        { name: t('nav.services'), href: '#services' },
-        { name: t('nav.markets'), href: '#markets' },
+        { name: t('nav2.product'), href: '#hero' },
+        { name: t('nav2.diagnosisEngine'), href: '#ai-tools' },
+        { name: t('nav2.useCases'), href: '#services' },
+        { name: t('nav2.caseProof'), href: '#cases' },
+        { name: t('nav2.expertUpgrade'), href: '#contact' },
       ],
     },
     {
-      title: t('footer.markets'),
+      title: t('footer.priorityMarkets'),
       links: [
-        { name: t('markets.japan.title'), href: '#markets' },
-        { name: t('markets.europe.title'), href: '#markets' },
-        { name: t('markets.southeast.title'), href: '#markets' },
-        { name: t('markets.australia.title'), href: '#markets' },
-        { name: t('markets.middleEast.title'), href: '#markets' },
+        { name: t('footer.jpKorea'), href: '#ai-tools' },
+        { name: t('footer.euUk'), href: '#ai-tools' },
+        { name: t('footer.seAsia'), href: '#ai-tools' },
+        { name: t('footer.middleEast'), href: '#ai-tools' },
       ],
     },
     {
-      title: t('footer.services'),
+      title: t('footer.platformCapabilities'),
       links: [
-        { name: t('services.tabs.bencao'), href: '#services' },
-        { name: t('services.tabs.education'), href: '#services' },
-        { name: t('services.tabs.culture'), href: '#services' },
-        { name: t('services.tabs.consulting'), href: '#services' },
+        { name: t('footer.marketEntry'), href: '#services' },
+        { name: t('footer.compliancePathway'), href: '#services' },
+        { name: t('footer.channelGrowth'), href: '#services' },
+        { name: t('footer.diagnosisExpert'), href: '#ai-tools' },
       ],
     },
   ];
 
+  const affiliatedPlatforms = [
+    {
+      label: 'AfricaZero',
+      description: t('footer.africaDesc'),
+      href: 'https://africa.zxqconsulting.com/',
+      trackingLabel: 'footer_africa',
+    },
+    {
+      label: 'Global2China',
+      description: t('footer.global2chinaDesc'),
+      href: 'https://global2china.zxqconsulting.com/',
+      trackingLabel: 'footer_global2china',
+    },
+  ];
+
   return (
-    <footer className="bg-gray-950 text-gray-300">
-      {/* CTA Banner - macOS style: clean, minimal */}
-      <div className="bg-gray-900 py-16 border-b border-gray-800">
-        <div className="container mx-auto px-6 text-center">
-          <span className="inline-block text-blue-600 font-medium mb-3 text-sm">
-            {t('footer.banner.badge')}
-          </span>
-          <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-white">
-            {t('footer.banner.title')}
-          </h2>
-          <p className="text-gray-400 mb-6 max-w-xl mx-auto text-sm leading-relaxed">
-            {t('footer.banner.description')}
-          </p>
-          <button
-            onClick={() => scrollToSection('#contact', 'footer_cta')}
-            className="btn btn-primary"
-          >
-            {t('footer.banner.button')}
-            <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-
-      {/* AfricaZero Cross-Promotion Banner */}
-      <div className="bg-gradient-to-r from-orange-600 to-amber-600 py-10">
-        <div className="container mx-auto px-6 text-center">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <div className="w-7 h-7 bg-white/20 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xs">A0</span>
-            </div>
-            <span className="text-orange-100 text-sm font-medium">
-              AfricaZero · 全球首款非洲原产地 × 多市场关税套利决策平台
-            </span>
-          </div>
-          <h3 className="text-xl md:text-2xl font-bold text-white mb-3">
-            非洲零关税政策已生效，2026年5月1日起全面执行
-          </h3>
-          <p className="text-orange-100 text-sm max-w-xl mx-auto mb-6">
-            中国对非洲53个建交国100%税目零关税。关税计算器、原产地自测、选品清单——AfricaZero一站式解决。
-          </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <a
-              href="https://africa.zxqconsulting.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-white text-orange-600 px-6 py-2.5 rounded-full font-semibold text-sm hover:shadow-xl transition-all hover:scale-105"
-            >
-              立即体验 AfricaZero
-              <ArrowRight className="w-4 h-4" />
-            </a>
-            <a
-              href="https://africa.zxqconsulting.com/calculator"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-white/10 text-white border border-white/30 px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-white/20 transition-colors"
-            >
-              关税计算器
-            </a>
-            <a
-              href="https://africa.zxqconsulting.com/products"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-white/10 text-white border border-white/30 px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-white/20 transition-colors"
-            >
-              选品清单
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Global2China Cross-Promotion Banner */}
-      <div className="bg-gradient-to-r from-emerald-700 to-teal-700 py-8">
-        <div className="container mx-auto px-6 text-center">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <Globe className="w-5 h-5 text-emerald-200" />
-            <span className="text-emerald-100 text-sm font-medium">
-              Global2China · 全球产品进口中国一站式咨询平台
-            </span>
-          </div>
-          <h3 className="text-lg md:text-xl font-bold text-white mb-2">
-            想把全球好产品卖到中国市场？Global2China 提供全链路进口咨询
-          </h3>
-          <p className="text-emerald-200 text-sm max-w-xl mx-auto mb-5">
-            从原产地直采、海关合规到国内市场准入，Global2China 帮您打通全球优品进入中国的最后一公里。
-          </p>
-          <a
-            href="https://global2china.zxqconsulting.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-white text-emerald-700 px-6 py-2.5 rounded-full font-semibold text-sm hover:shadow-xl transition-all hover:scale-105"
-          >
-            访问 Global2China
-            <ArrowRight className="w-4 h-4" />
-          </a>
-        </div>
-      </div>
-
-      {/* Main Footer - macOS style */}
-      <div className="py-12">
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-2 lg:grid-cols-6 gap-8">
-            {/* Brand */}
-            <div className="lg:col-span-2">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center">
-                  <Globe className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <div className="font-semibold text-white">{t('brand.fullName')}</div>
-                  <div className="text-xs text-gray-400">{t('brand.name')}</div>
-                </div>
+    <footer className="bg-[#050d15] text-slate-300">
+      <div className="border-b border-white/8 bg-[linear-gradient(180deg,rgba(9,20,31,0.98),rgba(6,13,21,0.98))]">
+        <div className="container mx-auto px-6 py-16">
+          <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+            <div>
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm text-emerald-300">
+                <ShieldCheck className="h-4 w-4" />
+                {t('footer2.highTrust')}
               </div>
-              <p className="text-gray-400 text-sm mb-4 leading-relaxed">
-                {t('brand.tagline')}
+              <h2 className="max-w-3xl text-3xl font-semibold leading-tight text-white md:text-4xl">
+                {t('footer2.footerMission')}
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-8 text-slate-400">
+                {t('footer2.footerDesc')}
               </p>
             </div>
 
-            {/* Links */}
-            {footerLinks.map((group, index) => (
-              <div key={index}>
-                <h4 className="font-semibold mb-3 text-sm text-white">
-                  {group.title}
-                </h4>
-                <ul className="space-y-2">
-                  {group.links.map((link, linkIndex) => (
-                    <li key={linkIndex}>
-                      <a
-                        href={link.href}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          scrollToSection(link.href, `footer_link_${index}_${linkIndex}`);
-                        }}
-                        className="text-gray-400 hover:text-blue-600 transition-colors text-sm"
-                      >
-                        {link.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+            <div className="flex flex-col gap-4 rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
+              <div className="text-sm uppercase tracking-[0.18em] text-slate-500">
+                {t('footer2.nextStep')}
               </div>
+              <div className="text-xl font-semibold text-white">
+                {t('footer2.nextStepDesc')}
+              </div>
+              <p className="text-sm leading-7 text-slate-400">
+                {t('footer2.audience')}
+              </p>
+              <button
+                onClick={() => scrollToSection('#contact', 'footer_consultation')}
+                className="inline-flex items-center gap-2 self-start rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition-all hover:-translate-y-0.5 hover:bg-emerald-50"
+              >
+                {t('footer2.applyBtn')}
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-6 py-14">
+        <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr_0.9fr_0.9fr]">
+          <div>
+            <div className="mb-5 flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-400 text-white shadow-[0_12px_30px_rgba(16,185,129,0.25)]">
+                <Globe2 className="h-5 w-5" />
+              </div>
+              <div>
+                <div className="text-sm uppercase tracking-[0.22em] text-emerald-300/80">ZXQ Consulting</div>
+                <div className="text-lg font-semibold text-white">
+                  {t('hero2.tagline')}
+                </div>
+              </div>
+            </div>
+
+            <p className="max-w-md text-sm leading-7 text-slate-400">
+              {t('footer2.platformFocus')}
+            </p>
+
+            <div className="mt-6 space-y-3 text-sm text-slate-400">
+              <div className="flex items-start gap-3">
+                <Building2 className="mt-1 h-4 w-4 text-emerald-300" />
+                <span>{t('footer2.positioning')}</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <MapPinned className="mt-1 h-4 w-4 text-emerald-300" />
+                <span>{t('footer.positioningCoverage')}</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <ShieldCheck className="mt-1 h-4 w-4 text-emerald-300" />
+                <span>{t('footer.positioningDisclaimer')}</span>
+              </div>
+            </div>
+          </div>
+
+          {navGroups.map((group) => (
+            <div key={group.title}>
+              <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
+                {group.title}
+              </h3>
+              <ul className="space-y-3">
+                {group.links.map((link, index) => (
+                  <li key={`${group.title}-${link.name}-${index}`}>
+                    <a
+                      href={link.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        scrollToSection(link.href, `footer_${group.title}_${index}`);
+                      }}
+                      className="text-sm text-slate-300 transition-colors hover:text-white"
+                    >
+                      {link.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-12 border-t border-white/8 pt-8">
+          <div className="mb-4 text-xs uppercase tracking-[0.18em] text-slate-500">
+            {t('footer.affiliatedPlatforms')}
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {affiliatedPlatforms.map((platform) => (
+              <a
+                key={platform.href}
+                href={platform.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => tracking.click(platform.trackingLabel, 'footer_affiliated_platform')}
+                className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition-colors hover:bg-white/[0.05]"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <div className="font-semibold text-white">{platform.label}</div>
+                    <div className="mt-1 text-sm text-slate-400">{platform.description}</div>
+                  </div>
+                  <ArrowRight className="h-4 w-4 text-slate-500" />
+                </div>
+              </a>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Bottom Bar - macOS style */}
-      <div className="border-t border-gray-600 py-4">
-        <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-2">
-          <div className="text-gray-400 text-xs">
-            {t('footer.copyright')}
-          </div>
-          <div className="text-gray-400 text-xs">
-            {t('brand.tagline')}
-          </div>
+      <div className="border-t border-white/8 py-4">
+        <div className="container mx-auto flex flex-col gap-2 px-6 text-xs text-slate-500 md:flex-row md:items-center md:justify-between">
+          <div>{t('footer.copyright')}</div>
+          <div>{t('footer.tagline')}</div>
         </div>
       </div>
     </footer>

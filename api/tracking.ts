@@ -56,18 +56,26 @@ export default async function handler(request: Request) {
     } else {
       console.error('[Tracking API] Backend error:', response.status);
       return new Response(JSON.stringify({ 
-        error: 'Failed to forward to backend',
+        success: false,
+        forwarded: false,
+        skipped: true,
+        reason: 'backend_unavailable',
         status: response.status 
       }), {
-        status: 502,
+        status: 202,
         headers: { 'Content-Type': 'application/json', ...corsHeaders },
       });
     }
 
   } catch (error) {
     console.error('[Tracking API] Error:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
+    return new Response(JSON.stringify({
+      success: false,
+      forwarded: false,
+      skipped: true,
+      reason: 'tracking_proxy_error',
+    }), {
+      status: 202,
       headers: { 'Content-Type': 'application/json', ...corsHeaders },
     });
   }

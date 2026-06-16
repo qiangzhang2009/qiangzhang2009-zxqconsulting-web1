@@ -3,7 +3,18 @@
  * 聚合多个 RSS 源，实时获取地缘政治、贸易、商业新闻
  */
 
-import { type VercelRequest, type VercelResponse } from '@vercel/node';
+type VercelRequest = {
+  method?: string;
+  query: Record<string, string | string[] | undefined>;
+};
+
+type VercelResponse = {
+  setHeader: (name: string, value: string) => void;
+  status: (code: number) => {
+    json: (body: unknown) => void;
+    end: () => void;
+  };
+};
 
 // 新闻 RSS 源配置
 const NEWS_SOURCES = [

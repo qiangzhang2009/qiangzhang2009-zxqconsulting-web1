@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ChevronLeft, ChevronRight, Quote, Star } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Quote, Star, BadgeCheck } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,10 +14,11 @@ interface Testimonial {
 }
 
 const Testimonials = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [activeIndex, setActiveIndex] = useState(0);
   const sectionRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const isZh = i18n.language === 'zh';
 
   const testimonials: Testimonial[] = [
     {
@@ -44,7 +45,7 @@ const Testimonials = () => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         carouselRef.current,
-        { y: 40, opacity: 0 },
+        { y: 36, opacity: 0 },
         {
           y: 0,
           opacity: 1,
@@ -52,7 +53,7 @@ const Testimonials = () => {
           ease: 'power3.out',
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 70%',
+            start: 'top 72%',
           },
         }
       );
@@ -70,127 +71,84 @@ const Testimonials = () => {
   };
 
   return (
-    <section
-      ref={sectionRef}
-      className="section py-24 relative"
-      style={{
-        background: 'linear-gradient(180deg, #ecfdf5 0%, #d1fae5 50%, #fff7ed 100%)'
-      }}
-    >
-      {/* Decorative elements */}
-      <div className="absolute top-20 left-10 gold-sparkle hidden lg:block">
-        <span className="text-4xl">✨</span>
-      </div>
-      <div className="absolute bottom-20 right-10 gold-sparkle hidden lg:block" style={{ animationDelay: '1s' }}>
-        <span className="text-4xl">🌟</span>
-      </div>
-      <div className="absolute top-1/3 right-20 hidden lg:block">
-        <span className="text-6xl animate-float">🧧</span>
-      </div>
-
+    <section ref={sectionRef} className="relative bg-[#08131d] py-24">
       <div className="container mx-auto px-6">
-        {/* Header */}
-        <div className="text-center mb-16">
-          {/* Spring Festival Badge */}
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#10b981]/20 to-[#059669]/10 border border-[#10b981]/40 rounded-full px-6 py-2 mb-4">
-            <span className="text-lg">🐴</span>
-            <span className="text-sm font-medium text-[#059669]">{t('testimonials.header')}</span>
-            <span className="text-lg">⭐</span>
+        <div className="mx-auto mb-16 max-w-3xl text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm text-emerald-300">
+            <BadgeCheck className="h-4 w-4" />
+            {isZh ? '客户引言与顾问信任' : 'Client voice and advisory trust'}
           </div>
-
-          <span className="inline-block text-[#059669] font-medium mb-4 tracking-wider uppercase text-sm">
-            {t('testimonials.title')}
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#064e3b] mb-4">
-            {t('testimonials.subtitle')}
+          <h2 className="mt-5 text-3xl font-semibold text-white md:text-5xl">
+            {isZh ? '来自项目一线的评价，而不是模板化好评。' : 'Words from real engagements, not decorative testimonials.'}
           </h2>
-          <p className="text-[#065f46] max-w-2xl mx-auto leading-relaxed">
-            {t('testimonials.description')}
+          <p className="mt-5 text-lg leading-8 text-slate-400">
+            {isZh
+              ? '这些反馈关注的不是热闹，而是判断质量、落地效率、合规风险控制与市场进入节奏。'
+              : 'These quotes emphasize decision quality, execution efficiency, compliance risk control and market-entry pacing.'}
           </p>
         </div>
 
-        {/* Carousel */}
-        <div ref={carouselRef} className="max-w-4xl mx-auto">
-          <div className="relative">
-            {/* Main Card - Spring Style */}
-            <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-2xl spring-card relative overflow-hidden">
-              {/* Decorative gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#ecfdf5]/50 via-white/30 to-[#d1fae5]/50 pointer-events-none"></div>
+        <div ref={carouselRef} className="mx-auto max-w-5xl">
+          <div className="relative rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 shadow-[0_24px_60px_rgba(0,0,0,0.18)] backdrop-blur-sm md:p-12">
+            <div className="absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.12),transparent_30%)] pointer-events-none" />
 
-              {/* Quote icon with gradient */}
-              <div className="relative mb-6">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#059669]/20 to-[#10b981]/20 flex items-center justify-center">
-                  <Quote className="w-8 h-8 text-[#059669]" />
+            <div className="relative flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+              <div className="max-w-3xl">
+                <div className="mb-6 inline-flex rounded-2xl border border-white/10 bg-white/5 p-4 text-emerald-300">
+                  <Quote className="h-7 w-7" />
+                </div>
+
+                <p className="text-xl leading-9 text-slate-100 md:text-2xl">
+                  “{testimonials[activeIndex].quote}”
+                </p>
+
+                <div className="mt-8 flex items-center gap-2 text-amber-300">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <Star key={i} className="h-5 w-5 fill-current" />
+                  ))}
                 </div>
               </div>
 
-              <p className="text-lg md:text-xl text-[#065f46] leading-relaxed mb-8">
-                "{testimonials[activeIndex].quote}"
-              </p>
-
-              {/* Rating */}
-              <div className="flex items-center gap-1 mb-6">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <Star key={i} className="w-5 h-5 text-[#10b981] fill-current" />
-                ))}
-              </div>
-
-              <div className="flex items-center gap-4">
+              <div className="relative flex items-center gap-4 rounded-3xl border border-white/10 bg-[#0b1723] px-5 py-4">
                 <img
                   src={testimonials[activeIndex].avatar}
                   alt={testimonials[activeIndex].author}
-                  className="w-14 h-14 rounded-full object-cover border-2 border-[#10b981]"
+                  className="h-16 w-16 rounded-full border border-emerald-400/30 object-cover"
                 />
                 <div>
-                  <div className="font-bold text-[#065f46] flex items-center gap-2">
-                    {testimonials[activeIndex].author}
-                    <span className="text-[#10b981]">🐴</span>
-                  </div>
-                  <div className="text-sm text-[#047857]">
-                    {testimonials[activeIndex].position}
-                  </div>
-                </div>
-              </div>
-
-              {/* Horse badge */}
-              <div className="absolute top-6 right-6">
-                <div className="bg-gradient-to-br from-[#10b981]/20 to-[#059669]/10 rounded-full p-3">
-                  <span className="text-2xl">🏆</span>
+                  <div className="text-lg font-semibold text-white">{testimonials[activeIndex].author}</div>
+                  <div className="mt-1 text-sm text-slate-400">{testimonials[activeIndex].position}</div>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Navigation */}
-            <div className="flex items-center justify-center gap-4 mt-8">
-              <button
-                onClick={prevSlide}
-                className="w-12 h-12 rounded-full bg-gradient-to-br from-[#059669] to-[#10b981] shadow-lg flex items-center justify-center text-white hover:shadow-xl transition-all duration-300 hover:scale-110"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
+          <div className="mt-8 flex items-center justify-center gap-4">
+            <button
+              onClick={prevSlide}
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition-all hover:bg-white/10"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
 
-              {/* Dots */}
-              <div className="flex gap-2">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveIndex(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                      activeIndex === index
-                        ? 'bg-gradient-to-r from-[#059669] to-[#10b981] w-10'
-                        : 'bg-[#059669]/30 hover:bg-[#059669]/50'
-                    }`}
-                  />
-                ))}
-              </div>
-
-              <button
-                onClick={nextSlide}
-                className="w-12 h-12 rounded-full bg-gradient-to-br from-[#059669] to-[#10b981] shadow-lg flex items-center justify-center text-white hover:shadow-xl transition-all duration-300 hover:scale-110"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
+            <div className="flex gap-2">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveIndex(index)}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${
+                    activeIndex === index ? 'w-10 bg-emerald-400' : 'w-2.5 bg-white/20 hover:bg-white/35'
+                  }`}
+                />
+              ))}
             </div>
+
+            <button
+              onClick={nextSlide}
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition-all hover:bg-white/10"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
           </div>
         </div>
       </div>

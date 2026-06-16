@@ -6,6 +6,10 @@ import './i18n' // 导入 i18n 配置
 import './index.css'
 import App from './App.tsx'
 import { Toaster } from 'sonner';
+import { installGlobalErrorHandlers } from './lib/errorReporter';
+
+// 安装全局错误捕获（缺失 VITE_ERROR_REPORTING_URL 时静默）
+installGlobalErrorHandlers();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

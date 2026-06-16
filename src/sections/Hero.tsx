@@ -1,33 +1,52 @@
-import { useEffect, useRef, lazy, Suspense } from 'react';
+import { useEffect, useRef, useMemo, lazy } from 'react';
+import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
-import { ArrowRight, Globe, Sparkles, TrendingUp, Shield, CheckCircle, Leaf } from 'lucide-react';
+import {
+  ArrowRight,
+  Bot,
+  CheckCircle2,
+  FileSearch,
+  Globe2,
+  ShieldCheck,
+  Sparkles,
+  Target,
+  TrendingUp,
+} from 'lucide-react';
 import { tracking } from '../lib/tracking';
 
-// 延迟加载 WalkingFigures
 const WalkingFigures = lazy(() => import('@/components/WalkingFigures'));
 
 const Hero = () => {
+  const { t } = useTranslation();
   const heroRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // 标题动画
-      gsap.fromTo('.hero-char', 
-        { opacity: 0, y: 60, rotateX: -90 },
-        { opacity: 1, y: 0, rotateX: 0, duration: 0.8, stagger: 0.05, ease: 'power3.out', delay: 0.3 }
+      gsap.fromTo(
+        '.hero-fade',
+        { opacity: 0, y: 28 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.08,
+          ease: 'power3.out',
+          delay: 0.15,
+        }
       );
 
-      // 副标题动画
-      gsap.fromTo('.hero-subtitle',
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', delay: 1 }
-      );
-
-      // 按钮动画
-      gsap.fromTo('.hero-cta',
-        { opacity: 0, scale: 0.8 },
-        { opacity: 1, scale: 1, duration: 0.5, stagger: 0.1, ease: 'back.out(1.7)', delay: 1.2 }
+      gsap.fromTo(
+        '.hero-card',
+        { opacity: 0, y: 32, scale: 0.96 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.7,
+          stagger: 0.1,
+          ease: 'power3.out',
+          delay: 0.45,
+        }
       );
     }, heroRef);
 
@@ -36,183 +55,200 @@ const Hero = () => {
 
   const scrollToAITools = () => {
     const element = document.querySelector('#ai-tools');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    tracking.click('hero_ai_tools', 'cta');
+    if (element) { element.scrollIntoView({ behavior: 'smooth' }); }
+    tracking.click('hero_start_diagnosis', 'cta');
   };
 
-  const scrollToContact = () => {
-    const element = document.querySelector('#contact');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    tracking.click('hero_consult', 'cta');
+  const scrollToCases = () => {
+    const element = document.querySelector('#cases');
+    if (element) { element.scrollIntoView({ behavior: 'smooth' }); }
+    tracking.click('hero_view_sample_report', 'cta');
   };
+
+  const diagnosisQuestions = useMemo(() => [
+    t('hero2.q1', 'Which market should you enter first?'),
+    t('hero2.q2', 'How hard will compliance and entry be?'),
+    t('hero2.q3', 'Is this opportunity worth funding now?'),
+  ], [t]);
+
+  const trustItems = useMemo(() => [
+    t('hero2.trust1', 'Get an initial decision in 3 minutes'),
+    t('hero2.trust2', 'Assess market, compliance, cost, channels and risk in one flow'),
+    t('hero2.trust3', 'Route qualified projects into expert review'),
+  ], [t]);
+
+  const previewCards = useMemo(() => [
+    { icon: Target, title: t('hero2.opportunityScore'), text: t('hero2.opportunityScoreText') },
+    { icon: ShieldCheck, title: t('hero2.entryComplexity'), text: t('hero2.entryComplexityText') },
+    { icon: TrendingUp, title: t('hero2.nextBestAction'), text: t('hero2.nextBestActionText') },
+  ], [t]);
 
   return (
     <section
       id="hero"
       ref={heroRef}
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative min-h-screen overflow-hidden bg-[#07111a] text-white"
     >
-      {/* 科技感背景 - 网格和发光效果 */}
-      <div 
-        className="absolute inset-0 z-0"
-        style={{
-          background: `
-            radial-gradient(ellipse at 20% 80%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
-            radial-gradient(ellipse at 80% 20%, rgba(6, 182, 212, 0.12) 0%, transparent 50%),
-            radial-gradient(ellipse at 50% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 60%),
-            linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)
-          `
-        }}
-      />
-      
-      {/* 科技网格背景 */}
-      <div className="absolute inset-0 z-0 opacity-10">
-        <div 
-          className="w-full h-full"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(16, 185, 129, 0.3) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(16, 185, 129, 0.3) 1px, transparent 1px)
-            `,
-            backgroundSize: '60px 60px'
-          }}
-        />
-      </div>
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_top_left,rgba(22,163,74,0.16),transparent_35%),radial-gradient(circle_at_85%_20%,rgba(8,145,178,0.14),transparent_30%),linear-gradient(180deg,#07111a_0%,#0a1622_55%,#07111a_100%)]" />
+      <div className="absolute inset-0 z-0 opacity-[0.08] [background-image:linear-gradient(rgba(255,255,255,0.6)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.6)_1px,transparent_1px)] [background-size:56px_56px]" />
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(7,17,26,0.22)_45%,rgba(7,17,26,0.74)_100%)]" />
 
-      {/* 扫描线效果 */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent animate-scan" />
-      </div>
-
-      {/* 国风装饰元素 - 抽象云纹 */}
-      <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
-        <div className="absolute top-20 left-10 w-40 h-40 rounded-full" style={{ background: 'radial-gradient(circle, rgba(16,185,129,0.3) 0%, transparent 70%)', filter: 'blur(20px)' }} />
-        <div className="absolute bottom-40 right-20 w-60 h-60 rounded-full" style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.2) 0%, transparent 70%)', filter: 'blur(30px)' }} />
-        <div className="absolute top-1/3 right-1/4 w-32 h-32 rounded-full" style={{ background: 'radial-gradient(circle, rgba(239,68,68,0.15) 0%, transparent 70%)', filter: 'blur(25px)' }} />
-      </div>
-
-      {/* 内容层 */}
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-5xl mx-auto text-center">
-          
-          {/* 标签 */}
-          <div className="hero-subtitle inline-flex items-center gap-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-full px-6 py-3 mb-10">
-            <Leaf className="w-5 h-5 text-emerald-400" />
-            <span className="text-gray-300 text-sm font-medium">中医药出海智能解决方案</span>
-            <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+      <div className="relative z-10 container mx-auto px-6 pt-28 pb-16 md:pt-36 md:pb-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="hero-fade inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm text-slate-200 backdrop-blur-md">
+            <Bot className="h-4 w-4 text-emerald-400" />
+            <span>{t('hero2.tagline', 'AI platform for TCM global expansion decisions')}</span>
           </div>
 
-          {/* 主标题 - 国风科技风 */}
-          <div ref={titleRef} className="mb-8">
-            <div className="flex flex-wrap justify-center items-baseline gap-4 mb-4">
-              <span className="hero-char text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-400 to-amber-500" style={{ textShadow: '0 0 60px rgba(245,158,11,0.5)' }}>
-                AI
-              </span>
-              <span className="hero-char text-4xl md:text-6xl font-bold text-white">一站式</span>
-            </div>
-            
-            <div className="hero-char text-6xl md:text-8xl lg:text-9xl font-bold">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-400" style={{ textShadow: '0 0 80px rgba(6,182,212,0.4)' }}>
-                中医出海
-              </span>
+          <div className="mt-8 grid gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-end">
+            <div>
+              <div className="hero-fade mb-5 text-sm uppercase tracking-[0.28em] text-emerald-300/80">
+                {t('hero2.subtitle', 'Global Expansion Intelligence Platform')}
+              </div>
+
+              <h1 className="hero-fade max-w-4xl text-5xl font-semibold leading-[1.05] md:text-7xl xl:text-[5.4rem]">
+                {t('hero2.titlePart1', 'Use AI to decide')}
+                <span className="block bg-gradient-to-r from-emerald-300 via-teal-200 to-amber-200 bg-clip-text text-transparent">
+                  {t('hero2.titlePart2Gradient', 'if your TCM product should go global')}
+                </span>
+              </h1>
+
+              <p className="hero-fade mt-6 max-w-3xl text-lg leading-8 text-slate-300 md:text-xl">
+                {t('hero2.description', 'ZXQ turns market priority, entry complexity, channel fit and project risk into one AI decision flow so TCM, supplement, Hanfang skincare and health-product teams can evaluate opportunities before committing serious resources.')}
+              </p>
+
+              <div className="hero-fade mt-8 grid gap-3 sm:grid-cols-3">
+                {diagnosisQuestions.map((item) => (
+                  <div
+                    key={item}
+                    className="rounded-2xl border border-white/10 bg-white/[0.05] px-4 py-4 text-sm text-slate-200"
+                  >
+                    {item}
+                  </div>
+                ))}
+              </div>
+
+              <div className="hero-fade mt-10 flex flex-wrap gap-4">
+                <button
+                  onClick={scrollToAITools}
+                  className="group inline-flex items-center gap-3 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 px-8 py-4 text-base font-semibold text-white shadow-[0_18px_40px_rgba(16,185,129,0.28)] transition-all hover:-translate-y-0.5 hover:shadow-[0_24px_50px_rgba(16,185,129,0.34)]"
+                >
+                  <Sparkles className="h-5 w-5" />
+                  {t('hero2.ctaStart', 'Start AI diagnosis')}
+                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </button>
+
+                <button
+                  onClick={scrollToCases}
+                  className="inline-flex items-center gap-3 rounded-2xl border border-white/15 bg-white/5 px-8 py-4 text-base font-semibold text-white backdrop-blur-sm transition-all hover:border-white/30 hover:bg-white/10"
+                >
+                  <FileSearch className="h-5 w-5 text-emerald-300" />
+                  {t('hero2.ctaViewSample', 'View sample report')}
+                </button>
+              </div>
+
+              <div className="hero-fade mt-12 grid gap-3 sm:grid-cols-3">
+                {trustItems.map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-start gap-3 rounded-2xl border border-white/8 bg-white/[0.04] px-4 py-4 text-sm text-slate-300"
+                  >
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* 副标题英文 */}
-            <div className="hero-subtitle mt-4 text-xl md:text-2xl text-gray-400 font-light tracking-wider">
-              AI-Powered Traditional Chinese Medicine Global Expansion
+            <div className="space-y-4">
+              <div className="hero-card rounded-[2rem] border border-white/10 bg-white/[0.05] p-6 backdrop-blur-md">
+                <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-4">
+                  <div>
+                    <div className="text-sm uppercase tracking-[0.22em] text-emerald-300/80">
+                      {t('hero2.previewLabel', 'Diagnosis preview')}
+                    </div>
+                    <h3 className="mt-2 text-2xl font-semibold text-white">
+                      {t('hero2.previewTitle', 'Structured output, not generic advice')}
+                    </h3>
+                  </div>
+                  <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-300">
+                    {t('hero2.threeMin', '3 min')}
+                  </div>
+                </div>
+
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-2xl border border-white/10 bg-[#0b1824] p-4">
+                    <div className="text-xs uppercase tracking-[0.2em] text-slate-500">{t('hero2.market', 'Market')}</div>
+                    <div className="mt-2 text-lg font-semibold text-white">{t('hero2.marketValue', 'Japan / Germany / UAE')}</div>
+                    <div className="mt-2 text-sm text-slate-400">{t('hero2.marketDesc', 'Priority order and entry recommendation')}</div>
+                  </div>
+                  <div className="rounded-2xl border border-white/10 bg-[#0b1824] p-4">
+                    <div className="text-xs uppercase tracking-[0.2em] text-slate-500">{t('hero2.category', 'Category')}</div>
+                    <div className="mt-2 text-lg font-semibold text-white">{t('hero2.categoryValue', 'Supplements / TCM / Hanfang skincare')}</div>
+                    <div className="mt-2 text-sm text-slate-400">{t('hero2.categoryDesc', 'Match category with entry pathways')}</div>
+                  </div>
+                </div>
+              </div>
+
+              {previewCards.map((card) => {
+                const Icon = card.icon;
+                return (
+                  <div
+                    key={card.title}
+                    className="hero-card rounded-3xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur-md"
+                  >
+                    <div className="mb-4 inline-flex rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-3 text-emerald-300">
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-white">{card.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-slate-300">{card.text}</p>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
-          {/* 核心价值 - 卡片式设计 */}
-          <div className="hero-subtitle grid md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto">
-            <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-emerald-500/30 transition-all duration-300">
-              <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Globe className="w-7 h-7 text-emerald-400" />
+          <div className="hero-fade mt-12 flex flex-wrap items-center justify-between gap-6 border-t border-white/10 pt-8 text-sm text-slate-400">
+            <div className="flex flex-wrap items-center gap-6">
+              <div>
+                {t('hero2.builtFor', 'Built for')} <strong className="ml-1 text-white">{t('hero2.builtForTarget', 'TCM / Supplements / Hanfang')}</strong>
               </div>
-              <h3 className="text-white font-bold text-lg mb-2">35+ 全球市场</h3>
-              <p className="text-gray-400 text-sm">覆盖全球主要经济体，一站式市场数据分析</p>
+              <div>
+                {t('hero2.coverage', 'Coverage')} <strong className="ml-1 text-white">{t('hero2.coverageNum', '35+')}</strong>
+              </div>
+              <div>
+                {t('hero2.output', 'Output')} <strong className="ml-1 text-white">{t('hero2.outputVal', 'Decision-ready')}</strong>
+              </div>
             </div>
-
-            <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-cyan-500/30 transition-all duration-300">
-              <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Sparkles className="w-7 h-7 text-cyan-400" />
-              </div>
-              <h3 className="text-white font-bold text-lg mb-2">AI 智能决策</h3>
-              <p className="text-gray-400 text-sm">基于大数据+AI算法，精准评估市场风险</p>
-            </div>
-
-            <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-amber-500/30 transition-all duration-300">
-              <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <TrendingUp className="w-7 h-7 text-amber-400" />
-              </div>
-              <h3 className="text-white font-bold text-lg mb-2">7×24 专家服务</h3>
-              <p className="text-gray-400 text-sm">专业团队全程护航，助力企业无忧出海</p>
-            </div>
-          </div>
-
-          {/* CTA 按钮 */}
-          <div className="hero-cta flex flex-wrap justify-center gap-5">
-            <button
-              onClick={scrollToAITools}
-              className="group relative px-10 py-5 bg-gradient-to-r from-emerald-500 via-cyan-500 to-blue-500 rounded-2xl font-bold text-lg text-white overflow-hidden transition-all hover:shadow-2xl hover:shadow-emerald-500/30 hover:scale-105"
-            >
-              <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-              <span className="relative flex items-center gap-3">
-                <Sparkles className="w-6 h-6" />
-                开始智能评估
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </button>
-            
-            <button
-              onClick={scrollToContact}
-              className="px-10 py-5 bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl font-bold text-lg text-white hover:bg-white/10 hover:border-white/30 transition-all flex items-center gap-3"
-            >
-              <Shield className="w-6 h-6" />
-              咨询专家
-            </button>
-          </div>
-
-          {/* 底部信任标识 */}
-          <div className="hero-subtitle mt-16 pt-8 border-t border-white/10">
-            <div className="flex flex-wrap justify-center items-center gap-8 text-gray-400">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-emerald-500" />
-                <span>服务企业 <strong className="text-white">500+</strong></span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-emerald-500" />
-                <span>市场覆盖 <strong className="text-white">35+</strong></span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-emerald-500" />
-                <span>成功率 <strong className="text-emerald-400">95%</strong></span>
-              </div>
+            <div className="inline-flex items-center gap-2 text-emerald-300">
+              <Globe2 className="h-4 w-4" />
+              <span>{t('hero2.diagnoseFirst', 'Diagnose first, then decide whether to escalate to experts')}</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 滚动指示器 */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-        <div className="flex flex-col items-center gap-2 text-gray-500">
-          <span className="text-xs uppercase tracking-widest">向下滚动</span>
-          <div className="w-6 h-10 border-2 border-gray-600 rounded-full flex justify-center pt-2">
-            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" />
-          </div>
-        </div>
+      <div className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 lg:block">
+        <button
+          onClick={scrollToAITools}
+          className="hero-fade flex flex-col items-center gap-2 text-xs uppercase tracking-[0.3em] text-slate-400 transition-colors hover:text-white"
+        >
+          <span>{t('hero2.beginDiagnosis', 'Begin diagnosis')}</span>
+          <ChevronDownIcon />
+        </button>
       </div>
 
-      {/* Mirofish 风格卡通人物带 */}
-      <Suspense fallback={null}>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 hidden opacity-20 lg:block">
         <WalkingFigures />
-      </Suspense>
+      </div>
     </section>
   );
 };
+
+const ChevronDownIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="m6 9 6 6 6-6" />
+  </svg>
+);
 
 export default Hero;

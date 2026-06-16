@@ -5,14 +5,14 @@ import Navbar from './sections/Navbar';
 import Hero from './sections/Hero';
 import FloatingContact from './components/FloatingContact';
 import GA4 from './components/GA4';
+import SEO from './components/SEO';
 import { initAutoTracking, tracking } from './lib/tracking';
-import { MarketProvider } from './sections/aiToolsMarketContext';
+import { MarketProvider } from './sections/aiTools/marketContext';
 
 // 延迟加载非首屏区块
 const About = lazy(() => import('./sections/About'));
 const Services = lazy(() => import('./sections/Services'));
 const AIToolsHub = lazy(() => import('./sections/AIToolsHub'));
-const AIAdvisor = lazy(() => import('./sections/AIAdvisor'));
 const CaseStudies = lazy(() => import('./sections/CaseStudies'));
 const Contact = lazy(() => import('./sections/Contact'));
 const Footer = lazy(() => import('./sections/Footer'));
@@ -48,7 +48,7 @@ function App() {
     initAutoTracking();
 
     // 区块浏览追踪 - 使用 IntersectionObserver
-    const sectionIds = ['hero', 'about', 'services', 'ai-tools', 'ai-advisor', 'cases', 'contact'];
+    const sectionIds = ['hero', 'about', 'services', 'ai-tools', 'cases', 'contact'];
     
     const observer = new IntersectionObserver(
       (entries) => {
@@ -83,6 +83,7 @@ function App() {
       <div className="min-h-screen relative">
         {/* Google Analytics 4 */}
         <GA4 />
+        <SEO />
         
         <Navbar />
         <main>
@@ -91,7 +92,6 @@ function App() {
             <About />
             <Services />
             <AIToolsHub />
-            <AIAdvisor />
             <CaseStudies />
             <Contact />
           </Suspense>

@@ -3,7 +3,18 @@
  * 使用 Yahoo Finance API 获取真实汇率数据
  */
 
-import { type VercelRequest, type VercelResponse } from '@vercel/node';
+type VercelRequest = {
+  method?: string;
+  query: Record<string, string | string[] | undefined>;
+};
+
+type VercelResponse = {
+  setHeader: (name: string, value: string) => void;
+  status: (code: number) => {
+    json: (body: unknown) => void;
+    end: () => void;
+  };
+};
 
 // Yahoo Finance 货币对代码映射
 const CURRENCY_PAIRS: Record<string, string> = {

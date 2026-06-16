@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 import { AI_CONFIG } from '@/config';
 import { tracking } from '@/lib/tracking';
-import { useMarket } from './aiToolsMarketContext';
+import { useMarket } from './aiTools/context';
 
 const CONTENT_TYPES = [
   {
@@ -96,79 +96,51 @@ export default function AIMarketingContent() {
   const [productName, setProductName] = useState('');
   const [tone, setTone] = useState('professional');
   const [isGenerating, setIsGenerating] = useState(false);
-  const [results, setResults] = useState<Record<string, any>>({});
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  // 使用 ref 确保 generate 函数始终读取最新值（避免闭包陷阱）
-  const marketCtx = useMarket();
-  const selectedMarketRef = useRef(marketCtx.selectedMarket);
-  const selectedCategoryRef = useRef(marketCtx.selectedCategory);
-
-  // 保持 ref 与 context 同步
-  useEffect(() => {
-    selectedMarketRef.current = marketCtx.selectedMarket;
-    selectedCategoryRef.current = marketCtx.selectedCategory;
-  });
-
-  // Mock 数据生成器
-  const generateMockMarketingData = (type: string, market: string, category: string, prodName: string): any => {
-    const m = market || '目标市场';
-    const c = category || '产品类别';
-    const p = prodName || c;
-
-    switch (type) {
-      case 'social':
-        return {
-          content: `【${p}出海攻略】\n\n你是否也在关注${m}市场的机会？\n\n经过深度调研，我们发现${c}品类在当地市场增长迅速，消费者需求旺盛。\n\n如果你想了解更多${m}市场的准入策略，欢迎留言或私信交流！`,
-          hashtags: [`${m}市场`, '本草出海', `${c}出口`, '海外市场', '中医药国际化'],
-        };
-      case 'xiaohongshu':
-        return {
-          title: `【${m}市场洞察】${p}出海的机遇与挑战`,
-          content: `今天来聊聊${m}市场的${c}品类机会！\n\n经过我们团队的分析，${m}市场对${c}的需求正在快速增长。\n\n✅ 优势：消费者接受度高，政策支持\n⚠️ 挑战：需要完成当地注册认证\n💡 建议：提前规划，6-12个月完成布局\n\n有想了解${m}具体市场策略的薯友吗？评论区见。`,
-          tags: [`${m}市场攻略`, '中医药出海', `${c}选品`, '海外市场', '创业笔记'],
-        };
-      case 'website':
-        return {
-          heroTitle: `专业${c}出海解决方案 | 助您快速进入${m}市场`,
-          heroSubtitle: `基于全球33国市场数据，AI驱动的${m}市场准入分析，让您的${c}产品顺利出海`,
-          valueProps: [
-            { title: 'AI智能分析', desc: '6大维度深度洞察' },
-            { title: '全程合规支持', desc: '一站式认证代办' },
-            { title: '本地化策略', desc: '深度市场调研' },
-          ],
-          cta: '获取免费市场报告',
-        };
-      case 'email':
-        return {
-          subject: `Partnership Inquiry: ${p} Market Entry to ${m}`,
-          subjectCn: `合作咨询：${p}进入${m}市场`,
-          body: `Dear Partner,\n\nI am reaching out regarding ${p} (${c}) market entry to ${m}.\n\nOur team specializes in TCM and herbal product internationalization, with proven track records in Asia-Pacific markets.\n\nWould you be available for a brief call this week to discuss potential collaboration?\n\nBest regards`,
-        };
-      case 'seo':
-        return {
-          metaTitle: `${c}出口${m} | ${m}市场准入攻略 | 认证要求与成本分析`,
-          metaDescription: `了解${c}如何出口到${m}市场，包括${m}当地认证要求、市场准入成本、以及最佳进入策略。专业的本草产品出海咨询服务。`,
-          keywords: [`${c}出口${m}`, `${m}市场准入`, '本草产品出海', '海外认证', `${m}药品注册`],
-          contentOutline: [`${m}市场概况与机遇`, `${c}产品准入要求`, `注册流程与时间线`, `成本估算与ROI分析`, '本地化策略建议'],
-        };
-      case 'pr':
-        return {
-          headline: `ZXQ Consulting Launches AI-Powered ${m} Market Entry Service for TCM Products`,
-          subheadline: `Revolutionary platform provides comprehensive market analysis and compliance support for ${c} exporters`,
-          lead: `Shanghai-based consulting firm ZXQ Consulting today announced the launch of its AI-powered market entry platform, designed to help TCM and herbal product manufacturers navigate ${m} market requirements efficiently.`,
-          body: `The platform leverages advanced AI to analyze market data across 33 countries, providing actionable insights for product localization, regulatory compliance, and channel strategy.\n\n"${m} represents a significant opportunity for quality TCM products," said Zhang Xiaoqiang, Founder. "Our platform removes the complexity of international market entry."`,
-          boilerplate: `ZXQ Consulting is a Shanghai-based professional services firm specializing in TCM and herbal product internationalization, with expertise in Japan, Australia, Southeast Asia, and global markets.`,
-          contact: `Contact: customer@zxqconsulting.com | www.zxqconsulting.com`,
-        };
-      default:
-        return {};
+  const normalizeContentLanguage = <T,>(value: T): T => {
+    if (Array.isArray(value)) {
+      return value.map((item) => normalizeContentLanguage(item)) as T;
     }
+
+    if (value && typeof value === 'object') {
+      const source = value as Record<string, any>;
+      const normalized: Record<string, any> = {};
+
+      for (const [key, fieldValue] of Object.entries(source)) {
+        if (key.endsWith('En')) continue;
+
+        const englishKey = `${key}En`;
+        if (!isZh && englishKey in source) {
+          normalized[key] = normalizeContentLanguage(source[englishKey]);
+        } else {
+          normalized[key] = normalizeContentLanguage(fieldValue);
+        }
+      }
+
+      return normalized as T;
+    }
+
+    return value;
   };
 
+  // 使用全局 Context 存储结果（持久化，切换标签后不丢失）
+  const { selectedMarket, selectedCategory, marketingData, setMarketingData } = useMarket();
+  const normalizedLanguage = (i18n.language || 'zh').split('-')[0].toLowerCase();
+  const marketingCacheKey = [
+    normalizedLanguage,
+    selectedMarket?.id || 'no-market',
+    selectedCategory || 'no-category',
+    (productName || '').trim().toLowerCase() || 'no-product',
+    tone,
+  ].join('::');
+  const currentMarketingData = marketingData?.[marketingCacheKey] || null;
+  const displayMarketingData = currentMarketingData ? normalizeContentLanguage(currentMarketingData) : null;
+
   const generate = async () => {
-    const market = selectedMarketRef.current;
-    const category = selectedCategoryRef.current;
+    // 直接从 context 读取最新值
+    const market = selectedMarket;
+    const category = selectedCategory;
 
     if (!market || !category) {
       alert(isZh ? '请先在 AI 工具中心选择市场和产品类别' : 'Please select market and product category first');
@@ -189,26 +161,27 @@ export default function AIMarketingContent() {
           categoryEn: '',
           productName: productName || category,
           tone,
+          language: normalizedLanguage,
         }),
       });
 
       if (response.ok) {
         const data = await response.json();
         if (data.success && data.data) {
-          setResults(data.data);
+          // 存储到全局 Context，按语言和输入条件隔离
+          setMarketingData({
+            ...(marketingData || {}),
+            [marketingCacheKey]: data.data,
+          });
         } else {
           throw new Error(data.error || 'Generation failed');
         }
       } else {
         throw new Error(`API ${response.status}`);
       }
-    } catch {
-      // API 失败时使用 mock 数据
-      const mockData: Record<string, any> = {};
-      for (const ct of CONTENT_TYPES) {
-        mockData[ct.id] = generateMockMarketingData(ct.id, market?.name ?? '', category, productName);
-      }
-      setResults(mockData);
+    } catch (error: any) {
+      console.error('[AIMarketingContent] API failed:', error?.message);
+      alert(isZh ? 'AI 服务暂时不可用，请稍后重试' : 'AI service temporarily unavailable, please try again later');
     } finally {
       setIsGenerating(false);
     }
@@ -559,17 +532,17 @@ export default function AIMarketingContent() {
             {isZh ? currentType.desc : currentType.descEn}
           </span>
         </div>
-        {renderResult(activeType, results[activeType])}
+        {renderResult(activeType, displayMarketingData?.[activeType])}
       </div>
 
       {/* 批量预览 */}
-      {Object.keys(results).length > 0 && (
+      {Object.keys(displayMarketingData || {}).length > 0 && (
         <div className="mt-4">
           <div className="text-sm font-medium text-white mb-3">
             {isZh ? '📋 全部内容预览' : '📋 All Content Preview'}
           </div>
           <div className="space-y-2">
-            {CONTENT_TYPES.filter(ct => results[ct.id]).map(ct => (
+            {CONTENT_TYPES.filter(ct => displayMarketingData?.[ct.id]).map(ct => (
               <div key={ct.id} className="flex items-center justify-between bg-gray-700/30 rounded-lg px-3 py-2">
                 <div className="flex items-center gap-2">
                   <ct.icon className="w-4 h-4 text-gray-400" />

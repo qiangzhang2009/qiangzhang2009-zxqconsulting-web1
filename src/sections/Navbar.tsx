@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import i18n from '../i18n';
-import { Menu, X, Globe, Star, Languages } from 'lucide-react';
+import { Menu, X, Globe2, Languages, ArrowRight, Bot, LayoutGrid, BriefcaseBusiness, FileSearch } from 'lucide-react';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { tracking } from '../lib/tracking';
+import i18n from '../i18n';
 
 const Navbar = () => {
-  const { t } = useTranslation();
+  const { t, i18n: i18nInstance } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 32);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -20,91 +20,56 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: t('nav.home'), href: '#hero' },
-    { name: t('nav.about'), href: '#about' },
-    { name: t('nav.services'), href: '#services' },
-    { name: t('nav.markets'), href: '#markets' },
-    { name: t('nav.contact'), href: '#contact' },
+    { name: t('nav2.product', 'Product'), href: '#hero', icon: Bot },
+    { name: t('nav2.diagnosisEngine', 'Diagnosis Engine'), href: '#ai-tools', icon: LayoutGrid },
+    { name: t('nav2.useCases', 'Use Cases'), href: '#services', icon: BriefcaseBusiness },
+    { name: t('nav2.caseProof', 'Case Proof'), href: '#cases', icon: FileSearch },
+    { name: t('nav2.expertUpgrade', 'Expert Upgrade'), href: '#contact', icon: ArrowRight },
   ];
 
-  const externalLinks = [
-    {
-      label: 'AfricaZero 非洲零关税',
-      href: 'https://africa.zxqconsulting.com/',
-      badge: 'A0',
-      badgeBg: 'bg-orange-600',
-      trackingLabel: 'navbar_africa',
-    },
-    {
-      label: 'Global2China 进口咨询',
-      href: 'https://global2china.zxqconsulting.com/',
-      badge: 'G2C',
-      badgeBg: 'bg-emerald-600',
-      trackingLabel: 'navbar_global2china',
-    },
+  const affiliatedPlatforms = [
+    { label: 'AfricaZero', href: 'https://africa.zxqconsulting.com/', trackingLabel: 'navbar_africa' },
+    { label: 'Global2China', href: 'https://global2china.zxqconsulting.com/', trackingLabel: 'navbar_global2china' },
   ];
 
   const scrollToSection = (href: string, label?: string) => {
     const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (element) { element.scrollIntoView({ behavior: 'smooth' }); }
     setIsMobileMenuOpen(false);
-    // 追踪导航点击
-    if (label) {
-      tracking.click(label, 'navigation');
-    }
+    if (label) { tracking.click(label, 'navigation'); }
   };
 
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'glass shadow-lg py-3'
+          ? 'border-b border-white/10 bg-[#07111a]/88 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.28)] backdrop-blur-xl'
           : 'bg-transparent py-5'
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between">
-          {/* Logo with Horse Year Badge */}
+        <div className="flex items-center justify-between gap-6">
           <a
             href="#hero"
             onClick={(e) => {
               e.preventDefault();
-              scrollToSection('#hero');
+              scrollToSection('#hero', 'brand_home');
             }}
-            className="flex items-center gap-2 sm:gap-3 group"
+            className="group flex items-center gap-3"
           >
-            <div className="relative">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-emerald-600 to-teal-400 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-lg">
-                <Globe className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-              </div>
-              {/* Small plant badge */}
-              <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5 shadow-sm">
-                <span className="text-xs sm:text-sm">🌿</span>
-              </div>
+            <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-400/20 bg-gradient-to-br from-emerald-500 to-teal-400 text-white shadow-[0_10px_24px_rgba(16,185,129,0.28)] transition-transform duration-300 group-hover:scale-105">
+              <Globe2 className="h-5 w-5" />
             </div>
             <div>
-              <span className={`font-serif font-bold text-base sm:text-lg transition-colors duration-300 ${
-                isScrolled ? 'text-white' : 'text-white'
-              }`}>
-                {t('brand.name')}
-              </span>
-              <div className="text-xs text-emerald-400 font-medium flex items-center gap-1">
-                <Star className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-current text-teal-400" />
-                <span>{t('brand.tagline')}</span>
+              <div className="text-sm font-semibold uppercase tracking-[0.22em] text-emerald-300/80">ZXQ Consulting</div>
+              <div className="text-base font-semibold text-white sm:text-lg">
+                {t('hero2.tagline', 'AI Platform for TCM Global Expansion')}
               </div>
             </div>
           </a>
 
-          {/* Desktop Navigation - Language Switcher + Nav Links */}
-          <div className="hidden md:flex items-center gap-4 lg:gap-6">
-            {/* Language Switcher - First Position */}
-            <div className="relative">
-              <LanguageSwitcher />
-            </div>
-
-            {/* Nav Links */}
+          <div className="hidden items-center gap-5 lg:flex">
+            <LanguageSwitcher />
             {navLinks.map((link) => (
               <a
                 key={link.name}
@@ -113,102 +78,75 @@ const Navbar = () => {
                   e.preventDefault();
                   scrollToSection(link.href, link.name);
                 }}
-                className={`text-sm font-medium transition-colors duration-300 hover:text-emerald-400 ${
-                  isScrolled
-                    ? 'text-gray-200'
-                    : 'text-gray-200'
-                }`}
+                className="text-sm font-medium text-slate-200 transition-colors duration-300 hover:text-emerald-300"
               >
                 {link.name}
               </a>
             ))}
-
-            {/* External Site Links */}
-            {externalLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => tracking.click(link.trackingLabel, 'navbar')}
-                className="flex items-center gap-1.5 text-sm font-medium transition-colors duration-300 text-orange-400 hover:text-orange-300"
-              >
-                <span className={`w-5 h-5 ${link.badgeBg} rounded flex items-center justify-center text-white font-bold text-[9px]`}>
-                  {link.badge}
-                </span>
-                {link.label}
-              </a>
-            ))}
           </div>
 
-          {/* Desktop CTA Button (Right) */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden items-center gap-4 md:flex">
+            <div className="hidden items-center gap-3 xl:flex">
+              {affiliatedPlatforms.map((platform) => (
+                <a
+                  key={platform.href}
+                  href={platform.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => tracking.click(platform.trackingLabel, 'affiliated_platform')}
+                  className="text-xs uppercase tracking-[0.18em] text-slate-400 transition-colors hover:text-slate-200"
+                >
+                  {platform.label}
+                </a>
+              ))}
+            </div>
+
             <button
               onClick={() => {
-                scrollToSection('#contact', 'header_cta');
-                tracking.click('header_cta', 'cta');
+                scrollToSection('#ai-tools', 'header_start_diagnosis');
+                tracking.click('header_start_diagnosis', 'cta');
               }}
-              className="btn-spring text-sm"
+              className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition-all hover:-translate-y-0.5 hover:bg-emerald-50"
             >
-              🧧 {t('footer.cta')}
+              {t('hero2.ctaStart', 'Start diagnosis')}
+              <ArrowRight className="h-4 w-4" />
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2"
+            className="md:hidden rounded-xl border border-white/10 bg-white/5 p-2.5 text-white"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6 text-white" />
-            ) : (
-              <Menu className="w-6 h-6 text-white" />
-            )}
+            {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
 
-        {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-gray-700/50 pt-4 bg-gray-900/95 backdrop-blur-md rounded-xl">
+          <div className="mt-4 rounded-2xl border border-white/10 bg-[#0c1722]/95 p-4 backdrop-blur-xl md:hidden">
             <div className="flex flex-col gap-2">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection(link.href, `mobile_${link.name}`);
-                  }}
-                  className="text-white hover:text-emerald-400 font-medium transition-colors py-3 px-2 rounded-lg hover:bg-gray-800"
-                >
-                  {link.name}
-                </a>
-              ))}
+              {navLinks.map((link) => {
+                const Icon = link.icon;
+                return (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(link.href, `mobile_${link.name}`);
+                    }}
+                    className="flex items-center gap-3 rounded-xl px-3 py-3 text-white transition-colors hover:bg-white/5 hover:text-emerald-300"
+                  >
+                    <Icon className="h-4 w-4 text-emerald-300" />
+                    {link.name}
+                  </a>
+                );
+              })}
 
-              {/* External site links - mobile */}
-              {externalLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-orange-400 hover:text-orange-300 font-medium transition-colors py-3 px-2 rounded-lg hover:bg-gray-800"
-                >
-                  <span className={`w-5 h-5 ${link.badgeBg} rounded flex items-center justify-center text-white font-bold text-[9px]`}>
-                    {link.badge}
-                  </span>
-                  {link.label}
-                </a>
-              ))}
-              
-              {/* Mobile Language Section - Direct grid display */}
-              <div className="mt-4 pt-4 border-t border-gray-100">
-                <div className="flex items-center gap-2 px-2 mb-3">
-                  <Languages className="w-5 h-5 text-emerald-400" />
-                  <span className="font-semibold text-white">{t('brand.selectLanguage')}</span>
+              <div className="mt-3 border-t border-white/10 pt-4">
+                <div className="mb-3 flex items-center gap-2 px-2 text-sm font-medium text-white">
+                  <Languages className="h-4 w-4 text-emerald-300" />
+                  <span>{t('nav2.selectLang', 'Choose language')}</span>
                 </div>
-                
-                {/* 直接显示所有语言 - 3列网格 */}
                 <div className="grid grid-cols-3 gap-2">
                   {[
                     { code: 'en', name: 'English', flag: '🇺🇸' },
@@ -226,35 +164,56 @@ const Navbar = () => {
                     { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' },
                     { code: 'ms', name: 'Bahasa', flag: '🇲🇾' },
                     { code: 'lo', name: 'Lao', flag: '🇱🇦' },
+                    { code: 'th', name: 'ไทย', flag: '🇹🇭' },
                   ].map((lang) => (
                     <button
                       key={lang.code}
                       onClick={() => {
-                        i18n.changeLanguage(lang.code);
+                        i18nInstance.changeLanguage(lang.code);
                         setIsMobileMenuOpen(false);
                       }}
-                      className={`flex flex-col items-center justify-center p-2 rounded-lg text-xs font-medium transition-colors duration-150 ${
-                        i18n.language === lang.code 
-                          ? 'bg-gray-800 text-white border border-emerald-600' 
-                          : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                      className={`flex flex-col items-center justify-center rounded-xl border px-2 py-2 text-xs transition-colors ${
+                        i18nInstance.language === lang.code
+                          ? 'border-emerald-400/50 bg-emerald-400/10 text-white'
+                          : 'border-white/10 bg-white/5 text-slate-300 hover:bg-white/10'
                       }`}
                     >
-                      <span className="text-xl">{lang.flag}</span>
+                      <span className="text-lg">{lang.flag}</span>
                       <span className="mt-1">{lang.name}</span>
                     </button>
                   ))}
                 </div>
               </div>
-              
-              {/* Mobile CTA Button */}
+
+              <div className="mt-4 border-t border-white/10 pt-4">
+                <div className="mb-3 text-xs uppercase tracking-[0.18em] text-slate-500">
+                  {i18nInstance.language === 'zh' ? '关联平台' : 'Affiliated platforms'}
+                </div>
+                <div className="flex flex-col gap-2">
+                  {affiliatedPlatforms.map((platform) => (
+                    <a
+                      key={platform.href}
+                      href={platform.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => tracking.click(platform.trackingLabel, 'mobile_affiliated_platform')}
+                      className="rounded-xl border border-white/10 px-3 py-3 text-sm text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
+                    >
+                      {platform.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+
               <button
                 onClick={() => {
-                  scrollToSection('#contact', 'mobile_cta');
-                  tracking.click('mobile_cta', 'cta');
+                  scrollToSection('#ai-tools', 'mobile_start_diagnosis');
+                  tracking.click('mobile_start_diagnosis', 'cta');
                 }}
-                className="btn-spring text-sm mt-4 w-full justify-center py-3"
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-slate-900"
               >
-                🧧 {t('footer.cta')}
+                {t('hero2.ctaStart', 'Start diagnosis')}
+                <ArrowRight className="h-4 w-4" />
               </button>
             </div>
           </div>

@@ -3,7 +3,18 @@
  * 追踪关键影响者的言论和潜在市场影响
  */
 
-import { type VercelRequest, type VercelResponse } from '@vercel/node';
+type VercelRequest = {
+  method?: string;
+  query: Record<string, string | string[] | undefined>;
+};
+
+type VercelResponse = {
+  setHeader: (name: string, value: string) => void;
+  status: (code: number) => {
+    json: (body: unknown) => void;
+    end: () => void;
+  };
+};
 
 interface SocialMediaPost {
   id: string;
@@ -26,7 +37,7 @@ interface SocialMediaPost {
     views: number;
   };
   sentiment: 'positive' | 'negative' | 'neutral';
-  impact: 'high' | 'medium' | 'low';
+  impact: 'high' | 'medium' | 'low' | 'critical';
   relatedTopics: string[];
   marketImpact: {
     affected: string[];

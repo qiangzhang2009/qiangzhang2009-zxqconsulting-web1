@@ -49,7 +49,7 @@ export default async function handler(request) {
 
     const vid = visitor_id || `v_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-    const visitorData = {
+    const visitorData: Record<string, any> = {
       website_id,
       visitor_id: vid,
       company_name: company_name || null,

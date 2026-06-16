@@ -1,5 +1,9 @@
 /**
  * 网站配置文件
+ *
+ * ⚠️ 不再直接配置敏感信息（API Key、GA ID 等），全部从环境变量读取：
+ * - DEEPSEEK_API_KEY：服务端使用
+ * - VITE_GA4_ID：前端编译时注入的 GA4 Measurement ID（可选）
  */
 
 // AI 服务配置
@@ -17,9 +21,19 @@ export const SITE_CONFIG = {
   tagline: '专注本草出海 | 可靠 专业 高效',
   email: 'customer@zxqconsulting.com',
   wechat: 'zxq_consulting',
-  // 追踪 API 端点 - 改为 track 而非 tracking
-  trackingApi: '/api/track',
+  // 追踪 API 端点 - 使用 /api/tracking 转发到后台管理系统
+  trackingApi: '/api/tracking',
   trackingTenant: 'zxqconsulting',
-  // Google Analytics 4 - 请替换为你的 GA4 测量 ID (格式: G-XXXXXXXXXX)
+  // GA4 ID 已迁移到 VITE_GA4_ID 环境变量
+  // 保留此字段仅作向后兼容，新代码请用 getGa4Id() 或 lib/ga4.ts
   ga4MeasurementId: '',
 };
+
+/**
+ * 读取 GA4 Measurement ID。
+ * 优先从 Vite 环境变量 VITE_GA4_ID 读取，缺失则回退到 SITE_CONFIG。
+ */
+export function getGa4Id(): string {
+  const envId = (import.meta.env?.VITE_GA4_ID as string | undefined) || '';
+  return envId || SITE_CONFIG.ga4MeasurementId || '';
+}

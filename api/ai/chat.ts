@@ -1,7 +1,8 @@
 // Vercel API 路由 - AI Chat
 // 使用 DeepSeek API
-
-const FALLBACK_DEEPSEEK_API_KEY = 'sk-af7161086d14482aac4d8127002e6bcd';
+//
+// 重要：DeepSeek API Key 必须通过环境变量 DEEPSEEK_API_KEY 注入。
+// 代码中严禁硬编码密钥或提供 fallback 占位符。
 
 export default async function handler(req, res) {
   // CORS headers
@@ -37,14 +38,15 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing or invalid messages parameter' });
     }
 
-    // 使用环境变量或 fallback
-    const apiKey = process.env.DEEPSEEK_API_KEY || FALLBACK_DEEPSEEK_API_KEY;
-
+    // 强制从环境变量读取，缺失时返回明确错误（无 fallback 占位）
+    const apiKey = process.env.DEEPSEEK_API_KEY;
     if (!apiKey) {
       Object.entries(corsHeaders).forEach(([key, value]) => {
         res.setHeader(key, value);
       });
-      return res.status(500).json({ error: 'Server configuration error: Missing API key' });
+      return res.status(500).json({
+        error: 'Server misconfiguration: DEEPSEEK_API_KEY is not set. Please configure it in Vercel environment variables.',
+      });
     }
 
     // 调用 DeepSeek API

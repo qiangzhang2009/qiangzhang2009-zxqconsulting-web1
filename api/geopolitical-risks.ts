@@ -3,7 +3,18 @@
  * 实时监测全球热点地区的政治风险
  */
 
-import { type VercelRequest, type VercelResponse } from '@vercel/node';
+type VercelRequest = {
+  method?: string;
+  query: Record<string, string | string[] | undefined>;
+};
+
+type VercelResponse = {
+  setHeader: (name: string, value: string) => void;
+  status: (code: number) => {
+    json: (body: unknown) => void;
+    end: () => void;
+  };
+};
 
 interface GeopoliticalRisk {
   id: string;

@@ -6,8 +6,8 @@ import { tracking } from '../lib/tracking';
 const languages = [
   { code: 'en', name: 'English', flag: '🇺🇸', shortName: 'EN' },
   { code: 'zh', name: '中文', flag: '🇨🇳', shortName: '中' },
-  { code: 'es', name: 'Español', flag: '🇪🇸', shortName: 'ES' },
   { code: 'ja', name: '日本語', flag: '🇯🇵', shortName: '日' },
+  { code: 'es', name: 'Español', flag: '🇪🇸', shortName: 'ES' },
   { code: 'de', name: 'Deutsch', flag: '🇩🇪', shortName: 'DE' },
   { code: 'fr', name: 'Français', flag: '🇫🇷', shortName: 'FR' },
   { code: 'pt', name: 'Português', flag: '🇧🇷', shortName: 'PT' },
@@ -17,10 +17,12 @@ const languages = [
   { code: 'id', name: 'Bahasa', flag: '🇮🇩', shortName: 'ID' },
   { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳', shortName: 'VN' },
   { code: 'ms', name: 'Bahasa', flag: '🇲🇾', shortName: 'MY' },
+  { code: 'lo', name: 'Lao', flag: '🇱🇦', shortName: 'LO' },
+  { code: 'th', name: 'ไทย', flag: '🇹🇭', shortName: 'TH' },
 ];
 
 export default function LanguageSwitcher() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -64,7 +66,7 @@ export default function LanguageSwitcher() {
           {/* 头部 */}
           <div className="px-4 py-3 border-b border-gray-700 bg-gray-800">
             <span className="text-sm font-semibold text-gray-300">
-              切换语言 / Language
+              {i18n.language === 'zh' ? '切换语言 / Language' : 'Switch Language'}
             </span>
           </div>
           
