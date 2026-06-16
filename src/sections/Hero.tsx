@@ -74,7 +74,7 @@ const Hero = () => {
   const trustItems = useMemo(() => [
     t('hero2.trust1', 'Get an initial decision in 3 minutes'),
     t('hero2.trust2', 'Assess market, compliance, cost, channels and risk in one flow'),
-    t('hero2.trust3', 'Route qualified projects into expert review'),
+    t('hero2.trust3', 'Complex projects get a deeper expert evaluation'),
   ], [t]);
 
   const previewCards = useMemo(() => [
@@ -222,7 +222,7 @@ const Hero = () => {
             </div>
             <div className="inline-flex items-center gap-2 text-emerald-300">
               <Globe2 className="h-4 w-4" />
-              <span>{t('hero2.diagnoseFirst', 'Diagnose first, then decide whether to escalate to experts')}</span>
+              <span>{t('hero2.diagnoseFirst', 'Diagnose first, then decide whether deeper expert evaluation is needed')}</span>
             </div>
           </div>
         </div>

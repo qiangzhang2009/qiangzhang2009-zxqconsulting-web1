@@ -91,12 +91,12 @@ export function computeDiagnosisReport(params: {
         : 'go_now';
 
   const recommendation = isZh(language)
-    ? `建议先以 ${marketLabel} 作为首站，用 ${categoryLabel} 做低阻力切入，再根据合规与渠道反馈决定是否升级更高监管路径。`
-    : `Use ${marketLabel} as the first wedge market, enter through ${categoryLabel}, and only upgrade into a heavier regulatory path after validating compliance and channel traction.`;
+    ? `建议先以 ${marketLabel} 作为首站，用 ${categoryLabel} 做低阻力切入，再根据合规与渠道反馈决定是否进入更高监管路径。`
+    : `Use ${marketLabel} as the first wedge market, enter through ${categoryLabel}, and only move into a heavier regulatory path after validating compliance and channel traction.`;
 
   const summary = isZh(language)
-    ? `当前项目更适合先做"是否值得进入"的高层判断，而不是立刻投入全量注册与铺渠道。系统建议先验证 ${marketLabel} 的首站可行性，再决定是否进入专家复核。`
-    : `This project should first answer whether the move is worth doing before committing to full registration and channel build-out. Validate ${marketLabel} as the first market, then decide whether expert escalation is justified.`;
+    ? `当前项目更适合先做"是否值得进入"的高层判断，而不是立刻投入全量注册与铺渠道。系统建议先验证 ${marketLabel} 的首站可行性，再决定是否需要专家进一步评估。`
+    : `This project should first answer whether the move is worth doing before committing to full registration and channel build-out. Validate ${marketLabel} as the first market, then decide whether a deeper expert evaluation is needed.`;
 
   const blockerSource =
     (risk.warnings?.[0] as string | undefined) ||
@@ -204,8 +204,8 @@ export function computeQualificationDecision(params: {
       leadTier: 'L1',
       reviewFit: 'expert_review',
       escalationReason: isZh(language)
-        ? '预算和验证程度已达到专家深度介入阈值。'
-        : 'Budget and validation level justify direct expert escalation.',
+        ? '项目预算与已有验证程度已达到让专家进一步评估的条件。'
+        : 'Your budget and validation level meet the conditions for a deeper expert evaluation.',
       blockers,
       requiredBeforeExpert,
     };
@@ -219,8 +219,8 @@ export function computeQualificationDecision(params: {
       leadTier: 'L2',
       reviewFit: 'prepare_then_apply',
       escalationReason: isZh(language)
-        ? '项目具备潜力，但在预算、路径或验证上仍需补齐。'
-        : 'The project is promising but still needs budget, pathway, or validation gaps closed first.',
+        ? '项目具备潜力，建议先把预算、路径或已有验证这几个关键点补齐，再决定是否需要专家进一步评估。'
+        : 'The project is promising; we suggest closing a few key gaps in budget, pathway, or validation before deciding whether deeper expert evaluation is needed.',
       blockers,
       requiredBeforeExpert,
     };
@@ -230,8 +230,8 @@ export function computeQualificationDecision(params: {
     leadTier: 'L3',
     reviewFit: 'self_serve',
     escalationReason: isZh(language)
-      ? '当前更适合继续自助诊断与低成本验证。'
-      : 'The project should remain in self-serve diagnosis and low-cost validation for now.',
+      ? '当前更适合继续自主诊断与低成本验证，等关键假设更清晰后再决定。'
+      : 'For now, continuing self-serve diagnosis and low-cost validation is the better fit; revisit deeper expert evaluation once the key assumptions are clearer.',
     blockers,
     requiredBeforeExpert,
   };

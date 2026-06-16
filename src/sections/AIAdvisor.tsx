@@ -72,12 +72,12 @@ const AIAdvisor = () => {
     ? [
         `为什么 ${selectedMarketName} 比其他市场更适合当前产品？`,
         '如果预算只有 50 万，优先路径应该怎么变？',
-        `如果先走 ${selectedCategoryName} 分类，后续升级路径有什么风险？`,
+        `如果先走 ${selectedCategoryName} 分类，后续路径上有什么需要重点关注的风险？`,
       ]
     : [
         `Why is ${selectedMarketName} a better first market for the current product?`,
         'How should the path change if the budget is limited?',
-        `What are the risks if we enter first through the ${selectedCategoryName} category?`,
+        `What are the risks of starting with the ${selectedCategoryName} category?`,
       ];
 
   const buildSystemPrompt = () => {
