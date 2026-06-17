@@ -102,6 +102,10 @@ const Hero = () => {
                 </span>
               </h1>
 
+              <div className="hero-fade mt-4 mb-0 text-2xl font-light italic tracking-wide text-slate-400 md:text-3xl">
+                {t('brand.slogan', '一脉岐黄。四海安康')}
+              </div>
+
               <p className="hero-fade mt-6 max-w-3xl text-lg leading-8 text-slate-300 md:text-xl">
                 {t('hero2.description')}
               </p>

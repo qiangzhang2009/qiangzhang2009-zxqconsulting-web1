@@ -741,5 +741,9 @@
     "positioningEn": "Positioning: advisory for TCM global market entry and growth. Priority coverage: Japan, EU, Southeast Asia, Middle East, Australia and North America. Notice: AI diagnosis supports early-stage judgment; formal engagements rely on advisory review and local regulations.",
     "applyBtn": "申请专家深度评估",
     "applyBtnNav": "联系我们"
+  },
+  "ai_tools": {
+    "partialDataError": "部分数据获取失败，已使用示例数据补齐",
+    "serviceUnavailable": "AI 服务暂时不可用"
   }
 }

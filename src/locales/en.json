@@ -688,5 +688,9 @@
     "subtitle": "Have questions? Our team is here to help.",
     "chatWithUs": "Chat with us",
     "emailUs": "Email us"
+  },
+  "ai_tools": {
+    "partialDataError": "Partial data unavailable, supplemented with sample data",
+    "serviceUnavailable": "AI service temporarily unavailable"
   }
 }
