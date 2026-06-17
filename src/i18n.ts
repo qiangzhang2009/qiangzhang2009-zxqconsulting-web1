@@ -53,7 +53,7 @@ i18n
       en: { translation: en },
     },
     lng: getInitialLanguage(),
-    fallbackLng: 'en',
+    fallbackLng: 'zh',
     debug: false,
     interpolation: {
       escapeValue: false,
