@@ -6,8 +6,13 @@ import CasesPage from './pages/CasesPage';
 import ExpertPage from './pages/ExpertPage';
 import MethodPage from './pages/MethodPage';
 import MarketsPage from './pages/MarketsPage';
+import AdminPage from './pages/AdminPage';
 
 export const router = createBrowserRouter([
+  {
+    path: '/admin',
+    element: <AdminPage />,
+  },
   {
     path: '/',
     element: <Layout />,
