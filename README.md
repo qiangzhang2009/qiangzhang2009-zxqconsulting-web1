@@ -1,6 +1,12 @@
-# React + TypeScript + Vite
+# 岐黄四海 (QihuangSihai)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> 中医出海决策操作系统 — 中医药/健康产品全球化的 AI 决策平台
+
+## 技术栈
+
+- React 19 + TypeScript
+- Vite 7 (构建)
+- React Router DOM 7 (多页路由)
 
 Currently, two official plugins are available:
 

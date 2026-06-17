@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -145,10 +146,6 @@ const Services = () => {
     return () => ctx.revert();
   }, []);
 
-  const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
     <section id="services" ref={sectionRef} className="relative bg-[#08131d] py-24">
       <div className="container mx-auto px-6">
@@ -208,13 +205,13 @@ const Services = () => {
             ))}
           </div>
 
-          <button
-            onClick={scrollToContact}
+          <Link
+            to="/expert"
             className="mt-10 inline-flex items-center gap-2 rounded-2xl border border-white/12 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
           >
             {t('about.viewExpertPath')}
             <ArrowRight className="h-4 w-4" />
-          </button>
+          </Link>
         </div>
       </div>
     </section>

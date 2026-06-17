@@ -1,43 +1,38 @@
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { Globe2, ArrowRight, ShieldCheck, MapPinned, Building2 } from 'lucide-react';
 import { tracking } from '../lib/tracking';
 
 const Footer = () => {
   const { t } = useTranslation();
 
-  const scrollToSection = (href: string, label?: string) => {
-    const element = document.querySelector(href);
-    if (element) { element.scrollIntoView({ behavior: 'smooth' }); }
-    if (label) { tracking.click(label, 'footer'); }
-  };
-
   const navGroups = [
     {
       title: t('footer.nav'),
       links: [
-        { name: t('nav2.product'), href: '#hero' },
-        { name: t('nav2.diagnosisEngine'), href: '#ai-tools' },
-        { name: t('nav2.useCases'), href: '#services' },
-        { name: t('nav2.caseProof'), href: '#cases' },
-        { name: t('nav2.expertUpgrade'), href: '#contact' },
+        { name: t('nav2.product'), to: '/' },
+        { name: t('nav2.diagnosisEngine'), to: '/diagnose' },
+        { name: t('nav2.useCases'), to: '/markets' },
+        { name: t('nav2.caseProof'), to: '/cases' },
+        { name: t('nav2.expertUpgrade'), to: '/expert' },
       ],
     },
     {
       title: t('footer.priorityMarkets'),
       links: [
-        { name: t('footer.jpKorea'), href: '#ai-tools' },
-        { name: t('footer.euUk'), href: '#ai-tools' },
-        { name: t('footer.seAsia'), href: '#ai-tools' },
-        { name: t('footer.middleEast'), href: '#ai-tools' },
+        { name: t('footer.jpKorea'), to: '/markets' },
+        { name: t('footer.euUk'), to: '/markets' },
+        { name: t('footer.seAsia'), to: '/markets' },
+        { name: t('footer.middleEast'), to: '/markets' },
       ],
     },
     {
       title: t('footer.platformCapabilities'),
       links: [
-        { name: t('footer.marketEntry'), href: '#services' },
-        { name: t('footer.compliancePathway'), href: '#services' },
-        { name: t('footer.channelGrowth'), href: '#services' },
-        { name: t('footer.diagnosisExpert'), href: '#ai-tools' },
+        { name: t('footer.marketEntry'), to: '/method' },
+        { name: t('footer.compliancePathway'), to: '/method' },
+        { name: t('footer.channelGrowth'), to: '/method' },
+        { name: t('footer.diagnosisExpert'), to: '/diagnose' },
       ],
     },
   ];
@@ -85,13 +80,14 @@ const Footer = () => {
               <p className="text-sm leading-7 text-slate-400">
                 {t('footer2.audience')}
               </p>
-              <button
-                onClick={() => scrollToSection('#contact', 'footer_consultation')}
+              <Link
+                to="/expert"
+                onClick={() => tracking.click('footer_consultation', 'footer')}
                 className="inline-flex items-center gap-2 self-start rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition-all hover:-translate-y-0.5 hover:bg-emerald-50"
               >
                 {t('footer2.applyBtn')}
                 <ArrowRight className="h-4 w-4" />
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -105,9 +101,9 @@ const Footer = () => {
                 <Globe2 className="h-5 w-5" />
               </div>
               <div>
-                <div className="text-sm uppercase tracking-[0.22em] text-emerald-300/80">ZXQ Consulting</div>
+                <div className="text-sm uppercase tracking-[0.22em] text-emerald-300/80">{t('brand.name')}</div>
                 <div className="text-lg font-semibold text-white">
-                  {t('hero2.tagline')}
+                  {t('brand.tagline')}
                 </div>
               </div>
             </div>
@@ -140,16 +136,13 @@ const Footer = () => {
               <ul className="space-y-3">
                 {group.links.map((link, index) => (
                   <li key={`${group.title}-${link.name}-${index}`}>
-                    <a
-                      href={link.href}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        scrollToSection(link.href, `footer_${group.title}_${index}`);
-                      }}
+                    <Link
+                      to={link.to}
+                      onClick={() => tracking.click(`footer_${group.title}_${index}`, 'footer')}
                       className="text-sm text-slate-300 transition-colors hover:text-white"
                     >
                       {link.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

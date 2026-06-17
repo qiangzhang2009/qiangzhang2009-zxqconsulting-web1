@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -73,10 +74,6 @@ const About = () => {
     return () => ctx.revert();
   }, []);
 
-  const scrollToCases = () => {
-    document.getElementById('cases')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
     <section id="about" ref={sectionRef} className="overflow-hidden bg-[#07111a] py-24">
       <div className="container mx-auto px-6">
@@ -104,13 +101,13 @@ const About = () => {
               ))}
             </div>
 
-            <button
-              onClick={scrollToCases}
+            <Link
+              to="/cases"
               className="mt-10 inline-flex items-center gap-2 rounded-2xl border border-white/12 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
             >
               {t('about.viewProofCases')}
               <ArrowRight className="h-4 w-4" />
-            </button>
+            </Link>
           </div>
 
           <div ref={cardsRef} className="grid gap-5 sm:grid-cols-2">

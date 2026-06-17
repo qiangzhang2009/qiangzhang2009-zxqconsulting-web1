@@ -1,9 +1,10 @@
 {
   "brand": {
-    "name": "张小强专注中医出海",
-    "fullName": "上海张小强企业咨询公司",
-    "tagline": "可靠·专业·高效",
-    "slogan": "人工智能驱动·资源驱动·专业全球扩张",
+    "name": "岐黄四海",
+    "nameEn": "QihuangSihai",
+    "fullName": "岐黄四海 QihuangSihai",
+    "tagline": "中医出海决策操作系统",
+    "slogan": "一脉岐黄。四海安康",
     "selectLanguage": "选择语言"
   },
   "nav": {
@@ -18,8 +19,8 @@
     "subtitle": "从市场进入策略到运营实施，我们提供全面的海外咨询服务。由人工智能驱动、资源驱动，为您的全球扩张做出更快、更精确的决策。",
     "cta": "开始您的全球之旅",
     "learnMore": "了解更多",
-    "banner": "本草健康 · 全球服务 · 值得信赖",
-    "badge": "本草环球·平台",
+    "banner": "岐黄四海 · 全球服务 · 值得信赖",
+    "badge": "岐黄四海·平台",
     "highlight": "本草出海·走向世界",
     "trustBadge": "专业团队·一站式服务",
     "serviceBadge": "专业服务·值得信赖",
@@ -316,9 +317,9 @@
     "quickLinks": "快速链接",
     "markets": "市场区域",
     "services": "专业服务",
-    "copyright": "© 2026 ZXQ Consulting。保留所有权利。",
+    "copyright": "© 2026 Qihuang Sihai。保留所有权利。",
     "banner": {
-      "badge": "本草环球·平台",
+      "badge": "岐黄四海·平台",
       "title": "开始您的全球之旅",
       "description": "借助国首页政策支持，助力本草产品和中医药文化走向世界！",
       "tagline": "专业团队·一站式服务·值得信赖",
@@ -473,11 +474,11 @@
     }
   },
   "hero2": {
-    "tagline": "AI 驱动的中医全球化决策平台",
+    "tagline": "中医出海决策操作系统",
     "subtitle": "Global Expansion Intelligence Platform",
     "titlePart1": "用 AI 先判断",
     "titlePart2Gradient": "你的中医产品该不该出海",
-    "description": "ZXQ 把市场优先级、准入复杂度、渠道匹配与项目风险结构化为一套 AI 决策流程，帮助中医药、保健食品、汉方护肤和健康产品团队在投入前先做判断。",
+    "description": "岐黄四海把市场优先级、准入复杂度、渠道匹配与项目风险结构化为一套 AI 决策流程，帮助中医药、保健食品、汉方护肤和健康产品团队在投入前先做判断。",
     "q1": "哪个市场最值得先进入？",
     "q2": "合规与准入难度有多高？",
     "q3": "现在立项是否划算？",
@@ -529,7 +530,7 @@
     "nextAction": "下一步动作",
     "nextActionDesc": "继续自主诊断与低成本验证，等关键假设更清晰后再决定是否需要专家进一步评估。",
     "viewExpertEntry": "查看专家深度评估入口",
-    "expertReviewTitle": "ZXQ Expert Review",
+    "expertReviewTitle": "岐黄四海 Expert Review",
     "expertReviewSection": "申请专家深度评估",
     "expertReviewH": "先用平台完成判断，再由专家对复杂项目做进一步评估。",
     "expertReviewDesc": "这一入口不适合泛咨询。它适合已经有明确市场方向、预算范围或关键障碍，希望获得更深一步进入路径判断的项目。",
@@ -646,7 +647,7 @@
     "subtitle": "Let the platform complete the first judgment; experts step in for complex projects that need deeper evaluation.",
     "desc": "这一入口不适合泛咨询。它适合已经有明确市场方向、预算范围或关键障碍，希望获得更深一步进入路径判断的项目。",
     "notGeneric": "This is not a generic contact form. It is meant for teams with a clearer market hypothesis, budget range or blocking issue who need deeper pathway judgment.",
-    "expertReviewTitle": "ZXQ Expert Review",
+    "expertReviewTitle": "岐黄四海 Expert Review",
     "expertReviewCardTitle": "适用于复杂、高门槛、高投入的国际化项目",
     "expertReviewCardDesc": "平台先完成前置判断，对确有需要的项目再由专家进一步评估。",
     "recommendComplete": "建议先完成 AI 诊断，再决定是否需要专家进一步评估。平台帮你理清事实与选项，专家帮你处理真正复杂的问题。",
@@ -703,8 +704,8 @@
     "submitting": "提交中..."
   },
   "cases": {
-    "badge": "样例报告与案例证明",
-    "badgeTitle": "案例不是品牌装饰，而是诊断逻辑的证据。",
+    "badge": "真实案例，决策证据",
+    "badgeTitle": "案例不是品牌装饰，而是决策逻辑的实战验证。",
     "badgeTitleEn": "Cases are not brand decoration. They are evidence for the diagnosis logic.",
     "desc": "我们把案例重写为\"问题—路径—结果—启发\"的结构，让用户看到不同市场与不同品类为何要采用不同进入方式。",
     "descEn": "We structure each case as problem, pathway, outcome and takeaway so users can see why different markets and product categories require different routes.",
@@ -717,10 +718,10 @@
     "outcome": "最终结果",
     "insight": "对今天用户的启发",
     "cat_all": "全部案例",
-    "cat_supplement": "保健食品",
-    "cat_tcm": "中医药",
-    "cat_cosmetic": "护肤美容",
-    "cat_medical": "医疗器械",
+    "cat_market": "选市场型",
+    "cat_compliance": "解准入型",
+    "cat_channel": "搭渠道型",
+    "cat_resource": "找资源型",
     "applyCase": "申请专家深度评估"
   },
   "footer2": {

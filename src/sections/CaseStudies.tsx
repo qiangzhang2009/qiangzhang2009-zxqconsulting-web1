@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -13,6 +14,7 @@ interface CaseStudy {
   industry: string;
   industryEn: string;
   industryCategory: string;
+  decisionType: DecisionType;
   flag: string;
   markets: string[];
   marketsEn: string[];
@@ -27,12 +29,14 @@ interface CaseStudy {
   metrics: { label: string; labelEn: string; value: string }[];
 }
 
+type DecisionType = 'market' | 'compliance' | 'channel' | 'resource';
+
 const CASE_CATEGORIES = [
   { id: 'all' },
-  { id: 'supplement' },
-  { id: 'tcm' },
-  { id: 'cosmetic' },
-  { id: 'medical' },
+  { id: 'market' },
+  { id: 'compliance' },
+  { id: 'channel' },
+  { id: 'resource' },
 ];
 
 const cases: CaseStudy[] = [
@@ -40,6 +44,7 @@ const cases: CaseStudy[] = [
     id: 'case1',
     company: '某百年制药企业', companyEn: 'A Century-Old Pharmaceutical Co.',
     industry: '中成药', industryEn: 'Chinese Patent Medicine', industryCategory: 'tcm',
+    decisionType: 'compliance',
     flag: '🇸🇬',
     markets: ['新加坡', '马来西亚', '泰国'], marketsEn: ['Singapore', 'Malaysia', 'Thailand'],
     challenge: '对东南亚市场法规不了解，担心产品合规问题', challengeEn: 'Unfamiliar with SE Asian regulations',
@@ -59,6 +64,7 @@ const cases: CaseStudy[] = [
     id: 'case2',
     company: '某中药饮片企业', companyEn: 'A TCM Decoction Company',
     industry: '中药饮片', industryEn: 'TCM Decoction Pieces', industryCategory: 'tcm',
+    decisionType: 'compliance',
     flag: '🇦🇺',
     markets: ['澳大利亚', '新西兰'], marketsEn: ['Australia', 'New Zealand'],
     challenge: '产品定位不清晰，不确定以食品还是药品形式进入', challengeEn: 'Unclear product positioning',
@@ -78,6 +84,7 @@ const cases: CaseStudy[] = [
     id: 'case3',
     company: '某保健品集团', companyEn: 'A Health Supplements Group',
     industry: '保健食品', industryEn: 'Health Supplements', industryCategory: 'supplement',
+    decisionType: 'channel',
     flag: '🇩🇪',
     markets: ['德国', '法国', '荷兰'], marketsEn: ['Germany', 'France', 'Netherlands'],
     challenge: '欧盟传统草药注册门槛高，周期长', challengeEn: 'High EU traditional herbal registration barriers',
@@ -97,6 +104,7 @@ const cases: CaseStudy[] = [
     id: 'case4',
     company: '某护肤品企业', companyEn: 'A Skincare Company',
     industry: '护肤产品', industryEn: 'Skincare Products', industryCategory: 'cosmetic',
+    decisionType: 'market',
     flag: '🇯🇵',
     markets: ['日本', '韩国'], marketsEn: ['Japan', 'South Korea'],
     challenge: '日本药妆市场竞争激烈，品牌认知度为零', challengeEn: 'Intense Japanese cosmetics competition, zero brand awareness',
@@ -124,7 +132,7 @@ const CaseStudies = () => {
   const filteredCases = useMemo(
     () =>
       cases.filter((c) => {
-        const matchesCategory = activeCategory === 'all' || c.industryCategory === activeCategory;
+        const matchesCategory = activeCategory === 'all' || c.decisionType === activeCategory;
         const q = searchQuery.toLowerCase();
         const matchesSearch =
           !q ||
@@ -162,10 +170,6 @@ const CaseStudies = () => {
 
   const catLabel = (id: string) =>
     t(`cases.cat_${id}`, id === 'all' ? t('cases.cat_all') : id);
-
-  const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-  };
 
   return (
     <section id="cases" ref={sectionRef} className="bg-[#08131d] py-24">
@@ -279,12 +283,12 @@ const CaseStudies = () => {
                 ))}
               </div>
 
-              <button
-                onClick={scrollToContact}
+              <Link
+                to="/expert"
                 className="mt-6 inline-flex items-center gap-2 rounded-2xl border border-white/12 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
               >
                 {t('cases.applyCase')} <ArrowRight className="h-4 w-4" />
-              </button>
+              </Link>
             </article>
           ))}
         </div>

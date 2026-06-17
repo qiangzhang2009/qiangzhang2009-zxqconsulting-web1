@@ -1,23 +1,26 @@
-import './lib/patches/global-shim'; // 必须在最前面导入，消除第三方库警告
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './i18n' // 导入 i18n 配置
+import { RouterProvider } from 'react-router-dom';
+import './i18n'
 import './index.css'
-import App from './App.tsx'
+import { router } from './routes';
 import { Toaster } from 'sonner';
 import { installGlobalErrorHandlers } from './lib/errorReporter';
+import GA4 from './components/GA4';
+import SEO from './components/SEO';
+import FloatingContact from './components/FloatingContact';
+import { MarketProvider } from './sections/aiTools/marketContext';
 
-// 安装全局错误捕获（缺失 VITE_ERROR_REPORTING_URL 时静默）
 installGlobalErrorHandlers();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
+    <MarketProvider>
+      <GA4 />
+      <SEO />
+      <RouterProvider router={router} />
       <Toaster position="top-right" />
-      <Routes>
-        <Route path="*" element={<App />} />
-      </Routes>
-    </BrowserRouter>
+      <FloatingContact />
+    </MarketProvider>
   </StrictMode>,
-)
+);

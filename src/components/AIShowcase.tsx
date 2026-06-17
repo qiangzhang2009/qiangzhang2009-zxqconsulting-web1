@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { 
   Brain, 
@@ -488,18 +489,13 @@ const AIShowcase = () => {
               </div>
             </div>
 
-            <button 
-              onClick={() => {
-                const contactSection = document.getElementById('contact');
-                if (contactSection) {
-                  contactSection.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
+            <Link
+              to="/expert"
               className="w-full mt-4 flex items-center justify-center gap-2 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-medium hover:from-cyan-600 hover:to-blue-600 transition-all"
             >
               <span>{t('ai.showcase.learnMore', '了解更多')}</span>
               <ChevronRight className="w-4 h-4" />
-            </button>
+            </Link>
           </div>
         </div>
 

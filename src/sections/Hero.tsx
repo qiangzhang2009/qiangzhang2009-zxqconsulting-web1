@@ -1,4 +1,5 @@
 import { useEffect, useRef, useMemo, lazy } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import gsap from 'gsap';
 import {
@@ -53,18 +54,6 @@ const Hero = () => {
     return () => ctx.revert();
   }, []);
 
-  const scrollToAITools = () => {
-    const element = document.querySelector('#ai-tools');
-    if (element) { element.scrollIntoView({ behavior: 'smooth' }); }
-    tracking.click('hero_start_diagnosis', 'cta');
-  };
-
-  const scrollToCases = () => {
-    const element = document.querySelector('#cases');
-    if (element) { element.scrollIntoView({ behavior: 'smooth' }); }
-    tracking.click('hero_view_sample_report', 'cta');
-  };
-
   const diagnosisQuestions = useMemo(() => [
     t('hero2.q1', 'Which market should you enter first?'),
     t('hero2.q2', 'How hard will compliance and entry be?'),
@@ -114,7 +103,7 @@ const Hero = () => {
               </h1>
 
               <p className="hero-fade mt-6 max-w-3xl text-lg leading-8 text-slate-300 md:text-xl">
-                {t('hero2.description', 'ZXQ turns market priority, entry complexity, channel fit and project risk into one AI decision flow so TCM, supplement, Hanfang skincare and health-product teams can evaluate opportunities before committing serious resources.')}
+                {t('hero2.description')}
               </p>
 
               <div className="hero-fade mt-8 grid gap-3 sm:grid-cols-3">
@@ -129,22 +118,24 @@ const Hero = () => {
               </div>
 
               <div className="hero-fade mt-10 flex flex-wrap gap-4">
-                <button
-                  onClick={scrollToAITools}
+                <Link
+                  to="/diagnose"
+                  onClick={() => tracking.click('hero_start_diagnosis', 'cta')}
                   className="group inline-flex items-center gap-3 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 px-8 py-4 text-base font-semibold text-white shadow-[0_18px_40px_rgba(16,185,129,0.28)] transition-all hover:-translate-y-0.5 hover:shadow-[0_24px_50px_rgba(16,185,129,0.34)]"
                 >
                   <Sparkles className="h-5 w-5" />
                   {t('hero2.ctaStart', 'Start AI diagnosis')}
                   <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </button>
+                </Link>
 
-                <button
-                  onClick={scrollToCases}
+                <Link
+                  to="/cases"
+                  onClick={() => tracking.click('hero_view_sample_report', 'cta')}
                   className="inline-flex items-center gap-3 rounded-2xl border border-white/15 bg-white/5 px-8 py-4 text-base font-semibold text-white backdrop-blur-sm transition-all hover:border-white/30 hover:bg-white/10"
                 >
                   <FileSearch className="h-5 w-5 text-emerald-300" />
                   {t('hero2.ctaViewSample', 'View sample report')}
-                </button>
+                </Link>
               </div>
 
               <div className="hero-fade mt-12 grid gap-3 sm:grid-cols-3">
@@ -229,13 +220,14 @@ const Hero = () => {
       </div>
 
       <div className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 lg:block">
-        <button
-          onClick={scrollToAITools}
+        <Link
+          to="/diagnose"
+          onClick={() => tracking.click('hero_begin_diagnosis', 'cta')}
           className="hero-fade flex flex-col items-center gap-2 text-xs uppercase tracking-[0.3em] text-slate-400 transition-colors hover:text-white"
         >
           <span>{t('hero2.beginDiagnosis', 'Begin diagnosis')}</span>
           <ChevronDownIcon />
-        </button>
+        </Link>
       </div>
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 hidden opacity-20 lg:block">

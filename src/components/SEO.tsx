@@ -11,126 +11,126 @@ type SeoEntry = {
 
 const DEFAULT_SEO: SeoEntry = {
   lang: 'en',
-  title: 'ZXQ Consulting | AI Platform for TCM Global Expansion',
+  title: 'Qihuang Sihai | AI Decision System for TCM Global Expansion',
   description:
-    'ZXQ Consulting is an AI platform for TCM global expansion decisions. Evaluate market priority, entry complexity, compliance pathways, channel fit and project risk for TCM, supplements, Hanfang skincare and health products before deeper expert review.',
+    'Qihuang Sihai is an AI-powered decision operating system for TCM, supplements, Hanfang skincare and health products. Evaluate market priority, entry compliance, cost ROI, channel fit and project risk before committing resources to global expansion.',
   ogLocale: 'en_US',
-  siteName: 'ZXQ Consulting',
+  siteName: '岐黄四海 QihuangSihai',
 };
 
 const SEO_BY_LANGUAGE: Record<string, SeoEntry> = {
   en: DEFAULT_SEO,
   zh: {
     lang: 'zh-CN',
-    title: 'ZXQ Consulting | 中医药全球化 AI 决策平台',
+    title: '岐黄四海 | 中医出海决策操作系统',
     description:
-      'ZXQ Consulting 是面向中医药、保健食品、汉方护肤与健康产品的全球化 AI 决策平台，帮助团队在进入深度专家复核前，先完成市场优先级、进入复杂度、合规路径、渠道匹配与项目风险判断。',
+      '岐黄四海是面向中医、保健食品、汉方护肤与健康产品的出海决策操作系统。帮助企业在进入全球市场前，先完成市场优先级、准入合规、成本ROI、渠道匹配与项目风险的AI判断。',
     ogLocale: 'zh_CN',
-    siteName: 'ZXQ Consulting',
+    siteName: '岐黄四海 QihuangSihai',
   },
   ja: {
     lang: 'ja',
-    title: 'ZXQ Consulting | TCM海外展開の戦略アドバイザリー',
+    title: '岐黄四海 | TCM海外展開の意思決定システム',
     description:
-      'ZXQ Consulting は、中医薬・健康食品・漢方スキンケアの海外展開に向けて、市場参入戦略、規制対応、チャネル設計、AI診断を提供します。',
+      '岐黄四海は中医薬・健康食品・漢方のグローバル展開に向けたAI意思決定システムです。市場優先度、准入コンプライアンス、コストROI、チャネル適合、リスク判断为您提供全面的 решения.',
     ogLocale: 'ja_JP',
-    siteName: 'ZXQ Consulting',
+    siteName: '岐黄四海 QihuangSihai',
   },
   es: {
     lang: 'es',
-    title: 'ZXQ Consulting | Asesoría estratégica para la expansión global de MTC',
+    title: '岐黄四海 | Sistema de Decision AI para Expansion Global de MTC',
     description:
-      'ZXQ Consulting ayuda a marcas de medicina tradicional china, suplementos y cuidado Hanfang a entrar en mercados globales con estrategia de acceso, cumplimiento, canales y diagnóstico con IA.',
+      '岐黄四海 es un sistema operativo de decisiones AI para TCM, suplementos y cuidado Hanfang. Evalúe prioridad de mercado, cumplimiento, ROI, canales y riesgo antes de comprometerse con la expansion global.',
     ogLocale: 'es_ES',
-    siteName: 'ZXQ Consulting',
+    siteName: '岐黄四海 QihuangSihai',
   },
   fr: {
     lang: 'fr',
-    title: 'ZXQ Consulting | Conseil stratégique pour l’expansion mondiale de la MTC',
+    title: '岐黄四海 | Systeme de Decision IA pour l\'Expansion Mondiale de la MTC',
     description:
-      'ZXQ Consulting accompagne les marques de médecine traditionnelle chinoise, compléments et soins Hanfang avec stratégie d’entrée marché, conformité, canaux et diagnostic IA.',
+      '岐黄四海 est un systeme de decision IA pour TCM, complements et soins Hanfang. Evaluez la priorite marche, la conformite, le ROI, les canaux et les risques avant de vous engager dans l\'expansion mondiale.',
     ogLocale: 'fr_FR',
-    siteName: 'ZXQ Consulting',
+    siteName: '岐黄四海 QihuangSihai',
   },
   de: {
     lang: 'de',
-    title: 'ZXQ Consulting | Strategische Beratung für die globale TCM-Expansion',
+    title: '岐黄四海 | KI-Entscheidungssystem fur Globale TCM-Expansion',
     description:
-      'ZXQ Consulting unterstützt TCM-, Supplement- und Hanfang-Hautpflegemarken mit Markteintrittsstrategie, Compliance, Kanalaufbau und KI-gestützter Diagnose.',
+      '岐黄四海 ist ein KI-gestutztes Entscheidungssystem fur TCM, Nahrungsergdnzungsmittel und Hanfang-Hautpflege. Bewerten Sie Marktprioritat, Compliance, ROI, Kanale und Risiken, bevor Sie sich zur globalen Expansion verpflichten.',
     ogLocale: 'de_DE',
-    siteName: 'ZXQ Consulting',
+    siteName: '岐黄四海 QihuangSihai',
   },
   pt: {
     lang: 'pt',
-    title: 'ZXQ Consulting | Consultoria estratégica para expansão global da MTC',
+    title: '岐黄四海 | Sistema de Decisao AI para Expansão Global da MTC',
     description:
-      'A ZXQ Consulting apoia marcas de medicina tradicional chinesa, suplementos e skincare Hanfang com estratégia de entrada, compliance, canais e diagnóstico com IA.',
+      '岐黄四海 e um sistema de decisao AI para TCM, suplementos e skincare Hanfang. Avalie prioridade de mercado, conformidade, ROI, canais e riscos antes de se comprometer com a expansao global.',
     ogLocale: 'pt_BR',
-    siteName: 'ZXQ Consulting',
+    siteName: '岐黄四海 QihuangSihai',
   },
   ar: {
     lang: 'ar',
-    title: 'ZXQ Consulting | استشارات استراتيجية للتوسع العالمي في الطب الصيني التقليدي',
+    title: '岐黄四海 | نظام القرار الذكي للتوسع العالمي في الطب الصيني التقليدي',
     description:
-      'تدعم ZXQ Consulting علامات الطب الصيني التقليدي والمكملات والعناية Hanfang عبر استراتيجية دخول السوق والامتثال والقنوات وتشخيص الذكاء الاصطناعي.',
+      '岐黄四海 هو نظام تشغيل قرار AI لمنتجات الطب الصيني التقليدي والمكملات والعناية Hanfang. قم بتقييم اولوية السوق والامتثال والعائد على الاستثمار والقنوات والمخاطر قبل الالتزام بالتوسع العالمي.',
     ogLocale: 'ar_SA',
-    siteName: 'ZXQ Consulting',
+    siteName: '岐黄四海 QihuangSihai',
   },
   ru: {
     lang: 'ru',
-    title: 'ZXQ Consulting | Стратегический консалтинг для глобальной экспансии Т��М',
+    title: '岐黄四海 | Sistema Prinyatiya Resheniy AI dlya Globalnoy Ekspansii TKM',
     description:
-      'ZXQ Consulting помогает брендам ТКМ, БАДов и Hanfang выходить на мировые рынки через стратегию входа, комплаенс, каналы и AI-диагностику.',
+      '岐黄四海 — eto sistema prinyatiya resheniy AI dlya produktov TKM, BADOv i Hanfang. Otsenite prioritet rynka, komplaens, ROI, kanaly i riski, prezhde chem brat na sebya obyazatelstva po globalnoy ekspansii.',
     ogLocale: 'ru_RU',
-    siteName: 'ZXQ Consulting',
+    siteName: '岐黄四海 QihuangSihai',
   },
   ko: {
     lang: 'ko',
-    title: 'ZXQ Consulting | 중의약 글로벌 진출 전략 자문',
+    title: '岐黄四海 | TCM Global Jincheol AI Uisi Gyeoljeong Shisutem',
     description:
-      'ZXQ Consulting은 중의약, 건강보조식품, 한방 스킨케어 브랜드를 위해 시장 진입 전략, 규제 대응, 채널 설계 및 AI 진단을 제공합니다.',
+      '岐黄四海는 TCM, geombohogsiyong pum, hanbang seukindea pum jjogi roun global jinchul-eul wihan AI uisi gyeoljeong haengtong sisteom-ibnida. Sijang yeoseon gwonjo, juyeok keompeullaieonsu, biyong ROI, cheneol jaryeog hwansong-eul peullaesaigi jeheom-eulo global jinchul-eul gyeoljeong-yeohamyeo.',
     ogLocale: 'ko_KR',
-    siteName: 'ZXQ Consulting',
+    siteName: '岐黄四海 QihuangSihai',
   },
   id: {
     lang: 'id',
-    title: 'ZXQ Consulting | Konsultasi strategis untuk ekspansi global TCM',
+    title: '岐黄四海 | Sistem Keputusan AI untuk Ekspansi Global TCM',
     description:
-      'ZXQ Consulting membantu merek TCM, suplemen, dan skincare Hanfang masuk ke pasar global melalui strategi pasar, kepatuhan, kanal, dan diagnosis AI.',
+      '岐黄四海 adalah sistem operasi keputusan AI untuk produk TCM, suplemen, dan perawatan kulit Hanfang. Evaluasilah prioritas pasar, kepatuhan, ROI, kesesuaian saluran, dan risiko proyek sebelum berkomitmen untuk ekspansi global.',
     ogLocale: 'id_ID',
-    siteName: 'ZXQ Consulting',
+    siteName: '岐黄四海 QihuangSihai',
   },
   ms: {
     lang: 'ms',
-    title: 'ZXQ Consulting | Nasihat strategik untuk pengembangan global TCM',
+    title: '岐黄四海 | Sistem Keputusan AI untuk Pengembangan Global TCM',
     description:
-      'ZXQ Consulting menyokong jenama TCM, suplemen dan penjagaan kulit Hanfang dengan strategi kemasukan pasaran, pematuhan, saluran dan diagnosis AI.',
+      '岐黄四海 ialah sistem operasi keputusan AI untuk produk TCM, suplement, dan penjagaan kulit Hanfang. Nilai keutamaan pasaran, pematuhan, ROI, kesesuaian saluran dan risiko projek sebelum komitmen untuk pengembangan global.',
     ogLocale: 'ms_MY',
-    siteName: 'ZXQ Consulting',
+    siteName: '岐黄四海 QihuangSihai',
   },
   vi: {
     lang: 'vi',
-    title: 'ZXQ Consulting | Tư vấn chiến lược cho mở rộng toàn cầu ngành TCM',
+    title: '岐黄四海 | He Thong Quyet Dinh AI Cho Viec Mo Rong Toan Cau TCM',
     description:
-      'ZXQ Consulting hỗ trợ thương hiệu y học cổ truyền Trung Hoa, thực phẩm bổ sung và Hanfang với chiến lược vào thị trường, tuân thủ, kênh phân phối và chẩn đoán AI.',
+      '岐黄四海 la he thong van hanh quyet dinh AI cho san pham y hoc co truyen Trung Hoa, thuc pham bo sung va cham soc da Hanfang. Danh gia uu tien thi truong, tuan thu, ROI, phu hop kenhe va rui ro du an truoc khi cam ket mo rong toan cau.',
     ogLocale: 'vi_VN',
-    siteName: 'ZXQ Consulting',
+    siteName: '岐黄四海 QihuangSihai',
   },
   it: {
     lang: 'it',
-    title: 'ZXQ Consulting | Consulenza strategica per l’espansione globale della MTC',
+    title: '岐黄四海 | Sistema di Decisione AI per l\'Espansione Globale della MTC',
     description:
-      'ZXQ Consulting supporta marchi di medicina tradizionale cinese, integratori e skincare Hanfang con strategia di ingresso, compliance, canali e diagnosi AI.',
+      '岐黄四海 e un sistema operativo di decisione AI per prodotti MTC, integratori e skincare Hanfang. Valuta priorita di mercato, conformita, ROI, idoneita dei canali e rischi del progetto prima di impegnarti nell\'espansione globale.',
     ogLocale: 'it_IT',
-    siteName: 'ZXQ Consulting',
+    siteName: '岐黄四海 QihuangSihai',
   },
   lo: {
     lang: 'lo',
-    title: 'ZXQ Consulting | ທີ່ປຶກສາຍຸດທະສາດສໍາລັບການຂະຫຍາຍ TCM ສູ່ຕະຫຼາດໂລກ',
+    title: '岐黄四海 | Long Bun Took AI Pasoo Thom Kab Nge Optc Global',
     description:
-      'ZXQ Consulting ສະໜັບສະໜູນແບຣນຢາຈີນດັ້ງເດີມ ອາຫານເສີມ ແລະ Hanfang ດ້ວຍຍຸດທະສາດເຂົ້າຕະຫຼາດ, ຄວາມສອດຄ່ອງ ແລະ AI diagnosis.',
+      '岐黄四海 neay tor tae ree sot kar ai jang xeek pp Tee ch输出 TCM, aa jing puu tee lae Hanfang skincare. Juu tee aaya waang jaak radab yang chai kee long tueng pai sie lek Global.',
     ogLocale: 'lo_LA',
-    siteName: 'ZXQ Consulting',
+    siteName: '岐黄四海 QihuangSihai',
   },
 };
 
@@ -165,7 +165,7 @@ export default function SEO() {
     const rawLanguage = (i18n.language || 'en').split('-')[0].toLowerCase();
     const language = rawLanguage === 'en' ? 'en' : rawLanguage;
     const seo = SEO_BY_LANGUAGE[language] || DEFAULT_SEO;
-    const baseUrl = 'https://zxqconsulting.com/';
+    const baseUrl = 'https://qihuangsihai.com/';
     const currentUrl = new URL(baseUrl);
     if (language !== 'zh' && language !== 'en') {
       currentUrl.searchParams.set('lang', language);

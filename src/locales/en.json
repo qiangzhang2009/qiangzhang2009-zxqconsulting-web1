@@ -1,9 +1,10 @@
 {
   "brand": {
-    "name": "ZXQ Consulting",
-    "fullName": "Shanghai Zhang Xiaoqiang Enterprise Consulting Firm",
-    "tagline": "Your Loyal and Reliable Global Partner",
-    "slogan": "AI-Powered · Resource-Driven · Professional Global Expansion"
+    "name": "Qihuang Sihai",
+    "nameEn": "QihuangSihai",
+    "fullName": "Qihuang Sihai",
+    "tagline": "TCM Global Expansion Decision Operating System",
+    "slogan": "One Pulse of Qihuang. Health Across Four Seas."
   },
   "nav": {
     "home": "Home",
@@ -284,7 +285,7 @@
     "quickLinks": "Quick Links",
     "markets": "Market Regions",
     "services": "Professional Services",
-    "copyright": "© 2026 ZXQ Consulting. All rights reserved.",
+    "copyright": "© 2026 Qihuang Sihai. All rights reserved.",
     "nav": "Navigation",
     "priorityMarkets": "Priority Markets",
     "platformCapabilities": "Platform Capabilities",
@@ -407,11 +408,11 @@
     }
   },
   "hero2": {
-    "tagline": "AI platform for TCM global expansion decisions",
+    "tagline": "TCM Global Expansion Decision Operating System",
     "subtitle": "Global Expansion Intelligence Platform",
     "titlePart1": "Use AI to decide",
     "titlePart2Gradient": "if your TCM product should go global",
-    "description": "ZXQ turns market priority, entry complexity, channel fit and project risk into one AI decision flow so TCM, supplement, Hanfang skincare and health-product teams can evaluate opportunities before committing serious resources.",
+    "description": "Qihuang Sihai turns market priority, entry complexity, channel fit and project risk into one AI decision flow so TCM, supplement, Hanfang skincare and health-product teams can evaluate opportunities before committing serious resources.",
     "q1": "Which market should you enter first?",
     "q2": "How hard will compliance and entry be?",
     "q3": "Is this opportunity worth funding now?",
@@ -463,7 +464,7 @@
     "nextAction": "Next action",
     "nextActionDesc": "Continue self-serve diagnosis and low-cost validation; request deeper expert evaluation once the key assumptions are clearer.",
     "viewExpertEntry": "View expert evaluation entry",
-    "expertReviewTitle": "ZXQ Expert Review",
+    "expertReviewTitle": "Qihuang Sihai Expert Review",
     "expertReviewSection": "Deeper expert evaluation",
     "expertReviewH": "Let the platform complete the first judgment; experts step in for complex projects that need deeper evaluation.",
     "expertReviewDesc": "This is not a generic contact form. It is meant for teams with a clearer market hypothesis, budget range or blocking issue who need deeper pathway judgment.",
@@ -580,7 +581,7 @@
     "subtitle": "Let the platform complete the first judgment; experts step in for complex projects that need deeper evaluation.",
     "desc": "This is not a generic contact form. It is meant for teams with a clearer market hypothesis, budget range or blocking issue who need deeper pathway judgment.",
     "notGeneric": "This is not a generic contact form. It is meant for teams with a clearer market hypothesis, budget range or blocking issue who need deeper pathway judgment.",
-    "expertReviewTitle": "ZXQ Expert Review",
+    "expertReviewTitle": "Qihuang Sihai Expert Review",
     "expertReviewCardTitle": "For complex, high-barrier and high-commitment globalization projects",
     "expertReviewCardDesc": "The platform handles the first pass; deeper expert evaluation is offered for projects that genuinely need it.",
     "recommendComplete": "We recommend completing the AI diagnosis before requesting a deeper expert evaluation. The platform clarifies the facts and options; experts help with the truly complex questions.",
@@ -639,8 +640,8 @@
     "submitting": "Submitting..."
   },
   "cases": {
-    "badge": "Sample reports and proof cases",
-    "badgeTitle": "Cases are not brand decoration. They are evidence for the diagnosis logic.",
+    "badge": "Real cases, decision evidence",
+    "badgeTitle": "Cases are not brand decoration. They are real-world proof of the decision logic.",
     "badgeTitleEn": "Cases are not brand decoration. They are evidence for the diagnosis logic.",
     "desc": "We structure each case as problem, pathway, outcome and takeaway so users can see why different markets and product categories require different routes.",
     "descEn": "We structure each case as problem, pathway, outcome and takeaway so users can see why different markets and product categories require different routes.",
@@ -653,10 +654,10 @@
     "outcome": "Outcome",
     "insight": "What this means for your project",
     "cat_all": "All Cases",
-    "cat_supplement": "Health Supplements",
-    "cat_tcm": "TCM",
-    "cat_cosmetic": "Cosmetics",
-    "cat_medical": "Medical Devices",
+    "cat_market": "Market Selection",
+    "cat_compliance": "Compliance & Entry",
+    "cat_channel": "Channel Building",
+    "cat_resource": "Resource Matching",
     "applyCase": "Request a deeper expert evaluation"
   },
   "footer2": {

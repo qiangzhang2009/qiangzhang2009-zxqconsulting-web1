@@ -11,6 +11,7 @@ import type {
   DiagnosisInput,
   DiagnosisReport,
   EvidenceBlock,
+  EvidenceItem,
   QualificationDecision,
   TargetMarket,
 } from './types';
@@ -139,6 +140,29 @@ export function computeEvidenceBlocks(params: {
   const channel = asRecord(cachedData.channel);
   const risk = asRecord(cachedData.risk);
 
+  const isMock = (data: Record<string, AIField>): boolean =>
+    !!(data._mock);
+
+  const buildEvidenceItems = (
+    data: Record<string, AIField>,
+    label: string
+  ): EvidenceItem[] => {
+    const confidence = isMock(data) ? 0.5 : 0.85;
+    return [
+      {
+        type: isMock(data) ? 'ai_inference' : 'fact',
+        source: label,
+        confidence,
+        lastUpdated: new Date().toISOString().split('T')[0],
+        disclaimer: isMock(data)
+          ? (isZh(language)
+              ? '此数据为示例演示数据，实际决策请以真实 AI 报告为准。'
+              : 'This data is illustrative sample data. Real AI reports should be used for actual decisions.')
+          : undefined,
+      },
+    ];
+  };
+
   return [
     {
       id: 'market',
@@ -157,6 +181,7 @@ export function computeEvidenceBlocks(params: {
           : '',
         ...safeArray(insight.trends).slice(0, 2),
       ].filter(Boolean) as string[],
+      evidenceItems: buildEvidenceItems(feasibility, 'AI Market Analysis'),
     },
     {
       id: 'compliance',
@@ -167,6 +192,7 @@ export function computeEvidenceBlocks(params: {
         ...safeArray(compliance.requirements).slice(0, 2),
         ...safeArray(risk.warnings).slice(0, 2),
       ].filter(Boolean) as string[],
+      evidenceItems: buildEvidenceItems(compliance, 'AI Compliance Assessment'),
     },
     {
       id: 'execution',
@@ -179,6 +205,7 @@ export function computeEvidenceBlocks(params: {
           .filter(Boolean),
         ...safeArray(risk.mitigations).slice(0, 2),
       ].filter(Boolean) as string[],
+      evidenceItems: buildEvidenceItems(channel, 'AI Channel Strategy'),
     },
   ];
 }

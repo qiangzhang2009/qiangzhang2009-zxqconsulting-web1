@@ -60,6 +60,7 @@ const AIAdvisor = () => {
   const { selectedMarket, selectedCategory } = useContext(MarketContext);
 
   const [messages, setMessages] = useState<Message[]>([]);
+  const messagesRef = useRef<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showChat, setShowChat] = useState(false);
@@ -107,7 +108,9 @@ const AIAdvisor = () => {
       timestamp: new Date(),
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    const currentHistory = messagesRef.current;
+    messagesRef.current = [...currentHistory, userMessage];
+    setMessages([...currentHistory, userMessage]);
     setInput('');
     setShowChat(true);
     setIsLoading(true);
@@ -121,8 +124,7 @@ const AIAdvisor = () => {
           model: 'deepseek-chat',
           messages: [
             { role: 'system', content: buildSystemPrompt() },
-            ...messages.map((m) => ({ role: m.role, content: m.content })),
-            { role: 'user', content: userMessage.content },
+            ...messagesRef.current.map((m) => ({ role: m.role, content: m.content })),
           ],
           max_tokens: 800,
           temperature: 0.5,
@@ -136,28 +138,26 @@ const AIAdvisor = () => {
       if (!content) throw new Error('No content');
       content = stripMarkdown(content);
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: (Date.now() + 1).toString(),
-          role: 'assistant',
-          content,
-          timestamp: new Date(),
-          isDemo: false,
-        },
-      ]);
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content,
+        timestamp: new Date(),
+        isDemo: false,
+      };
+      messagesRef.current = [...messagesRef.current, assistantMessage];
+      setMessages([...messagesRef.current]);
     } catch {
       setIsDemoMode(true);
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: (Date.now() + 1).toString(),
-          role: 'assistant',
-          content: getDemoResponse(messageText),
-          timestamp: new Date(),
-          isDemo: true,
-        },
-      ]);
+      const demoMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: getDemoResponse(messageText),
+        timestamp: new Date(),
+        isDemo: true,
+      };
+      messagesRef.current = [...messagesRef.current, demoMessage];
+      setMessages([...messagesRef.current]);
     } finally {
       setIsLoading(false);
     }

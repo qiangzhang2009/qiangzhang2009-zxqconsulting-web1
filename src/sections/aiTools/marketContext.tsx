@@ -120,7 +120,7 @@ async function callBatchApi(params: {
 // ================== Provider ==================
 
 export function MarketProvider({ children }: { children: ReactNode }) {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const currentLanguage = normalizeLanguage(i18n.language);
 
   // ----- 基础选择状态 -----
@@ -254,13 +254,13 @@ export function MarketProvider({ children }: { children: ReactNode }) {
       if (phase1.data.feasibility) {
         newData.feasibility = phase1.data.feasibility;
         newSources.feasibility = 'api';
-        // 立即更新 UI，让用户看到核心结论
+        // Immediately update UI so the user sees the core conclusion
         setCachedData({ ...newData });
         setDataSource({ ...newSources });
         setPrefetchProgress(20);
 
-        // ---- 3. Phase 2: 完整 6 模块 ----
-        setPrefetchProgress(25);
+        // ---- 3. Phase 2: all 6 modules ----
+        setPrefetchProgress(30);
         const phase2 = await callBatchApi({
           market: market.name,
           marketEn: getMarketEnName(marketId),
@@ -277,28 +277,31 @@ export function MarketProvider({ children }: { children: ReactNode }) {
         }
 
         if (Object.keys(phase2.data).length > 0) {
-          for (const tool of ALL_TOOLS) {
+          const toolsOrder = ['feasibility', 'compliance', 'insight', 'cost', 'channel', 'risk'];
+          const progressSteps = [40, 55, 70, 82, 92, 97];
+          toolsOrder.forEach((tool, i) => {
             if (phase2.data[tool]) {
               newData[tool] = phase2.data[tool];
               newSources[tool] = 'api';
+              setPrefetchProgress(progressSteps[i]);
             }
-          }
+          });
           saveToCache(batchCacheKey, newData);
           setCachedData({ ...newData });
           setDataSource({ ...newSources });
           setPrefetchProgress(100);
         } else {
-          // Phase 2 失败：保留 feasibility 真实数据 + 用 mock 补齐其他
-          fillMissingWithMock(newData, newSources, market, category, phase2.errorMessage || '完整数据获取失败');
+          // Phase 2 failed: keep feasibility real data + mock fill others
+          fillMissingWithMock(newData, newSources, market, category, phase2.errorMessage || 'Complete data fetch failed');
           saveToCache(batchCacheKey, newData);
           setCachedData({ ...newData });
           setDataSource({ ...newSources });
           setPrefetchProgress(100);
-          setError('部分数据获取失败，已使用示例数据补齐');
+          setError(t('ai_tools.partialDataError', 'Partial data unavailable, supplemented with sample data'));
         }
       } else {
         // Phase 1 失败：全部走 mock 兜底
-        const reason = phase1.errorMessage || 'AI 服务暂时不可用';
+        const reason = phase1.errorMessage || t('ai_tools.serviceUnavailable', 'AI service temporarily unavailable');
         const mockData = generateAllMockData(market, category, reason);
         for (const tool of ALL_TOOLS) {
           newData[tool] = mockData[tool];

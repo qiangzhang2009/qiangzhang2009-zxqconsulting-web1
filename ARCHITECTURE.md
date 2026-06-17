@@ -1,6 +1,6 @@
-# zxqconsulting-web 项目架构文档
+# 岐黄四海 (QihuangSihai) 项目架构文档
 
-> 本文档详细记录了「张小强咨询」网站的功能架构逻辑和技术实现细节，供后续项目参考复用。
+> 本文档详细记录了「岐黄四海」网站的功能架构逻辑和技术实现细节，供后续项目参考复用。
 
 ---
 
@@ -8,7 +8,9 @@
 
 ### 1.1 核心定位
 
-一个面向中医药/健康产品出海（B2B）领域的智能咨询平台网站，核心功能是**AI驱动的市场可行性分析工具链**——用户选择目标市场 + 产品类别，系统通过 DeepSeek LLM 实时生成六大分析模块数据（可行性评估、成本测算、合规自测、市场洞察、渠道推荐、风险预警），并支持多语言（15种语言）和多内容平台营销文案生成。
+**岐黄四海** — 中医出海决策操作系统。
+
+一个面向中医药/健康产品出海（B2B）领域的 AI 决策平台，核心功能是**AI驱动的市场可行性分析工具链**——用户选择目标市场 + 产品类别，系统通过 DeepSeek LLM 实时生成六大分析模块数据（可行性评估、成本测算、合规自测、市场洞察、渠道推荐、风险预警），并支持多语言（15种语言）和多内容平台营销文案生成。
 
 ### 1.2 技术栈总览
 
@@ -36,29 +38,28 @@
 ```
 zxqconsulting-web/
 ├── src/
-│   ├── main.tsx              # 应用入口
-│   ├── App.tsx              # 根组件 + 路由 + 全局初始化
+│   ├── main.tsx              # 应用入口（createBrowserRouter）
+│   ├── routes.tsx             # 路由配置（createBrowserRouter）
 │   ├── i18n.ts              # 国际化配置（15种语言）
 │   ├── index.css            # 全局样式 + CSS Variables 色彩系统
 │   │
-│   ├── sections/            # ⭐ 页面级区块组件（核心业务逻辑）
-│   │   ├── AIToolsHub.tsx           # AI工具中心主容器
-│   │   ├── aiToolsMarketContext.tsx # AI数据全局状态（Context Provider）
-│   │   ├── FeasibilityAssessment.tsx # 可行性评估模块
-│   │   ├── Tools.tsx                # 成本测算模块
-│   │   ├── ComplianceTest.tsx        # 合规自测模块
-│   │   ├── MarketInsight.tsx         # 市场洞察模块
-│   │   ├── ChannelMatch.tsx          # 渠道推荐模块
-│   │   ├── RiskWarning.tsx           # 风险预警模块
-│   │   ├── AIMarketingContent.tsx    # 营销内容生成模块
-│   │   ├── Hero.tsx                  # 首屏
-│   │   ├── Navbar.tsx                # 导航栏
-│   │   ├── Footer.tsx
-│   │   └── ...
-│   │
 │   ├── components/          # 通用 UI 组件
-│   │   ├── ui/              # shadcn/ui 风格组件（Radix 包装）
-│   │   │   ├── button.tsx
+│   │   ├── Layout.tsx           # 共享布局（Navbar + Outlet + Footer）
+│   │   ├── SEO.tsx              # 动态 meta/og/hreflang
+│   │   ├── GA4.tsx             # Google Analytics 4
+│   │   ├── FloatingContact.tsx  # 浮动联系按钮
+│   │   ├── LanguageSwitcher.tsx # 语言切换
+│   │   └── ui/              # shadcn/ui 风格组件（Radix 包装）
+│   │
+│   ├── pages/               # 多页路由顶层组件
+│   │   ├── HomePage.tsx        # 首页（Hero + About + Services + CaseStudies）
+│   │   ├── DiagnosisPage.tsx   # /diagnose — 完整诊断工作台
+│   │   ├── MarketsPage.tsx    # /markets — 市场知识库
+│   │   ├── CasesPage.tsx      # /cases — 案例库
+│   │   ├── ExpertPage.tsx      # /expert — 专家咨询
+│   │   └── MethodPage.tsx      # /method — 方法论 + About
+│   │
+│   ├── sections/            # 页面级区块组件
 │   │   │   ├── dialog.tsx
 │   │   │   ├── drawer.tsx
 │   │   │   ├── input.tsx

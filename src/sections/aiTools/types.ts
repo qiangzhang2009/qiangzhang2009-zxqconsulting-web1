@@ -95,6 +95,15 @@ export interface EvidenceBlock {
   title: string;
   summary: string;
   bullets: string[];
+  evidenceItems?: EvidenceItem[];
+}
+
+export interface EvidenceItem {
+  type: 'fact' | 'ai_inference';
+  source: string;
+  confidence: number; // 0-1
+  lastUpdated: string;
+  disclaimer?: string;
 }
 
 export interface QualificationDecision {

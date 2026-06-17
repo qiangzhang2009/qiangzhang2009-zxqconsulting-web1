@@ -46,23 +46,14 @@ const FloatingContact = () => {
       icon: <MessageCircle className="w-5 h-5" />,
       label: '在线留言',
       value: '联系我们',
-      action: 'scroll',
+      href: '/expert',
       color: 'bg-emerald-600 hover:bg-emerald-700',
     },
   ];
 
   const handleOptionClick = (option: typeof contactOptions[0], index: number) => {
-    // 追踪浮动联系按钮点击
     tracking.click(`floating_contact_${index}`, 'contact');
-    
-    if (option.action === 'scroll') {
-      // 滚动到联系区域
-      const contactSection = document.getElementById('contact');
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' });
-      }
-      setIsOpen(false);
-    }
+    setIsOpen(false);
   };
 
   const copyToClipboard = (text: string) => {

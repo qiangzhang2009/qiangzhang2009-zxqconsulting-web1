@@ -1,4 +1,5 @@
 import { useMemo, useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   AlertTriangle,
@@ -136,7 +137,6 @@ export default function AIToolsHub() {
 
   const handleQualificationCTA = () => {
     tracking.click('qualification_cta', 'ai_tool');
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const decisionTone = diagnosisReport?.goToMarketDecision === 'expert_review'
@@ -517,25 +517,27 @@ export default function AIToolsHub() {
                     t('diagnosis.q_budgetDowngrade'),
                     t('diagnosis.q_expertThreshold'),
                   ].map((question) => (
-                    <button
+                    <Link
                       key={question}
+                      to="/expert"
                       onClick={handleQualificationCTA}
-                      className="rounded-2xl border border-white/10 bg-slate-900/50 px-4 py-4 text-left text-sm leading-7 text-slate-200 transition hover:border-white/20"
+                      className="block rounded-2xl border border-white/10 bg-slate-900/50 px-4 py-4 text-sm leading-7 text-slate-200 transition hover:border-white/20"
                     >
                       {question}
-                    </button>
+                    </Link>
                   ))}
                 </div>
                 <div className="mt-6 rounded-3xl border border-emerald-400/20 bg-emerald-400/10 p-5">
                   <div className="text-sm font-medium text-emerald-200">{t('diagnosis.nextAction')}</div>
                   <p className="mt-3 text-sm leading-7 text-emerald-50">{nextActionText}</p>
-                  <button
+                  <Link
+                    to="/expert"
                     onClick={handleQualificationCTA}
                     className="mt-5 inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-slate-950"
                   >
                     {ctaButtonLabel}
                     <ArrowRight className="h-4 w-4" />
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

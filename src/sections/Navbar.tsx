@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Globe2, Languages, ArrowRight, Bot, LayoutGrid, BriefcaseBusiness, FileSearch } from 'lucide-react';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { tracking } from '../lib/tracking';
@@ -7,6 +8,7 @@ import i18n from '../i18n';
 
 const Navbar = () => {
   const { t, i18n: i18nInstance } = useTranslation();
+  const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -19,12 +21,16 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
   const navLinks = [
-    { name: t('nav2.product', 'Product'), href: '#hero', icon: Bot },
-    { name: t('nav2.diagnosisEngine', 'Diagnosis Engine'), href: '#ai-tools', icon: LayoutGrid },
-    { name: t('nav2.useCases', 'Use Cases'), href: '#services', icon: BriefcaseBusiness },
-    { name: t('nav2.caseProof', 'Case Proof'), href: '#cases', icon: FileSearch },
-    { name: t('nav2.expertUpgrade', 'Expert Upgrade'), href: '#contact', icon: ArrowRight },
+    { name: t('nav2.product', 'Product'), to: '/', icon: Bot },
+    { name: t('nav2.diagnosisEngine', 'Diagnosis Engine'), to: '/diagnose', icon: LayoutGrid },
+    { name: t('nav2.useCases', 'Use Cases'), to: '/markets', icon: BriefcaseBusiness },
+    { name: t('nav2.caseProof', 'Case Proof'), to: '/cases', icon: FileSearch },
+    { name: t('nav2.expertUpgrade', 'Expert Upgrade'), to: '/expert', icon: ArrowRight },
   ];
 
   const affiliatedPlatforms = [
@@ -32,12 +38,7 @@ const Navbar = () => {
     { label: 'Global2China', href: 'https://global2china.zxqconsulting.com/', trackingLabel: 'navbar_global2china' },
   ];
 
-  const scrollToSection = (href: string, label?: string) => {
-    const element = document.querySelector(href);
-    if (element) { element.scrollIntoView({ behavior: 'smooth' }); }
-    setIsMobileMenuOpen(false);
-    if (label) { tracking.click(label, 'navigation'); }
-  };
+  const isActive = (to: string) => location.pathname === to;
 
   return (
     <nav
@@ -49,39 +50,37 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between gap-6">
-          <a
-            href="#hero"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('#hero', 'brand_home');
-            }}
+          <Link
+            to="/"
+            onClick={() => tracking.click('brand_home', 'navigation')}
             className="group flex items-center gap-3"
           >
             <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-400/20 bg-gradient-to-br from-emerald-500 to-teal-400 text-white shadow-[0_10px_24px_rgba(16,185,129,0.28)] transition-transform duration-300 group-hover:scale-105">
               <Globe2 className="h-5 w-5" />
             </div>
             <div>
-              <div className="text-sm font-semibold uppercase tracking-[0.22em] text-emerald-300/80">ZXQ Consulting</div>
+              <div className="text-sm font-semibold uppercase tracking-[0.22em] text-emerald-300/80">{t('brand.name')}</div>
               <div className="text-base font-semibold text-white sm:text-lg">
-                {t('hero2.tagline', 'AI Platform for TCM Global Expansion')}
+                {t('brand.tagline', 'TCM Global Decision OS')}
               </div>
             </div>
-          </a>
+          </Link>
 
           <div className="hidden items-center gap-5 lg:flex">
             <LanguageSwitcher />
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.name}
-                href={link.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection(link.href, link.name);
-                }}
-                className="text-sm font-medium text-slate-200 transition-colors duration-300 hover:text-emerald-300"
+                to={link.to}
+                onClick={() => tracking.click(link.name, 'navigation')}
+                className={`text-sm font-medium transition-colors duration-300 ${
+                  isActive(link.to)
+                    ? 'text-emerald-300'
+                    : 'text-slate-200 hover:text-emerald-300'
+                }`}
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
           </div>
 
@@ -101,16 +100,14 @@ const Navbar = () => {
               ))}
             </div>
 
-            <button
-              onClick={() => {
-                scrollToSection('#ai-tools', 'header_start_diagnosis');
-                tracking.click('header_start_diagnosis', 'cta');
-              }}
+            <Link
+              to="/diagnose"
+              onClick={() => tracking.click('header_start_diagnosis', 'cta')}
               className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition-all hover:-translate-y-0.5 hover:bg-emerald-50"
             >
               {t('hero2.ctaStart', 'Start diagnosis')}
               <ArrowRight className="h-4 w-4" />
-            </button>
+            </Link>
           </div>
 
           <button
@@ -127,18 +124,17 @@ const Navbar = () => {
               {navLinks.map((link) => {
                 const Icon = link.icon;
                 return (
-                  <a
+                  <Link
                     key={link.name}
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(link.href, `mobile_${link.name}`);
-                    }}
-                    className="flex items-center gap-3 rounded-xl px-3 py-3 text-white transition-colors hover:bg-white/5 hover:text-emerald-300"
+                    to={link.to}
+                    onClick={() => tracking.click(`mobile_${link.name}`, 'navigation')}
+                    className={`flex items-center gap-3 rounded-xl px-3 py-3 transition-colors hover:bg-white/5 ${
+                      isActive(link.to) ? 'bg-white/5 text-emerald-300' : 'text-white hover:text-emerald-300'
+                    }`}
                   >
                     <Icon className="h-4 w-4 text-emerald-300" />
                     {link.name}
-                  </a>
+                  </Link>
                 );
               })}
 
@@ -205,16 +201,14 @@ const Navbar = () => {
                 </div>
               </div>
 
-              <button
-                onClick={() => {
-                  scrollToSection('#ai-tools', 'mobile_start_diagnosis');
-                  tracking.click('mobile_start_diagnosis', 'cta');
-                }}
+              <Link
+                to="/diagnose"
+                onClick={() => tracking.click('mobile_start_diagnosis', 'cta')}
                 className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-slate-900"
               >
                 {t('hero2.ctaStart', 'Start diagnosis')}
                 <ArrowRight className="h-4 w-4" />
-              </button>
+              </Link>
             </div>
           </div>
         )}
