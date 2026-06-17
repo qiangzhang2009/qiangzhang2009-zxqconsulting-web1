@@ -3,7 +3,8 @@
 
 export const config = { runtime: 'edge' };
 
-const ADMIN_API_KEY = process.env.ADMIN_API_KEY || 'zxqconsulting_admin_2026';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'zxq@qq.com';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'zxq2026';
 
 function auth(request: Request): Response | null {
   const header = request.headers.get('Authorization');
@@ -13,7 +14,9 @@ function auth(request: Request): Response | null {
       headers: { 'Content-Type': 'application/json' },
     });
   }
-  if (header.substring(7) !== ADMIN_API_KEY) {
+  const decoded = atob(header.substring(7));
+  const [email, password] = decoded.split(':');
+  if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
     return new Response(JSON.stringify({ error: 'Forbidden' }), {
       status: 403,
       headers: { 'Content-Type': 'application/json' },

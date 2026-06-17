@@ -37,12 +37,15 @@ interface VisitorsData {
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-const API_KEY_STORAGE = 'qhs_admin_key';
-const API_KEY_DEFAULT = 'zxqconsulting_admin_2026';
+const AUTH_STORAGE = 'qhs_admin_auth';
 
-function apiFetch(path: string, apiKey: string) {
+function encodeAuth(email: string, password: string): string {
+  return btoa(`${email}:${password}`);
+}
+
+function apiFetch(path: string, email: string, password: string) {
   return fetch(path, {
-    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    headers: { Authorization: `Bearer ${encodeAuth(email, password)}`, 'Content-Type': 'application/json' },
   }).then(r => r.json());
 }
 
@@ -72,15 +75,17 @@ function statusLabel(status: string) {
 
 // ─── Login Screen ─────────────────────────────────────────────────────────────
 
-function LoginScreen({ onLogin }: { onLogin: (key: string) => void }) {
-  const [key, setKey] = useState(API_KEY_DEFAULT);
+function LoginScreen({ onLogin }: { onLogin: (email: string, password: string) => void }) {
+  const [email, setEmail] = useState('zxq@qq.com');
+  const [password, setPassword] = useState('zxq2026');
   const [error, setError] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!key.trim()) { setError('请输入 API Key'); return; }
-    localStorage.setItem(API_KEY_STORAGE, key.trim());
-    onLogin(key.trim());
+    if (!email.trim() || !password.trim()) { setError('请输入账号和密码'); return; }
+    const auth = encodeAuth(email.trim(), password.trim());
+    localStorage.setItem(AUTH_STORAGE, auth);
+    onLogin(email.trim(), password.trim());
   };
 
   return (
@@ -92,12 +97,22 @@ function LoginScreen({ onLogin }: { onLogin: (key: string) => void }) {
         </div>
         <form onSubmit={handleSubmit} className="bg-slate-900 border border-white/10 rounded-2xl p-8 space-y-5">
           <div>
-            <label className="block text-sm text-slate-400 mb-2">API Key</label>
+            <label className="block text-sm text-slate-400 mb-2">账号</label>
+            <input
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="zxq@qq.com"
+              className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50"
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-slate-400 mb-2">密码</label>
             <input
               type="password"
-              value={key}
-              onChange={e => setKey(e.target.value)}
-              placeholder="输入管理员 API Key"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              placeholder="zxq2026"
               className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50"
             />
           </div>
@@ -108,9 +123,6 @@ function LoginScreen({ onLogin }: { onLogin: (key: string) => void }) {
           >
             进入后台
           </button>
-          <div className="text-center text-xs text-slate-600">
-            默认 Key: <code className="text-slate-500">{API_KEY_DEFAULT}</code>
-          </div>
         </form>
       </div>
     </div>
@@ -131,7 +143,7 @@ function StatCard({ label, value, sub, color }: { label: string; value: string |
 
 // ─── Dashboard ───────────────────────────────────────────────────────────────
 
-function Dashboard({ apiKey, onLogout }: { apiKey: string; onLogout: () => void }) {
+function Dashboard({ email, password, onLogout }: { email: string; password: string; onLogout: () => void }) {
   const [tab, setTab] = useState<'overview' | 'submissions' | 'visitors'>('overview');
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [analyticsLoading, setAnalyticsLoading] = useState(true);
@@ -147,28 +159,28 @@ function Dashboard({ apiKey, onLogout }: { apiKey: string; onLogout: () => void 
 
   const loadAnalytics = useCallback(async () => {
     setAnalyticsLoading(true);
-    const data = await apiFetch('/api/admin/analytics', apiKey) as AnalyticsData;
+    const data = await apiFetch('/api/admin/analytics', email, password) as AnalyticsData;
     setAnalytics(data);
     setAnalyticsLoading(false);
-  }, [apiKey]);
+  }, [email, password]);
 
   const loadSubmissions = useCallback(async (page = 1, status = '') => {
     setSubmissionsLoading(true);
     const params = new URLSearchParams({ page: String(page), limit: '20' });
     if (status) params.set('status', status);
-    const data = await apiFetch(`/api/admin/submissions?${params}`, apiKey) as any;
+    const data = await apiFetch(`/api/admin/submissions?${params}`, email, password) as any;
     setSubmissions(data.data || []);
     setSubmissionsTotal(data.total || 0);
     setSubmissionsPage(page);
     setSubmissionsLoading(false);
-  }, [apiKey]);
+  }, [email, password]);
 
   const loadVisitors = useCallback(async () => {
     setVisitorsLoading(true);
-    const data = await apiFetch('/api/admin/visitors?limit=20', apiKey) as VisitorsData;
+    const data = await apiFetch('/api/admin/visitors?limit=20', email, password) as VisitorsData;
     setVisitors(data);
     setVisitorsLoading(false);
-  }, [apiKey]);
+  }, [email, password]);
 
   useEffect(() => { loadAnalytics(); }, [loadAnalytics]);
   useEffect(() => { loadSubmissions(1, filterStatus); }, [loadSubmissions, filterStatus]);
@@ -181,7 +193,7 @@ function Dashboard({ apiKey, onLogout }: { apiKey: string; onLogout: () => void 
   const updateStatus = async (id: string, status: string) => {
     await fetch(`/api/admin/submissions?id=${id}`, {
       method: 'PATCH',
-      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      headers: { Authorization: `Bearer ${encodeAuth(email, password)}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
     });
     loadSubmissions(submissionsPage, filterStatus);
@@ -191,7 +203,7 @@ function Dashboard({ apiKey, onLogout }: { apiKey: string; onLogout: () => void 
   const saveNote = async (id: string) => {
     await fetch(`/api/admin/submissions?id=${id}`, {
       method: 'PATCH',
-      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      headers: { Authorization: `Bearer ${encodeAuth(email, password)}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ notes: noteText }),
     });
     setEditingNote(null);
@@ -539,16 +551,26 @@ function Dashboard({ apiKey, onLogout }: { apiKey: string; onLogout: () => void 
 // ─── Root ─────────────────────────────────────────────────────────────────────
 
 export default function AdminPage() {
-  const [apiKey, setApiKey] = useState<string | null>(
-    () => localStorage.getItem(API_KEY_STORAGE)
+  const [auth, setAuth] = useState<{ email: string; password: string } | null>(
+    () => {
+      const stored = localStorage.getItem(AUTH_STORAGE);
+      if (!stored) return null;
+      try {
+        const decoded = atob(stored);
+        const [email, password] = decoded.split(':');
+        return { email, password };
+      } catch {
+        return null;
+      }
+    }
   );
 
-  const handleLogin = (key: string) => setApiKey(key);
+  const handleLogin = (email: string, password: string) => setAuth({ email, password });
   const handleLogout = () => {
-    localStorage.removeItem(API_KEY_STORAGE);
-    setApiKey(null);
+    localStorage.removeItem(AUTH_STORAGE);
+    setAuth(null);
   };
 
-  if (!apiKey) return <LoginScreen onLogin={handleLogin} />;
-  return <Dashboard apiKey={apiKey} onLogout={handleLogout} />;
+  if (!auth) return <LoginScreen onLogin={handleLogin} />;
+  return <Dashboard email={auth.email} password={auth.password} onLogout={handleLogout} />;
 }

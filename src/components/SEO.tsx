@@ -165,7 +165,7 @@ export default function SEO() {
     const rawLanguage = (i18n.language || 'en').split('-')[0].toLowerCase();
     const language = rawLanguage === 'en' ? 'en' : rawLanguage;
     const seo = SEO_BY_LANGUAGE[language] || DEFAULT_SEO;
-    const baseUrl = 'https://qihuangsihai.com/';
+    const baseUrl = 'https://zxqconsulting.com';
     const currentUrl = new URL(baseUrl);
     if (language !== 'zh' && language !== 'en') {
       currentUrl.searchParams.set('lang', language);
@@ -181,8 +181,9 @@ export default function SEO() {
     updateProperty('og:description', seo.description);
     updateProperty('og:locale', seo.ogLocale);
     updateProperty('og:site_name', seo.siteName);
-    updateProperty('og:url', currentUrl.toString());
-    updateLink('canonical', currentUrl.toString());
+    const canonicalUrl = window.location.href.split('?')[0];
+    updateProperty('og:url', canonicalUrl);
+    updateLink('canonical', canonicalUrl);
 
     Object.entries(SEO_BY_LANGUAGE).forEach(([code]) => {
       const href = new URL(baseUrl);
