@@ -809,7 +809,9 @@ export async function onRequest(context) {
     }
   }
 
-  return new Response('Not Found', { status: 404 });
+  // Match no routes — Cloudflare Pages serves all non-API paths as static files.
+  // _redirects handles SPA routing for non-asset paths.
+  return new Response(null, { status: 404 });
 }
 
 export async function onRequestError(context) {
