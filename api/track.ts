@@ -1,18 +1,17 @@
-// Vercel API 路由 - 用户行为追踪
+// Vercel API — Track page views and events
+// Saves to Supabase if configured, otherwise returns ok to avoid frontend 404s
 
 export const config = {
   runtime: 'edge',
 };
 
-export default async function handler(request) {
-  // CORS headers
+export default async function handler(request: Request) {
   const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Headers': 'Content-Type',
   };
 
-  // Handle OPTIONS
   if (request.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -26,79 +25,52 @@ export default async function handler(request) {
 
   try {
     const body = await request.json();
-    
     const {
-      visitor_id: inputVisitorId,
-      session_id: inputSessionId,
-      website_id,
+      visitorId,
+      sessionId,
+      path,
+      referrer,
+      userAgent,
+      visitor_id: visitorId_,
+      session_id: sessionId_,
       event_type,
       event_category,
-      event_label,
-      page_url,
-      page_title,
-      duration_seconds,
-      metadata
+      event_data,
     } = body;
-    
-    if (!event_type) {
-      return new Response(JSON.stringify({ error: 'event_type is required' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders },
-      });
-    }
-    
-    // 生成 visitor_id 和 session_id
-    const vid = inputVisitorId || `v_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const sid = inputSessionId || `s_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
-    console.log('[Track API] Received event:', event_type, event_category, event_label);
-    
-    // 尝试保存到 Supabase（如果配置了）
+
+    const vid = visitorId || visitorId_ || `v_${Date.now()}`;
+    const sid = sessionId || sessionId_ || `s_${Date.now()}`;
+
+    // Save to Supabase if configured
     if (process.env.SUPABASE_URL && process.env.SUPABASE_ANON_KEY) {
       try {
-        const response = await fetch(`${process.env.SUPABASE_URL}/rest/v1/behaviors`, {
+        const key = process.env.SUPABASE_ANON_KEY;
+        await fetch(`${process.env.SUPABASE_URL}/rest/v1/behaviors`, {
           method: 'POST',
           headers: {
-            'apikey': process.env.SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${process.env.SUPABASE_ANON_KEY}`,
+            'apikey': key,
+            'Authorization': `Bearer ${key}`,
             'Content-Type': 'application/json',
-            'Prefer': 'return=minimal'
+            'Prefer': 'return=minimal',
           },
           body: JSON.stringify({
-            website_id: website_id || 'zxqconsulting',
+            website_id: 'zxqconsulting',
             visitor_id: vid,
             session_id: sid,
-            event_type,
+            event_type: event_type || (path ? 'page_view' : 'unknown'),
             event_category: event_category || '',
-            event_label: event_label || '',
-            page_url: page_url || '',
-            page_title: page_title || '',
-            duration_seconds,
-            metadata: metadata ? JSON.stringify(metadata) : null,
-            created_at: new Date().toISOString()
-          })
+            page_url: path || event_data?.page_path || '/',
+            event_data: event_data ? JSON.stringify(event_data) : null,
+          }),
         });
-        
-        if (response.ok) {
-          console.log('[Track API] Saved to Supabase');
-        }
-      } catch (supabaseError) {
-        console.error('[Track API] Supabase error:', supabaseError);
-      }
+      } catch (_) {}
     }
-    
-    return new Response(JSON.stringify({
-      success: true,
-      visitor_id: vid,
-      session_id: sid
-    }), {
+
+    return new Response(JSON.stringify({ ok: true }), {
       headers: { 'Content-Type': 'application/json', ...corsHeaders },
     });
-
   } catch (error) {
-    console.error('[Track API] Error:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
+    return new Response(JSON.stringify({ ok: false }), {
       headers: { 'Content-Type': 'application/json', ...corsHeaders },
     });
   }
