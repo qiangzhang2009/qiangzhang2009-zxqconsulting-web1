@@ -1,0 +1,12 @@
+name = "zxqconsulting-api"
+main = "api-worker.js"
+compatibility_date = "2026-06-21"
+
+# API routes for both zxqconsulting.com and www.zxqconsulting.com
+[[routes]]
+pattern = "zxqconsulting.com/api/*"
+zone_name = "zxqconsulting.com"
+
+[[routes]]
+pattern = "www.zxqconsulting.com/api/*"
+zone_name = "zxqconsulting.com"
