@@ -40,83 +40,72 @@ async function verifyAuth(request, env) {
   return authHeader.substring(7) === adminKey;
 }
 
-// ==================== TRACK API ====================
-async function handleTrack(context) {
+// ==================== TRACK API (POST /api/track/page and POST /api/track/event) ====================
+async function handleTrackPage(context) {
   const { request, env } = context;
-
   try {
     const body = await request.json();
-
-    const {
-      visitor_id: inputVisitorId,
-      session_id: inputSessionId,
-      website_id,
-      event_type,
-      event_category,
-      event_label,
-      page_url,
-      page_title,
-      duration_seconds,
-      metadata,
-    } = body;
-
-    if (!event_type) {
-      return new Response(JSON.stringify({ error: 'event_type is required' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders },
-      });
-    }
-
-    const clientInfo = getClientInfo(request);
-
-    const vid = inputVisitorId || `v_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const sid = inputSessionId || `s_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-
-    const data = {
-      website_id: website_id || 'zxqconsulting',
-      visitor_id: vid,
-      session_id: sid,
-      event_type: event_type,
-      event_category: event_category || '',
-      event_label: event_label || '',
-      page_url: page_url || new URL(request.url).pathname,
-      page_title: page_title || '',
-      duration_seconds,
-      metadata: metadata ? JSON.stringify(metadata) : null,
-      ip_address: clientInfo.ipAddress,
-      country: clientInfo.country,
-      city: clientInfo.city,
-      device_type: clientInfo.deviceType,
-      browser: clientInfo.browser,
-      created_at: new Date().toISOString(),
-    };
-
+    const { visitorId, sessionId, path, referrer, userAgent } = body;
     if (env.SUPABASE_URL && env.SUPABASE_ANON_KEY) {
+      const key = env.SUPABASE_ANON_KEY;
       await fetch(`${env.SUPABASE_URL}/rest/v1/behaviors`, {
         method: 'POST',
         headers: {
-          apikey: env.SUPABASE_ANON_KEY,
-          Authorization: `Bearer ${env.SUPABASE_ANON_KEY}`,
+          apikey: key,
+          Authorization: `Bearer ${key}`,
           'Content-Type': 'application/json',
           Prefer: 'return=minimal',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          website_id: 'zxqconsulting',
+          visitor_id: visitorId || `v_${Date.now()}`,
+          session_id: sessionId || `s_${Date.now()}`,
+          event_type: 'page_view',
+          page_url: path || '/',
+          referrer: referrer || '',
+          user_agent: userAgent || '',
+        }),
       });
     }
+    return new Response(JSON.stringify({ ok: true }), {
+      headers: { 'Content-Type': 'application/json', ...corsHeaders },
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ ok: false }), {
+      headers: { 'Content-Type': 'application/json', ...corsHeaders },
+    });
+  }
+}
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        visitor_id: vid,
-        session_id: sid,
-        debug: {
-          event_type,
-          event_category,
-          supabase_configured: !!(env.SUPABASE_URL && env.SUPABASE_ANON_KEY),
+async function handleTrack(context) {
+  const { request, env } = context;
+  try {
+    const body = await request.json();
+    const { visitor_id, session_id, event_type, page_url } = body;
+    if (env.SUPABASE_URL && env.SUPABASE_ANON_KEY) {
+      const key = env.SUPABASE_ANON_KEY;
+      await fetch(`${env.SUPABASE_URL}/rest/v1/behaviors`, {
+        method: 'POST',
+        headers: {
+          apikey: key,
+          Authorization: `Bearer ${key}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal',
         },
-      }),
-      { headers: { 'Content-Type': 'application/json', ...corsHeaders } }
-    );
+        body: JSON.stringify({
+          website_id: body.website_id || 'zxqconsulting',
+          visitor_id: visitor_id || `v_${Date.now()}`,
+          session_id: session_id || `s_${Date.now()}`,
+          event_type: event_type || 'unknown',
+          page_url: page_url || body.page_url || '/',
+          event_category: body.event_category || '',
+          event_label: body.event_label || '',
+        }),
+      });
+    }
+    return new Response(JSON.stringify({ success: true }), {
+      headers: { 'Content-Type': 'application/json', ...corsHeaders },
+    });
   } catch (error) {
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
@@ -287,52 +276,98 @@ async function handleContact(context) {
     const {
       website_id,
       visitor_id,
-      company_name,
       contact_name,
-      contact_phone,
+      name,
+      company,
+      company_name,
       email,
+      phone,
+      contact_phone,
+      projectStage,
+      targetMarkets,
+      timeline,
+      challenge,
+      budget,
+      hasValidation,
+      message,
       product_category,
       product_name,
       target_region,
       main_need,
-      message,
+      source_page,
     } = body;
 
-    if (!contact_name || !email || !message) {
+    // Accept both camelCase (source) and snake_case (deployed) field names
+    const finalContactName = contact_name || name || '';
+    const finalCompany = company || company_name || '';
+    const finalPhone = phone || contact_phone || '';
+    const finalMessage = message || '';
+    const finalProductCategory = product_category || '';
+    const finalProductName = product_name || '';
+    const finalTargetRegion = target_region || '';
+    const finalMainNeed = main_need || '';
+
+    if (!finalContactName || !email || !finalMessage) {
       return new Response(JSON.stringify({ error: 'contact_name, email, and message are required' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json', ...corsHeaders },
       });
     }
 
-    const data = {
-      website_id: website_id || 'zxqconsulting',
-      visitor_id: visitor_id || '',
-      company_name,
-      contact_name,
-      contact_phone,
-      email,
-      product_category,
-      product_name,
-      target_region,
-      main_need,
-      message,
-      status: 'pending',
-      created_at: new Date().toISOString(),
-    };
+    // Forward to backend (local server with SQLite)
+    const backendUrl = env.BACKEND_URL || 'https://websites-admin.zxqconsulting.com';
+    try {
+      await fetch(`${backendUrl}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          website_id: website_id || 'zxqconsulting',
+          visitor_id: visitor_id || '',
+          contact_name: finalContactName,
+          email,
+          company: finalCompany,
+          phone: finalPhone,
+          message: finalMessage,
+          project_stage: projectStage || '',
+          target_markets: targetMarkets || '',
+          timeline: timeline || '',
+          challenge: challenge || '',
+          budget: budget || '',
+          has_validation: hasValidation || '',
+          source_page: source_page || '/',
+        }),
+      });
+    } catch (_) {}
 
-    await fetch(`${env.SUPABASE_URL}/rest/v1/submissions`, {
-      method: 'POST',
-      headers: {
-        apikey: env.SUPABASE_ANON_KEY,
-        Authorization: `Bearer ${env.SUPABASE_ANON_KEY}`,
-        'Content-Type': 'application/json',
-        Prefer: 'return=minimal',
-      },
-      body: JSON.stringify(data),
-    });
+    // Save to Supabase submissions if configured
+    if (env.SUPABASE_URL && env.SUPABASE_ANON_KEY) {
+      await fetch(`${env.SUPABASE_URL}/rest/v1/submissions`, {
+        method: 'POST',
+        headers: {
+          apikey: env.SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${env.SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify({
+          website_id: website_id || 'zxqconsulting',
+          visitor_id: visitor_id || '',
+          contact_name: finalContactName,
+          email,
+          company: finalCompany,
+          phone: finalPhone,
+          message: finalMessage,
+          product_category: finalProductCategory,
+          product_name: finalProductName,
+          target_region: finalTargetRegion,
+          main_need: finalMainNeed,
+          status: 'pending',
+          created_at: new Date().toISOString(),
+        }),
+      });
+    }
 
-    return new Response(JSON.stringify({ success: true }), {
+    return new Response(JSON.stringify({ success: true, message: 'Thank you. We will contact you soon.' }), {
       headers: { 'Content-Type': 'application/json', ...corsHeaders },
     });
   } catch (error) {
@@ -773,6 +808,83 @@ async function handleAnalytics(context) {
   }
 }
 
+// ==================== COMMENTS API ====================
+async function handleCommentsGet(context) {
+  const { request, env } = context;
+  const url = new URL(request.url);
+  const sort = url.searchParams.get('sort') || 'latest';
+  const backendUrl = env.BACKEND_URL || 'https://websites-admin.zxqconsulting.com';
+
+  try {
+    const res = await fetch(`${backendUrl}/api/comments?sort=${sort}`, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await res.json();
+    return new Response(JSON.stringify(Array.isArray(data) ? data : []), {
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', ...corsHeaders },
+    });
+  } catch (error) {
+    return new Response(JSON.stringify([]), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders },
+    });
+  }
+}
+
+async function handleCommentsPost(context) {
+  const { request, env } = context;
+  const backendUrl = env.BACKEND_URL || 'https://websites-admin.zxqconsulting.com';
+
+  try {
+    const body = await request.json();
+    const res = await fetch(`${backendUrl}/api/comments`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json();
+    return new Response(JSON.stringify(data), {
+      status: res.status,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders },
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders },
+    });
+  }
+}
+
+async function handleCommentsLike(context) {
+  const { request, env } = context;
+  const url = new URL(request.url);
+  const match = url.pathname.match(/^\/api\/comments\/([^/]+)\/like$/);
+  if (!match) {
+    return new Response(JSON.stringify({ error: 'Not found' }), { status: 404, headers: { 'Content-Type': 'application/json', ...corsHeaders } });
+  }
+  const commentId = match[1];
+  const backendUrl = env.BACKEND_URL || 'https://websites-admin.zxqconsulting.com';
+
+  try {
+    const body = await request.json().catch(() => ({}));
+    const res = await fetch(`${backendUrl}/api/comments/${commentId}/like`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json();
+    return new Response(JSON.stringify(data), {
+      status: res.status,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders },
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders },
+    });
+  }
+}
+
 // ==================== MAIN HANDLER ====================
 export async function onRequest(context) {
   const { request, env } = context;
@@ -785,17 +897,22 @@ export async function onRequest(context) {
 
   if (path.startsWith('/api/')) {
     try {
+      if (path === '/api/track/page' && method === 'POST') return await handleTrackPage(context);
       if (path === '/api/track' && method === 'POST') return await handleTrack(context);
+      if (path === '/api/tracking' && method === 'POST') return await handleTrack(context);
+      if (path === '/api/track/event' && method === 'POST') return await handleTrack(context);
       if (path === '/api/ai/chat' && method === 'POST') return await handleAIChat(context);
       if (path === '/api/visitors' && method === 'PUT') return await handleVisitorsPut(context);
       if (path === '/api/contact' && method === 'POST') return await handleContact(context);
       if (path === '/api/admin/analytics' && method === 'GET') return await handleAdminAnalytics(context);
       if (path === '/api/admin/visitors' && method === 'GET') return await handleAdminVisitors(context);
       if (path === '/api/admin/submissions' && method === 'GET') return await handleAdminSubmissions(context);
-      if (path === '/api/tracking' && method === 'POST') return await handleTrack(context);
       if (path === '/api/ai/batch' && method === 'POST') return await handleAIBatch(context);
       if (path === '/api/ai/marketing' && method === 'POST') return await handleAIMarketing(context);
       if (path === '/api/analytics' && method === 'GET') return await handleAnalytics(context);
+      if (path === '/api/comments' && method === 'GET') return await handleCommentsGet(context);
+      if (path === '/api/comments' && method === 'POST') return await handleCommentsPost(context);
+      if (path.match(/^\/api\/comments\/[^/]+\/like$/) && method === 'PUT') return await handleCommentsLike(context);
 
       return new Response(JSON.stringify({ error: 'Not found', path, method }), {
         status: 404,
