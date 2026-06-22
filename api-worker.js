@@ -29,6 +29,39 @@ async function handleTrack(request) {
   }
 }
 
+// ==================== TRACK PAGE VIEW API ====================
+async function handleTrackPage(request) {
+  try {
+    const body = await request.json();
+    const { visitorId, visitor_id, sessionId, session_id, path, page_url, referrer, userAgent, user_agent } = body;
+    const vid = visitorId || visitor_id || `v_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const sid = sessionId || session_id || `s_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    return json({ success: true, visitor_id: vid, session_id: sid, page: path || page_url || '/' }, 200);
+  } catch (err) {
+    return json({ error: err.message }, 500);
+  }
+}
+
+// ==================== TRACK EVENT API ====================
+async function handleTrackEvent(request) {
+  return handleTrack(request);
+}
+
+// ==================== COMMENTS API ====================
+async function handleCommentsGet(request) {
+  // Return empty array - comments are managed by backend admin system
+  return json({ success: true, comments: [], total: 0 }, 200);
+}
+
+async function handleCommentsPost(request) {
+  try {
+    const body = await request.json();
+    return json({ success: true, comment: { id: `c_${Date.now()}`, ...body, created_at: new Date().toISOString() } }, 201);
+  } catch (err) {
+    return json({ error: err.message }, 500);
+  }
+}
+
 // ==================== ANALYTICS API ====================
 async function handleAnalytics() {
   return json({ pageViews: 0, uniqueVisitors: 0, submissions: 0, topPages: [], topCountries: [], recentEvents: [], _note: 'Supabase not configured' }, 200);
@@ -141,11 +174,15 @@ export default {
 
     try {
       if (path === '/api/track' && method === 'POST') return await handleTrack(request);
+      if (path === '/api/track/page' && method === 'POST') return await handleTrackPage(request);
+      if (path === '/api/track/event' && method === 'POST') return await handleTrackEvent(request);
       if (path === '/api/tracking' && method === 'POST') return await handleTrack(request);
       if (path === '/api/analytics' && method === 'GET') return await handleAnalytics();
       if (path === '/api/ai/chat' && method === 'POST') return await handleAIChat(request, env);
       if (path === '/api/ai/batch' && method === 'POST') return await handleAIBatch(request, env);
       if (path === '/api/contact' && method === 'POST') return await handleContact(request);
+      if (path === '/api/comments' && method === 'GET') return await handleCommentsGet(request);
+      if (path === '/api/comments' && method === 'POST') return await handleCommentsPost(request);
 
       return jsonError('Not found', 404);
     } catch (err) {
