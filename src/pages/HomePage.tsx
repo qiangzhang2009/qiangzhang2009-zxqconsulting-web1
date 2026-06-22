@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import Hero from '../sections/Hero';
+import ReviewComments from '../sections/ReviewComments';
 
 const About = lazy(() => import('../sections/About'));
 const Services = lazy(() => import('../sections/Services'));
@@ -14,6 +15,7 @@ export default function HomePage() {
         <Services />
         <CaseStudies />
       </Suspense>
+      <ReviewComments />
     </main>
   );
 }
