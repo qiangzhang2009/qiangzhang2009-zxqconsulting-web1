@@ -25,6 +25,28 @@ async function handleTrack(body) {
   return ok({ success: true, visitor_id: v, session_id: s, event_type });
 }
 
+// ==================== TRACK PAGE VIEW ====================
+async function handleTrackPage(body) {
+  const { visitorId, visitor_id, sessionId, session_id, path, page_url, referrer } = body;
+  const v = visitorId || visitor_id || `v_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  const s = sessionId || session_id || `s_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  return ok({ success: true, visitor_id: v, session_id: s, page: path || page_url || '/' });
+}
+
+// ==================== TRACK EVENT ====================
+async function handleTrackEvent(body) {
+  return await handleTrack(body);
+}
+
+// ==================== COMMENTS ====================
+async function handleCommentsGet() {
+  return ok({ success: true, comments: [], total: 0 });
+}
+
+async function handleCommentsPost(body) {
+  return ok({ success: true, comment: { id: `c_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`, ...body, created_at: new Date().toISOString() } }, 201);
+}
+
 // ==================== ANALYTICS ====================
 async function handleAnalytics() {
   return ok({ pageViews: 0, uniqueVisitors: 0, submissions: 0, topPages: [], topCountries: [], recentEvents: [] });
@@ -155,6 +177,7 @@ export default {
     // GET requests
     if (method === 'GET') {
       if (path === '/api/analytics') return await handleAnalytics();
+      if (path === '/api/comments') return await handleCommentsGet();
       return err('Not found', 404);
     }
 
@@ -163,10 +186,13 @@ export default {
       let body = {};
       try { body = await request.json(); } catch { return err('Invalid JSON body', 400); }
       if (path === '/api/track' || path === '/api/tracking') return await handleTrack(body);
+      if (path === '/api/track/page') return await handleTrackPage(body);
+      if (path === '/api/track/event') return await handleTrackEvent(body);
       if (path === '/api/contact') return await handleContact(body);
       if (path === '/api/ai/chat') return await handleAIChat(body, env);
       if (path === '/api/ai/batch') return await handleAIBatch(body, env);
       if (path === '/api/ai/marketing') return await handleAIMarketing(body, env);
+      if (path === '/api/comments') return await handleCommentsPost(body);
       return err('Not found', 404);
     }
 
