@@ -934,3 +934,5 @@ export async function onRequest(context) {
 export async function onRequestError(context) {
   return new Response('Internal Server Error', { status: 500 });
 }
+
+// DEPLOY-FORCE: new-worker-deployed-1782066583
