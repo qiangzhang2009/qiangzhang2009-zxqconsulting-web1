@@ -5,3 +5,7 @@ pages_build_output_dir = "dist"
 # Cloudflare Pages Functions
 [observability]
 enabled = true
+
+# Note: For daily seeding, configure a Cron Trigger in Cloudflare Dashboard:
+# Workers & Pages > qiangzhang2009-zxqconsulting-web1 > Triggers > Cron Triggers
+# Schedule: 0 8 * * * (daily at 8 AM UTC)

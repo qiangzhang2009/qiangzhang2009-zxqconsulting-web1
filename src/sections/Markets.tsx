@@ -1,6 +1,6 @@
 /**
- * 市场展示板块 - 专业B2B咨询风格
- * 简洁、清晰，信息丰富
+ * 市场展示板块 - 统一风格
+ * 与 AIToolsHub / Contact 等组件保持一致的 Tailwind 风格
  */
 
 import { useState } from 'react';
@@ -22,6 +22,18 @@ interface Market {
   description: string;
   descriptionEn: string;
 }
+
+const DIFFICULTY_STYLES = {
+  低: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+  中: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+  高: 'bg-red-500/15 text-red-300 border-red-500/30',
+};
+
+const TIER_STYLES = {
+  一线: 'bg-blue-500/15 text-blue-300',
+  二线: 'bg-purple-500/15 text-purple-300',
+  细分: 'bg-slate-500/15 text-slate-300',
+};
 
 const Markets = () => {
   const { t, i18n } = useTranslation();
@@ -117,52 +129,34 @@ const Markets = () => {
         ? markets.filter(m => m.tier === '二线')
         : markets.filter(m => m.tier === '细分');
 
-  const getDifficultyColor = (difficulty: string) => {
-    if (difficulty === '低') return { bg: 'rgba(16,185,129,0.15)', text: '#10b981', border: 'rgba(16,185,129,0.3)' };
-    if (difficulty === '中') return { bg: 'rgba(245,158,11,0.15)', text: '#f59e0b', border: 'rgba(245,158,11,0.3)' };
-    return { bg: 'rgba(239,68,68,0.15)', text: '#ef4444', border: 'rgba(239,68,68,0.3)' };
-  };
-
-  const getTierColor = (tier: string) => {
-    if (tier === '一线') return { bg: 'rgba(59,130,246,0.15)', text: '#60a5fa' };
-    if (tier === '二线') return { bg: 'rgba(139,92,246,0.15)', text: '#a78bfa' };
-    return { bg: 'rgba(100,116,139,0.2)', text: '#94a3b8' };
-  };
-
   return (
-    <section
-      id="markets"
-      style={{ background: 'linear-gradient(180deg, #080d18 0%, #0d1a2a 50%, #080d18 100%)' }}
-    >
+    <section id="markets" className="relative bg-[#07111a] py-20">
       {/* Background decoration */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0)', backgroundSize: '32px 32px' }}
       />
 
-      <div className="relative max-w-6xl mx-auto px-4 py-20">
+      <div className="relative mx-auto max-w-7xl px-6">
         {/* 标题 */}
-        <div className="text-center mb-12">
-          <div
-            className="inline-flex items-center gap-2 rounded-full text-sm font-semibold mb-4 px-4 py-1.5"
-            style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)', color: '#10b981' }}
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-400" />
+        <div className="mx-auto mb-12 max-w-3xl text-center">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-300">
+            <span className="h-2 w-2 rounded-full bg-emerald-400" />
             {isZh ? '全球市场准入' : 'Global Market Entry'}
           </div>
-          <h2 className="text-3xl font-bold mb-3" style={{ fontFamily: 'Georgia, serif', color: '#f0f6ff', letterSpacing: '-0.02em' }}>
+          <h2 className="mb-3 text-3xl font-bold text-white md:text-4xl" style={{ fontFamily: 'Georgia, serif', letterSpacing: '-0.02em' }}>
             {t('markets.title') || (isZh ? '目标市场' : 'Target Markets')}
           </h2>
-          <p className="max-w-2xl mx-auto" style={{ color: '#8899aa', lineHeight: 1.7 }}>
+          <p className="mx-auto max-w-2xl leading-relaxed text-slate-400">
             {t('markets.subtitle') || (isZh
               ? '选择适合您的出海目的地，获取详细的市场进入方案'
               : 'Choose your ideal export destination and get detailed market entry plans')}
           </p>
         </div>
 
-        {/* 筛选器 */}
-        <div className="flex items-center justify-center gap-2 mb-10">
-          <Filter className="w-4 h-4" style={{ color: '#4a6080' }} />
+        {/* 筛选器 - 统一风格 */}
+        <div className="mb-10 flex items-center justify-center gap-2">
+          <Filter className="h-4 w-4 text-slate-500" />
           {[
             { key: 'all', label: isZh ? '全部' : 'All' },
             { key: 'tier1', label: isZh ? '一线市场' : 'Tier 1' },
@@ -172,53 +166,37 @@ const Markets = () => {
             <button
               key={btn.key}
               onClick={() => setFilter(btn.key)}
-              className="px-4 py-2 rounded-lg text-sm font-medium transition-all"
-              style={
+              className={`rounded-2xl px-4 py-2 text-sm font-medium transition-all ${
                 filter === btn.key
-                  ? { background: '#10b981', color: '#fff', border: '1px solid rgba(16,185,129,0.5)' }
-                  : { background: 'rgba(255,255,255,0.05)', color: '#8899aa', border: '1px solid rgba(255,255,255,0.08)' }
-              }
+                  ? 'bg-emerald-500 text-white'
+                  : 'border border-white/10 bg-slate-900/40 text-slate-300 hover:border-white/20'
+              }`}
             >
               {btn.label}
             </button>
           ))}
         </div>
 
-        {/* 市场卡片网格 */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* 市场卡片网格 - 统一风格 */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filteredMarkets.map((market) => {
-            const diff = getDifficultyColor(market.difficulty);
-            const tier = getTierColor(market.tier);
+            const diffClass = DIFFICULTY_STYLES[market.difficulty as keyof typeof DIFFICULTY_STYLES] || DIFFICULTY_STYLES.中;
+            const tierClass = TIER_STYLES[market.tier as keyof typeof TIER_STYLES] || TIER_STYLES.细分;
 
             return (
               <div
                 key={market.id}
-                className="rounded-xl p-5 transition-all duration-200 cursor-pointer group"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.02) 100%)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(16,185,129,0.3)';
-                  (e.currentTarget as HTMLDivElement).style.boxShadow = '0 0 20px rgba(16,185,129,0.1)';
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.08)';
-                  (e.currentTarget as HTMLDivElement).style.boxShadow = 'none';
-                }}
+                className="group cursor-pointer rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 transition-all duration-200 hover:border-emerald-400/30 hover:shadow-lg hover:shadow-emerald-400/5"
               >
                 {/* 头部 */}
-                <div className="flex items-start justify-between mb-4">
+                <div className="mb-4 flex items-start justify-between">
                   <div className="flex items-center gap-3">
                     <span className="text-3xl">{market.flag}</span>
                     <div>
-                      <h3 className="font-semibold" style={{ color: '#d0ddef' }}>
+                      <h3 className="font-semibold text-white">
                         {isZh ? market.name : market.nameEn}
                       </h3>
-                      <span
-                        className="inline-block px-2 py-0.5 rounded text-xs font-medium mt-0.5"
-                        style={{ background: tier.bg, color: tier.text }}
-                      >
+                      <span className={`mt-0.5 inline-block rounded px-2 py-0.5 text-xs font-medium ${tierClass}`}>
                         {isZh ? market.tier : market.tierEn}
                       </span>
                     </div>
@@ -226,56 +204,30 @@ const Markets = () => {
                 </div>
 
                 {/* 描述 */}
-                <p className="text-sm mb-4" style={{ color: '#8899aa', lineHeight: 1.6 }}>
+                <p className="mb-4 text-sm leading-relaxed text-slate-400">
                   {isZh ? market.description : market.descriptionEn}
                 </p>
 
                 {/* 指标标签 */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span
-                    className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium"
-                    style={{ background: diff.bg, color: diff.text, border: `1px solid ${diff.border}` }}
-                  >
-                    <Shield className="w-3 h-3" />
+                <div className="mb-4 flex flex-wrap gap-2">
+                  <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium ${diffClass}`}>
+                    <Shield className="h-3 w-3" />
                     {isZh ? `难度${market.difficulty}` : market.difficultyEn}
                   </span>
-                  <span
-                    className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium"
-                    style={{ background: 'rgba(255,255,255,0.05)', color: '#8899aa', border: '1px solid rgba(255,255,255,0.08)' }}
-                  >
-                    <Clock className="w-3 h-3" />
+                  <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-slate-900/40 px-2.5 py-1 text-xs font-medium text-slate-400">
+                    <Clock className="h-3 w-3" />
                     {isZh ? market.timeline : market.timelineEn}
                   </span>
-                  <span
-                    className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium"
-                    style={{ background: 'rgba(255,255,255,0.05)', color: '#8899aa', border: '1px solid rgba(255,255,255,0.08)' }}
-                  >
-                    <DollarSign className="w-3 h-3" />
+                  <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-slate-900/40 px-2.5 py-1 text-xs font-medium text-slate-400">
+                    <DollarSign className="h-3 w-3" />
                     {market.cost}
                   </span>
                 </div>
 
                 {/* CTA */}
-                <button
-                  className="w-full py-2.5 rounded-lg text-sm font-medium flex items-center justify-center gap-2 transition-all"
-                  style={{
-                    background: 'transparent',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    color: '#8899aa',
-                  }}
-                  onMouseEnter={e => {
-                    (e.currentTarget as HTMLButtonElement).style.background = '#10b981';
-                    (e.currentTarget as HTMLButtonElement).style.color = '#fff';
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(16,185,129,0.5)';
-                  }}
-                  onMouseLeave={e => {
-                    (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
-                    (e.currentTarget as HTMLButtonElement).style.color = '#8899aa';
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.12)';
-                  }}
-                >
-                  {isZh ? '查看详情' : 'View Details'}
-                  <ArrowRight className="w-4 h-4" />
+                <button className="group/btn flex w-full items-center justify-center gap-2 rounded-2xl border border-white/10 bg-slate-900/40 px-4 py-3 text-sm font-medium text-slate-300 transition-all hover:border-emerald-400/40 hover:bg-emerald-500 hover:text-white">
+                  <span>{isZh ? '查看详情' : 'View Details'}</span>
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
                 </button>
               </div>
             );

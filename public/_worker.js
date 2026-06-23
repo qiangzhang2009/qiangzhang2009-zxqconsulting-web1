@@ -809,23 +809,32 @@ async function handleAnalytics(context) {
 }
 
 // ==================== COMMENTS API ====================
+// Comments are now served directly by zxqconsulting-api worker
+// which uses D1 database zxqconsulting_comments
 async function handleCommentsGet(context) {
   const { request, env } = context;
   const url = new URL(request.url);
   const sort = url.searchParams.get('sort') || 'latest';
-  const backendUrl = env.BACKEND_URL || 'https://websites-admin.zxqconsulting.com';
+
+  // Call the dedicated zxqconsulting-api worker
+  const apiUrl = `https://zxqconsulting.com/api/comments?sort=${sort}`;
 
   try {
-    const res = await fetch(`${backendUrl}/api/comments?sort=${sort}`, {
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...corsHeaders,
+      },
     });
     const data = await res.json();
-    return new Response(JSON.stringify(Array.isArray(data) ? data : []), {
+    return new Response(JSON.stringify(data), {
+      status: res.status,
       headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', ...corsHeaders },
     });
   } catch (error) {
-    return new Response(JSON.stringify([]), {
-      status: 200,
+    return new Response(JSON.stringify({ success: false, error: error.message }), {
+      status: 500,
       headers: { 'Content-Type': 'application/json', ...corsHeaders },
     });
   }
@@ -833,13 +842,15 @@ async function handleCommentsGet(context) {
 
 async function handleCommentsPost(context) {
   const { request, env } = context;
-  const backendUrl = env.BACKEND_URL || 'https://websites-admin.zxqconsulting.com';
 
   try {
     const body = await request.json();
-    const res = await fetch(`${backendUrl}/api/comments`, {
+    const res = await fetch('https://zxqconsulting.com/api/comments', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...corsHeaders,
+      },
       body: JSON.stringify(body),
     });
     const data = await res.json();
@@ -863,13 +874,15 @@ async function handleCommentsLike(context) {
     return new Response(JSON.stringify({ error: 'Not found' }), { status: 404, headers: { 'Content-Type': 'application/json', ...corsHeaders } });
   }
   const commentId = match[1];
-  const backendUrl = env.BACKEND_URL || 'https://websites-admin.zxqconsulting.com';
 
   try {
     const body = await request.json().catch(() => ({}));
-    const res = await fetch(`${backendUrl}/api/comments/${commentId}/like`, {
+    const res = await fetch(`https://zxqconsulting.com/api/comments/${commentId}/like`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...corsHeaders,
+      },
       body: JSON.stringify(body),
     });
     const data = await res.json();

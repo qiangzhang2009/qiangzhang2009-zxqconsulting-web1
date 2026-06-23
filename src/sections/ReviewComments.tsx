@@ -166,16 +166,28 @@ export default function ReviewComments() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const loadComments = useCallback(async () => {
+    console.log('[ReviewComments] loadComments called, sort:', sort);
     try {
       const r = await fetch(`/api/comments?sort=${sort}`);
       const data = await r.json();
+      console.log('[ReviewComments] API response:', { total: data.total, count: Array.isArray(data) ? data.length : data.comments?.length });
       // Handle both old array format and new {success, comments} format
       const list = Array.isArray(data) ? data : (data.comments || []);
+      console.log('[ReviewComments] Setting comments:', list.length);
       setComments(list);
-    } catch {}
+    } catch (e) {
+      console.error('[ReviewComments] Error:', e);
+    }
   }, [sort]);
 
-  useEffect(() => { loadComments().finally(() => setLoading(false)); }, [loadComments]);
+  useEffect(() => {
+    console.log('[ReviewComments] useEffect triggered');
+    loadComments().then(() => {
+      console.log('[ReviewComments] loadComments completed');
+      setLoading(false);
+      console.log('[ReviewComments] loading set to false');
+    });
+  }, [loadComments]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
