@@ -168,7 +168,8 @@ export default function ReviewComments() {
   const loadComments = useCallback(async () => {
     console.log('[ReviewComments] loadComments called, sort:', sort);
     try {
-      const r = await fetch(`/api/comments?sort=${sort}`);
+      // Direct call to the API worker (use www as the reliable endpoint)
+      const r = await fetch(`https://www.zxqconsulting.com/api/comments?sort=${sort}`);
       const data = await r.json();
       console.log('[ReviewComments] API response:', { total: data.total, count: Array.isArray(data) ? data.length : data.comments?.length });
       // Handle both old array format and new {success, comments} format
@@ -195,7 +196,8 @@ export default function ReviewComments() {
     setSubmitting(true);
     setSubmitMsg('');
     try {
-      const r = await fetch('/api/comments', {
+      // Direct call to the API worker
+      const r = await fetch('https://www.zxqconsulting.com/api/comments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: content.trim(), user_name: guestName.trim() || '游客' }),
@@ -221,7 +223,7 @@ export default function ReviewComments() {
 
   async function handleLike(comment: Comment) {
     try {
-      const r = await fetch(`/api/comments/${comment.id}/like`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) });
+      const r = await fetch(`https://www.zxqconsulting.com/api/comments/${comment.id}/like`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) });
       if (r.ok) {
         const d = await r.json();
         setComments(prev => prev.map(c => c.id === comment.id ? { ...c, likes: d.likes } : c));
