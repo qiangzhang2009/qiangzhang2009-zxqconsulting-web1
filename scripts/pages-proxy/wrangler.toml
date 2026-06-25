@@ -1,0 +1,7 @@
+name = "zxqconsulting-pages-proxy"
+main = "pages-proxy.js"
+compatibility_date = "2026-06-21"
+
+[[routes]]
+pattern = "zxqconsulting.com/*"
+zone_name = "zxqconsulting.com"

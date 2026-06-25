@@ -10,8 +10,10 @@ import GA4 from './components/GA4';
 import SEO from './components/SEO';
 import FloatingContact from './components/FloatingContact';
 import { MarketProvider } from './sections/aiTools/marketContext';
+import { initAnalytics } from './utils/analytics';
 
 installGlobalErrorHandlers();
+initAnalytics();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
