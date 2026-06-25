@@ -939,9 +939,10 @@ export async function onRequest(context) {
     }
   }
 
-  // Match no routes — Cloudflare Pages serves all non-API paths as static files.
-  // _redirects handles SPA routing for non-asset paths.
-  return new Response(null, { status: 404 });
+  // Non-API paths: serve static files via the built-in ASSETS binding.
+  // context.env.ASSETS is a built-in CF Pages binding that returns
+  // the deployed static file (same as when no worker is present).
+  return context.env.ASSETS.fetch(request);
 }
 
 export async function onRequestError(context) {
