@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Globe2, Languages, ArrowRight, Bot, LayoutGrid, BriefcaseBusiness, FileSearch } from 'lucide-react';
+import { Menu, X, Globe2, Languages, ArrowRight, Bot, LayoutGrid, BriefcaseBusiness, FileSearch, Shield } from 'lucide-react';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { tracking } from '../lib/tracking';
 import i18n from '../i18n';
@@ -98,6 +98,15 @@ const Navbar = () => {
                   {platform.label}
                 </a>
               ))}
+              <a
+                href="/admin"
+                onClick={() => tracking.click('navbar_admin', 'navigation')}
+                className="flex items-center gap-1.5 text-xs uppercase tracking-[0.18em] text-slate-500 transition-colors hover:text-emerald-400"
+                title="管理后台"
+              >
+                <Shield className="h-3.5 w-3.5" />
+                <span className="hidden xl:inline">管理后台</span>
+              </a>
             </div>
 
             <Link
@@ -198,6 +207,14 @@ const Navbar = () => {
                       {platform.label}
                     </a>
                   ))}
+                  <a
+                    href="/admin"
+                    onClick={() => tracking.click('mobile_admin', 'navigation')}
+                    className="flex items-center gap-2 rounded-xl border border-white/10 px-3 py-3 text-sm text-slate-400 transition-colors hover:bg-white/5 hover:text-emerald-400"
+                  >
+                    <Shield className="h-4 w-4" />
+                    {i18nInstance.language === 'zh' ? '管理后台' : 'Admin'}
+                  </a>
                 </div>
               </div>
 

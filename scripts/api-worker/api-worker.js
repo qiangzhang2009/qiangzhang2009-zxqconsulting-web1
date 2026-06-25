@@ -1,6 +1,7 @@
 /**
  * zxqconsulting-api — Complete API for zxqconsulting.com
  * - D1-backed comment system with auto AI replies
+ * - D1-backed admin analytics, visitors, submissions, and tracking
  * - Daily seeder via Workers cron trigger (0 8 * * *)
  */
 
@@ -57,6 +58,37 @@ function getGeoFromCf(request) {
   };
 }
 
+// ─── Admin Auth ────────────────────────────────────────────────────────────────
+
+const ADMIN_EMAIL = 'zxq@qq.com';
+const ADMIN_PASSWORD = 'zxq2026';
+
+async function verifyAdmin(request) {
+  const authHeader = request.headers.get('Authorization');
+  if (!authHeader || !authHeader.startsWith('Bearer ')) return false;
+  const token = authHeader.substring(7);
+  // Support both base64(email:password) and direct static key
+  try {
+    const decoded = atob(token);
+    const [email, password] = decoded.split(':');
+    return email === ADMIN_EMAIL && password === ADMIN_PASSWORD;
+  } catch {
+    return token === 'zxq_admin_secret_key_2024';
+  }
+}
+
+// ─── D1 Admin Helpers ──────────────────────────────────────────────────────────
+
+function d1All(env, sql, ...bindings) {
+  return env.zxqconsulting_comments.prepare(sql).bind(...bindings).all();
+}
+function d1First(env, sql, ...bindings) {
+  return env.zxqconsulting_comments.prepare(sql).bind(...bindings).first();
+}
+function d1Run(env, sql, ...bindings) {
+  return env.zxqconsulting_comments.prepare(sql).bind(...bindings).run();
+}
+
 // ─── AI Agents & Prompts ─────────────────────────────────────────────────────
 
 const AI_AGENTS = [
@@ -88,7 +120,7 @@ const AGENT_PROMPTS = {
     en: `You are a professional import/export finance and tax advisor. Never use Markdown formatting — write in clean plain text paragraphs only.`,
   },
   logistics: {
-    zh: `你是一位专业的国际物流与供应链顾问，精通海运、空运、多式联运、跨境仓储、清关报关等全链路物流服务。禁止使用Markdown格式字符，用纯文本直接回复，每个要点单独成段即可。`,
+    zh: `你是一位专业的国际物流与供应链顾问，精通海运，空运、多式联运、跨境仓储、清关报关等全链路物流服务。禁止使用Markdown格式字符，用纯文本直接回复，每个要点单独成段即可。`,
     en: `You are a professional international logistics and supply chain advisor. Never use Markdown formatting — write in clean plain text paragraphs only.`,
   },
 };
@@ -166,19 +198,27 @@ const SEED_QA_LIBRARY = [
 
 async function handleCommentsGet(request, env) {
   if (!env.zxqconsulting_comments) {
-    return ok({ success: true, comments: [], total: 0 });
+    return ok({ success: true, comments: [], total: 0, page: 1, limit: 20, totalPages: 0 });
   }
   const url = new URL(request.url);
   const sort = url.searchParams.get('sort') || 'latest';
   const order = sort === 'popular' ? 'likes DESC' : 'timestamp DESC';
+  const page = parseInt(url.searchParams.get('page') || '1');
+  const limit = parseInt(url.searchParams.get('limit') || '20');
+  const offset = (page - 1) * limit;
 
   try {
     const results = await env.zxqconsulting_comments
-      .prepare(`SELECT id, user_name, user_email, content, timestamp, likes, liked_by, replies, status, geo_country, geo_region, geo_city, lang FROM comments WHERE status = 'approved' ORDER BY ${order} LIMIT 100`)
+      .prepare(`SELECT id, user_name, user_email, content, timestamp, likes, liked_by, replies, status, geo_country, geo_region, geo_city, lang FROM comments WHERE status = 'approved' ORDER BY ${order} LIMIT ? OFFSET ?`)
+      .bind(limit, offset)
       .all();
-    return ok({ success: true, comments: results.results || [], total: results.results?.length || 0 });
+    const countResult = await env.zxqconsulting_comments
+      .prepare(`SELECT COUNT(*) as total FROM comments WHERE status = 'approved'`)
+      .first();
+    const total = countResult?.total || 0;
+    return ok({ success: true, comments: results.results || [], total, page, limit, totalPages: Math.ceil(total / limit) });
   } catch (e) {
-    return ok({ success: true, comments: [], total: 0, _error: e.message });
+    return ok({ success: true, comments: [], total: 0, page: 1, limit: 20, totalPages: 0, _error: e.message });
   }
 }
 
@@ -326,22 +366,258 @@ async function runDailySeeder(env) {
   } catch (e) {}
 }
 
-// ─── Track API ────────────────────────────────────────────────────────────────
+// ─── Admin: Analytics ─────────────────────────────────────────────────────────
 
-async function handleTrackPage(request) {
+async function handleAdminAnalytics(request, env) {
+  if (!await verifyAdmin(request)) return err('Unauthorized', 401);
   try {
-    const body = await request.json();
-    const { visitorId, visitor_id, sessionId, session_id, path, page_url } = body;
-    const v = visitorId || visitor_id || `v_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const s = sessionId || session_id || `s_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    return ok({ success: true, visitor_id: v, session_id: s, page: path || page_url || '/' });
+    const days = 30;
+    const today = new Date().toISOString().split('T')[0];
+    const sinceDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+
+    const [todayVisitors, todaySubmissions, totalVisitors, totalSubmissions, behaviors] =
+      await Promise.all([
+        d1All(env, `SELECT id FROM visitors WHERE website_id='zxqconsulting' AND last_visit >= ?`, `${today}T00:00:00`),
+        d1All(env, `SELECT id FROM submissions WHERE website_id='zxqconsulting' AND created_at >= ?`, `${today}T00:00:00`),
+        d1All(env, `SELECT id FROM visitors WHERE website_id='zxqconsulting'`),
+        d1All(env, `SELECT id FROM submissions WHERE website_id='zxqconsulting'`),
+        d1All(env, `SELECT created_at, event_type FROM behaviors WHERE website_id='zxqconsulting' AND created_at >= ?`, sinceDate),
+      ]);
+
+    // Daily trend
+    const dailyStats = {};
+    (behaviors.results || []).forEach(b => {
+      const date = b.created_at.split('T')[0];
+      if (!dailyStats[date]) dailyStats[date] = { pageViews: 0, submissions: 0 };
+      dailyStats[date].pageViews++;
+      if (b.event_type === 'submit') dailyStats[date].submissions++;
+    });
+    const trend = Object.entries(dailyStats)
+      .map(([date, stats]) => ({ date, ...stats }))
+      .sort((a, b) => a.date.localeCompare(b.date));
+
+    // Top pages
+    const pageCounts = {};
+    (behaviors.results || []).filter(b => b.event_type === 'page_view').forEach(b => {
+      pageCounts[b.page_url] = (pageCounts[b.page_url] || 0) + 1;
+    });
+    const topPages = Object.entries(pageCounts)
+      .map(([page, views]) => ({ page, views }))
+      .sort((a, b) => b.views - a.views).slice(0, 10);
+
+    // Top countries
+    const countryCounts = {};
+    (totalVisitors.results || []).forEach(v => {
+      if (v.country) countryCounts[v.country] = (countryCounts[v.country] || 0) + 1;
+    });
+    const topCountries = Object.entries(countryCounts)
+      .map(([country, visitors]) => ({ country, visitors }))
+      .sort((a, b) => b.visitors - a.visitors).slice(0, 10);
+
+    // Recent submissions
+    const recentSubs = await d1All(env, `SELECT id, name, email, phone, company, message, product_interest, source_page, country, status, created_at FROM submissions WHERE website_id='zxqconsulting' ORDER BY created_at DESC LIMIT 5`);
+
+    const totalVCnt = totalVisitors.results?.length || 0;
+    const totalSCnt = totalSubmissions.results?.length || 0;
+
+    return ok({
+      today: {
+        visitors: todayVisitors.results?.length || 0,
+        submissions: todaySubmissions.results?.length || 0,
+      },
+      total: {
+        visitors: totalVCnt,
+        submissions: totalSCnt,
+        conversionRate: totalVCnt > 0 ? ((totalSCnt / totalVCnt) * 100).toFixed(2) : '0.00',
+      },
+      trend,
+      topPages,
+      topCountries,
+      recentSubmissions: recentSubs.results || [],
+      isRealData: true,
+    });
   } catch (e) { return err(e.message, 500); }
 }
 
-async function handleTrackEvent(request) {
+// ─── Admin: Visitors ──────────────────────────────────────────────────────────
+
+async function handleAdminVisitors(request, env) {
+  if (!await verifyAdmin(request)) return err('Unauthorized', 401);
+  try {
+    const url = new URL(request.url);
+    const page = parseInt(url.searchParams.get('page') || '1');
+    const limit = parseInt(url.searchParams.get('limit') || '20');
+    const search = url.searchParams.get('search') || '';
+    const offset = (page - 1) * limit;
+
+    let where = `website_id='zxqconsulting'`;
+    if (search) where += ` AND (contact_name LIKE ? OR company_name LIKE ? OR phone LIKE ?)`;
+
+    const countRes = search
+      ? await d1First(env, `SELECT count(*) as cnt FROM visitors WHERE ${where}`, `%${search}%`, `%${search}%`, `%${search}%`)
+      : await d1First(env, `SELECT count(*) as cnt FROM visitors WHERE ${where}`);
+
+    const visitors = search
+      ? await d1All(env, `SELECT * FROM visitors WHERE ${where} ORDER BY created_at DESC LIMIT ? OFFSET ?`, `%${search}%`, `%${search}%`, `%${search}%`, limit, offset)
+      : await d1All(env, `SELECT * FROM visitors WHERE ${where} ORDER BY created_at DESC LIMIT ? OFFSET ?`, limit, offset);
+
+    const total = countRes?.cnt || 0;
+    return ok({
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+      data: (visitors.results || []).map(v => ({
+        ...v,
+        selected_markets: v.selected_markets ? JSON.parse(v.selected_markets) : [],
+      })),
+    });
+  } catch (e) { return err(e.message, 500); }
+}
+
+// ─── Admin: Submissions ───────────────────────────────────────────────────────
+
+async function handleAdminSubmissions(request, env) {
+  if (!await verifyAdmin(request)) return err('Unauthorized', 401);
+  try {
+    const url = new URL(request.url);
+    const page = parseInt(url.searchParams.get('page') || '1');
+    const limit = parseInt(url.searchParams.get('limit') || '20');
+    const search = url.searchParams.get('search') || '';
+    const status = url.searchParams.get('status');
+    const dateFrom = url.searchParams.get('date_from');
+    const dateTo = url.searchParams.get('date_to');
+    const offset = (page - 1) * limit;
+
+    let where = `website_id='zxqconsulting'`;
+    const binds = [];
+    if (search) { where += ` AND (name LIKE ? OR email LIKE ? OR phone LIKE ? OR company LIKE ?)`; binds.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`); }
+    if (status) { where += ` AND status = ?`; binds.push(status); }
+    if (dateFrom) { where += ` AND date(created_at) >= ?`; binds.push(dateFrom); }
+    if (dateTo) { where += ` AND date(created_at) <= ?`; binds.push(dateTo); }
+
+    const countRes = await d1First(env, `SELECT count(*) as cnt FROM submissions WHERE ${where}`, ...binds);
+    const data = await d1All(env, `SELECT id, name, email, phone, company, message, product_interest, source_page, country, status, created_at, notes, assigned_to FROM submissions WHERE ${where} ORDER BY created_at DESC LIMIT ? OFFSET ?`, ...binds, limit, offset);
+
+    const total = countRes?.cnt || 0;
+    return ok({ total, page, limit, totalPages: Math.ceil(total / limit), data: data.results || [] });
+  } catch (e) { return err(e.message, 500); }
+}
+
+async function handleAdminSubmissionUpdate(request, env) {
+  if (!await verifyAdmin(request)) return err('Unauthorized', 401);
+  try {
+    const url = new URL(request.url);
+    const id = url.searchParams.get('id');
+    if (!id) return err('Missing id', 400);
+    const body = await request.json();
+    const updateData = { updated_at: new Date().toISOString() };
+    if (body.status !== undefined) updateData.status = body.status;
+    if (body.notes !== undefined) updateData.notes = body.notes;
+    if (body.assigned_to !== undefined) updateData.assigned_to = body.assigned_to;
+
+    const fields = Object.keys(updateData);
+    const setClause = fields.map(f => `${f} = ?`).join(', ');
+    const values = fields.map(f => updateData[f]);
+
+    await d1Run(env, `UPDATE submissions SET ${setClause} WHERE id = ?`, ...values, id);
+    return ok({ success: true });
+  } catch (e) { return err(e.message, 500); }
+}
+
+// ─── Track API ────────────────────────────────────────────────────────────────
+
+// ─── Tracking ──────────────────────────────────────────────────────────────────
+
+async function handleTrack(request, env) {
+  if (!env.zxqconsulting_comments) return err('DB not configured', 503);
   try {
     const body = await request.json();
-    return ok({ success: true, visitor_id: body.visitor_id || '', session_id: body.session_id || '', event_type: body.event_type || '' });
+    const visitorId = body.visitor_id || body.visitorId || `v_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const sessionId = body.session_id || body.sessionId || `s_${Date.now()}`;
+    const eventType = body.event_type || body.eventType || 'page_view';
+    const pageUrl = body.page_url || body.path || '/';
+    const geo = {
+      country: body.geo_country || body.country || '',
+      region: body.geo_region || body.region || '',
+      city: body.geo_city || body.city || '',
+    };
+
+    await env.zxqconsulting_comments.prepare(`
+      INSERT INTO behaviors (id, website_id, visitor_id, session_id, event_type, page_url, country, region, city, created_at)
+      VALUES (?, 'zxqconsulting', ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+    `).bind(
+      uuid4(), visitorId, sessionId, eventType, pageUrl,
+      geo.country, geo.region, geo.city
+    ).run();
+
+    return ok({ success: true, visitor_id: visitorId, session_id: sessionId });
+  } catch (e) { return err(e.message, 500); }
+}
+
+// ─── Visitors ─────────────────────────────────────────────────────────────────
+
+async function handleVisitors(request, env) {
+  if (!env.zxqconsulting_comments) return err('DB not configured', 503);
+  try {
+    const body = await request.json();
+    const visitorId = body.visitor_id || body.visitorId || `v_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const contactName = body.contact_name || body.name || body.contactName || '';
+    const companyName = body.company_name || body.company || body.companyName || '';
+    const phone = body.phone || body.contact_phone || body.phoneNumber || '';
+    const email = body.email || '';
+    const country = body.country || body.geo_country || '';
+    const region = body.region || body.geo_region || '';
+    const city = body.city || body.geo_city || '';
+    const selectedMarkets = body.selected_markets || body.selectedMarkets || [];
+    const now = new Date().toISOString();
+
+    await env.zxqconsulting_comments.prepare(`
+      INSERT INTO visitors (id, website_id, contact_name, company_name, phone, email, country, region, city, selected_markets, last_visit, created_at)
+      VALUES (?, 'zxqconsulting', ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+      ON CONFLICT(id) DO UPDATE SET
+        contact_name = COALESCE(excluded.contact_name, contact_name),
+        company_name = COALESCE(excluded.company_name, company_name),
+        phone = COALESCE(excluded.phone, phone),
+        email = COALESCE(excluded.email, email),
+        country = COALESCE(excluded.country, country),
+        region = COALESCE(excluded.region, region),
+        city = COALESCE(excluded.city, city),
+        selected_markets = COALESCE(excluded.selected_markets, selected_markets),
+        last_visit = datetime('now')
+    `).bind(
+      visitorId, contactName, companyName, phone, email,
+      country, region, city, JSON.stringify(selectedMarkets), now
+    ).run();
+
+    return ok({ success: true, visitor_id: visitorId });
+  } catch (e) { return err(e.message, 500); }
+}
+
+// ─── Contact / Form Submission ───────────────────────────────────────────────
+
+async function handleContact(request, env) {
+  if (!env.zxqconsulting_comments) return err('DB not configured', 503);
+  try {
+    const body = await request.json();
+    const visitorId = body.visitor_id || '';
+    const name = body.name || body.contact_name || '';
+    const email = body.email || '';
+    const phone = body.phone || '';
+    const company = body.company || body.company_name || '';
+    const message = body.message || body.content || '';
+    const productInterest = body.product_interest || body.productInterest || '';
+    const sourcePage = body.source_page || body.source || body.page_url || '';
+    const country = body.country || '';
+    const now = new Date().toISOString();
+    const id = uuid4();
+
+    await env.zxqconsulting_comments.prepare(`
+      INSERT INTO submissions (id, website_id, visitor_id, name, email, phone, company, message, product_interest, source_page, country, status, created_at)
+      VALUES (?, 'zxqconsulting', ?, ?, ?, ?, ?, ?, ?, ?, ?, 'new', datetime('now'))
+    `).bind(id, visitorId, name, email, phone, company, message, productInterest, sourcePage, country).run();
+
+    return ok({ success: true, id, message: 'Thank you. We will contact you soon.' });
   } catch (e) { return err(e.message, 500); }
 }
 
@@ -355,6 +631,7 @@ export default {
 
     if (method === 'OPTIONS') return new Response(null, { status: 204, headers: corsHeaders });
 
+    // Comments
     if (path === '/api/comments') {
       if (method === 'GET') return await handleCommentsGet(request, env);
       if (method === 'POST') return await handleCommentsPost(request, env, ctx);
@@ -365,7 +642,7 @@ export default {
       return await handleCommentsLike(new Request(`${request.url.split('?')[0]}?id=${likeMatch[1]}`, request), env);
     }
 
-    // Admin: inject AI reply directly into a comment
+    // Admin: inject AI reply
     if (path === '/api/admin/inject-reply' && method === 'POST') {
       if (!env.zxqconsulting_comments) return err('DB not configured', 503);
       try {
@@ -380,18 +657,42 @@ export default {
       } catch (e) { return err(e.message, 500); }
     }
 
-    if (method === 'POST') {
-      if (path === '/api/track/page') return await handleTrackPage(request);
-      if (path === '/api/track/event') return await handleTrackEvent(request);
-      if (path === '/api/tracking') return await handleTrackEvent(request);
+    // Admin: analytics
+    if (path === '/api/admin/analytics' && method === 'GET') {
+      return await handleAdminAnalytics(request, env);
     }
 
+    // Admin: submissions (list)
+    if (path === '/api/admin/submissions' && method === 'GET') {
+      return await handleAdminSubmissions(request, env);
+    }
+
+    // Admin: submission update (PATCH)
+    if (path.match(/^\/api\/admin\/submissions$/) && method === 'PATCH') {
+      return await handleAdminSubmissionUpdate(request, env);
+    }
+
+    // Admin: visitors
+    if (path === '/api/admin/visitors' && method === 'GET') {
+      return await handleAdminVisitors(request, env);
+    }
+
+    // ─── Tracking (page views + events) ───────────────────────────────────────
+
+    if (method === 'POST' && (path === '/api/track' || path === '/api/track/page' || path === '/api/track/event' || path === '/api/tracking')) {
+      return await handleTrack(request, env);
+    }
+
+    // ─── Visitors (PUT to create/update visitor profile) ───────────────────────
+
+    if (path === '/api/visitors' && (method === 'PUT' || method === 'POST')) {
+      return await handleVisitors(request, env);
+    }
+
+    // ─── Contact / Form Submission ─────────────────────────────────────────────
+
     if (path === '/api/contact' && method === 'POST') {
-      try {
-        const body = await request.json();
-        if (!body.contact_name || !body.email || !body.message) return err('contact_name, email, and message are required', 400);
-        return ok({ success: true, message: 'Thank you. We will contact you soon.' });
-      } catch (e) { return err(e.message, 500); }
+      return await handleContact(request, env);
     }
 
     return err('Not found', 404);

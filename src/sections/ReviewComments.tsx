@@ -164,22 +164,26 @@ export default function ReviewComments() {
   const [submitting, setSubmitting] = useState(false);
   const [submitMsg, setSubmitMsg] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
 
   const loadComments = useCallback(async () => {
-    console.log('[ReviewComments] loadComments called, sort:', sort);
+    console.log('[ReviewComments] loadComments called, sort:', sort, 'page:', page, 'pageSize:', pageSize);
     try {
-      // Direct call to the API worker (use www as the reliable endpoint)
-      const r = await fetch(`https://www.zxqconsulting.com/api/comments?sort=${sort}`);
+      const r = await fetch(`https://www.zxqconsulting.com/api/comments?sort=${sort}&page=${page}&limit=${pageSize}`);
       const data = await r.json();
       console.log('[ReviewComments] API response:', { total: data.total, count: Array.isArray(data) ? data.length : data.comments?.length });
-      // Handle both old array format and new {success, comments} format
       const list = Array.isArray(data) ? data : (data.comments || []);
       console.log('[ReviewComments] Setting comments:', list.length);
       setComments(list);
+      setTotal(data.total || 0);
+      setTotalPages(data.totalPages || 0);
     } catch (e) {
       console.error('[ReviewComments] Error:', e);
     }
-  }, [sort]);
+  }, [sort, page, pageSize]);
 
   useEffect(() => {
     console.log('[ReviewComments] useEffect triggered');
@@ -205,6 +209,7 @@ export default function ReviewComments() {
       if (r.ok) {
         setContent('');
         setSubmitMsg('发布成功！AI 顾问正在准备专业回复…');
+        setPage(1);
         await loadComments();
         let pollCount = 0;
         const pollTimer = setInterval(async () => {
@@ -316,16 +321,16 @@ export default function ReviewComments() {
         </form>
 
         {/* Sort Controls */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
           <div style={{ fontSize: '0.9rem', color: '#8899aa' }}>
-            全部留言 <span style={{ color: '#10b981', fontWeight: 700 }}>{comments.length}</span> 条
+            全部留言 <span style={{ color: '#10b981', fontWeight: 700 }}>{total}</span> 条
             <span style={{ marginLeft: 12, fontSize: '0.75rem', color: '#3a5070' }}>
               来自全球 {countries} 个国家和地区
             </span>
           </div>
-          <div style={{ display: 'flex', gap: 4 }}>
+          <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
             {(['latest', 'popular'] as const).map(s => (
-              <button key={s} onClick={() => setSort(s)}
+              <button key={s} onClick={() => { setSort(s); setPage(1); }}
                 style={{ padding: '5px 16px', borderRadius: 8, border: 'none',
                   background: sort === s ? '#10b981' : 'rgba(255,255,255,0.06)',
                   color: sort === s ? 'white' : '#8899aa',
@@ -456,6 +461,87 @@ export default function ReviewComments() {
                 </div>
               );
             })}
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 32, flexWrap: 'wrap', gap: 12 }}>
+            {/* Page size selector */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: '0.78rem', color: '#4a6080' }}>每页</span>
+              <select
+                value={pageSize}
+                onChange={e => { setPageSize(Number(e.target.value)); setPage(1); }}
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: 8, padding: '5px 10px', color: '#c0d0e0', fontSize: '0.82rem',
+                  outline: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+              >
+                <option value={10}>10 条</option>
+                <option value={20}>20 条</option>
+                <option value={50}>50 条</option>
+              </select>
+            </div>
+
+            {/* Page info + nav */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: '0.8rem', color: '#4a6080' }}>
+                第 <span style={{ color: '#10b981', fontWeight: 600 }}>{page}</span> / {totalPages} 页
+              </span>
+              <div style={{ display: 'flex', gap: 4 }}>
+                <button
+                  onClick={() => setPage(p => Math.max(1, p - 1))}
+                  disabled={page <= 1}
+                  style={{ padding: '5px 12px', borderRadius: 8, border: 'none',
+                    background: page <= 1 ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.06)',
+                    color: page <= 1 ? '#2a3a50' : '#8899aa',
+                    fontSize: '0.82rem', cursor: page <= 1 ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.15s', fontFamily: 'inherit' }}
+                >
+                  ‹ 上一页
+                </button>
+                {/* Page number dots */}
+                {Array.from({ length: Math.min(7, totalPages) }, (_, i) => {
+                  let p: number;
+                  if (totalPages <= 7) {
+                    p = i + 1;
+                  } else if (page <= 4) {
+                    p = i + 1;
+                    if (i === 6) p = totalPages;
+                  } else if (page >= totalPages - 3) {
+                    p = i === 0 ? 1 : totalPages - 6 + i;
+                  } else {
+                    const pages = [1, page - 2, page - 1, page, page + 1, page + 2, totalPages];
+                    p = pages[i];
+                  }
+                  return (
+                    <button
+                      key={p}
+                      onClick={() => setPage(p)}
+                      style={{ padding: '5px 10px', borderRadius: 8, border: 'none',
+                        background: page === p ? '#10b981' : 'rgba(255,255,255,0.06)',
+                        color: page === p ? 'white' : '#8899aa',
+                        fontSize: '0.82rem', fontWeight: page === p ? 600 : 400,
+                        cursor: 'pointer', transition: 'all 0.15s', fontFamily: 'inherit',
+                        minWidth: 34 }}
+                    >
+                      {p}
+                    </button>
+                  );
+                })}
+                <button
+                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                  disabled={page >= totalPages}
+                  style={{ padding: '5px 12px', borderRadius: 8, border: 'none',
+                    background: page >= totalPages ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.06)',
+                    color: page >= totalPages ? '#2a3a50' : '#8899aa',
+                    fontSize: '0.82rem', cursor: page >= totalPages ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.15s', fontFamily: 'inherit' }}
+                >
+                  下一页 ›
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>
