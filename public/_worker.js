@@ -901,47 +901,35 @@ async function handleCommentsLike(context) {
 // ==================== MAIN HANDLER ====================
 export async function onRequest(context) {
   const { request, env } = context;
-  const { url, method } = request;
-  const path = new URL(url).pathname;
+  const path = new URL(request.url).pathname;
 
-  if (method === 'OPTIONS') {
+  // CORS preflight
+  if (request.method === 'OPTIONS') {
     return new Response(null, { status: 204, headers: corsHeaders });
   }
 
+  // API routes: proxy to the standalone API Worker
   if (path.startsWith('/api/')) {
     try {
-      if (path === '/api/track/page' && method === 'POST') return await handleTrackPage(context);
-      if (path === '/api/track' && method === 'POST') return await handleTrack(context);
-      if (path === '/api/tracking' && method === 'POST') return await handleTrack(context);
-      if (path === '/api/track/event' && method === 'POST') return await handleTrack(context);
-      if (path === '/api/ai/chat' && method === 'POST') return await handleAIChat(context);
-      if (path === '/api/visitors' && method === 'PUT') return await handleVisitorsPut(context);
-      if (path === '/api/contact' && method === 'POST') return await handleContact(context);
-      if (path === '/api/admin/analytics' && method === 'GET') return await handleAdminAnalytics(context);
-      if (path === '/api/admin/visitors' && method === 'GET') return await handleAdminVisitors(context);
-      if (path === '/api/admin/submissions' && method === 'GET') return await handleAdminSubmissions(context);
-      if (path === '/api/ai/batch' && method === 'POST') return await handleAIBatch(context);
-      if (path === '/api/ai/marketing' && method === 'POST') return await handleAIMarketing(context);
-      if (path === '/api/analytics' && method === 'GET') return await handleAnalytics(context);
-      if (path === '/api/comments' && method === 'GET') return await handleCommentsGet(context);
-      if (path === '/api/comments' && method === 'POST') return await handleCommentsPost(context);
-      if (path.match(/^\/api\/comments\/[^/]+\/like$/) && method === 'PUT') return await handleCommentsLike(context);
-
-      return new Response(JSON.stringify({ error: 'Not found', path, method }), {
-        status: 404,
-        headers: { 'Content-Type': 'application/json', ...corsHeaders },
+      const res = await fetch(`https://zxqconsulting.com${path}${new URL(request.url).search}`, {
+        method: request.method,
+        headers: { 'Content-Type': 'application/json' },
+        body: ['GET', 'HEAD', 'OPTIONS'].includes(request.method) ? undefined : request.body,
       });
-    } catch (error) {
-      return new Response(JSON.stringify({ error: error.message }), {
-        status: 500,
+      const data = await res.text();
+      return new Response(data, {
+        status: res.status,
+        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', ...corsHeaders },
+      });
+    } catch (e) {
+      return new Response(JSON.stringify({ error: 'API proxy error', message: e.message }), {
+        status: 502,
         headers: { 'Content-Type': 'application/json', ...corsHeaders },
       });
     }
   }
 
-  // Non-API paths: serve static files via the built-in ASSETS binding.
-  // context.env.ASSETS is a built-in CF Pages binding that returns
-  // the deployed static file (same as when no worker is present).
+  // Non-API: serve static files via ASSETS binding
   return context.env.ASSETS.fetch(request);
 }
 
